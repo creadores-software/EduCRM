@@ -23,7 +23,7 @@ class CreateActividadEconomicaTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('categoria_actividad_economica_id');
+            $table->unsignedInteger('categoria_actividad_economica_id');
             $table->string('nombre', 150);
             $table->boolean('es_ies')->nullable()->default('0');
             $table->boolean('es_colegio')->nullable()->default('0');

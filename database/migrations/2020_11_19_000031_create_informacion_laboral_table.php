@@ -23,9 +23,9 @@ class CreateInformacionLaboralTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('contacto_id');
-            $table->integer('entidad_id');
-            $table->integer('ocupacion_id');
+            $table->unsignedInteger('contacto_id');
+            $table->unsignedInteger('entidad_id');
+            $table->unsignedInteger('ocupacion_id');
             $table->string('area', 45)->nullable();
             $table->string('funciones')->nullable();
             $table->string('telefono', 15)->nullable();

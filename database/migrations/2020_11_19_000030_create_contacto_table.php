@@ -23,22 +23,22 @@ class CreateContactoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('tipo_documento_id')->nullable()->comment('
+            $table->unsignedInteger('tipo_documento_id')->nullable()->comment('
 ');
             $table->string('identificacion', 30)->nullable();
-            $table->integer('prefijo_id')->nullable();
+            $table->unsignedInteger('prefijo_id')->nullable();
             $table->string('nombres', 200);
             $table->string('apellidos', 200);
             $table->date('fecha_nacimiento')->nullable();
-            $table->integer('genero_id')->nullable();
-            $table->integer('estado_civil_id')->nullable();
+            $table->unsignedInteger('genero_id')->nullable();
+            $table->unsignedInteger('estado_civil_id')->nullable();
             $table->string('celular', 15);
             $table->string('telefono', 15)->nullable();
             $table->string('correo_personal', 200);
             $table->string('correo_institucional', 200)->nullable();
-            $table->integer('lugar_residencia')->nullable();
+            $table->unsignedInteger('lugar_residencia')->nullable();
             $table->string('direccion_residencia', 200)->nullable();
-            $table->integer('estrato')->nullable();
+            $table->unsignedInteger('estrato')->nullable();
             $table->boolean('activo')->nullable()->default('1');
             $table->string('observacion')->nullable();
 

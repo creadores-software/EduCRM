@@ -24,9 +24,9 @@ class CreateFormacionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 150);
-            $table->integer('entidad_id');
-            $table->integer('nivel_formacion_id');
-            $table->integer('area_conocimiento_id')->nullable();
+            $table->unsignedInteger('entidad_id');
+            $table->unsignedInteger('nivel_formacion_id');
+            $table->unsignedInteger('area_conocimiento_id')->nullable();
             $table->boolean('activo')->nullable()->default('1');
 
             $table->index(["entidad_id"], 'fk_formacion_entidad_idx');

@@ -23,8 +23,8 @@ class CreatePreferenciaFormacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('informacion_relacional_id');
-            $table->integer('formacion_id');
+            $table->unsignedInteger('informacion_relacional_id');
+            $table->unsignedInteger('formacion_id');
 
             $table->index(["formacion_id"], 'fk_preferencia_formacion_formacion_idx');
 

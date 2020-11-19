@@ -23,7 +23,7 @@ class CreateCampoEducacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('categoria_campo_educacion_id');
+            $table->unsignedInteger('categoria_campo_educacion_id');
             $table->string('nombre', 150);
 
             $table->index(["categoria_campo_educacion_id"], 'fk_categoria_campo_educacion_idx');

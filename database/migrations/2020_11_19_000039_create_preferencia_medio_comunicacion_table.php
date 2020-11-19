@@ -23,8 +23,8 @@ class CreatePreferenciaMedioComunicacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('informacion_relacional_id');
-            $table->integer('medio_comunicacion_id');
+            $table->unsignedInteger('informacion_relacional_id');
+            $table->unsignedInteger('medio_comunicacion_id');
 
             $table->index(["informacion_relacional_id"], 'fk_pmc_informacion_relacional_idx');
 

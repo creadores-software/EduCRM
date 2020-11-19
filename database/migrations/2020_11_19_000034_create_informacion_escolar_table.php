@@ -23,9 +23,9 @@ class CreateInformacionEscolarTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('contacto_id');
-            $table->integer('entidad_id');
-            $table->integer('nivel_educativo_id');
+            $table->unsignedInteger('contacto_id');
+            $table->unsignedInteger('entidad_id');
+            $table->unsignedInteger('nivel_educativo_id');
             $table->boolean('finalizado')->nullable();
             $table->date('fecha_grado_estimada')->nullable();
             $table->date('fecha_grado_real')->nullable();

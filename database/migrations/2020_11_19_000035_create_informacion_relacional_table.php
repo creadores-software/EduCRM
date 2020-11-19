@@ -23,22 +23,22 @@ class CreateInformacionRelacionalTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('contacto_id');
-            $table->integer('origen_id');
-            $table->integer('referido_por_id')->nullable()->comment('Solo se debe diligenciar cuando el origen es referido.');
-            $table->integer('maximo_nivel_formacion_id')->nullable();
-            $table->integer('ocupacion_actual_id')->nullable();
-            $table->integer('estilo_vida_id')->nullable();
-            $table->integer('religion_id')->nullable();
-            $table->integer('raza_id')->nullable();
-            $table->integer('generacion_id')->nullable();
-            $table->integer('personalidad_id')->nullable();
-            $table->integer('beneficio_id')->nullable();
-            $table->integer('frecuencia_uso_id')->nullable();
-            $table->integer('estatus_usuario_id')->nullable();
-            $table->integer('estatus_lealtad_id')->nullable();
-            $table->integer('estado_disposicion_id')->nullable();
-            $table->integer('actitud_servicio_id')->nullable();
+            $table->unsignedInteger('contacto_id');
+            $table->unsignedInteger('origen_id');
+            $table->unsignedInteger('referido_por_id')->nullable()->comment('Solo se debe diligenciar cuando el origen es referido.');
+            $table->unsignedInteger('maximo_nivel_formacion_id')->nullable();
+            $table->unsignedInteger('ocupacion_actual_id')->nullable();
+            $table->unsignedInteger('estilo_vida_id')->nullable();
+            $table->unsignedInteger('religion_id')->nullable();
+            $table->unsignedInteger('raza_id')->nullable();
+            $table->unsignedInteger('generacion_id')->nullable();
+            $table->unsignedInteger('personalidad_id')->nullable();
+            $table->unsignedInteger('beneficio_id')->nullable();
+            $table->unsignedInteger('frecuencia_uso_id')->nullable();
+            $table->unsignedInteger('estatus_usuario_id')->nullable();
+            $table->unsignedInteger('estatus_lealtad_id')->nullable();
+            $table->unsignedInteger('estado_disposicion_id')->nullable();
+            $table->unsignedInteger('actitud_servicio_id')->nullable();
             $table->boolean('autoriza_comunicacion')->nullable();
             $table->date('actualizacion_autoriza_comunicacion')->nullable();
 

@@ -24,7 +24,7 @@ class CreateTipoParentescoTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 100);
-            $table->integer('tipo_contrario_id')->nullable()->comment('En el tipo madre, el contrario es hijo.');
+            $table->unsignedInteger('tipo_contrario_id')->nullable()->comment('En el tipo madre, el contrario es hijo.');
 
             $table->index(["tipo_contrario_id"], 'fk_tipo_parentesco_tipo_contrario_idx');
 

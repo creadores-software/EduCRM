@@ -23,9 +23,9 @@ class CreateParentescoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('contacto_origen');
-            $table->integer('contacto_destino');
-            $table->integer('tipo_parentesco_id');
+            $table->unsignedInteger('contacto_origen');
+            $table->unsignedInteger('contacto_destino');
+            $table->unsignedInteger('tipo_parentesco_id');
             $table->boolean('acudiente')->nullable();
 
             $table->index(["contacto_destino"], 'fk_parentesco_contacto_destino_idx');

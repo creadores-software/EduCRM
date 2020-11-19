@@ -23,8 +23,8 @@ class CreatePreferenciaCampoEducacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('campo_educacion_id');
-            $table->integer('informacion_relacional_id');
+            $table->unsignedInteger('campo_educacion_id');
+            $table->unsignedInteger('informacion_relacional_id');
 
             $table->index(["informacion_relacional_id"], 'fk_pce_informacion_relacional_idx');
 

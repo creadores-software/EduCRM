@@ -24,11 +24,11 @@ class CreateEntidadTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 200);
-            $table->integer('lugar_id');
+            $table->unsignedInteger('lugar_id');
             $table->string('direccion', 200)->nullable();
             $table->string('telefono', 15)->nullable();
-            $table->integer('sector_id')->nullable();
-            $table->integer('actividad_economica_id')->nullable();
+            $table->unsignedInteger('sector_id')->nullable();
+            $table->unsignedInteger('actividad_economica_id')->nullable();
             $table->boolean('mi_universidad')->nullable()->default('0');
 
             $table->index(["actividad_economica_id"], 'fk_entidad_actividad_economica_idx');

@@ -23,8 +23,8 @@ class CreateInformacionAcademicaTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('contacto_id');
-            $table->integer('formacion_id')->comment('Solo es requerido cuando se trata de un estudio de educación superior. No aplica para colegio.');
+            $table->unsignedInteger('contacto_id');
+            $table->unsignedInteger('formacion_id')->comment('Solo es requerido cuando se trata de un estudio de educación superior. No aplica para colegio.');
             $table->boolean('finalizado')->nullable();
             $table->date('fecha_grado_estimada')->nullable();
             $table->date('fecha_grado_real')->nullable();

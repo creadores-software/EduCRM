@@ -185,7 +185,7 @@ return [
 
     'timestamps' => [
 
-        'enabled'       => true,
+        'enabled'       => false, //Se manejará desde el componente de auditoria
 
         'created_at'    => 'created_at',
 

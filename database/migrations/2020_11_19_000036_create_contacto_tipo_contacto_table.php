@@ -23,8 +23,8 @@ class CreateContactoTipoContactoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('tipo_contacto_id');
-            $table->integer('contacto_id');
+            $table->unsignedInteger('tipo_contacto_id');
+            $table->unsignedInteger('contacto_id');
 
             $table->index(["tipo_contacto_id"], 'fk_ctc_tipo_contacto_idx');
 

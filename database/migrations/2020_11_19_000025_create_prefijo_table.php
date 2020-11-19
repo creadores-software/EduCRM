@@ -23,7 +23,7 @@ class CreatePrefijoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('genero_id');
+            $table->unsignedInteger('genero_id');
             $table->string('nombre', 45);
 
             $table->index(["genero_id"], 'fk_prefijo_genero_idx');

@@ -24,7 +24,7 @@ class CreateOcupacionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 150);
-            $table->integer('tipo_ocupacion_id');
+            $table->unsignedInteger('tipo_ocupacion_id');
 
             $table->index(["tipo_ocupacion_id"], 'fk_ocupacion_tipo_ocupacion1_idx');
 
