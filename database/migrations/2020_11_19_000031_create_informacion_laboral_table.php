@@ -32,24 +32,24 @@ class CreateInformacionLaboralTable extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
 
-            $table->index(["ocupacion_id"], 'fk_informacion_laboral_cargos1_idx');
+            $table->index(["contacto_id"], 'fk_informacion_laboral_contacto_idx');
 
-            $table->index(["contacto_id"], 'fk_informacion_laboral_contacto1_idx');
+            $table->index(["ocupacion_id"], 'fk_informacion_laboral_cargos_idx');
 
-            $table->index(["entidad_id"], 'fk_informacion_laboral_empresa1_idx');
+            $table->index(["entidad_id"], 'fk_informacion_laboral_empresa_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_laboral_contacto1_idx')
+            $table->foreign('contacto_id', 'fk_informacion_laboral_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('ocupacion_id', 'fk_informacion_laboral_cargos1_idx')
+            $table->foreign('ocupacion_id', 'fk_informacion_laboral_cargos_idx')
                 ->references('id')->on('ocupacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('entidad_id', 'fk_informacion_laboral_empresa1_idx')
+            $table->foreign('entidad_id', 'fk_informacion_laboral_empresa_idx')
                 ->references('id')->on('entidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -30,24 +30,24 @@ class CreateInformacionEscolarTable extends Migration
             $table->date('fecha_grado_estimada')->nullable();
             $table->date('fecha_grado_real')->nullable();
 
-            $table->index(["contacto_id"], 'fk_informacion_escolar_contacto1_idx');
+            $table->index(["contacto_id"], 'fk_informacion_escolar_contacto_idx');
 
-            $table->index(["entidad_id"], 'fk_informacion_escolar_entidad1_idx');
+            $table->index(["nivel_educativo_id"], 'fk_informacion_escolar_nivel_educativo_idx');
 
-            $table->index(["nivel_educativo_id"], 'fk_informacion_escolar_nivel_educativo1_idx');
+            $table->index(["entidad_id"], 'fk_informacion_escolar_entidad_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_escolar_contacto1_idx')
+            $table->foreign('contacto_id', 'fk_informacion_escolar_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('nivel_educativo_id', 'fk_informacion_escolar_nivel_educativo1_idx')
+            $table->foreign('nivel_educativo_id', 'fk_informacion_escolar_nivel_educativo_idx')
                 ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('entidad_id', 'fk_informacion_escolar_entidad1_idx')
+            $table->foreign('entidad_id', 'fk_informacion_escolar_entidad_idx')
                 ->references('id')->on('entidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

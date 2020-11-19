@@ -27,10 +27,10 @@ class CreateLugarTable extends Migration
             $table->enum('tipo', ['P', 'D', 'C'])->comment('Pais, Departamento, Ciudad');
             $table->integer('padre_id')->nullable();
 
-            $table->index(["padre_id"], 'fk_lugar_lugar1_idx');
+            $table->index(["padre_id"], 'fk_lugar_padre_idx');
 
 
-            $table->foreign('padre_id', 'fk_lugar_lugar1_idx')
+            $table->foreign('padre_id', 'fk_lugar_padre_idx')
                 ->references('id')->on('lugar')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

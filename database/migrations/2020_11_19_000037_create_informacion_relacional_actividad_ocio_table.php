@@ -26,17 +26,17 @@ class CreateInformacionRelacionalActividadOcioTable extends Migration
             $table->integer('informacion_relacional_id');
             $table->integer('actividad_ocio_id');
 
-            $table->index(["informacion_relacional_id"], 'fk_informacion_relacional_has_actividad_ocio_informacion_re_idx');
+            $table->index(["informacion_relacional_id"], 'fk_irao_informacion_relacional_idx');
 
-            $table->index(["actividad_ocio_id"], 'fk_informacion_relacional_has_actividad_ocio_actividad_ocio_idx');
+            $table->index(["actividad_ocio_id"], 'fk_irao_actividad_ocio_idx');
 
 
-            $table->foreign('informacion_relacional_id', 'fk_informacion_relacional_has_actividad_ocio_informacion_re_idx')
+            $table->foreign('informacion_relacional_id', 'fk_irao_informacion_relacional_idx')
                 ->references('id')->on('informacion_relacional')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('actividad_ocio_id', 'fk_informacion_relacional_has_actividad_ocio_actividad_ocio_idx')
+            $table->foreign('actividad_ocio_id', 'fk_irao_actividad_ocio_idx')
                 ->references('id')->on('actividad_ocio')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

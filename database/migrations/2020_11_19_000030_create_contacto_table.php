@@ -42,15 +42,15 @@ class CreateContactoTable extends Migration
             $table->boolean('activo')->nullable()->default('1');
             $table->string('observacion')->nullable();
 
-            $table->index(["prefijo_id"], 'fk_contacto_prefijo1_idx');
+            $table->index(["prefijo_id"], 'fk_contacto_prefijo_idx');
 
             $table->index(["tipo_documento_id"], 'fk_contacto_tipo_documento_idx');
 
-            $table->index(["genero_id"], 'fk_contacto_genero1_idx');
+            $table->index(["genero_id"], 'fk_contacto_genero_idx');
 
-            $table->index(["estado_civil_id"], 'fk_contacto_estado_civil1_idx');
+            $table->index(["estado_civil_id"], 'fk_contacto_estado_civil_idx');
 
-            $table->index(["lugar_residencia"], 'fk_contacto_ciudad1_idx');
+            $table->index(["lugar_residencia"], 'fk_contacto_ciudad_idx');
 
 
             $table->foreign('tipo_documento_id', 'fk_contacto_tipo_documento_idx')
@@ -58,22 +58,22 @@ class CreateContactoTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('prefijo_id', 'fk_contacto_prefijo1_idx')
+            $table->foreign('prefijo_id', 'fk_contacto_prefijo_idx')
                 ->references('id')->on('prefijo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('estado_civil_id', 'fk_contacto_estado_civil1_idx')
+            $table->foreign('estado_civil_id', 'fk_contacto_estado_civil_idx')
                 ->references('id')->on('estado_civil')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('lugar_residencia', 'fk_contacto_ciudad1_idx')
+            $table->foreign('lugar_residencia', 'fk_contacto_ciudad_idx')
                 ->references('id')->on('lugar')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('genero_id', 'fk_contacto_genero1_idx')
+            $table->foreign('genero_id', 'fk_contacto_genero_idx')
                 ->references('id')->on('genero')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

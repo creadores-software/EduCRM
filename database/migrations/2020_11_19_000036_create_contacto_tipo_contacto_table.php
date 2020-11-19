@@ -26,17 +26,17 @@ class CreateContactoTipoContactoTable extends Migration
             $table->integer('tipo_contacto_id');
             $table->integer('contacto_id');
 
-            $table->index(["tipo_contacto_id"], 'fk_tipo_contacto_has_contacto_tipo_contacto1_idx');
+            $table->index(["tipo_contacto_id"], 'fk_ctc_tipo_contacto_idx');
 
-            $table->index(["contacto_id"], 'fk_tipo_contacto_has_contacto_contacto1_idx');
+            $table->index(["contacto_id"], 'fk_ctc_contacto_idx');
 
 
-            $table->foreign('tipo_contacto_id', 'fk_tipo_contacto_has_contacto_tipo_contacto1_idx')
+            $table->foreign('tipo_contacto_id', 'fk_ctc_tipo_contacto_idx')
                 ->references('id')->on('tipo_contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('contacto_id', 'fk_tipo_contacto_has_contacto_contacto1_idx')
+            $table->foreign('contacto_id', 'fk_ctc_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

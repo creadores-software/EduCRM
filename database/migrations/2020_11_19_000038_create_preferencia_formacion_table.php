@@ -26,17 +26,17 @@ class CreatePreferenciaFormacionTable extends Migration
             $table->integer('informacion_relacional_id');
             $table->integer('formacion_id');
 
-            $table->index(["formacion_id"], 'fk_formacion_has_informacion_relacional_formacion1_idx');
+            $table->index(["formacion_id"], 'fk_preferencia_formacion_formacion_idx');
 
-            $table->index(["informacion_relacional_id"], 'fk_formacion_has_informacion_relacional_informacion_relacio_idx');
+            $table->index(["informacion_relacional_id"], 'fk_preferencia_formacion_informacion_relacional_idx');
 
 
-            $table->foreign('formacion_id', 'fk_formacion_has_informacion_relacional_formacion1_idx')
+            $table->foreign('formacion_id', 'fk_preferencia_formacion_formacion_idx')
                 ->references('id')->on('formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('informacion_relacional_id', 'fk_formacion_has_informacion_relacional_informacion_relacio_idx')
+            $table->foreign('informacion_relacional_id', 'fk_preferencia_formacion_informacion_relacional_idx')
                 ->references('id')->on('informacion_relacional')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

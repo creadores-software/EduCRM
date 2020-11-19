@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePreferenciaMedioComunicacionTable extends Migration
+class CreatePreferenciaCampoEducacionTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'preferencia_medio_comunicacion';
+    public $tableName = 'preferencia_campo_educacion';
 
     /**
      * Run the migrations.
-     * @table preferencia_medio_comunicacion
+     * @table preferencia_campo_educacion
      *
      * @return void
      */
@@ -23,21 +23,21 @@ class CreatePreferenciaMedioComunicacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('campo_educacion_id');
             $table->integer('informacion_relacional_id');
-            $table->integer('medio_comunicacion_id');
 
-            $table->index(["informacion_relacional_id"], 'fk_pmc_informacion_relacional_idx');
+            $table->index(["informacion_relacional_id"], 'fk_pce_informacion_relacional_idx');
 
-            $table->index(["medio_comunicacion_id"], 'fk_pmc_medio_comunicacion_idx');
+            $table->index(["campo_educacion_id"], 'fk_pce_campo_educacionaci_idx');
 
 
-            $table->foreign('informacion_relacional_id', 'fk_pmc_informacion_relacional_idx')
-                ->references('id')->on('informacion_relacional')
+            $table->foreign('campo_educacion_id', 'fk_pce_campo_educacionaci_idx')
+                ->references('id')->on('campo_educacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('medio_comunicacion_id', 'fk_pmc_medio_comunicacion_idx')
-                ->references('id')->on('medio_comunicacion')
+            $table->foreign('informacion_relacional_id', 'fk_pce_informacion_relacional_idx')
+                ->references('id')->on('informacion_relacional')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

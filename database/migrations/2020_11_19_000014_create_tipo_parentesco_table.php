@@ -26,10 +26,10 @@ class CreateTipoParentescoTable extends Migration
             $table->string('nombre', 100);
             $table->integer('tipo_contrario_id')->nullable()->comment('En el tipo madre, el contrario es hijo.');
 
-            $table->index(["tipo_contrario_id"], 'fk_tipo_parentesco_tipo_parentesco1_idx');
+            $table->index(["tipo_contrario_id"], 'fk_tipo_parentesco_tipo_contrario_idx');
 
 
-            $table->foreign('tipo_contrario_id', 'fk_tipo_parentesco_tipo_parentesco1_idx')
+            $table->foreign('tipo_contrario_id', 'fk_tipo_parentesco_tipo_contrario_idx')
                 ->references('id')->on('tipo_parentesco')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -31,24 +31,24 @@ class CreateEntidadTable extends Migration
             $table->integer('actividad_economica_id')->nullable();
             $table->boolean('mi_universidad')->nullable()->default('0');
 
-            $table->index(["actividad_economica_id"], 'fk_entidad_actividad_economica1_idx');
+            $table->index(["actividad_economica_id"], 'fk_entidad_actividad_economica_idx');
 
-            $table->index(["lugar_id"], 'fk_empresa_lugar1_idx');
+            $table->index(["sector_id"], 'fk_entidad_sector_idx');
 
-            $table->index(["sector_id"], 'fk_entidad_sector1_idx');
+            $table->index(["lugar_id"], 'fk_empresa_lugar_idx');
 
 
-            $table->foreign('lugar_id', 'fk_empresa_lugar1_idx')
+            $table->foreign('lugar_id', 'fk_empresa_lugar_idx')
                 ->references('id')->on('lugar')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('sector_id', 'fk_entidad_sector1_idx')
+            $table->foreign('sector_id', 'fk_entidad_sector_idx')
                 ->references('id')->on('sector')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('actividad_economica_id', 'fk_entidad_actividad_economica1_idx')
+            $table->foreign('actividad_economica_id', 'fk_entidad_actividad_economica_idx')
                 ->references('id')->on('actividad_economica')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -26,10 +26,10 @@ class CreatePrefijoTable extends Migration
             $table->integer('genero_id');
             $table->string('nombre', 45);
 
-            $table->index(["genero_id"], 'fk_prefijo_genero1_idx');
+            $table->index(["genero_id"], 'fk_prefijo_genero_idx');
 
 
-            $table->foreign('genero_id', 'fk_prefijo_genero1_idx')
+            $table->foreign('genero_id', 'fk_prefijo_genero_idx')
                 ->references('id')->on('genero')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

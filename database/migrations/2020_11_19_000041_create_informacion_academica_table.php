@@ -29,17 +29,17 @@ class CreateInformacionAcademicaTable extends Migration
             $table->date('fecha_grado_estimada')->nullable();
             $table->date('fecha_grado_real')->nullable();
 
-            $table->index(["formacion_id"], 'fk_informacion_academica_programa1_idx');
+            $table->index(["contacto_id"], 'fk_informacion_academica_contacto_idx');
 
-            $table->index(["contacto_id"], 'fk_informacion_academica_contacto1_idx');
+            $table->index(["formacion_id"], 'fk_informacion_academica_formacion_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_academica_contacto1_idx')
+            $table->foreign('contacto_id', 'fk_informacion_academica_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('formacion_id', 'fk_informacion_academica_programa1_idx')
+            $table->foreign('formacion_id', 'fk_informacion_academica_formacion_idx')
                 ->references('id')->on('formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
