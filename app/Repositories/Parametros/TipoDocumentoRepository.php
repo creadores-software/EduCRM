@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class TipoDocumentoRepository
  * @package App\Repositories\Parametros
- * @version November 11, 2020, 4:13 am UTC
+ * @version November 19, 2020, 10:53 pm UTC
 */
 
 class TipoDocumentoRepository extends BaseRepository

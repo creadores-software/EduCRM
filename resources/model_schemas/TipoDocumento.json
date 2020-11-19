@@ -1,7 +1,7 @@
 [
     {
         "name": "id",
-        "dbType": "integer,true",
+        "dbType": "integer,true,true",
         "htmlType": null,
         "validations": null,
         "searchable": false,
@@ -36,27 +36,7 @@
         "inView": true
     },
     {
-        "name": "created_at",
-        "dbType": "date:nullable",
-        "htmlType": "date",
-        "validations": "nullable|nullable",
-        "searchable": false,
-        "fillable": false,
-        "primary": false,
-        "inForm": false,
-        "inIndex": false,
-        "inView": false
-    },
-    {
-        "name": "updated_at",
-        "dbType": "date:nullable",
-        "htmlType": "date",
-        "validations": "nullable|nullable",
-        "searchable": false,
-        "fillable": false,
-        "primary": false,
-        "inForm": false,
-        "inIndex": false,
-        "inView": false
+        "type": "relation",
+        "relation": "1tm,Contacto,tipo_documento_id"
     }
 ]
