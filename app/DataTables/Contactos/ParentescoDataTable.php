@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DataTables\Parametros;
+namespace App\DataTables\Contactos;
 
-use App\Models\Parametros\Parentesco;
+use App\Models\Contactos\Parentesco;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -19,7 +19,7 @@ class ParentescoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.parentescos.datatables_actions');
+        return $dataTable->addColumn('action', 'contactos.parentescos.datatables_actions');
     }
 
     /**

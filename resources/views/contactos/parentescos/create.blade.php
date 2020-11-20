@@ -11,9 +11,9 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'parametros.parentescos.store']) !!}
+                    {!! Form::open(['route' => 'contactos.parentescos.store']) !!}
 
-                        @include('parametros.parentescos.fields')
+                        @include('contactos.parentescos.fields')
 
                     {!! Form::close() !!}
                 </div>

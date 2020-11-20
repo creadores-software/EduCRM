@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models\Parametros;
+namespace App\Models\Contactos;
 
 use Eloquent as Model;
 
 /**
  * Class Parentesco
- * @package App\Models\Parametros
- * @version November 19, 2020, 10:53 pm UTC
+ * @package App\Models\Contactos
+ * @version November 20, 2020, 3:28 am UTC
  *
- * @property \App\Models\Parametros\Contacto $contactoDestino
- * @property \App\Models\Parametros\Contacto $contactoOrigen
- * @property \App\Models\Parametros\TipoParentesco $tipoParentesco
+ * @property \App\Models\Contactos\Contacto $contactoDestino
+ * @property \App\Models\Contactos\Contacto $contactoOrigen
+ * @property \App\Models\Contactos\TipoParentesco $tipoParentesco
  * @property integer $contacto_origen
  * @property integer $contacto_destino
  * @property integer $tipo_parentesco_id
@@ -64,7 +64,7 @@ class Parentesco extends Model
      **/
     public function contactoDestino()
     {
-        return $this->belongsTo(\App\Models\Parametros\Contacto::class, 'contacto_destino');
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_destino');
     }
 
     /**
@@ -72,7 +72,7 @@ class Parentesco extends Model
      **/
     public function contactoOrigen()
     {
-        return $this->belongsTo(\App\Models\Parametros\Contacto::class, 'contacto_origen');
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_origen');
     }
 
     /**
@@ -80,6 +80,6 @@ class Parentesco extends Model
      **/
     public function tipoParentesco()
     {
-        return $this->belongsTo(\App\Models\Parametros\TipoParentesco::class, 'tipo_parentesco_id');
+        return $this->belongsTo(\App\Models\Contactos\TipoParentesco::class, 'tipo_parentesco_id');
     }
 }

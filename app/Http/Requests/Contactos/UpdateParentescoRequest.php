@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Parametros;
+namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Parametros\Parentesco;
+use App\Models\Contactos\Parentesco;
 
 class UpdateParentescoRequest extends FormRequest
 {

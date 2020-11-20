@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Repositories\Parametros;
+namespace App\Repositories\Contactos;
 
-use App\Models\Parametros\Parentesco;
+use App\Models\Contactos\Parentesco;
 use App\Repositories\BaseRepository;
 
 /**
  * Class ParentescoRepository
- * @package App\Repositories\Parametros
- * @version November 19, 2020, 10:53 pm UTC
+ * @package App\Repositories\Contactos
+ * @version November 20, 2020, 3:28 am UTC
 */
 
 class ParentescoRepository extends BaseRepository

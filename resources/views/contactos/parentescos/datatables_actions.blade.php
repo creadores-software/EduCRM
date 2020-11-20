@@ -1,9 +1,9 @@
-{!! Form::open(['route' => ['parametros.parentescos.destroy', $id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['contactos.parentescos.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
-    <a href="{{ route('parametros.parentescos.show', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('contactos.parentescos.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    <a href="{{ route('parametros.parentescos.edit', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('contactos.parentescos.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [

@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($parentesco, ['route' => ['parametros.parentescos.update', $parentesco->id], 'method' => 'patch']) !!}
+                   {!! Form::model($parentesco, ['route' => ['contactos.parentescos.update', $parentesco->id], 'method' => 'patch']) !!}
 
-                        @include('parametros.parentescos.fields')
+                        @include('contactos.parentescos.fields')
 
                    {!! Form::close() !!}
                </div>

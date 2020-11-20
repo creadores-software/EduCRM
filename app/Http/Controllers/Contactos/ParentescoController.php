@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Parametros;
+namespace App\Http\Controllers\Contactos;
 
-use App\DataTables\Parametros\ParentescoDataTable;
-use App\Http\Requests\Parametros;
-use App\Http\Requests\Parametros\CreateParentescoRequest;
-use App\Http\Requests\Parametros\UpdateParentescoRequest;
-use App\Repositories\Parametros\ParentescoRepository;
+use App\DataTables\Contactos\ParentescoDataTable;
+use App\Http\Requests\Contactos;
+use App\Http\Requests\Contactos\CreateParentescoRequest;
+use App\Http\Requests\Contactos\UpdateParentescoRequest;
+use App\Repositories\Contactos\ParentescoRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -29,7 +29,7 @@ class ParentescoController extends AppBaseController
      */
     public function index(ParentescoDataTable $parentescoDataTable)
     {
-        return $parentescoDataTable->render('parametros.parentescos.index');
+        return $parentescoDataTable->render('contactos.parentescos.index');
     }
 
     /**
@@ -39,7 +39,7 @@ class ParentescoController extends AppBaseController
      */
     public function create()
     {
-        return view('parametros.parentescos.create');
+        return view('contactos.parentescos.create');
     }
 
     /**
@@ -57,7 +57,7 @@ class ParentescoController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('parametros.parentescos.index'));
+        return redirect(route('contactos.parentescos.index'));
     }
 
     /**
@@ -74,10 +74,10 @@ class ParentescoController extends AppBaseController
         if (empty($parentesco)) {
             Flash::error(__('models/parentescos.singular').' '.__('messages.not_found'));
 
-            return redirect(route('parametros.parentescos.index'));
+            return redirect(route('contactos.parentescos.index'));
         }
 
-        return view('parametros.parentescos.show')->with('parentesco', $parentesco);
+        return view('contactos.parentescos.show')->with('parentesco', $parentesco);
     }
 
     /**
@@ -94,10 +94,10 @@ class ParentescoController extends AppBaseController
         if (empty($parentesco)) {
             Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-            return redirect(route('parametros.parentescos.index'));
+            return redirect(route('contactos.parentescos.index'));
         }
 
-        return view('parametros.parentescos.edit')->with('parentesco', $parentesco);
+        return view('contactos.parentescos.edit')->with('parentesco', $parentesco);
     }
 
     /**
@@ -115,14 +115,14 @@ class ParentescoController extends AppBaseController
         if (empty($parentesco)) {
             Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-            return redirect(route('parametros.parentescos.index'));
+            return redirect(route('contactos.parentescos.index'));
         }
 
         $parentesco = $this->parentescoRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('parametros.parentescos.index'));
+        return redirect(route('contactos.parentescos.index'));
     }
 
     /**
@@ -139,13 +139,13 @@ class ParentescoController extends AppBaseController
         if (empty($parentesco)) {
             Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-            return redirect(route('parametros.parentescos.index'));
+            return redirect(route('contactos.parentescos.index'));
         }
 
         $this->parentescoRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('parametros.parentescos.index'));
+        return redirect(route('contactos.parentescos.index'));
     }
 }
