@@ -36,6 +36,41 @@
             max-height: 33px;
             width: auto;
         }
+        .menu-abierto {
+            display: block;
+        }     
+
+        .treeview-item.active, .treeview-item:hover, .treeview-item:focus {
+            background: #e3dddc;
+            text-decoration: none;
+            color: #555452;
+        }
+
+        .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
+            background: #e3dddc;
+            border-left-color: #0696f5;
+            text-decoration: none;
+            color: #555452;
+        }
+
+        menu .treeview-menu > li.active > a, .skin-blue-light .sidebar-menu .treeview-menu > li > a:hover {
+            background: #e3dddc;
+            text-decoration: none;
+            color: #555452;
+        }
+
+        .skin-blue-light .sidebar-menu .treeview-menu > li.active > a, .skin-blue-light .sidebar-menu .treeview-menu > li > a:hover{
+            background: #e3dddc;
+            text-decoration: none;
+            color: #555452;
+        }
+
+        .skin-blue-light .sidebar-menu > li:hover > a, .skin-blue-light .sidebar-menu > li.active > a{
+            border-left-color: #0696f5;
+            text-decoration: none;
+            color: #555452;    
+        }
+
     </style>
     
 </head>
@@ -47,7 +82,7 @@
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="#" class="logo brand-link" style="text-align: left; padding:0;">
+            <a href="/" class="logo brand-link" style="text-align: left; padding:0;">
                 <img style="width: auto" src="/logo.png" alt="CRM IES" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span> CRM <b>IES</b></span>
             </a>
@@ -158,7 +193,59 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-
+    <!-- Buscador del menú -->    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#buscador_menu").keyup(function () {
+                var filter = $(this).val(),
+                        count = 0;
+                $(".opcion-menu").each(function () {
+                    if (filter == "") {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                        $(this).parent().parent().removeClass('menu-abierto');
+                        $(this).parent().removeClass('menu-abierto');
+                    } else if ($(this).find('a').find('span').text().search(new RegExp(filter, "i")) < 0) {
+                        $(this).css("visibility", "hidden");
+                        $(this).fadeOut();
+                    } else {
+                        $(this).css("visibility", "visible");
+                        $(this).fadeIn();
+                        $(this).parent().parent().addClass('menu-abierto');
+                        $(this).parent().addClass('menu-abierto');
+                    }
+                });
+            });
+            $('[data-toggle="popover"]').popover();
+            $("li").click(function (e) {
+                if ($(this).attr('class') && $(this).attr('class').indexOf('menu-abuelo') != -1) {
+                    localStorage.setItem('menu_abuelo_seleccionado', $(this).attr('id'));
+                } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
+                    localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));
+                } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-hijo') != -1) {
+                    localStorage.setItem('menu_hijo_seleccionado', $(this).attr('id'));
+                } else {
+                    localStorage.removeItem('menu_abuelo_seleccionado');
+                    localStorage.removeItem('menu_padre_seleccionado');
+                    localStorage.removeItem('menu_hijo_seleccionado');
+                }
+            });
+            var menu_abuelo_seleccionado = localStorage.getItem('menu_abuelo_seleccionado');
+            var menu_padre_seleccionado = localStorage.getItem('menu_padre_seleccionado');
+            var menu_hijo_seleccionado = localStorage.getItem('menu_hijo_seleccionado');
+            if (menu_abuelo_seleccionado) {
+                $('#' + menu_abuelo_seleccionado).children('ul').addClass('menu-abierto');
+                $('#' + menu_abuelo_seleccionado).addClass('active');
+            }
+            if (menu_padre_seleccionado) {
+                $('#' + menu_padre_seleccionado).children('ul').addClass('menu-abierto');
+                $('#' + menu_padre_seleccionado).addClass('active');
+            }
+            if (menu_hijo_seleccionado){
+                $('#' + menu_hijo_seleccionado).addClass('active');
+            }
+        });
+    </script>    
     @stack('scripts')
 </body>
 </html>
