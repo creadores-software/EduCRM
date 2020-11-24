@@ -7,6 +7,7 @@ use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateActividadEconomicaRequest;
 use App\Http\Requests\Entidades\UpdateActividadEconomicaRequest;
 use App\Repositories\Entidades\ActividadEconomicaRepository;
+use App\Repositories\Entidades\CategoriaActividadEconomicaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -16,9 +17,13 @@ class ActividadEconomicaController extends AppBaseController
     /** @var  ActividadEconomicaRepository */
     private $actividadEconomicaRepository;
 
+    /** @var  CategoriaActividadEconomicaRepository */
+    private $categoriaActividadEconomicaRepository;
+
     public function __construct(ActividadEconomicaRepository $actividadEconomicaRepo)
     {
         $this->actividadEconomicaRepository = $actividadEconomicaRepo;
+        $this->categoriaActividadEconomicaRepository = new CategoriaActividadEconomicaRepository(app());
     }
 
     /**
@@ -39,7 +44,8 @@ class ActividadEconomicaController extends AppBaseController
      */
     public function create()
     {
-        return view('entidades.actividades_economicas.create');
+        $categorias = $this->categoriaActividadEconomicaRepository->infoSelect();
+        return view('entidades.actividades_economicas.create')->with('categorias', $categorias);
     }
 
     /**
@@ -92,6 +98,7 @@ class ActividadEconomicaController extends AppBaseController
     public function edit($id)
     {
         $actividadEconomica = $this->actividadEconomicaRepository->find($id);
+        $categorias = $this->categoriaActividadEconomicaRepository->infoSelect();
 
         if (empty($actividadEconomica)) {
             Flash::error(__('messages.not_found', ['model' => __('models/actividadesEconomicas.singular')]));
@@ -99,7 +106,7 @@ class ActividadEconomicaController extends AppBaseController
             return redirect(route('entidades.actividadesEconomicas.index'));
         }
 
-        return view('entidades.actividades_economicas.edit')->with('actividadEconomica', $actividadEconomica);
+        return view('entidades.actividades_economicas.edit')->with(['actividadEconomica'=>$actividadEconomica, 'categorias'=>$categorias]);
     }
 
     /**

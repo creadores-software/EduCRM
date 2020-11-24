@@ -30,6 +30,7 @@ class ActividadEconomicaDataTable extends DataTable
      */
     public function query(ActividadEconomica $model)
     {
+        $model=\App\Models\Entidades\ActividadEconomica::with('categoriaActividadEconomica');
         return $model->newQuery();
     }
 
@@ -73,9 +74,9 @@ class ActividadEconomicaDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [
-            'categoria_actividad_economica_id' => new Column(['title' => __('models/actividadesEconomicas.fields.categoria_actividad_economica_id'), 'data' => 'categoria_actividad_economica_id']),
+        return [            
             'nombre' => new Column(['title' => __('models/actividadesEconomicas.fields.nombre'), 'data' => 'nombre']),
+            'categoria_actividad_economica_id' => new Column(['title' => __('models/actividadesEconomicas.fields.categoria_actividad_economica_id'), 'data' => 'categoriaActividadEconomica.nombre']),
             'es_ies' => new Column(['title' => __('models/actividadesEconomicas.fields.es_ies'), 'data' => 'es_ies']),
             'es_colegio' => new Column(['title' => __('models/actividadesEconomicas.fields.es_colegio'), 'data' => 'es_colegio'])
         ];

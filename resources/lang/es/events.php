@@ -2,7 +2,8 @@
 
 return [
 
-    'created'      => 'Creado',
-    'updated'      => 'Actualizado',
-    'deleted'      => 'Eliminado',
+    'created'      => 'Crear',
+    'updated'      => 'Actualizar',
+    'deleted'      => 'Eliminar',
+    'restored'     => 'Restaurar',
 ];
