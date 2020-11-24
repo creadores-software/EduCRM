@@ -77,7 +77,9 @@ class EstatusUsuarioController extends AppBaseController
             return redirect(route('parametros.estatusUsuario.index'));
         }
 
-        return view('parametros.estatus_usuario.show')->with('estatusUsuario', $estatusUsuario);
+        $audits = $estatusUsuario->audits;
+
+        return view('parametros.estatus_usuario.show')->with(['estatusUsuario'=> $estatusUsuario, 'audits'=>$audits]);
     }
 
     /**

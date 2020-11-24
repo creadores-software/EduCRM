@@ -10,7 +10,9 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
+                    <h2 class="page-header">Datos</h2>
                     @include('parametros.lugares.show_fields')
+                    @include('layouts.audit')
                     <a href="{{ route('parametros.lugares.index') }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>

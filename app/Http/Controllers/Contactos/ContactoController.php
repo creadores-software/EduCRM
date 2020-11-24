@@ -76,8 +76,9 @@ class ContactoController extends AppBaseController
 
             return redirect(route('contactos.contactos.index'));
         }
+        $audits = $contacto->audits;
 
-        return view('contactos.contactos.show')->with('contacto', $contacto);
+        return view('contactos.contactos.show')->with(['contacto'=> $contacto, 'audits'=>$audits]);
     }
 
     /**

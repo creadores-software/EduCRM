@@ -77,7 +77,9 @@ class PreferenciaFormacionController extends AppBaseController
             return redirect(route('contactos.preferenciasFormaciones.index'));
         }
 
-        return view('contactos.preferencias_formaciones.show')->with('preferenciaFormacion', $preferenciaFormacion);
+        $audits = $preferenciaFormacion->audits;
+
+        return view('contactos.preferencias_formaciones.show')->with(['preferenciaFormacion'=> $preferenciaFormacion, 'audits'=>$audits]);
     }
 
     /**

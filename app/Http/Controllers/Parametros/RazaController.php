@@ -77,7 +77,9 @@ class RazaController extends AppBaseController
             return redirect(route('parametros.razas.index'));
         }
 
-        return view('parametros.razas.show')->with('raza', $raza);
+        $audits = $raza->audits;
+
+        return view('parametros.razas.show')->with(['raza'=> $raza, 'audits'=>$audits]);
     }
 
     /**

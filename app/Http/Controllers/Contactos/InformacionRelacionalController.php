@@ -77,7 +77,9 @@ class InformacionRelacionalController extends AppBaseController
             return redirect(route('contactos.informacionesRelacionales.index'));
         }
 
-        return view('contactos.informaciones_relacionales.show')->with('informacionRelacional', $informacionRelacional);
+        $audits = $informacionRelacional->audits;
+
+        return view('contactos.informaciones_relacionales.show')->with(['informacionRelacional'=> $informacionRelacional, 'audits'=>$audits]);
     }
 
     /**

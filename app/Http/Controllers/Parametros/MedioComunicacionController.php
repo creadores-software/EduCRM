@@ -77,7 +77,9 @@ class MedioComunicacionController extends AppBaseController
             return redirect(route('parametros.mediosComunicacion.index'));
         }
 
-        return view('parametros.medios_comunicacion.show')->with('medioComunicacion', $medioComunicacion);
+        $audits = $medioComunicacion->audits;
+
+        return view('parametros.medios_comunicacion.show')->with(['medioComunicacion'=> $medioComunicacion, 'audits'=>$audits]);
     }
 
     /**

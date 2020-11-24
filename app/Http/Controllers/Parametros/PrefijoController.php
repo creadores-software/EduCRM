@@ -82,7 +82,9 @@ class PrefijoController extends AppBaseController
             return redirect(route('parametros.prefijos.index'));
         }
 
-        return view('parametros.prefijos.show')->with('prefijo', $prefijo);
+        $audits = $prefijo->audits;
+
+        return view('parametros.prefijos.show')->with(['prefijo'=> $prefijo, 'audits'=>$audits]);
     }
 
     /**

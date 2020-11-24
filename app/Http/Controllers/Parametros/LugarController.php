@@ -77,7 +77,9 @@ class LugarController extends AppBaseController
             return redirect(route('parametros.lugares.index'));
         }
 
-        return view('parametros.lugares.show')->with('lugar', $lugar);
+        $audits = $lugar->audits;
+
+        return view('parametros.lugares.show')->with(['lugar'=> $lugar, 'audits'=>$audits]);
     }
 
     /**

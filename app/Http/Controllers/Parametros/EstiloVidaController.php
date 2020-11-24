@@ -77,7 +77,9 @@ class EstiloVidaController extends AppBaseController
             return redirect(route('parametros.estilosVida.index'));
         }
 
-        return view('parametros.estilos_vida.show')->with('estiloVida', $estiloVida);
+        $audits = $estiloVida->audits;
+
+        return view('parametros.estilos_vida.show')->with(['estiloVida'=> $estiloVida, 'audits'=>$audits]);
     }
 
     /**

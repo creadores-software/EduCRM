@@ -77,7 +77,9 @@ class OcupacionController extends AppBaseController
             return redirect(route('entidades.ocupaciones.index'));
         }
 
-        return view('entidades.ocupaciones.show')->with('ocupacion', $ocupacion);
+        $audits = $ocupacion->audits;
+
+        return view('entidades.ocupaciones.show')->with(['ocupacion'=> $ocupacion, 'audits'=>$audits]);
     }
 
     /**

@@ -77,7 +77,9 @@ class ParentescoController extends AppBaseController
             return redirect(route('contactos.parentescos.index'));
         }
 
-        return view('contactos.parentescos.show')->with('parentesco', $parentesco);
+        $audits = $parentesco->audits;
+
+        return view('contactos.parentescos.show')->with(['parentesco'=> $parentesco, 'audits'=>$audits]);
     }
 
     /**

@@ -77,7 +77,9 @@ class BeneficioController extends AppBaseController
             return redirect(route('parametros.beneficios.index'));
         }
 
-        return view('parametros.beneficios.show')->with('beneficio', $beneficio);
+        $audits = $beneficio->audits;
+
+        return view('parametros.beneficios.show')->with(['beneficio'=> $beneficio, 'audits'=>$audits]);
     }
 
     /**

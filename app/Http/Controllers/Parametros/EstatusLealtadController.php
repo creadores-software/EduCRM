@@ -77,7 +77,9 @@ class EstatusLealtadController extends AppBaseController
             return redirect(route('parametros.estatusLealtad.index'));
         }
 
-        return view('parametros.estatus_lealtad.show')->with('estatusLealtad', $estatusLealtad);
+        $audits = $estatusLealtad->audits;
+
+        return view('parametros.estatus_lealtad.show')->with(['estatusLealtad'=> $estatusLealtad, 'audits'=>$audits]);
     }
 
     /**

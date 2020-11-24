@@ -77,7 +77,9 @@ class InformacionLaboralController extends AppBaseController
             return redirect(route('contactos.informacionesLaborales.index'));
         }
 
-        return view('contactos.informaciones_laborales.show')->with('informacionLaboral', $informacionLaboral);
+        $audits = $informacionLaboral->audits;
+
+        return view('contactos.informaciones_laborales.show')->with(['informacionLaboral'=> $informacionLaboral, 'audits'=>$audits]);
     }
 
     /**

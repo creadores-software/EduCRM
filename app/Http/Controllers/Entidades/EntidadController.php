@@ -77,7 +77,9 @@ class EntidadController extends AppBaseController
             return redirect(route('entidades.entidades.index'));
         }
 
-        return view('entidades.entidades.show')->with('entidad', $entidad);
+        $audits = $entidad->audits;
+
+        return view('entidades.entidades.show')->with(['entidad'=> $entidad, 'audits'=>$audits]);
     }
 
     /**

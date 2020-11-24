@@ -77,7 +77,9 @@ class EstadoDisposicionController extends AppBaseController
             return redirect(route('parametros.estadosDisposicion.index'));
         }
 
-        return view('parametros.estados_disposicion.show')->with('estadoDisposicion', $estadoDisposicion);
+        $audits = $estadoDisposicion->audits;
+
+        return view('parametros.estados_disposicion.show')->with(['estadoDisposicion'=> $estadoDisposicion, 'audits'=>$audits]);
     }
 
     /**

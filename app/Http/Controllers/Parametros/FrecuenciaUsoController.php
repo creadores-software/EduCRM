@@ -77,7 +77,9 @@ class FrecuenciaUsoController extends AppBaseController
             return redirect(route('parametros.frecuenciasUso.index'));
         }
 
-        return view('parametros.frecuencias_uso.show')->with('frecuenciaUso', $frecuenciaUso);
+        $audits = $frecuenciaUso->audits;
+
+        return view('parametros.frecuencias_uso.show')->with(['frecuenciaUso'=> $frecuenciaUso, 'audits'=>$audits]);
     }
 
     /**

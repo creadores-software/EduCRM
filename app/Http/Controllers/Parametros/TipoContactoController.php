@@ -77,7 +77,9 @@ class TipoContactoController extends AppBaseController
             return redirect(route('parametros.tiposContacto.index'));
         }
 
-        return view('parametros.tipos_contacto.show')->with('tipoContacto', $tipoContacto);
+        $audits = $tipoContacto->audits;
+
+        return view('parametros.tipos_contacto.show')->with(['tipoContacto'=> $tipoContacto, 'audits'=>$audits]);
     }
 
     /**

@@ -77,7 +77,9 @@ class ActitudServicioController extends AppBaseController
             return redirect(route('parametros.actitudesServicio.index'));
         }
 
-        return view('parametros.actitudes_servicio.show')->with('actitudServicio', $actitudServicio);
+        $audits = $actitudServicio->audits;
+
+        return view('parametros.actitudes_servicio.show')->with(['actitudServicio'=> $actitudServicio, 'audits'=>$audits]);
     }
 
     /**

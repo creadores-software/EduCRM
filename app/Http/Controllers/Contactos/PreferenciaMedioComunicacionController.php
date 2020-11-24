@@ -77,7 +77,9 @@ class PreferenciaMedioComunicacionController extends AppBaseController
             return redirect(route('contactos.preferenciasMediosComunicacion.index'));
         }
 
-        return view('contactos.preferencias_medios_comunicacion.show')->with('preferenciaMedioComunicacion', $preferenciaMedioComunicacion);
+        $audits = $preferenciaMedioComunicacion->audits;
+
+        return view('contactos.preferencias_medios_comunicacion.show')->with(['preferenciaMedioComunicacion'=> $preferenciaMedioComunicacion, 'audits'=>$audits]);
     }
 
     /**

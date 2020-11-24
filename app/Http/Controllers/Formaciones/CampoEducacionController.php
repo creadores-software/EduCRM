@@ -77,7 +77,9 @@ class CampoEducacionController extends AppBaseController
             return redirect(route('formaciones.camposEducacion.index'));
         }
 
-        return view('formaciones.campos_educacion.show')->with('campoEducacion', $campoEducacion);
+        $audits = $campoEducacion->audits;
+
+        return view('formaciones.campos_educacion.show')->with(['campoEducacion'=> $campoEducacion, 'audits'=>$audits]);
     }
 
     /**

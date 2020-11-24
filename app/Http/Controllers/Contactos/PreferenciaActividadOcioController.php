@@ -77,7 +77,9 @@ class PreferenciaActividadOcioController extends AppBaseController
             return redirect(route('contactos.preferenciasActividadesOcio.index'));
         }
 
-        return view('contactos.preferencias_actividades_ocio.show')->with('preferenciaActividadOcio', $preferenciaActividadOcio);
+        $audits = $preferenciaActividadOcio->audits;
+
+        return view('contactos.preferencias_actividades_ocio.show')->with(['genero'=> $preferenciaActividadOcio, 'audits'=>$audits]);
     }
 
     /**

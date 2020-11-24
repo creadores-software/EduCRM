@@ -77,7 +77,9 @@ class OrigenController extends AppBaseController
             return redirect(route('parametros.origenes.index'));
         }
 
-        return view('parametros.origenes.show')->with('origen', $origen);
+        $audits = $origen->audits;
+
+        return view('parametros.origenes.show')->with(['origen'=> $origen, 'audits'=>$audits]);
     }
 
     /**
@@ -87,7 +89,7 @@ class OrigenController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id)origen
     {
         $origen = $this->origenRepository->find($id);
 

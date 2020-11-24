@@ -77,7 +77,9 @@ class PreferenciaCampoEducacionController extends AppBaseController
             return redirect(route('contactos.preferenciasCamposEducacion.index'));
         }
 
-        return view('contactos.preferencias_campos_educacion.show')->with('preferenciaCampoEducacion', $preferenciaCampoEducacion);
+        $audits = $preferenciaCampoEducacion->audits;
+
+        return view('contactos.preferencias_campos_educacion.show')->with(['preferenciaCampoEducacion'=> $preferenciaCampoEducacion, 'audits'=>$audits]);
     }
 
     /**

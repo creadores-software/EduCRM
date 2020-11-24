@@ -77,7 +77,9 @@ class EstadoCivilController extends AppBaseController
             return redirect(route('parametros.estadosCiviles.index'));
         }
 
-        return view('parametros.estados_civiles.show')->with('estadoCivil', $estadoCivil);
+        $audits = $estadoCivil->audits;
+
+        return view('parametros.estados_civiles.show')->with(['estadoCivil'=> $estadoCivil, 'audits'=>$audits]);
     }
 
     /**

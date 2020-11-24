@@ -72,14 +72,17 @@ class GeneroController extends AppBaseController
     public function show($id)
     {
         $genero = $this->generoRepository->find($id);
+        
 
         if (empty($genero)) {
             Flash::error(__('models/generos.singular').' '.__('messages.not_found'));
 
             return redirect(route('parametros.generos.index'));
         }
+        
+        $audits = $genero->audits;
 
-        return view('parametros.generos.show')->with('genero', $genero);
+        return view('parametros.generos.show')->with(['genero'=> $genero, 'audits'=>$audits]);
     }
 
     /**
