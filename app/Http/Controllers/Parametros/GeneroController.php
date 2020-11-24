@@ -9,7 +9,9 @@ use App\Http\Requests\Parametros\UpdateGeneroRequest;
 use App\Repositories\Parametros\GeneroRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Parametros\Genero;
 use Response;
+use Illuminate\Http\Request;
 
 class GeneroController extends AppBaseController
 {
@@ -147,5 +149,12 @@ class GeneroController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/generos.singular')]));
 
         return redirect(route('parametros.generos.index'));
+    }
+
+    public function dataAjax(Request $request)
+    {
+        $generos = Genero::where('nombre', 'LIKE', '%'.$request->input('term', '').'%')
+            ->get(['id', 'nombre as text']);        
+        return ['results' => $generos];
     }
 }

@@ -17,6 +17,12 @@ Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->middleware('verified');
 
+//Rutas para búsquedas con Select2
+Route::group(['middleware'=>'verified'], function () {
+    Route::get('parametros/generos/dataAjax', 'Parametros\GeneroController@dataAjax')
+        ->name('parametros.generos.dataAjax');
+});
+
 Route::group(['prefix' => 'parametros','middleware'=>'verified'], function () {
     Route::resource('actitudesServicio', 'Parametros\ActitudServicioController', ["as" => 'parametros']);
     Route::resource('actividadesOcio', 'Parametros\ActividadOcioController', ["as" => 'parametros']);
@@ -70,3 +76,5 @@ Route::group(['prefix' => 'contactos','middleware'=>'verified'], function () {
     Route::resource('preferenciasFormaciones', 'Contactos\PreferenciaFormacionController', ["as" => 'contactos']);
     Route::resource('preferenciasMediosComunicacion', 'Contactos\PreferenciaMedioComunicacionController', ["as" => 'contactos']);
 });
+
+
