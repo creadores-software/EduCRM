@@ -3,6 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class TipoDocumento
@@ -13,15 +14,14 @@ use Eloquent as Model;
  * @property string $nombre
  * @property string $abreviacion
  */
-class TipoDocumento extends Model
+class TipoDocumento extends Model implements Auditable
 {
 
     public $table = 'tipo_documento';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre',

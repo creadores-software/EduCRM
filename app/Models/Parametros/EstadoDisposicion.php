@@ -3,6 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class EstadoDisposicion
@@ -12,15 +13,14 @@ use Eloquent as Model;
  * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
  * @property string $nombre
  */
-class EstadoDisposicion extends Model
+class EstadoDisposicion extends Model implements Auditable
 {
 
     public $table = 'estado_disposicion';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre'

@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class InformacionLaboral
@@ -21,15 +22,14 @@ use Eloquent as Model;
  * @property string $fecha_inicio
  * @property string $fecha_fin
  */
-class InformacionLaboral extends Model
+class InformacionLaboral extends Model implements Auditable
 {
 
     public $table = 'informacion_laboral';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'contacto_id',

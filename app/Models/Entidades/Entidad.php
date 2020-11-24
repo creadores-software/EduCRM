@@ -3,6 +3,7 @@
 namespace App\Models\Entidades;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Entidad
@@ -23,15 +24,14 @@ use Eloquent as Model;
  * @property integer $actividad_economica_id
  * @property boolean $mi_universidad
  */
-class Entidad extends Model
+class Entidad extends Model implements Auditable
 {
 
     public $table = 'entidad';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre',

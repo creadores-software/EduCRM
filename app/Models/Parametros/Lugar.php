@@ -3,6 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Lugar
@@ -15,15 +16,14 @@ use Eloquent as Model;
  * @property string $tipo
  * @property integer $padre_id
  */
-class Lugar extends Model
+class Lugar extends Model implements Auditable
 {
 
     public $table = 'lugar';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre',

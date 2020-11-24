@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class InformacionRelacional
@@ -48,15 +49,14 @@ use Eloquent as Model;
  * @property boolean $autoriza_comunicacion
  * @property string $actualizacion_autoriza_comunicacion
  */
-class InformacionRelacional extends Model
+class InformacionRelacional extends Model implements Auditable
 {
 
     public $table = 'informacion_relacional';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'contacto_id',

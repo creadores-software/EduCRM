@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class PreferenciaFormacion
@@ -14,15 +15,14 @@ use Eloquent as Model;
  * @property integer $informacion_relacional_id
  * @property integer $formacion_id
  */
-class PreferenciaFormacion extends Model
+class PreferenciaFormacion extends Model implements Auditable
 {
 
     public $table = 'preferencia_formacion';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'informacion_relacional_id',

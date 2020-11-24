@@ -3,6 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class NivelFormacion
@@ -15,15 +16,14 @@ use Eloquent as Model;
  * @property string $nombre
  * @property integer $nivel_academico_id
  */
-class NivelFormacion extends Model
+class NivelFormacion extends Model implements Auditable
 {
 
     public $table = 'nivel_formacion';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre',

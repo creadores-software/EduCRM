@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class Contacto
@@ -40,15 +41,14 @@ use Eloquent as Model;
  * @property boolean $activo
  * @property string $observacion
  */
-class Contacto extends Model
+class Contacto extends Model implements Auditable
 {
 
     public $table = 'contacto';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'tipo_documento_id',

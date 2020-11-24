@@ -3,6 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * Class TipoParentesco
@@ -13,15 +14,14 @@ use Eloquent as Model;
  * @property string $nombre
  * @property integer $tipo_contrario_id
  */
-class TipoParentesco extends Model
+class TipoParentesco extends Model implements Auditable
 {
 
     public $table = 'tipo_parentesco';
     
     public $timestamps = false;
 
-
-
+    use \OwenIt\Auditing\Auditable;
 
     public $fillable = [
         'nombre',
