@@ -38,20 +38,7 @@
         }
         .menu-abierto {
             display: block;
-        }     
-
-        .treeview-item.active, .treeview-item:hover, .treeview-item:focus {
-            background: #e3dddc;
-            text-decoration: none;
-            color: #555452;
-        }
-
-        .app-menu__item.active, .app-menu__item:hover, .app-menu__item:focus {
-            background: #e3dddc;
-            border-left-color: #0696f5;
-            text-decoration: none;
-            color: #555452;
-        }
+        } 
 
         menu .treeview-menu > li.active > a, .skin-blue-light .sidebar-menu .treeview-menu > li > a:hover {
             background: #e3dddc;
@@ -69,6 +56,10 @@
             border-left-color: #0696f5;
             text-decoration: none;
             color: #555452;    
+        }
+
+        .skin-blue-light .sidebar-menu .treeview-menu>li>a span { 
+            word-wrap:break-word !important; 
         }
 
     </style>
@@ -190,7 +181,6 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/js/adminlte.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
     <!-- Buscador del menú -->    
