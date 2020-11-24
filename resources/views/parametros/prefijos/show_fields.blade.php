@@ -1,7 +1,7 @@
 <!-- Genero Id Field -->
 <div class="form-group">
     {!! Form::label('genero_id', __('models/prefijos.fields.genero_id').':') !!}
-    <p>{{ $prefijo->genero_id }}</p>
+    <p>{{ $prefijo->genero->nombre }}</p>
 </div>
 
 <!-- Nombre Field -->

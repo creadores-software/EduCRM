@@ -30,6 +30,7 @@ class PrefijoDataTable extends DataTable
      */
     public function query(Prefijo $model)
     {
+        $model=\App\Models\Parametros\Prefijo::with('genero');
         return $model->newQuery();
     }
 
@@ -74,8 +75,8 @@ class PrefijoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'genero_id' => new Column(['title' => __('models/prefijos.fields.genero_id'), 'data' => 'genero_id']),
-            'nombre' => new Column(['title' => __('models/prefijos.fields.nombre'), 'data' => 'nombre'])
+            'nombre' => new Column(['title' => __('models/prefijos.fields.nombre'), 'data' => 'nombre']),
+            'genero_id' => new Column(['title' => 'Género', 'data' => 'genero.nombre']) 
         ];
     }
 

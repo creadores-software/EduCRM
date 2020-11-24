@@ -7,6 +7,7 @@ use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreatePrefijoRequest;
 use App\Http\Requests\Parametros\UpdatePrefijoRequest;
 use App\Repositories\Parametros\PrefijoRepository;
+use App\Repositories\Parametros\GeneroRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -15,10 +16,13 @@ class PrefijoController extends AppBaseController
 {
     /** @var  PrefijoRepository */
     private $prefijoRepository;
+    /** @var  GeneroRepository */
+    private $generoRepository;
 
     public function __construct(PrefijoRepository $prefijoRepo)
     {
         $this->prefijoRepository = $prefijoRepo;
+        $this->generoRepository = new GeneroRepository(app());
     }
 
     /**
@@ -39,7 +43,8 @@ class PrefijoController extends AppBaseController
      */
     public function create()
     {
-        return view('parametros.prefijos.create');
+        $generos = $this->generoRepository->infoSelect();
+        return view('parametros.prefijos.create')->with('generos', $generos);
     }
 
     /**
@@ -90,6 +95,7 @@ class PrefijoController extends AppBaseController
     public function edit($id)
     {
         $prefijo = $this->prefijoRepository->find($id);
+        $generos = $this->generoRepository->infoSelect();
 
         if (empty($prefijo)) {
             Flash::error(__('messages.not_found', ['model' => __('models/prefijos.singular')]));
@@ -97,7 +103,7 @@ class PrefijoController extends AppBaseController
             return redirect(route('parametros.prefijos.index'));
         }
 
-        return view('parametros.prefijos.edit')->with('prefijo', $prefijo);
+        return view('parametros.prefijos.edit')->with(['prefijo'=> $prefijo, 'generos'=>$generos]);
     }
 
     /**

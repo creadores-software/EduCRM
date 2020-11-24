@@ -190,4 +190,16 @@ abstract class BaseRepository
 
         return $model->delete();
     }
+
+
+     /**
+     * Información para select básicos 
+     * @throws \Exception
+     */
+    public function infoSelect()
+    {
+        $list = $this->all()->pluck('nombre', 'id');
+        $list->prepend('-- Seleccionar --');
+        return $list;
+    }
 }
