@@ -1,11 +1,13 @@
 <!-- Genero Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('genero_id', __('models/prefijos.fields.genero_id').':') !!}
-    <select name="genero_id" id="genero_id" class="form-control select2">
-        @if(!empty(old('genero_id', $prefijo->genero_id ?? '' )))
-            <option value="{{ old('genero_id', $prefijo->genero_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('genero_id', $prefijo->genero_id ?? '' ))->nombre }} </option>
-        @endif
-    </select>
+    <div class="input-group">
+        <select name="genero_id" id="genero_id" class="form-control">
+            @if(!empty(old('genero_id', $prefijo->genero_id ?? '' )))
+                <option value="{{ old('genero_id', $prefijo->genero_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('genero_id', $prefijo->genero_id ?? '' ))->nombre }} </option>
+            @endif
+        </select>        
+    </div>
 </div>
 
 <!-- Nombre Field -->
@@ -22,8 +24,7 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $.fn.select2.defaults.set('language', 'es');
+        $(document).ready(function() {            
             $('#genero_id').select2({
                 ajax: {
                     url: '{{ route("parametros.generos.dataAjax") }}',
