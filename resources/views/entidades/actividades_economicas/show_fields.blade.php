@@ -1,7 +1,7 @@
 <!-- Categoria Actividad Economica Id Field -->
 <div class="form-group">
     {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':') !!}
-    <p>{{ $actividadEconomica->categoria_actividad_economica_id }}</p>
+    <p>{{ $actividadEconomica->categoriaActividadEconomica->nombre }}</p>
 </div>
 
 <!-- Nombre Field -->

@@ -11,7 +11,7 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'entidades.actividadesEconomicas.store']) !!}
+                    {!! Form::open(['route' => 'entidades.actividadesEconomicas.store','data-toggle'=>'validator']) !!}
 
                         @include('entidades.actividades_economicas.fields')
 

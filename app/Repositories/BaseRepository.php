@@ -210,7 +210,7 @@ abstract class BaseRepository
     public function infoSelect2($term)
     {
         $coincidentes = $this->model::where('nombre', 'LIKE', '%'.$term.'%')
-                        ->get(['id', 'nombre as text']); ;
+                        ->get(['id', 'nombre as text']);
         return ['results' => $coincidentes];
     }
 }

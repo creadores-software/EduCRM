@@ -94,7 +94,7 @@
                     <a href="{{ route('entidades.actividadesEconomicas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/actividadesEconomicas.plural')</span></a>
                 </li>  
                 <li id="entidades-categorias-actividad-economica" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('entidades.categoriasActividadEconomica.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/categoriasActividadEconomica.plural')</span></a>
+                    <a href="{{ route('entidades.categoriasActividadEconomica.index') }}"><i class="fa fa-circle-o"></i><span>Categorías Actividad<br>Económica</span></a>
                 </li> 
                 <li id="entidades-ocupaciones" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('entidades.ocupaciones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/ocupaciones.plural')</span></a>
@@ -122,7 +122,7 @@
                     <a href="{{ route('formaciones.camposEducacion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/camposEducacion.plural')</span></a>
                 </li>   
                 <li id="formaciones-categorias-campo-educacion" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('formaciones.categoriasCampoEducacion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/categoriasCampoEducacion.plural')</span></a>
+                    <a href="{{ route('formaciones.categoriasCampoEducacion.index') }}"><i class="fa fa-circle-o"></i><span>Categorías Campo<br>Educación</span></a>
                 </li>
                 <li id="formaciones-niveles-formacion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.nivelesFormacion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/nivelesFormacion.plural')</span></a>

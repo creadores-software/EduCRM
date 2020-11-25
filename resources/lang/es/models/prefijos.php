@@ -6,7 +6,7 @@ return array (
   'fields' => 
   array (
     'id' => 'Id',
-    'genero_id' => 'Genero',
+    'genero_id' => 'Género',
     'nombre' => 'Nombre',
   ),
 );

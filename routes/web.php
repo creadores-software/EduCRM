@@ -65,7 +65,7 @@ Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
 Route::group(['prefix' => 'entidades','middleware'=>'auth'], function () {
     Route::get('actividadesEconomicas/dataAjax', 'Entidades\ActividadEconomicaController@dataAjax')->name('entidades.actividadesEconomicas.dataAjax');
     Route::resource('actividadesEconomicas', 'Entidades\ActividadEconomicaController', ["as" => 'entidades']);
-    Route::get('categoriasActividadEconomica/dataAjax', 'Entidades\CategoriaActividadEconomica@dataAjax')->name('entidades.categoriasActividadEconomica.dataAjax');
+    Route::get('categoriasActividadEconomica/dataAjax', 'Entidades\CategoriaActividadEconomicaController@dataAjax')->name('entidades.categoriasActividadEconomica.dataAjax');
     Route::resource('categoriasActividadEconomica', 'Entidades\CategoriaActividadEconomicaController', ["as" => 'entidades']);
     Route::get('entidades/dataAjax', 'Entidades\EntidadController@dataAjax')->name('entidades.entidades.dataAjax');
     Route::resource('entidades', 'Entidades\EntidadController', ["as" => 'entidades']);
