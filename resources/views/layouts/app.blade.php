@@ -18,7 +18,8 @@
     <!-- iCheck -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/_all.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css">    
 
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -61,7 +62,6 @@
         .skin-blue-light .sidebar-menu .treeview-menu>li>a span { 
             word-wrap:break-word !important; 
         }
-
     </style>
     
 </head>
@@ -183,11 +183,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/js/adminlte.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>    
     <!-- Select2 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
     <!-- Buscador del menú -->    
     <script type="text/javascript">
         $(document).ready(function () {
+            $.fn.select2.defaults.set('language', 'es');
+            $.fn.select2.defaults.set( "theme", "bootstrap" );
             $("#buscador_menu").keyup(function () {
                 var filter = $(this).val(),
                         count = 0;
@@ -209,32 +211,32 @@
                 });
             });
             $('[data-toggle="popover"]').popover();
-            $("li").click(function (e) {
-                if ($(this).attr('class') && $(this).attr('class').indexOf('menu-abuelo') != -1) {
-                    localStorage.setItem('menu_abuelo_seleccionado', $(this).attr('id'));
-                } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
+            $("li").click(function (e) {                
+                if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
                     localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));
                 } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-hijo') != -1) {
                     localStorage.setItem('menu_hijo_seleccionado', $(this).attr('id'));
-                } else {
-                    localStorage.removeItem('menu_abuelo_seleccionado');
+                } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-nieto') != -1) {
+                    localStorage.setItem('menu_nieto_seleccionado', $(this).attr('id'));
+                } else {                    
                     localStorage.removeItem('menu_padre_seleccionado');
                     localStorage.removeItem('menu_hijo_seleccionado');
+                    localStorage.removeItem('menu_nieto_seleccionado');
                 }
             });
-            var menu_abuelo_seleccionado = localStorage.getItem('menu_abuelo_seleccionado');
             var menu_padre_seleccionado = localStorage.getItem('menu_padre_seleccionado');
             var menu_hijo_seleccionado = localStorage.getItem('menu_hijo_seleccionado');
-            if (menu_abuelo_seleccionado) {
-                $('#' + menu_abuelo_seleccionado).children('ul').addClass('menu-abierto');
-                $('#' + menu_abuelo_seleccionado).addClass('active');
-            }
+            var menu_nieto_seleccionado = localStorage.getItem('menu_nieto_seleccionado');
             if (menu_padre_seleccionado) {
                 $('#' + menu_padre_seleccionado).children('ul').addClass('menu-abierto');
                 $('#' + menu_padre_seleccionado).addClass('active');
             }
-            if (menu_hijo_seleccionado){
+            if (menu_hijo_seleccionado) {
+                $('#' + menu_hijo_seleccionado).children('ul').addClass('menu-abierto');
                 $('#' + menu_hijo_seleccionado).addClass('active');
+            }
+            if (menu_nieto_seleccionado){
+                $('#' + menu_nieto_seleccionado).addClass('active');
             }
         });
     </script>    
