@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\CampoEducacionDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateCampoEducacionRequest;
 use App\Http\Requests\Formaciones\UpdateCampoEducacionRequest;
 use App\Repositories\Formaciones\CampoEducacionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class CampoEducacionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class CampoEducacionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/camposEducacion.singular')]));
 
         return redirect(route('formaciones.camposEducacion.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->campoEducacionRepository->infoSelect2($request->input('term', ''));
     }
 }

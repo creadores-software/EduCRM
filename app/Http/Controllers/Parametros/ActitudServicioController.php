@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\ActitudServicioDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateActitudServicioRequest;
 use App\Http\Requests\Parametros\UpdateActitudServicioRequest;
 use App\Repositories\Parametros\ActitudServicioRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
-
+use Flash;
 class ActitudServicioController extends AppBaseController
 {
     /** @var  ActitudServicioRepository */
@@ -149,5 +148,13 @@ class ActitudServicioController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/actitudesServicio.singular')]));
 
         return redirect(route('parametros.actitudesServicio.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->actitudServicioRepository->infoSelect2($request->input('term', ''));
     }
 }

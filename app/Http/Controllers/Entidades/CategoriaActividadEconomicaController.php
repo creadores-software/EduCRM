@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\CategoriaActividadEconomicaDataTable;
-use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateCategoriaActividadEconomicaRequest;
 use App\Http\Requests\Entidades\UpdateCategoriaActividadEconomicaRequest;
 use App\Repositories\Entidades\CategoriaActividadEconomicaRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class CategoriaActividadEconomicaController extends AppBaseController
 {
@@ -150,4 +150,13 @@ class CategoriaActividadEconomicaController extends AppBaseController
 
         return redirect(route('entidades.categoriasActividadEconomica.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->categoriaActividadEconomicaRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

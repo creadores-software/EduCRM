@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\TipoContactoDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateTipoContactoRequest;
 use App\Http\Requests\Parametros\UpdateTipoContactoRequest;
 use App\Repositories\Parametros\TipoContactoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class TipoContactoController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class TipoContactoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/tiposContacto.singular')]));
 
         return redirect(route('parametros.tiposContacto.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->tipoContactoRepository->infoSelect2($request->input('term', ''));
     }
 }

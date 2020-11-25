@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\BeneficioDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateBeneficioRequest;
 use App\Http\Requests\Parametros\UpdateBeneficioRequest;
 use App\Repositories\Parametros\BeneficioRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class BeneficioController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class BeneficioController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/beneficios.singular')]));
 
         return redirect(route('parametros.beneficios.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->beneficioRepository->infoSelect2($request->input('term', ''));
     }
 }

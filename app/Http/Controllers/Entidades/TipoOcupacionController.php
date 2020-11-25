@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\TipoOcupacionDataTable;
-use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateTipoOcupacionRequest;
 use App\Http\Requests\Entidades\UpdateTipoOcupacionRequest;
 use App\Repositories\Entidades\TipoOcupacionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class TipoOcupacionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class TipoOcupacionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/tiposOcupacion.singular')]));
 
         return redirect(route('entidades.tiposOcupacion.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->tipoOcupacionRepository->infoSelect2($request->input('term', ''));
     }
 }

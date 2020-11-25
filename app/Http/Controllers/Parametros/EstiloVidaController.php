@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\EstiloVidaDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateEstiloVidaRequest;
 use App\Http\Requests\Parametros\UpdateEstiloVidaRequest;
 use App\Repositories\Parametros\EstiloVidaRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class EstiloVidaController extends AppBaseController
 {
@@ -150,4 +150,13 @@ class EstiloVidaController extends AppBaseController
 
         return redirect(route('parametros.estilosVida.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->estiloVidaRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\EntidadDataTable;
-use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateEntidadRequest;
 use App\Http\Requests\Entidades\UpdateEntidadRequest;
 use App\Repositories\Entidades\EntidadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class EntidadController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class EntidadController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/entidades.singular')]));
 
         return redirect(route('entidades.entidades.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->entidadRepository->infoSelect2($request->input('term', ''));
     }
 }

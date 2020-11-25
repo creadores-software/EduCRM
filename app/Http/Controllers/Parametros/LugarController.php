@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\LugarDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateLugarRequest;
 use App\Http\Requests\Parametros\UpdateLugarRequest;
 use App\Repositories\Parametros\LugarRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class LugarController extends AppBaseController
 {
@@ -150,4 +150,13 @@ class LugarController extends AppBaseController
 
         return redirect(route('parametros.lugares.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->lugarRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

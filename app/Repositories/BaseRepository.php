@@ -202,4 +202,15 @@ abstract class BaseRepository
         $list->prepend('-- Seleccionar --');
         return $list;
     }
+
+    /**
+     * Información para select2 con términos de búsqueda 
+     * @throws \Exception
+     */
+    public function infoSelect2($term)
+    {
+        $coincidentes = $this->model::where('nombre', 'LIKE', '%'.$term.'%')
+                        ->get(['id', 'nombre as text']); ;
+        return ['results' => $coincidentes];
+    }
 }

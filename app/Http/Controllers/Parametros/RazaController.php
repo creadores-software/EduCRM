@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\RazaDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateRazaRequest;
 use App\Http\Requests\Parametros\UpdateRazaRequest;
 use App\Repositories\Parametros\RazaRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
-
+use Flash;
 class RazaController extends AppBaseController
 {
     /** @var  RazaRepository */
@@ -149,5 +148,13 @@ class RazaController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/razas.singular')]));
 
         return redirect(route('parametros.razas.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->razaRepository->infoSelect2($request->input('term', ''));
     }
 }

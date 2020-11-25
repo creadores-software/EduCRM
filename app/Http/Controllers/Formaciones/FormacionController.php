@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\FormacionDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateFormacionRequest;
 use App\Http\Requests\Formaciones\UpdateFormacionRequest;
 use App\Repositories\Formaciones\FormacionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class FormacionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class FormacionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/formaciones.singular')]));
 
         return redirect(route('formaciones.formaciones.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->formacionRepository->infoSelect2($request->input('term', ''));
     }
 }

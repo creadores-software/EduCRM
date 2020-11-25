@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\ActividadOcioDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateActividadOcioRequest;
 use App\Http\Requests\Parametros\UpdateActividadOcioRequest;
 use App\Repositories\Parametros\ActividadOcioRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class ActividadOcioController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class ActividadOcioController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/actividadesOcio.singular')]));
 
         return redirect(route('parametros.actividadesOcio.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->actividadOcioRepository->infoSelect2($request->input('term', ''));
     }
 }

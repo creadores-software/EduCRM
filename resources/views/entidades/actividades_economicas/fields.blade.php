@@ -1,7 +1,11 @@
 <!-- Categoria Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':') !!}
-    {!! Form::number('categoria_actividad_economica_id', null, ['class' => 'form-control']) !!}
+    <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control select2">
+        @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
+            <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>
 </div>
 
 <!-- Nombre Field -->
@@ -33,3 +37,17 @@
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('entidades.actividadesEconomicas.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.fn.select2.defaults.set('language', 'es');
+            $('#categoria_actividad_economica_id').select2({
+                ajax: {
+                    url: '{{ route("entidades.categoriasActividadEconomica.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+        });
+    </script>
+@endpush

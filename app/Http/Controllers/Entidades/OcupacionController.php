@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\OcupacionDataTable;
-use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateOcupacionRequest;
 use App\Http\Requests\Entidades\UpdateOcupacionRequest;
 use App\Repositories\Entidades\OcupacionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class OcupacionController extends AppBaseController
 {
@@ -150,4 +150,13 @@ class OcupacionController extends AppBaseController
 
         return redirect(route('entidades.ocupaciones.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->ocupacionRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

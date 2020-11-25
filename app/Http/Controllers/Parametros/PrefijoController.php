@@ -7,9 +7,10 @@ use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreatePrefijoRequest;
 use App\Http\Requests\Parametros\UpdatePrefijoRequest;
 use App\Repositories\Parametros\PrefijoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class PrefijoController extends AppBaseController
 {
@@ -150,4 +151,13 @@ class PrefijoController extends AppBaseController
 
         return redirect(route('parametros.prefijos.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->prefijoRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

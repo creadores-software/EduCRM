@@ -7,9 +7,10 @@ use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateOrigenRequest;
 use App\Http\Requests\Parametros\UpdateOrigenRequest;
 use App\Repositories\Parametros\OrigenRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class OrigenController extends AppBaseController
 {
@@ -149,5 +150,13 @@ class OrigenController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/origenes.singular')]));
 
         return redirect(route('parametros.origenes.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->origenRepository->infoSelect2($request->input('term', ''));
     }
 }

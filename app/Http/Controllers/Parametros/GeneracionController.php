@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\GeneracionDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateGeneracionRequest;
 use App\Http\Requests\Parametros\UpdateGeneracionRequest;
 use App\Repositories\Parametros\GeneracionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class GeneracionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class GeneracionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/generaciones.singular')]));
 
         return redirect(route('parametros.generaciones.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->generacionRepository->infoSelect2($request->input('term', ''));
     }
 }

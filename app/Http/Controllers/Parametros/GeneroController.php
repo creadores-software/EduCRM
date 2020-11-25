@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\GeneroDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateGeneroRequest;
 use App\Http\Requests\Parametros\UpdateGeneroRequest;
 use App\Repositories\Parametros\GeneroRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
-use App\Models\Parametros\Genero;
-use Response;
 use Illuminate\Http\Request;
+use Response;
+use Flash;
 
 class GeneroController extends AppBaseController
 {
@@ -154,10 +152,11 @@ class GeneroController extends AppBaseController
         return redirect(route('parametros.generos.index'));
     }
 
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
     public function dataAjax(Request $request)
     {
-        $generos = Genero::where('nombre', 'LIKE', '%'.$request->input('term', '').'%')
-            ->get(['id', 'nombre as text']);        
-        return ['results' => $generos];
+        return $this->generoRepository->infoSelect2($request->input('term', ''));
     }
 }

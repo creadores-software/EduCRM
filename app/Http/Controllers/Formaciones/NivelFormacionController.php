@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\NivelFormacionDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateNivelFormacionRequest;
 use App\Http\Requests\Formaciones\UpdateNivelFormacionRequest;
 use App\Repositories\Formaciones\NivelFormacionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class NivelFormacionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class NivelFormacionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/nivelesFormacion.singular')]));
 
         return redirect(route('formaciones.nivelesFormacion.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->nivelFormacionRepository->infoSelect2($request->input('term', ''));
     }
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\EstatusLealtadDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateEstatusLealtadRequest;
 use App\Http\Requests\Parametros\UpdateEstatusLealtadRequest;
 use App\Repositories\Parametros\EstatusLealtadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class EstatusLealtadController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class EstatusLealtadController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/estatusLealtad.singular')]));
 
         return redirect(route('parametros.estatusLealtad.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->estatusLealtadRepository->infoSelect2($request->input('term', ''));
     }
 }

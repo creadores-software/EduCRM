@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\ReligionDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateReligionRequest;
 use App\Http\Requests\Parametros\UpdateReligionRequest;
 use App\Repositories\Parametros\ReligionRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class ReligionController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class ReligionController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/religiones.singular')]));
 
         return redirect(route('parametros.religiones.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->religionRepository->infoSelect2($request->input('term', ''));
     }
 }

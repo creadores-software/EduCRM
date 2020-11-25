@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\EstadoCivilDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateEstadoCivilRequest;
 use App\Http\Requests\Parametros\UpdateEstadoCivilRequest;
 use App\Repositories\Parametros\EstadoCivilRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class EstadoCivilController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class EstadoCivilController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/estadosCiviles.singular')]));
 
         return redirect(route('parametros.estadosCiviles.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->estadoCivilRepository->infoSelect2($request->input('term', ''));
     }
 }

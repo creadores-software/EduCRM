@@ -23,7 +23,7 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            //$("#genero_id").select2();
+            $.fn.select2.defaults.set('language', 'es');
             $('#genero_id').select2({
                 ajax: {
                     url: '{{ route("parametros.generos.dataAjax") }}',

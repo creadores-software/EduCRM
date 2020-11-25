@@ -7,9 +7,11 @@ use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreatePersonalidadRequest;
 use App\Http\Requests\Parametros\UpdatePersonalidadRequest;
 use App\Repositories\Parametros\PersonalidadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
+
 
 class PersonalidadController extends AppBaseController
 {
@@ -150,4 +152,13 @@ class PersonalidadController extends AppBaseController
 
         return redirect(route('parametros.personalidades.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->personalidadRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

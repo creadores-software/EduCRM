@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\SectorDataTable;
-use App\Http\Requests\Entidades;
 use App\Http\Requests\Entidades\CreateSectorRequest;
 use App\Http\Requests\Entidades\UpdateSectorRequest;
 use App\Repositories\Entidades\SectorRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
+
 
 class SectorController extends AppBaseController
 {
@@ -149,5 +150,13 @@ class SectorController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/sectores.singular')]));
 
         return redirect(route('entidades.sectores.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->sectorRepository->infoSelect2($request->input('term', ''));
     }
 }

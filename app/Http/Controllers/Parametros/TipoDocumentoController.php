@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\TipoDocumentoDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateTipoDocumentoRequest;
 use App\Http\Requests\Parametros\UpdateTipoDocumentoRequest;
 use App\Repositories\Parametros\TipoDocumentoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class TipoDocumentoController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class TipoDocumentoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/tiposDocumento.singular')]));
 
         return redirect(route('parametros.tiposDocumento.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->tipoDocumentoRepository->infoSelect2($request->input('term', ''));
     }
 }

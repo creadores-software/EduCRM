@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\TipoParentescoDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateTipoParentescoRequest;
 use App\Http\Requests\Parametros\UpdateTipoParentescoRequest;
 use App\Repositories\Parametros\TipoParentescoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class TipoParentescoController extends AppBaseController
 {
@@ -150,4 +150,13 @@ class TipoParentescoController extends AppBaseController
 
         return redirect(route('parametros.tiposParentesco.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->tipoParentescoRepository->infoSelect2($request->input('term', ''));
+    }
+
 }

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\EstatusUsuarioDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateEstatusUsuarioRequest;
 use App\Http\Requests\Parametros\UpdateEstatusUsuarioRequest;
 use App\Repositories\Parametros\EstatusUsuarioRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class EstatusUsuarioController extends AppBaseController
 {
@@ -149,5 +149,13 @@ class EstatusUsuarioController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/estatusUsuario.singular')]));
 
         return redirect(route('parametros.estatusUsuario.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->estatusUsuarioRepository->infoSelect2($request->input('term', ''));
     }
 }

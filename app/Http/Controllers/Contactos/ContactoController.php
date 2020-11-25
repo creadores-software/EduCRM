@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Contactos;
 
 use App\DataTables\Contactos\ContactoDataTable;
-use App\Http\Requests\Contactos;
 use App\Http\Requests\Contactos\CreateContactoRequest;
 use App\Http\Requests\Contactos\UpdateContactoRequest;
 use App\Repositories\Contactos\ContactoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class ContactoController extends AppBaseController
 {
@@ -148,5 +148,13 @@ class ContactoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/contactos.singular')]));
 
         return redirect(route('contactos.contactos.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->contactoRepository->infoSelect2($request->input('term', ''));
     }
 }
