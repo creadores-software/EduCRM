@@ -15,7 +15,7 @@
     {!! Form::label('finalizado', __('models/informacionesAcademicas.fields.finalizado').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('finalizado', 0) !!}
-        {!! Form::checkbox('finalizado', '1', null) !!} 1
+        {!! Form::checkbox('finalizado', '1', null) !!} &nbsp;
     </label>
 </div>
 

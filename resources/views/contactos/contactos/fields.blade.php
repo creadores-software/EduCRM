@@ -102,7 +102,7 @@
     {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('activo', 0) !!}
-        {!! Form::checkbox('activo', '1', null) !!} 1
+        {!! Form::checkbox('activo', '1', null) !!} &nbsp;
     </label>
 </div>
 

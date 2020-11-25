@@ -21,7 +21,7 @@
     {!! Form::label('acudiente', __('models/parentescos.fields.acudiente').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('acudiente', 0) !!}
-        {!! Form::checkbox('acudiente', '1', null) !!} 1
+        {!! Form::checkbox('acudiente', '1', null) !!} &nbsp;
     </label>
 </div>
 

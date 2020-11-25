@@ -1,11 +1,13 @@
 <!-- Categoria Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':') !!}
-    <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control select2">
-        @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
-            <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
-        @endif
-    </select>
+    <div class="input-group">
+        <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control">
+            @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
+                <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\actividadEconomica::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
+            @endif
+        </select>        
+    </div>
 </div>
 
 <!-- Nombre Field -->
@@ -19,7 +21,7 @@
     {!! Form::label('es_ies', __('models/actividadesEconomicas.fields.es_ies').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('es_ies', 0) !!}
-        {!! Form::checkbox('es_ies', '1', null) !!} 1
+        {!! Form::checkbox('es_ies', '1', null) !!} &nbsp;
     </label>
 </div>
 
@@ -28,7 +30,7 @@
     {!! Form::label('es_colegio', __('models/actividadesEconomicas.fields.es_colegio').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('es_colegio', 0) !!}
-        {!! Form::checkbox('es_colegio', '1', null) !!} 1
+        {!! Form::checkbox('es_colegio', '1', null) !!} &nbsp;
     </label>
 </div>
 

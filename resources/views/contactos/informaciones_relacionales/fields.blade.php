@@ -99,7 +99,7 @@
     {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('autoriza_comunicacion', 0) !!}
-        {!! Form::checkbox('autoriza_comunicacion', '1', null) !!} 1
+        {!! Form::checkbox('autoriza_comunicacion', '1', null) !!} &nbsp;
     </label>
 </div>
 

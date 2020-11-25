@@ -39,7 +39,7 @@
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('mi_universidad', 0) !!}
-        {!! Form::checkbox('mi_universidad', '1', null) !!} 1
+        {!! Form::checkbox('mi_universidad', '1', null) !!} &nbsp;
     </label>
 </div>
 
