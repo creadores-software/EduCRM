@@ -156,6 +156,6 @@ class EntidadController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->entidadRepository->infoSelect2($request->input('term', ''));
+        return $this->entidadRepository->infoSelect2($request->input('q', ''));
     }
 }

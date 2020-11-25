@@ -156,6 +156,6 @@ class TipoOcupacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->tipoOcupacionRepository->infoSelect2($request->input('term', ''));
+        return $this->tipoOcupacionRepository->infoSelect2($request->input('q', ''));
     }
 }

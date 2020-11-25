@@ -156,6 +156,6 @@ class EstatusUsuarioController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estatusUsuarioRepository->infoSelect2($request->input('term', ''));
+        return $this->estatusUsuarioRepository->infoSelect2($request->input('q', ''));
     }
 }

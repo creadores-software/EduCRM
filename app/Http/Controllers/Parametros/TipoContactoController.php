@@ -156,6 +156,6 @@ class TipoContactoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->tipoContactoRepository->infoSelect2($request->input('term', ''));
+        return $this->tipoContactoRepository->infoSelect2($request->input('q', ''));
     }
 }

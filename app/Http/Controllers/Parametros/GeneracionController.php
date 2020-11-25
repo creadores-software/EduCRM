@@ -156,6 +156,6 @@ class GeneracionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->generacionRepository->infoSelect2($request->input('term', ''));
+        return $this->generacionRepository->infoSelect2($request->input('q', ''));
     }
 }

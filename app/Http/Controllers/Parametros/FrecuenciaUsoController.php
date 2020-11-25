@@ -156,6 +156,6 @@ class FrecuenciaUsoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->frecuenciaUsoRepository->infoSelect2($request->input('term', ''));
+        return $this->frecuenciaUsoRepository->infoSelect2($request->input('q', ''));
     }
 }

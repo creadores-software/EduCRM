@@ -157,6 +157,6 @@ class OrigenController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->origenRepository->infoSelect2($request->input('term', ''));
+        return $this->origenRepository->infoSelect2($request->input('q', ''));
     }
 }

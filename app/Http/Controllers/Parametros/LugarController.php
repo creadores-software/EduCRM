@@ -156,7 +156,7 @@ class LugarController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->lugarRepository->infoSelect2($request->input('term', ''));
+        return $this->lugarRepository->infoSelect2($request->input('q', ''));
     }
 
 }

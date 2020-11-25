@@ -156,6 +156,6 @@ class EstatusLealtadController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estatusLealtadRepository->infoSelect2($request->input('term', ''));
+        return $this->estatusLealtadRepository->infoSelect2($request->input('q', ''));
     }
 }

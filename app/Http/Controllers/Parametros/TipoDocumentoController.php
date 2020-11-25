@@ -156,6 +156,6 @@ class TipoDocumentoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->tipoDocumentoRepository->infoSelect2($request->input('term', ''));
+        return $this->tipoDocumentoRepository->infoSelect2($request->input('q', ''));
     }
 }

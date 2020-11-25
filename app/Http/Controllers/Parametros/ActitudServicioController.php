@@ -155,6 +155,6 @@ class ActitudServicioController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->actitudServicioRepository->infoSelect2($request->input('term', ''));
+        return $this->actitudServicioRepository->infoSelect2($request->input('q', ''));
     }
 }

@@ -155,6 +155,6 @@ class ContactoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->contactoRepository->infoSelect2($request->input('term', ''));
+        return $this->contactoRepository->infoSelect2($request->input('q', ''));
     }
 }

@@ -156,6 +156,6 @@ class EstadoDisposicionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estadoDisposicionRepository->infoSelect2($request->input('term', ''));
+        return $this->estadoDisposicionRepository->infoSelect2($request->input('q', ''));
     }
 }

@@ -156,7 +156,7 @@ class TipoParentescoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->tipoParentescoRepository->infoSelect2($request->input('term', ''));
+        return $this->tipoParentescoRepository->infoSelect2($request->input('q', ''));
     }
 
 }

@@ -156,7 +156,7 @@ class OcupacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->ocupacionRepository->infoSelect2($request->input('term', ''));
+        return $this->ocupacionRepository->infoSelect2($request->input('q', ''));
     }
 
 }

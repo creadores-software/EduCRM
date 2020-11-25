@@ -155,6 +155,6 @@ class RazaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->razaRepository->infoSelect2($request->input('term', ''));
+        return $this->razaRepository->infoSelect2($request->input('q', ''));
     }
 }

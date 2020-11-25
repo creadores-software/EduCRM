@@ -156,6 +156,6 @@ class ReligionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->religionRepository->infoSelect2($request->input('term', ''));
+        return $this->religionRepository->infoSelect2($request->input('q', ''));
     }
 }

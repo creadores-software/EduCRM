@@ -156,6 +156,6 @@ class CategoriaCampoEducacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->categoriaCampoEducacionRepository->infoSelect2($request->input('term', ''));
+        return $this->categoriaCampoEducacionRepository->infoSelect2($request->input('q', ''));
     }
 }

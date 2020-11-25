@@ -156,6 +156,6 @@ class FormacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->formacionRepository->infoSelect2($request->input('term', ''));
+        return $this->formacionRepository->infoSelect2($request->input('q', ''));
     }
 }

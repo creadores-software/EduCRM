@@ -156,7 +156,7 @@ class EstiloVidaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estiloVidaRepository->infoSelect2($request->input('term', ''));
+        return $this->estiloVidaRepository->infoSelect2($request->input('q', ''));
     }
 
 }

@@ -156,6 +156,6 @@ class MedioComunicacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->medioComunicacionRepository->infoSelect2($request->input('term', ''));
+        return $this->medioComunicacionRepository->infoSelect2($request->input('q', ''));
     }
 }

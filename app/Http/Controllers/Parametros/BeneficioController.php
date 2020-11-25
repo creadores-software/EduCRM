@@ -156,6 +156,6 @@ class BeneficioController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->beneficioRepository->infoSelect2($request->input('term', ''));
+        return $this->beneficioRepository->infoSelect2($request->input('q', ''));
     }
 }

@@ -156,6 +156,6 @@ class EstadoCivilController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estadoCivilRepository->infoSelect2($request->input('term', ''));
+        return $this->estadoCivilRepository->infoSelect2($request->input('q', ''));
     }
 }

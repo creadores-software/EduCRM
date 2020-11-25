@@ -156,7 +156,7 @@ class CategoriaActividadEconomicaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->categoriaActividadEconomicaRepository->infoSelect2($request->input('term', ''));
+        return $this->categoriaActividadEconomicaRepository->infoSelect2($request->input('q', ''));
     }
 
 }

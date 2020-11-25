@@ -99,7 +99,7 @@ class ActividadEconomicaController extends AppBaseController
             return redirect(route('entidades.actividadesEconomicas.index'));
         }
 
-        return view('entidades.actividades_economicas.edit');
+        return view('entidades.actividades_economicas.edit')->with('actividadEconomica', $actividadEconomica);
     }
 
     /**
@@ -156,6 +156,6 @@ class ActividadEconomicaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->actividadEconomicaRepository->infoSelect2($request->input('term', ''));
+        return $this->actividadEconomicaRepository->infoSelect2($request->input('q', ''));
     }
 }

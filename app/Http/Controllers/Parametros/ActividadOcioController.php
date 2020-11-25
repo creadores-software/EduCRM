@@ -156,6 +156,6 @@ class ActividadOcioController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->actividadOcioRepository->infoSelect2($request->input('term', ''));
+        return $this->actividadOcioRepository->infoSelect2($request->input('q', ''));
     }
 }

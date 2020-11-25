@@ -156,6 +156,6 @@ class CampoEducacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->campoEducacionRepository->infoSelect2($request->input('term', ''));
+        return $this->campoEducacionRepository->infoSelect2($request->input('q', ''));
     }
 }

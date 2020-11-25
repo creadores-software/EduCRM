@@ -158,7 +158,7 @@ class PersonalidadController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->personalidadRepository->infoSelect2($request->input('term', ''));
+        return $this->personalidadRepository->infoSelect2($request->input('q', ''));
     }
 
 }
