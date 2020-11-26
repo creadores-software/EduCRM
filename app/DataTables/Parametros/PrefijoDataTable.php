@@ -30,8 +30,7 @@ class PrefijoDataTable extends DataTable
      */
     public function query(Prefijo $model)
     {
-        $model=\App\Models\Parametros\Prefijo::with('genero');
-        return $model->newQuery();
+       return $model->newQuery()->with(['genero'])->select('prefijo.*');
     }
 
     /**
