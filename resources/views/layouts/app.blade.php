@@ -191,8 +191,7 @@
             $.fn.select2.defaults.set('language', 'es');
             $.fn.select2.defaults.set( "theme", "bootstrap" );
             $("#buscador_menu").keyup(function () {
-                var filter = $(this).val(),
-                        count = 0;
+                var filter = $(this).val();
                 $(".opcion-menu").each(function () {
                     if (filter == "") {
                         $(this).css("visibility", "visible");
