@@ -1,19 +1,16 @@
 <!-- Categoria Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':', ['class'=>'control-label']) !!}
-    <div class="input-group">       
-        <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control">
-            @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
-                <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\categoriaActividadEconomica::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
-            @endif
-        </select>        
-    </div>
-    <div class="help-block with-errors"></div>
+    {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':') !!}
+    <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control">
+        @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
+            <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\categoriaActividadEconomica::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
 </div>
 
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/actividadesEconomicas.fields.nombre').':',['class'=>'control-label']) !!}
+    {!! Form::label('nombre', __('models/actividadesEconomicas.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     <div class="help-block with-errors"></div>
 </div>
