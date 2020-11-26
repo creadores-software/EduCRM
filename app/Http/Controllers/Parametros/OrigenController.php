@@ -90,7 +90,7 @@ class OrigenController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)origen
+    public function edit($id)
     {
         $origen = $this->origenRepository->find($id);
 
