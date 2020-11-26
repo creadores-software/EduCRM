@@ -77,18 +77,18 @@ return [
         'array' => 'El arreglo :attribute debe contener :value items o menos.',
     ],
     'max' => [
-        'numeric' => 'El campo :attribute no debe ser mayor que :value.',
-        'file' => 'El campo :attribute debe ser un archivo pese máximo :value kilobytes.',
-        'string' => 'El campo :attribute debe contener máximo :value caracteres.',
-        'array' => 'El arreglo :attribute debe contener máximo :value items.',
+        'numeric' => 'El campo :attribute no debe ser mayor que :max.',
+        'file' => 'El campo :attribute debe ser un archivo pese máximo :max kilobytes.',
+        'string' => 'El campo :attribute debe contener máximo :max caracteres.',
+        'array' => 'El arreglo :attribute debe contener máximo :max items.',
     ],
     'mimes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'mimetypes' => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'min' => [
-        'numeric' => 'El campo :attribute debe ser mayor que :value.',
-        'file' => 'El campo :attribute debe ser un archivo pese mínimo :value kilobytes.',
-        'string' => 'El campo :attribute debe contener mínimo :value caracteres.',
-        'array' => 'El arreglo :attribute debe contener mínimo :value items.',
+        'numeric' => 'El campo :attribute debe ser mayor que :min.',
+        'file' => 'El campo :attribute debe ser un archivo pese mínimo :min kilobytes.',
+        'string' => 'El campo :attribute debe contener mínimo :min caracteres.',
+        'array' => 'El arreglo :attribute debe contener mínimo :min items.',
     ],
     'not_in' => 'El campo :attribute no es válido.',
     'not_regex' => 'El formato del campo :attribute no es válido.',
@@ -105,10 +105,10 @@ return [
     'required_without_all' => 'El campo :attribute es requerido cuando ninguno de los valores :values están presentes.',
     'same' => 'El campo :attribute y el campo :other deben coincidir.',
     'size' => [
-        'numeric' => 'El campo :attribute debe ser :value.',
-        'file' => 'El campo :attribute debe ser un archivo pese:value kilobytes.',
-        'string' => 'El campo :attribute debe contener :value caracteres.',
-        'array' => 'El arreglo :attribute debe contener :value items.',
+        'numeric' => 'El campo :attribute debe ser :size.',
+        'file' => 'El campo :attribute debe ser un archivo pese :size kilobytes.',
+        'string' => 'El campo :attribute debe contener :size caracteres.',
+        'array' => 'El arreglo :attribute debe contener :size items.',
     ],
     'starts_with' => 'El campo :attribute debe iniciar con uno de los siguientes valores: :values.',
     'string' => 'El campo :attribute debe ser un texto.',
@@ -146,7 +146,11 @@ return [
     |
     */
 
+    /**
+     * A continuación se tendrán los campos foraneos, 
+     * con el fin de quitar la palabra id en la valdiación de errores
+     */
     'attributes' => [
+        'genero_id' => 'genero',
     ],
-
 ];
