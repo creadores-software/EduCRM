@@ -13,12 +13,12 @@
 <!-- Es Ies Field -->
 <div class="form-group">
     {!! Form::label('es_ies', __('models/actividadesEconomicas.fields.es_ies').':') !!}
-    <p>{{ $actividadEconomica->es_ies }}</p>
+    <p>{{ $actividadEconomica->es_ies? 'Sí': 'No' }}</p>
 </div>
 
 <!-- Es Colegio Field -->
 <div class="form-group">
     {!! Form::label('es_colegio', __('models/actividadesEconomicas.fields.es_colegio').':') !!}
-    <p>{{ $actividadEconomica->es_colegio }}</p>
+    <p>{{ $actividadEconomica->es_colegio? 'Sí': 'No' }}</p>
 </div>
 
