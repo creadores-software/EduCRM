@@ -47,7 +47,7 @@ class EstatusLealtadDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class EstatusLealtadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'estatus_lealtad_' . time();
+        return 'estatus_lealtad_' .  date("Ymd_His");
     }
 }

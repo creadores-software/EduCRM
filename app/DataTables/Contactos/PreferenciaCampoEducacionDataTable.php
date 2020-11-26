@@ -47,7 +47,7 @@ class PreferenciaCampoEducacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class PreferenciaCampoEducacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'preferencias_campos_educacion_' . time();
+        return 'preferencias_campos_educacion_' .  date("Ymd_His");
     }
 }

@@ -47,7 +47,7 @@ class EntidadDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -91,6 +91,6 @@ class EntidadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'entidades_' . time();
+        return 'entidades_' .  date("Ymd_His");
     }
 }

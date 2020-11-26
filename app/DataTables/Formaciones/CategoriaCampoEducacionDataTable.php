@@ -47,7 +47,7 @@ class CategoriaCampoEducacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class CategoriaCampoEducacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'categorias_campo_educacion_' . time();
+        return 'categorias_campo_educacion_' .  date("Ymd_His");
     }
 }

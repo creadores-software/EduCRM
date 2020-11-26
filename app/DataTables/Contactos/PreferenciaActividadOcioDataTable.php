@@ -47,7 +47,7 @@ class PreferenciaActividadOcioDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class PreferenciaActividadOcioDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'preferencias_actividades_ocio_' . time();
+        return 'preferencias_actividades_ocio_' .  date("Ymd_His");
     }
 }

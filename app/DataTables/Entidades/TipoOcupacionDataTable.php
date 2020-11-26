@@ -47,7 +47,7 @@ class TipoOcupacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class TipoOcupacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'tipos_ocupacion_' . time();
+        return 'tipos_ocupacion_' .  date("Ymd_His");
     }
 }

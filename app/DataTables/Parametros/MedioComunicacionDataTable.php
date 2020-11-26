@@ -47,7 +47,7 @@ class MedioComunicacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class MedioComunicacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'medios_comunicacion_' . time();
+        return 'medios_comunicacion_' .  date("Ymd_His");
     }
 }

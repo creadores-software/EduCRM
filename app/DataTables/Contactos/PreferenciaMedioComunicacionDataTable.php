@@ -47,7 +47,7 @@ class PreferenciaMedioComunicacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class PreferenciaMedioComunicacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'preferencias_medios_comunicacion_' . time();
+        return 'preferencias_medios_comunicacion_' .  date("Ymd_His");
     }
 }

@@ -47,7 +47,7 @@ class ParentescoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -88,6 +88,6 @@ class ParentescoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'parentescos_' . time();
+        return 'parentescos_' .  date("Ymd_His");
     }
 }

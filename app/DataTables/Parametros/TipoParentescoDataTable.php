@@ -47,7 +47,7 @@ class TipoParentescoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class TipoParentescoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'tipos_parentesco_' . time();
+        return 'tipos_parentesco_' .  date("Ymd_His");
     }
 }

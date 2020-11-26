@@ -47,7 +47,7 @@ class LugarDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -87,6 +87,6 @@ class LugarDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'lugares_' . time();
+        return 'lugares_' .  date("Ymd_His");
     }
 }

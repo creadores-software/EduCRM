@@ -47,7 +47,7 @@ class EstadoDisposicionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class EstadoDisposicionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'estados_disposicion_' . time();
+        return 'estados_disposicion_' .  date("Ymd_His");
     }
 }

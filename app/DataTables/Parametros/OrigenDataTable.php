@@ -47,7 +47,7 @@ class OrigenDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class OrigenDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'origenes_' . time();
+        return 'origenes_' .  date("Ymd_His");
     }
 }

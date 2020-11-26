@@ -47,7 +47,7 @@ class InformacionRelacionalDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -102,6 +102,6 @@ class InformacionRelacionalDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'informaciones_relacionales_' . time();
+        return 'informaciones_relacionales_' .  date("Ymd_His");
     }
 }

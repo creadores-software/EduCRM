@@ -47,7 +47,7 @@ class CategoriaActividadEconomicaDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class CategoriaActividadEconomicaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'categorias_actividad_economica_' . time();
+        return 'categorias_actividad_economica_' .  date("Ymd_His");
     }
 }

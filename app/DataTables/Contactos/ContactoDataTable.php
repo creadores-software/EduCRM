@@ -47,7 +47,7 @@ class ContactoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -101,6 +101,6 @@ class ContactoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'contactos_' . time();
+        return 'contactos_' .  date("Ymd_His");
     }
 }

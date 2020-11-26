@@ -47,7 +47,7 @@ class PersonalidadDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class PersonalidadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'personalidades_' . time();
+        return 'personalidades_' .  date("Ymd_His");
     }
 }

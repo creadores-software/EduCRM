@@ -47,7 +47,7 @@ class FormacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -89,6 +89,6 @@ class FormacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'formaciones_' . time();
+        return 'formaciones_' .  date("Ymd_His");
     }
 }

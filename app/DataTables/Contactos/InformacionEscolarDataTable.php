@@ -47,7 +47,7 @@ class InformacionEscolarDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -90,6 +90,6 @@ class InformacionEscolarDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'informaciones_escolares_' . time();
+        return 'informaciones_escolares_' .  date("Ymd_His");
     }
 }

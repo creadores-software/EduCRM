@@ -47,7 +47,7 @@ class TipoDocumentoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class TipoDocumentoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'tipos_documento_' . time();
+        return 'tipos_documento_' .  date("Ymd_His");
     }
 }

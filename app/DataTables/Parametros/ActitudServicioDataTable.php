@@ -47,7 +47,7 @@ class ActitudServicioDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class ActitudServicioDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'actitudes_servicio_' . time();
+        return 'actitudes_servicio_' .  date("Ymd_His");
     }
 }

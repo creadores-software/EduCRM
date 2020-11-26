@@ -47,7 +47,7 @@ class EstadoCivilDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class EstadoCivilDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'estados_civiles_' . time();
+        return 'estados_civiles_' .  date("Ymd_His");
     }
 }

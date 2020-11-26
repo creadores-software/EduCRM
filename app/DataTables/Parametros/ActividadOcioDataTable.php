@@ -47,7 +47,7 @@ class ActividadOcioDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class ActividadOcioDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'actividades_ocio_' . time();
+        return 'actividades_ocio_' .  date("Ymd_His");
     }
 }

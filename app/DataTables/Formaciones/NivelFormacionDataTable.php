@@ -47,7 +47,7 @@ class NivelFormacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class NivelFormacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'niveles_formacion_' . time();
+        return 'niveles_formacion_' .  date("Ymd_His");
     }
 }

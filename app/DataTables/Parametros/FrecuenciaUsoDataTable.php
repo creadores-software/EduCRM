@@ -47,7 +47,7 @@ class FrecuenciaUsoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class FrecuenciaUsoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'frecuencias_uso_' . time();
+        return 'frecuencias_uso_' .  date("Ymd_His");
     }
 }

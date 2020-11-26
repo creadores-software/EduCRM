@@ -47,7 +47,7 @@ class RazaDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class RazaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'razas_' . time();
+        return 'razas_' .  date("Ymd_His");
     }
 }

@@ -47,7 +47,7 @@ class SectorDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class SectorDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'sectores_' . time();
+        return 'sectores_' .  date("Ymd_His");
     }
 }

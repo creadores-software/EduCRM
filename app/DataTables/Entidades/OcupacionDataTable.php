@@ -47,7 +47,7 @@ class OcupacionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -86,6 +86,6 @@ class OcupacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'ocupaciones_' . time();
+        return 'ocupaciones_' .  date("Ymd_His");
     }
 }

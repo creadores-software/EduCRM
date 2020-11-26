@@ -47,7 +47,7 @@ class GeneracionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class GeneracionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'generaciones_' . time();
+        return 'generaciones_' .  date("Ymd_His");
     }
 }

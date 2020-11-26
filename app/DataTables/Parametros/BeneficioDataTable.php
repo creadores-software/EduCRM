@@ -47,7 +47,7 @@ class BeneficioDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class BeneficioDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'beneficios_' . time();
+        return 'beneficios_' .  date("Ymd_His");
     }
 }

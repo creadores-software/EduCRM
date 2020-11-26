@@ -47,7 +47,7 @@ class EstiloVidaDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class EstiloVidaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'estilos_vida_' . time();
+        return 'estilos_vida_' .  date("Ymd_His");
     }
 }

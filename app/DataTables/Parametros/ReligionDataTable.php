@@ -47,7 +47,7 @@ class ReligionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -85,6 +85,6 @@ class ReligionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'religiones_' . time();
+        return 'religiones_' .  date("Ymd_His");
     }
 }

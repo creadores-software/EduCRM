@@ -48,7 +48,7 @@ class PrefijoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -87,6 +87,6 @@ class PrefijoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'prefijos_' . time();
+        return 'prefijos_' .  date("Ymd_His");
     }
 }
