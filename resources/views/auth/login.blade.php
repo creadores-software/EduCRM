@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>CRM IES</title>
+    <title>CRM UAM</title>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -47,7 +47,7 @@
 <div class="login-box">
     <div class="login-logo">
         <a href="#" class="logo brand-link" style="text-align: left; padding:0;">
-            <span> CRM <b>IES</b></span>
+            <span> CRM <b>UAM</b></span>
         </a>
     </div>
 

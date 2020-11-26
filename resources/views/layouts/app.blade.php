@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>CRM IES</title>
+    <title>CRM UAM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Bootstrap 3.3.7 -->
@@ -74,8 +74,8 @@
 
             <!-- Logo -->
             <a href="/" class="logo brand-link" style="text-align: left; padding:0;">
-                <img style="width: auto" src="/logo.png" alt="CRM IES" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span> CRM <b>IES</b></span>
+                <img style="width: auto" src="/logo.png" alt="CRM UAM" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span> CRM <b>UAM</b></span>
             </a>
 
             <!-- Header Navbar -->
@@ -122,7 +122,7 @@
 
         <!-- Main Footer -->
         <footer class="main-footer" style="max-height: 100px;text-align: center">
-            <strong>Copyright © 2020 <a href="#">CRM IES</a>.</strong> Todos los derechos reservados.
+            <strong>Copyright © 2020 <a href="#">CRM UAM</a>.</strong> Todos los derechos reservados.
         </footer>
 
     </div>
