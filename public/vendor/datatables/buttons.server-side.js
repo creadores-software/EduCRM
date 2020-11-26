@@ -141,7 +141,10 @@
             return '<i class="fa fa-download"></i> ' + dt.i18n('buttons.export', 'Export') + '&nbsp;<span class="caret"/>';
         },
 
-        buttons: ['csv', 'excel']
+        action: function (e, dt, button, config) {
+            var url = _buildUrl(dt, 'excel');
+            window.location = url;
+        }
     };
 
     DataTable.ext.buttons.csv = {
