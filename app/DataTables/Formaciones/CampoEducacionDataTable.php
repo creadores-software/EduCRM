@@ -30,7 +30,7 @@ class CampoEducacionDataTable extends DataTable
      */
     public function query(CampoEducacion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['categoriaCampoEducacion'])->select('campo_educacion.*');
     }
 
     /**
@@ -74,7 +74,7 @@ class CampoEducacionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'categoria_campo_educacion_id' => new Column(['title' => __('models/camposEducacion.fields.categoria_campo_educacion_id'), 'data' => 'categoria_campo_educacion_id']),
+            'categoria_campo_educacion_id' => new Column(['title' => __('models/camposEducacion.fields.categoria_campo_educacion_id'), 'data' => 'categoria_campo_educacion.nombre', 'name'=>'categoriaCampoEducacion.nombre']),
             'nombre' => new Column(['title' => __('models/camposEducacion.fields.nombre'), 'data' => 'nombre'])
         ];
     }

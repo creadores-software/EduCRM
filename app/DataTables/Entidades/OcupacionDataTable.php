@@ -30,7 +30,7 @@ class OcupacionDataTable extends DataTable
      */
     public function query(Ocupacion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['tipoOcupacion'])->select('ocupacion.*');;
     }
 
     /**
@@ -75,7 +75,7 @@ class OcupacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/ocupaciones.fields.nombre'), 'data' => 'nombre']),
-            'tipo_ocupacion_id' => new Column(['title' => __('models/ocupaciones.fields.tipo_ocupacion_id'), 'data' => 'tipo_ocupacion_id'])
+            'tipo_ocupacion_id' => new Column(['title' => __('models/ocupaciones.fields.tipo_ocupacion_id'), 'data' => 'tipo_ocupacion.nombre','name'=>'tipoOcupacion.nombre'])
         ];
     }
 
