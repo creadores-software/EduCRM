@@ -42,7 +42,6 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            $.fn.select2.defaults.set('language', 'es');
             $('#categoria_actividad_economica_id').select2({
                 ajax: {
                     url: '{{ route("entidades.categoriasActividadEconomica.dataAjax") }}',

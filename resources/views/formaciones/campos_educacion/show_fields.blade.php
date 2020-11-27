@@ -1,7 +1,7 @@
 <!-- Categoria Campo Educacion Id Field -->
 <div class="form-group">
     {!! Form::label('categoria_campo_educacion_id', __('models/camposEducacion.fields.categoria_campo_educacion_id').':') !!}
-    <p>{{ $campoEducacion->categoria_campo_educacion_id }}</p>
+    <p>{{ $campoEducacion->categoriaCampoEducacion->nombre }}</p>
 </div>
 
 <!-- Nombre Field -->

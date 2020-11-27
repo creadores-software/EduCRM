@@ -23,7 +23,6 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            $.fn.select2.defaults.set('language', 'es');
             $('#tipo_ocupacion_id').select2({
                 ajax: {
                     url: '{{ route("entidades.tiposOcupacion.dataAjax") }}',
