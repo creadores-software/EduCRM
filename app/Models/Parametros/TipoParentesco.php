@@ -50,9 +50,18 @@ class TipoParentesco extends Model implements Auditable
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function tipoContrario()
+    {
+        return $this->belongsTo(\App\Models\Parametros\TipoParentesco::class, 'tipo_contrario_id')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function parentescos()
+    public function parentescosContrario()
     {
         return $this->hasMany(\App\Models\Parametros\Parentesco::class, 'tipo_parentesco_id');
     }

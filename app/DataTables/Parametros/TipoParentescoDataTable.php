@@ -30,7 +30,9 @@ class TipoParentescoDataTable extends DataTable
      */
     public function query(TipoParentesco $model)
     {
-        return $model->newQuery();
+        return $model::leftjoin('tipo_parentesco as contrario', 'tipo_parentesco.tipo_contrario_id', '=', 'contrario.id')
+            ->select(['tipo_parentesco.id','tipo_parentesco.nombre','contrario.nombre as nombre_contrario'])->newQuery();
+        //return $model->newQuery()->with(['tipoContrario'])->select('tipo_parentesco.*');
     }
 
     /**
@@ -74,8 +76,8 @@ class TipoParentescoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nombre' => new Column(['title' => __('models/tiposParentesco.fields.nombre'), 'data' => 'nombre']),
-            'tipo_contrario_id' => new Column(['title' => __('models/tiposParentesco.fields.tipo_contrario_id'), 'data' => 'tipo_contrario_id'])
+            'nombre' => new Column(['title' => __('models/tiposParentesco.fields.nombre'), 'data' => 'nombre','name'=>'tipo_parentesco.nombre']),
+            'tipo_contrario_id' => new Column(['title' => __('models/tiposParentesco.fields.tipo_contrario_id'), 'data' => 'nombre_contrario','name'=>'contrario.nombre'])
         ];
     }
 

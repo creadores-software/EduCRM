@@ -7,6 +7,6 @@
 <!-- Tipo Contrario Id Field -->
 <div class="form-group">
     {!! Form::label('tipo_contrario_id', __('models/tiposParentesco.fields.tipo_contrario_id').':') !!}
-    <p>{{ $tipoParentesco->tipo_contrario_id }}</p>
+    <p>{{ $tipoParentesco->tipoContrario->nombre }}</p>
 </div>
 
