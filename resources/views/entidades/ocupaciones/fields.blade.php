@@ -9,7 +9,7 @@
     {!! Form::label('tipo_ocupacion_id', __('models/ocupaciones.fields.tipo_ocupacion_id').':') !!}
     <select name="tipo_ocupacion_id" id="tipo_ocupacion_id" class="form-control">
         @if(!empty(old('tipo_ocupacion_id', $ocupacion->tipo_ocupacion_id ?? '' )))
-            <option value="{{ old('tipo_ocupacion_id', $ocupacion->tipo_ocupacion_id ?? '' ) }}" selected> {{ App\Models\Entidades\tipoOcupacion::find(old('tipo_ocupacion_id', $ocupacion->tipo_ocupacion_id ?? '' ))->nombre }} </option>
+            <option value="{{ old('tipo_ocupacion_id', $ocupacion->tipo_ocupacion_id ?? '' ) }}" selected> {{ App\Models\Entidades\TipoOcupacion::find(old('tipo_ocupacion_id', $ocupacion->tipo_ocupacion_id ?? '' ))->nombre }} </option>
         @endif
     </select>  
 </div>
