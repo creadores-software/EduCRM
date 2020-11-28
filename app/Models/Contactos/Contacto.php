@@ -126,7 +126,8 @@ class Contacto extends Model implements Auditable
      **/
     public function lugarResidencia()
     {
-        return $this->belongsTo(\App\Models\Contactos\Lugar::class, 'lugar_residencia');
+        return $this->belongsTo(\App\Models\Contactos\Lugar::class, 'lugar_residencia')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -134,7 +135,8 @@ class Contacto extends Model implements Auditable
      **/
     public function estadoCivil()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstadoCivil::class, 'estado_civil_id');
+        return $this->belongsTo(\App\Models\Contactos\EstadoCivil::class, 'estado_civil_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -142,7 +144,8 @@ class Contacto extends Model implements Auditable
      **/
     public function genero()
     {
-        return $this->belongsTo(\App\Models\Contactos\Genero::class, 'genero_id');
+        return $this->belongsTo(\App\Models\Contactos\Genero::class, 'genero_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -150,7 +153,8 @@ class Contacto extends Model implements Auditable
      **/
     public function prefijo()
     {
-        return $this->belongsTo(\App\Models\Contactos\Prefijo::class, 'prefijo_id');
+        return $this->belongsTo(\App\Models\Contactos\Prefijo::class, 'prefijo_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -158,7 +162,8 @@ class Contacto extends Model implements Auditable
      **/
     public function tipoDocumento()
     {
-        return $this->belongsTo(\App\Models\Contactos\TipoDocumento::class, 'tipo_documento_id');
+        return $this->belongsTo(\App\Models\Contactos\TipoDocumento::class, 'tipo_documento_id')
+            ->withDefault(['nombre' => '']);;
     }
 
     /**

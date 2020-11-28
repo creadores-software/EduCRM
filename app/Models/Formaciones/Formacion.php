@@ -78,7 +78,8 @@ class Formacion extends Model implements Auditable
      **/
     public function areaConocimiento()
     {
-        return $this->belongsTo(\App\Models\Formaciones\CampoEducacion::class, 'area_conocimiento_id');
+        return $this->belongsTo(\App\Models\Formaciones\CampoEducacion::class, 'area_conocimiento_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**

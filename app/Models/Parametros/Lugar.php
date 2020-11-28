@@ -55,6 +55,15 @@ class Lugar extends Model implements Auditable
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function lugarPadre()
+    {
+        return $this->belongsTo(\App\Models\Parametros\Lugar::class, 'padre_id')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function contactos()

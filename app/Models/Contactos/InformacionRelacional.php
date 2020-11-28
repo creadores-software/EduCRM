@@ -137,7 +137,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function actitudServicio()
     {
-        return $this->belongsTo(\App\Models\Contactos\ActitudServicio::class, 'actitud_servicio_id');
+        return $this->belongsTo(\App\Models\Contactos\ActitudServicio::class, 'actitud_servicio_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -145,7 +146,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function beneficio()
     {
-        return $this->belongsTo(\App\Models\Contactos\Beneficio::class, 'beneficio_id');
+        return $this->belongsTo(\App\Models\Contactos\Beneficio::class, 'beneficio_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -153,7 +155,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function contacto()
     {
-        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id');
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -161,7 +164,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function referidoPor()
     {
-        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'referido_por_id');
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'referido_por_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -169,7 +173,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function estadoDisposicion()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstadoDisposicion::class, 'estado_disposicion_id');
+        return $this->belongsTo(\App\Models\Contactos\EstadoDisposicion::class, 'estado_disposicion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -177,7 +182,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function estatusLealtad()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstatusLealtad::class, 'estatus_lealtad_id');
+        return $this->belongsTo(\App\Models\Contactos\EstatusLealtad::class, 'estatus_lealtad_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -185,7 +191,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function estatusUsuario()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstatusUsuario::class, 'estatus_usuario_id');
+        return $this->belongsTo(\App\Models\Contactos\EstatusUsuario::class, 'estatus_usuario_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -193,7 +200,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function estiloVida()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstiloVida::class, 'estilo_vida_id');
+        return $this->belongsTo(\App\Models\Contactos\EstiloVida::class, 'estilo_vida_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -201,7 +209,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function frecuenciaUso()
     {
-        return $this->belongsTo(\App\Models\Contactos\FrecuenciaUso::class, 'frecuencia_uso_id');
+        return $this->belongsTo(\App\Models\Contactos\FrecuenciaUso::class, 'frecuencia_uso_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -209,7 +218,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function generacion()
     {
-        return $this->belongsTo(\App\Models\Contactos\Generacion::class, 'generacion_id');
+        return $this->belongsTo(\App\Models\Contactos\Generacion::class, 'generacion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -217,7 +227,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function maximoNivelFormacion()
     {
-        return $this->belongsTo(\App\Models\Contactos\NivelFormacion::class, 'maximo_nivel_formacion_id');
+        return $this->belongsTo(\App\Models\Contactos\NivelFormacion::class, 'maximo_nivel_formacion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -225,7 +236,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function ocupacionActual()
     {
-        return $this->belongsTo(\App\Models\Contactos\Ocupacion::class, 'ocupacion_actual_id');
+        return $this->belongsTo(\App\Models\Contactos\Ocupacion::class, 'ocupacion_actual_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -233,7 +245,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function origen()
     {
-        return $this->belongsTo(\App\Models\Contactos\Origen::class, 'origen_id');
+        return $this->belongsTo(\App\Models\Contactos\Origen::class, 'origen_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -241,7 +254,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function personalidad()
     {
-        return $this->belongsTo(\App\Models\Contactos\Personalidad::class, 'personalidad_id');
+        return $this->belongsTo(\App\Models\Contactos\Personalidad::class, 'personalidad_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -249,7 +263,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function raza()
     {
-        return $this->belongsTo(\App\Models\Contactos\Raza::class, 'raza_id');
+        return $this->belongsTo(\App\Models\Contactos\Raza::class, 'raza_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -257,7 +272,8 @@ class InformacionRelacional extends Model implements Auditable
      **/
     public function religion()
     {
-        return $this->belongsTo(\App\Models\Contactos\Religion::class, 'religion_id');
+        return $this->belongsTo(\App\Models\Contactos\Religion::class, 'religion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**

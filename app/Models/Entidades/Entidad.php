@@ -79,7 +79,8 @@ class Entidad extends Model implements Auditable
      **/
     public function lugar()
     {
-        return $this->belongsTo(\App\Models\Entidades\Lugar::class, 'lugar_id');
+        return $this->belongsTo(\App\Models\Entidades\Lugar::class, 'lugar_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -87,7 +88,8 @@ class Entidad extends Model implements Auditable
      **/
     public function actividadEconomica()
     {
-        return $this->belongsTo(\App\Models\Entidades\ActividadEconomica::class, 'actividad_economica_id');
+        return $this->belongsTo(\App\Models\E   ntidades\ActividadEconomica::class, 'actividad_economica_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -95,7 +97,8 @@ class Entidad extends Model implements Auditable
      **/
     public function sector()
     {
-        return $this->belongsTo(\App\Models\Entidades\Sector::class, 'sector_id');
+        return $this->belongsTo(\App\Models\Entidades\Sector::class, 'sector_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
