@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 
 abstract class BaseRepository
@@ -207,10 +208,22 @@ abstract class BaseRepository
      * Información para select2 con términos de búsqueda 
      * @throws \Exception
      */
-    public function infoSelect2($term)
+    public function infoSelect2($term,$search=null)
     {
-        $coincidentes = $this->model::where('nombre', 'LIKE', '%'.$term.'%')
-                        ->get(['id', 'nombre as text']);
+        //DB::enableQueryLog();
+        $query = $this->model->newQuery();
+
+        if ($search!=null) {
+            foreach($search as $key => $value) {
+                if (in_array($key, $this->getFieldsSearchable())) {
+                    $query->where($key, $value);
+                }
+            }
+        }
+
+        $query->where('nombre', 'LIKE', '%'.$term.'%');
+        $coincidentes = $query->get(['id', 'nombre as text']);
+        //dd(DB::getQueryLog()); 
         return ['results' => $coincidentes];
     }
 }
