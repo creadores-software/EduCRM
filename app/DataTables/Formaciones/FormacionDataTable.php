@@ -30,7 +30,7 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['entidad','nivelFormacion','areaConocimiento'])->select('formacion.*');;
     }
 
     /**
@@ -75,10 +75,10 @@ class FormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/formaciones.fields.nombre'), 'data' => 'nombre']),
-            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad_id']),
-            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion_id']),
-            'area_conocimiento_id' => new Column(['title' => __('models/formaciones.fields.area_conocimiento_id'), 'data' => 'area_conocimiento_id']),
-            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo'])
+            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name'=>'entidad.nombre']),
+            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name'=>'nivelFormacion.nombre']),
+            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'area_conocimiento.nombre', 'name'=>'areaConocimiento.nombre']),
+            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo','render'=> "function(){ return data? 'Sí' : 'No' }"])
         ];
     }
 

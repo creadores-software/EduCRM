@@ -18,8 +18,8 @@
 
 <!-- Area Conocimiento Id Field -->
 <div class="form-group">
-    {!! Form::label('area_conocimiento_id', __('models/formaciones.fields.area_conocimiento_id').':') !!}
-    <p>{{ $formacion->area_conocimiento_id }}</p>
+    {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id').':') !!}
+    <p>{{ $formacion->campo_educacion_id }}</p>
 </div>
 
 <!-- Activo Field -->
