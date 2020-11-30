@@ -98,7 +98,7 @@ return [
     'regex' => 'El formato del campo :Attribute no es válido.',
     'required' => 'El campo :Attribute es requerido.',
     'required_if' => 'El campo :Attribute cuando el campo :other es :value.',
-    'required_unless' => 'El campo :Attribute es requerido a menos que el campo :other se encuentre en :values.',
+    'required_unless' => 'El campo :Attribute es requerido a menos que el campo :other sea :values.',
     'required_with' => 'El campo :Attribute es requerido cuando el valor :values esta presente.',
     'required_with_all' => 'El campo :Attribute es requerido cuando los campos :values estan presentes.',
     'required_without' => 'El campo :Attribute es requerido cuando el valor :values no está presente.',
@@ -191,4 +191,13 @@ return [
         'tipo_ocupacion_id' => 'Tipo Ocupación',
         'tipo_parentesco_id' => 'Tipo Parentesco',
     ],
+
+    /**
+     * Traducción de valores en validaciones
+     */
+    'values' => [
+        'tipo' => [
+            'P' => 'Pais',
+         ],
+     ],
 ];
