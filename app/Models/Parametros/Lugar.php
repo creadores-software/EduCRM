@@ -51,7 +51,7 @@ class Lugar extends Model implements Auditable
     public static $rules = [
         'nombre' => 'required|string|max:255',
         'tipo' => 'required|string',
-        'padre_id' => 'nullable|integer'
+        'padre_id' => 'required_unless:tipo,P|integer'
     ];
 
     /**

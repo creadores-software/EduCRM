@@ -30,7 +30,8 @@ class LugarDataTable extends DataTable
      */
     public function query(Lugar $model)
     {
-        return $model->newQuery();
+        return $model::leftjoin('lugar as padre', 'lugar.padre_id', '=', 'padre.id')
+        ->select(['lugar.id','lugar.nombre','lugar.tipo','padre.nombre as nombre_padre'])->newQuery();
     }
 
     /**
@@ -74,9 +75,9 @@ class LugarDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nombre' => new Column(['title' => __('models/lugares.fields.nombre'), 'data' => 'nombre']),
-            'tipo' => new Column(['title' => __('models/lugares.fields.tipo'), 'data' => 'tipo']),
-            'padre_id' => new Column(['title' => __('models/lugares.fields.padre_id'), 'data' => 'padre_id'])
+            'nombre' => new Column(['title' => __('models/lugares.fields.nombre'), 'data' => 'nombre','name'=>'lugar.nombre']),
+            'tipo' => new Column(['title' => __('models/lugares.fields.tipo'), 'data' => 'tipo','name'=>'lugar.tipo','render'=> "function(){ return data=='P'? 'Pais' : data=='D'? 'Departamento' : 'Ciudad' }"]),
+            'padre_id' => new Column(['title' => __('models/lugares.fields.padre_id'), 'data' => 'nombre_padre','name'=>'padre.nombre'])
         ];
     }
 

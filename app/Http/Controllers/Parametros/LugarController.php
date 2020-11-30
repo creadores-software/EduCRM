@@ -155,8 +155,27 @@ class LugarController extends AppBaseController
      * Obtiene una lista formateada lista para ser usada en un select2
      */
     public function dataAjax(Request $request)
-    {
-        return $this->lugarRepository->infoSelect2($request->input('q', ''));
+    { 
+        $search=null;
+        $tipo=$request->input('tipo', '');
+        $term=$request->input('q', '');
+        //Si el tipo de lugar a crear no está vacio y es diferente a pais
+        if(!empty($tipo)){
+            $busqueda='';            
+            if($tipo=='D'){
+                //Si el tipo es departamento debe mostrar solo Colombia
+                $busqueda='P';  
+                $term='Colombia';  
+            }else if($tipo=='C'){
+                //Si el tipo es ciudad debe mostrar solo Departamentos
+                $busqueda='D';   
+            }else if($tipo=='P'){
+                //Los paises no deben tener padre
+                $term='noexiste';  
+            }
+            $search=['tipo'=>$busqueda];     
+        }
+        return $this->lugarRepository->infoSelect2($term,$search);
     }
 
 }
