@@ -163,7 +163,7 @@ class Contacto extends Model implements Auditable
     public function tipoDocumento()
     {
         return $this->belongsTo(\App\Models\Contactos\TipoDocumento::class, 'tipo_documento_id')
-            ->withDefault(['nombre' => '']);;
+            ->withDefault(['nombre' => '']);
     }
 
     /**

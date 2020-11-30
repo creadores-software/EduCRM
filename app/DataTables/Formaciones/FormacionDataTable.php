@@ -30,7 +30,7 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery()->with(['entidad','nivelFormacion','areaConocimiento'])->select('formacion.*');;
+        return $model->newQuery()->with(['entidad','nivelFormacion','areaConocimiento'])->select('formacion.*');
     }
 
     /**

@@ -30,7 +30,7 @@ class OcupacionDataTable extends DataTable
      */
     public function query(Ocupacion $model)
     {
-        return $model->newQuery()->with(['tipoOcupacion'])->select('ocupacion.*');;
+        return $model->newQuery()->with(['tipoOcupacion'])->select('ocupacion.*');
     }
 
     /**
