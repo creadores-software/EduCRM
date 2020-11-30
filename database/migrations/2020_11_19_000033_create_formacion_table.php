@@ -26,17 +26,17 @@ class CreateFormacionTable extends Migration
             $table->string('nombre', 150);
             $table->unsignedInteger('entidad_id');
             $table->unsignedInteger('nivel_formacion_id');
-            $table->unsignedInteger('area_conocimiento_id')->nullable();
+            $table->unsignedInteger('campo_educacion_id')->nullable();
             $table->boolean('activo')->nullable()->default('1');
 
             $table->index(["entidad_id"], 'fk_formacion_entidad_idx');
 
-            $table->index(["area_conocimiento_id"], 'fk_programa_area_conocimiento_idx');
+            $table->index(["campo_educacion_id"], 'fk_programa_campo_educacion_idx');
 
             $table->index(["nivel_formacion_id"], 'fk_programa_nivel_educativo_idx');
 
 
-            $table->foreign('area_conocimiento_id', 'fk_programa_area_conocimiento_idx')
+            $table->foreign('campo_educacion_id', 'fk_programa_campo_educacion_idx')
                 ->references('id')->on('campo_educacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -41,7 +41,7 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,Formacion,area_conocimiento_id"
+        "relation": "1tm,Formacion,campo_educacion_id"
     },
     {
         "type": "relation",

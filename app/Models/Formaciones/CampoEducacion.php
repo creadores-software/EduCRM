@@ -64,7 +64,7 @@ class CampoEducacion extends Model implements Auditable
      **/
     public function formacions()
     {
-        return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'area_conocimiento_id');
+        return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'campo_educacion_id');
     }
 
     /**

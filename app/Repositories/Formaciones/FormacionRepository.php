@@ -20,7 +20,7 @@ class FormacionRepository extends BaseRepository
         'nombre',
         'entidad_id',
         'nivel_formacion_id',
-        'area_conocimiento_id',
+        'campo_educacion_id',
         'activo'
     ];
 

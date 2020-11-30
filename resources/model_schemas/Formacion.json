@@ -48,7 +48,7 @@
         "inView": true
     },
     {
-        "name": "area_conocimiento_id",
+        "name": "campo_educacion_id",
         "dbType": "integer,false,true",
         "htmlType": null,
         "validations": "nullable|integer|nullable|integer",
@@ -77,7 +77,7 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,CampoEducacion,area_conocimiento_id"
+        "relation": "mt1,CampoEducacion,campo_educacion_id"
     },
     {
         "type": "relation",

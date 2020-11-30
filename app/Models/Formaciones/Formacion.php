@@ -18,7 +18,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string $nombre
  * @property integer $entidad_id
  * @property integer $nivel_formacion_id
- * @property integer $area_conocimiento_id
+ * @property integer $campo_educacion_id
  * @property boolean $activo
  */
 class Formacion extends Model implements Auditable
@@ -34,7 +34,7 @@ class Formacion extends Model implements Auditable
         'nombre',
         'entidad_id',
         'nivel_formacion_id',
-        'area_conocimiento_id',
+        'campo_educacion_id',
         'activo'
     ];
 
@@ -48,7 +48,7 @@ class Formacion extends Model implements Auditable
         'nombre' => 'string',
         'entidad_id' => 'integer',
         'nivel_formacion_id' => 'integer',
-        'area_conocimiento_id' => 'integer',
+        'campo_educacion_id' => 'integer',
         'activo' => 'boolean'
     ];
 
@@ -61,7 +61,7 @@ class Formacion extends Model implements Auditable
         'nombre' => 'required|string|max:150',
         'entidad_id' => 'required|integer',
         'nivel_formacion_id' => 'required|integer',
-        'area_conocimiento_id' => 'nullable|integer',
+        'campo_educacion_id' => 'nullable|integer',
         'activo' => 'nullable|boolean'
     ];
 
@@ -78,7 +78,7 @@ class Formacion extends Model implements Auditable
      **/
     public function areaConocimiento()
     {
-        return $this->belongsTo(\App\Models\Formaciones\CampoEducacion::class, 'area_conocimiento_id')
+        return $this->belongsTo(\App\Models\Formaciones\CampoEducacion::class, 'campo_educacion_id')
             ->withDefault(['nombre' => '']);
     }
 
