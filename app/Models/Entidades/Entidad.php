@@ -88,7 +88,7 @@ class Entidad extends Model implements Auditable
      **/
     public function actividadEconomica()
     {
-        return $this->belongsTo(\App\Models\E   ntidades\ActividadEconomica::class, 'actividad_economica_id')
+        return $this->belongsTo(\App\Models\Entidades\ActividadEconomica::class, 'actividad_economica_id')
             ->withDefault(['nombre' => '']);
     }
 

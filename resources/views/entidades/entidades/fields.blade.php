@@ -25,13 +25,21 @@
 <!-- Sector Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('sector_id', __('models/entidades.fields.sector_id').':') !!}
-    {!! Form::number('sector_id', null, ['class' => 'form-control']) !!}
+    <select name="sector_id" id="sector_id" class="form-control">
+        @if(!empty(old('sector_id', $entidad->sector_id ?? '' )))
+            <option value="{{ old('sector_id', $entidad->sector_id ?? '' ) }}" selected> {{ App\Models\Entidades\Sector::find(old('sector_id', $entidad->sector_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
 </div>
 
 <!-- Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id').':') !!}
-    {!! Form::number('actividad_economica_id', null, ['class' => 'form-control']) !!}
+    <select name="actividad_economica_id" id="actividad_economica_id" class="form-control">
+        @if(!empty(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' )))
+            <option value="{{ old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\ActividadEconomica::find(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
 </div>
 
 <!-- Mi Universidad Field -->
@@ -39,7 +47,7 @@
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('mi_universidad', 0) !!}
-        {!! Form::checkbox('mi_universidad', '1', null) !!} &nbsp;
+        {!! Form::checkbox('mi_universidad', '1', null) !!} Solo 1 entidad puede ser marcada de esta manera
     </label>
 </div>
 

@@ -7,7 +7,7 @@
 <!-- Lugar Id Field -->
 <div class="form-group">
     {!! Form::label('lugar_id', __('models/entidades.fields.lugar_id').':') !!}
-    <p>{{ $entidad->lugar_id }}</p>
+    <p>{{ $entidad->lugar->nombre }}</p>
 </div>
 
 <!-- Direccion Field -->
@@ -25,18 +25,18 @@
 <!-- Sector Id Field -->
 <div class="form-group">
     {!! Form::label('sector_id', __('models/entidades.fields.sector_id').':') !!}
-    <p>{{ $entidad->sector_id }}</p>
+    <p>{{ $entidad->sector->nombre }}</p>
 </div>
 
 <!-- Actividad Economica Id Field -->
 <div class="form-group">
     {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id').':') !!}
-    <p>{{ $entidad->actividad_economica_id }}</p>
+    <p>{{ $entidad->actividadEconomica->nombre }}</p>
 </div>
 
 <!-- Mi Universidad Field -->
 <div class="form-group">
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
-    <p>{{ $entidad->mi_universidad }}</p>
+    <p>{{ $entidad->mi_universidad? 'Sí': 'No' }}</p>
 </div>
 
