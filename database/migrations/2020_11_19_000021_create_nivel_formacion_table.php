@@ -24,7 +24,6 @@ class CreateNivelFormacionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 100);
-            $table->unsignedInteger('nivel_academico_id');
         });
     }
 

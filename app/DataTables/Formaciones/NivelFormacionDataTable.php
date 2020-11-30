@@ -74,8 +74,7 @@ class NivelFormacionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),
-            'nivel_academico_id' => new Column(['title' => __('models/nivelesFormacion.fields.nivel_academico_id'), 'data' => 'nivel_academico_id'])
+            'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre'])
         ];
     }
 

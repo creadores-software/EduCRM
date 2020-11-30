@@ -18,7 +18,6 @@ class NivelFormacionRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'nombre',
-        'nivel_academico_id'
     ];
 
     /**

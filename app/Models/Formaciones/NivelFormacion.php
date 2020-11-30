@@ -14,7 +14,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
  * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
  * @property string $nombre
- * @property integer $nivel_academico_id
  */
 class NivelFormacion extends Model implements Auditable
 {
@@ -27,7 +26,6 @@ class NivelFormacion extends Model implements Auditable
 
     public $fillable = [
         'nombre',
-        'nivel_academico_id'
     ];
 
     /**
@@ -38,7 +36,6 @@ class NivelFormacion extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
-        'nivel_academico_id' => 'integer'
     ];
 
     /**
@@ -48,7 +45,6 @@ class NivelFormacion extends Model implements Auditable
      */
     public static $rules = [
         'nombre' => 'required|string|max:100',
-        'nivel_academico_id' => 'required|integer'
     ];
 
     /**
