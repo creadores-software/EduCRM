@@ -8,7 +8,7 @@ return array (
     'id' => 'Id',
     'contacto_id' => 'Contacto',
     'entidad_id' => 'Entidad',
-    'ocupacion_id' => 'Ocupacion',
+    'ocupacion_id' => 'Ocupación',
     'area' => 'Area',
     'funciones' => 'Funciones',
     'telefono' => 'Teléfono',

@@ -6,7 +6,7 @@ return array (
   'fields' => 
   array (
     'id' => 'Id',
-    'informacion_relacional_id' => 'Informacion Relacional',
+    'informacion_relacional_id' => 'Información Relacional',
     'formacion_id' => 'Formación',
   ),
 );

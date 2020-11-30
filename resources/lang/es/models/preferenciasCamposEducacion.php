@@ -7,6 +7,6 @@ return array (
   array (
     'id' => 'Id',
     'campo_educacion_id' => 'Campo Educación',
-    'informacion_relacional_id' => 'Informacion Relacional',
+    'informacion_relacional_id' => 'Información Relacional',
   ),
 );
