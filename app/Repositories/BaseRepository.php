@@ -222,6 +222,7 @@ abstract class BaseRepository
         }
 
         $query->where('nombre', 'LIKE', '%'.$term.'%');
+        $query->orderBy('nombre', 'ASC');
         $coincidentes = $query->get(['id', 'nombre as text']);
         //dd(DB::getQueryLog()); 
         return ['results' => $coincidentes];
