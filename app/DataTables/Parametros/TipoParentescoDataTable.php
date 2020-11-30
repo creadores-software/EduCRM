@@ -32,7 +32,6 @@ class TipoParentescoDataTable extends DataTable
     {
         return $model::leftjoin('tipo_parentesco as contrario', 'tipo_parentesco.tipo_contrario_id', '=', 'contrario.id')
             ->select(['tipo_parentesco.id','tipo_parentesco.nombre','contrario.nombre as nombre_contrario'])->newQuery();
-        //return $model->newQuery()->with(['tipoContrario'])->select('tipo_parentesco.*');
     }
 
     /**
