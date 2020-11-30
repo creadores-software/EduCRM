@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'Generacion',
+  'singular' => 'Generación',
   'plural' => 'Generaciones',
   'fields' => 
   array (

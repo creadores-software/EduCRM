@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'EstiloVida',
+  'singular' => 'Estilo Vida',
   'plural' => 'Estilos Vida',
   'fields' => 
   array (

@@ -8,6 +8,6 @@ return array (
     'id' => 'Id',
     'nombre' => 'Nombre',
     'tipo' => 'Tipo',
-    'padre_id' => 'Padre Id',
+    'padre_id' => 'Padre',
   ),
 );

@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'Religion',
+  'singular' => 'Religión',
   'plural' => 'Religiones',
   'fields' => 
   array (

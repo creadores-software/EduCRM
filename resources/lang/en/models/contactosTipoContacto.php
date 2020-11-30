@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'singular' => 'ContactoTipoContacto',
+  'singular' => 'Contacto Tipo Contacto',
   'plural' => 'Contactos Tipo Contacto',
   'fields' => 
   array (
     'id' => 'Id',
-    'tipo_contacto_id' => 'Tipo Contacto Id',
-    'contacto_id' => 'Contacto Id',
+    'tipo_contacto_id' => 'Tipo Contacto',
+    'contacto_id' => 'Contacto',
   ),
 );

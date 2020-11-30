@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'singular' => 'ActividadEconomica',
-  'plural' => 'Actividades Economicas',
+  'singular' => 'Actividad Económica',
+  'plural' => 'Actividades Económicas',
   'fields' => 
   array (
     'id' => 'Id',
-    'categoria_actividad_economica_id' => 'Categoria Actividad Economica Id',
+    'categoria_actividad_economica_id' => 'Categoría',
     'nombre' => 'Nombre',
-    'es_ies' => 'Es Ies',
+    'es_ies' => 'Es IES',
     'es_colegio' => 'Es Colegio',
   ),
 );

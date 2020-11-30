@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'EstatusUsuario',
+  'singular' => 'Estatus Usuario',
   'plural' => 'Estatus Usuario',
   'fields' => 
   array (

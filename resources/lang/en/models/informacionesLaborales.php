@@ -1,17 +1,17 @@
 <?php
 
 return array (
-  'singular' => 'InformacionLaboral',
+  'singular' => 'Información Laboral',
   'plural' => 'Informaciones Laborales',
   'fields' => 
   array (
     'id' => 'Id',
-    'contacto_id' => 'Contacto Id',
-    'entidad_id' => 'Entidad Id',
-    'ocupacion_id' => 'Ocupacion Id',
+    'contacto_id' => 'Contacto',
+    'entidad_id' => 'Entidad',
+    'ocupacion_id' => 'Ocupación',
     'area' => 'Area',
     'funciones' => 'Funciones',
-    'telefono' => 'Telefono',
+    'telefono' => 'Teléfono',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_fin' => 'Fecha Fin',
   ),

@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'singular' => 'PreferenciaFormacion',
+  'singular' => 'Preferencia Formación',
   'plural' => 'Preferencias Formaciones',
   'fields' => 
   array (
     'id' => 'Id',
-    'informacion_relacional_id' => 'Informacion Relacional Id',
-    'formacion_id' => 'Formacion Id',
+    'informacion_relacional_id' => 'Información Relacional',
+    'formacion_id' => 'Formación',
   ),
 );

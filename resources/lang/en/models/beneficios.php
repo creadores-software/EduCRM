@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Beneficio',
-  'plural' => 'Beneficios',
+  'singular' => 'Beneficio Buscado',
+  'plural' => 'Beneficios Buscados',
   'fields' => 
   array (
     'id' => 'Id',

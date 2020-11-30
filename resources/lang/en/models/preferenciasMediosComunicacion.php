@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'singular' => 'PreferenciaMedioComunicacion',
-  'plural' => 'Preferencias Medios Comunicacion',
+  'singular' => 'Preferencia Medio Comunicación',
+  'plural' => 'Preferencias Medios Comunicación',
   'fields' => 
   array (
     'id' => 'Id',
-    'informacion_relacional_id' => 'Informacion Relacional Id',
-    'medio_comunicacion_id' => 'Medio Comunicacion Id',
+    'informacion_relacional_id' => 'Información Relacional',
+    'medio_comunicacion_id' => 'Medio Comunicación',
   ),
 );

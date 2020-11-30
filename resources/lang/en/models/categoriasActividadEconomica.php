@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'CategoriaActividadEconomica',
-  'plural' => 'Categorias Actividad Economica',
+  'singular' => 'Categoría Actividad Económica',
+  'plural' => 'Categorías Actividad Económica',
   'fields' => 
   array (
     'id' => 'Id',

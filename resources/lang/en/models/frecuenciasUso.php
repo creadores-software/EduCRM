@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'FrecuenciaUso',
+  'singular' => 'Frecuencia Uso',
   'plural' => 'Frecuencias Uso',
   'fields' => 
   array (

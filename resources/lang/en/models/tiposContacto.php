@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'TipoContacto',
+  'singular' => 'Tipo Contacto',
   'plural' => 'Tipos Contacto',
   'fields' => 
   array (

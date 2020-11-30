@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'TipoOcupacion',
-  'plural' => 'Tipos Ocupacion',
+  'singular' => 'Tipo Ocupación',
+  'plural' => 'Tipos Ocupación',
   'fields' => 
   array (
     'id' => 'Id',

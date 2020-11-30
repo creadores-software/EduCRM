@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'ActividadOcio',
+  'singular' => 'Actividad Ocio',
   'plural' => 'Actividades Ocio',
   'fields' => 
   array (

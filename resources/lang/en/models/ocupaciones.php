@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'singular' => 'Ocupacion',
+  'singular' => 'Ocupación',
   'plural' => 'Ocupaciones',
   'fields' => 
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'tipo_ocupacion_id' => 'Tipo Ocupacion Id',
+    'tipo_ocupacion_id' => 'Tipo Ocupación',
   ),
 );

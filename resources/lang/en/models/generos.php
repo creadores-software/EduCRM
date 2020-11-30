@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'Genero',
+  'singular' => 'Género',
   'plural' => 'Generos',
   'fields' => 
   array (

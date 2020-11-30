@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'EstatusLealtad',
+  'singular' => 'Estatus Lealtad',
   'plural' => 'Estatus Lealtad',
   'fields' => 
   array (
