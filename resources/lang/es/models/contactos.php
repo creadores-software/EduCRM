@@ -12,7 +12,7 @@ return array (
     'nombres' => 'Nombres',
     'apellidos' => 'Apellidos',
     'fecha_nacimiento' => 'Fecha Nacimiento',
-    'genero_id' => 'Genero',
+    'genero_id' => 'Género',
     'estado_civil_id' => 'Estado Civil',
     'celular' => 'Celular',
     'telefono' => 'Teléfono',

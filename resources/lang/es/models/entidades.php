@@ -8,10 +8,10 @@ return array (
     'id' => 'Id',
     'nombre' => 'Nombre',
     'lugar_id' => 'Lugar',
-    'direccion' => 'Direccion',
+    'direccion' => 'Dirección',
     'telefono' => 'Telefono',
     'sector_id' => 'Sector',
-    'actividad_economica_id' => 'Actividad Economica',
+    'actividad_economica_id' => 'Actividad Económica',
     'mi_universidad' => 'Mi Universidad',
   ),
 );
