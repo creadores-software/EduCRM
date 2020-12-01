@@ -227,4 +227,22 @@ abstract class BaseRepository
         //dd(DB::getQueryLog()); 
         return ['results' => $coincidentes];
     }
+
+    /**
+     * Información para select2 con términos de búsqueda 
+     * @throws \Exception
+     */
+    public function count($search=null)
+    {
+        $query = $this->model->newQuery();
+        if ($search!=null) {
+            foreach($search as $key => $value) {
+                if (in_array($key, $this->getFieldsSearchable())) {
+                    $query->where($key, $value);
+                }
+            }
+        }
+        $count = $query->count();
+        return $count;
+    }
 }
