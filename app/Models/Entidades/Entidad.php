@@ -79,7 +79,7 @@ class Entidad extends Model implements Auditable
      **/
     public function lugar()
     {
-        return $this->belongsTo(\App\Models\Entidades\Lugar::class, 'lugar_id')
+        return $this->belongsTo(\App\Models\Parametros\Lugar::class, 'lugar_id')
             ->withDefault(['nombre' => '']);
     }
 

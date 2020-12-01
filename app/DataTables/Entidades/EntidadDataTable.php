@@ -30,7 +30,8 @@ class EntidadDataTable extends DataTable
      */
     public function query(Entidad $model)
     {
-        return $model->newQuery()->with(['lugar','sector','actividadEconomica'])->select('entidad.*');
+        return $model->newQuery()->with(['lugar','sector','actividadEconomica'])
+            ->select('entidad.*');
     }
 
     /**
@@ -77,7 +78,7 @@ class EntidadDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/entidades.fields.nombre'), 'data' => 'nombre']),
             'lugar_id' => new Column(['title' => __('models/entidades.fields.lugar_id'), 'data' => 'lugar.nombre', 'name'=>'lugar.nombre']),
             'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector.nombre', 'name'=>'sector.nombre']),
-            'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actvidad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
+            'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
             'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad','render'=> "function(){ return data? 'Sí' : 'No' }"])
         ];
     }

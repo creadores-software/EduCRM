@@ -62,6 +62,14 @@
         .skin-blue-light .sidebar-menu .treeview-menu>li>a span { 
             word-wrap:break-word !important; 
         }
+
+        .location-pre:after {
+		    content: ' >> ';
+        }
+        .location-pre {
+            padding-right: 3px;
+            cursor: pointer;
+        }
     </style>
     
 </head>
