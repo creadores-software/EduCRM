@@ -4,6 +4,7 @@ namespace App\Http\Requests\Entidades;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Entidades\Entidad;
+use App\Rules\UnicaEntidadMarcada;
 
 class CreateEntidadRequest extends FormRequest
 {
@@ -25,6 +26,12 @@ class CreateEntidadRequest extends FormRequest
      */
     public function rules()
     {
-        return Entidad::$rules;
+        $rules= Entidad::$rules;
+        $rules['mi_universidad'] = [
+            'nullable',
+            'boolean',
+            new UnicaEntidadMarcada($this->request->get('id')),
+        ];
+        return $rules;
     }
 }
