@@ -11,7 +11,7 @@
 </div>
 
 <!-- Padre Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6" id="div_padre_id">
     {!! Form::label('padre_id', __('models/lugares.fields.padre_id').':') !!}
     <select name="padre_id" id="padre_id" class="form-control">
         @if(!empty(old('padre_id', $lugar->padre_id ?? '' )))
@@ -28,14 +28,20 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {           
+        $('#tipo').change(function(){
+           if($('#tipo').val()=='P'){
+                $('#div_padre_id').hide();    
+           }else{
+                $('#div_padre_id').show();    
+           }
+        }); 
+        $(document).ready(function() {  
             $('#padre_id').select2({
                 ajax: {
                     url: '{{ route("parametros.lugares.dataAjax") }}',
                     dataType: 'json',
                     data: function (params) {
-                        tipo_seleccionado = $('#tipo').val(); 
-                        console.log('El tipo seleccionado es'+tipo_seleccionado);
+                        tipo_seleccionado = $('#tipo').val();
                         return {
                             q: params.term, 
                             tipo: tipo_seleccionado,
@@ -43,6 +49,9 @@
                     },
                 },
             });
-        });
+            if($('#tipo').val()=='P'){
+                $('#div_padre_id').hide();    
+            }  
+        });        
     </script>
 @endpush
