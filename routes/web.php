@@ -41,6 +41,8 @@ Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::get('generos/dataAjax', 'Parametros\GeneroController@dataAjax')->name('parametros.generos.dataAjax');
     Route::resource('generos', 'Parametros\GeneroController', ["as" => 'parametros']);    
     Route::get('lugares/dataAjax', 'Parametros\LugarController@dataAjax')->name('parametros.lugares.dataAjax');
+    Route::get('lugares/childrenCount', 'Parametros\LugarController@childrenCount')->name('parametros.lugares.childrenCount');
+    Route::get('lugares/parents', 'Parametros\LugarController@parents')->name('parametros.lugares.parents');
     Route::resource('lugares', 'Parametros\LugarController', ["as" => 'parametros']);
     Route::get('mediosComunicacion/dataAjax', 'Parametros\MedioComunicacionController@dataAjax')->name('parametros.mediosComunicacion.dataAjax');
     Route::resource('mediosComunicacion', 'Parametros\MedioComunicacionController', ["as" => 'parametros']);

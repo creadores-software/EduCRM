@@ -159,6 +159,7 @@ class LugarController extends AppBaseController
         $search=null;
         $tipo=$request->input('tipo', '');
         $term=$request->input('q', '');
+        $padre=$request->input('padre_id', '');
         //Si el tipo de lugar a crear no está vacio y es diferente a pais
         if(!empty($tipo)){
             $busqueda='';            
@@ -174,8 +175,47 @@ class LugarController extends AppBaseController
                 $term='noexiste';  
             }
             $search=['tipo'=>$busqueda];     
+        }else if(empty($padre)){
+            //Por defecto trae pais primero
+            $search=['tipo'=>'P'];    
+        }
+        
+        if(!empty($padre)){
+            $search=['padre_id'=>$padre];      
         }
         return $this->lugarRepository->infoSelect2($term,$search);
+    }
+
+    /**
+     * Obtiene la cantidad de lugares que tienen como padre 
+     * el id seleccionado
+     */
+    public function childrenCount(Request $request)
+    { 
+        $padre=$request->input('padre_id');
+        $cantidad=0;
+        //Si el padre no está vacío
+        if(!empty($padre)){
+            $cantidad=$this->lugarRepository->count(['padre_id'=>$padre]);
+        }
+        return $cantidad;
+    }
+
+    /**
+     * Obtiene todos los padres hacia arriba del lugar seleccionado
+     */
+    public function parents(Request $request) {
+        $id=$request->input('id');
+        $lugar=$this->lugarRepository->find($id);       
+        $padres = array();
+        $padre = $lugar;
+        while ($padre != null && $padre->padre_id!=null) {
+            $padre = $padre->lugarPadre;
+            if($padre!=null){
+                $padres[] = array('id' => $padre->id, 'label' => $padre->nombre);
+            }         
+        }
+        return $padres;
     }
 
 }
