@@ -216,6 +216,42 @@
         "inView": true
     },
     {
+        "name": "informacion_relacional_id",
+        "dbType": "integer,false,true",
+        "htmlType": null,
+        "validations": "nullable|integer|nullable|integer",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "origen_id",
+        "dbType": "integer,false,true",
+        "htmlType": null,
+        "validations": "required|integer|integer",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "referido_por",
+        "dbType": "integer,false,true",
+        "htmlType": null,
+        "validations": "nullable|integer|nullable|integer",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "type": "relation",
         "relation": "mt1,Lugar,lugar_residencia"
     },
@@ -226,6 +262,14 @@
     {
         "type": "relation",
         "relation": "mt1,Genero,genero_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,InformacionRelacional,informacion_relacional_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Origen,origen_id"
     },
     {
         "type": "relation",
@@ -250,14 +294,6 @@
     {
         "type": "relation",
         "relation": "1tm,InformacionLaboral,contacto_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,InformacionRelacional,contacto_id"
-    },
-    {
-        "type": "relation",
-        "relation": "1tm,InformacionRelacional,referido_por_id"
     },
     {
         "type": "relation",

@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ContactoRepository
  * @package App\Repositories\Contactos
- * @version November 19, 2020, 10:51 pm UTC
+ * @version December 1, 2020, 10:53 pm -05
 */
 
 class ContactoRepository extends BaseRepository
@@ -33,7 +33,10 @@ class ContactoRepository extends BaseRepository
         'direccion_residencia',
         'estrato',
         'activo',
-        'observacion'
+        'observacion',
+        'informacion_relacional_id',
+        'origen_id',
+        'referido_por'
     ];
 
     /**

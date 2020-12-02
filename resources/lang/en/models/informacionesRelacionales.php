@@ -5,10 +5,7 @@ return array (
   'plural' => 'Informaciones Relacionales',
   'fields' => 
   array (
-    'id' => 'Id',
-    'contacto_id' => 'Contacto',
-    'origen_id' => 'Origen',
-    'referido_por_id' => 'Referido Por',
+    'id' => 'Id',  
     'maximo_nivel_formacion_id' => 'Máximo Nivel Formacion',
     'ocupacion_actual_id' => 'Ocupación Actual',
     'estilo_vida_id' => 'Estilo Vida',

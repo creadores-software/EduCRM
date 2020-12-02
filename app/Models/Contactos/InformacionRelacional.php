@@ -12,8 +12,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @property \App\Models\Contactos\ActitudServicio $actitudServicio
  * @property \App\Models\Contactos\Beneficio $beneficio
- * @property \App\Models\Contactos\Contacto $contacto
- * @property \App\Models\Contactos\Contacto $referidoPor
  * @property \App\Models\Contactos\EstadoDisposicion $estadoDisposicion
  * @property \App\Models\Contactos\EstatusLealtad $estatusLealtad
  * @property \App\Models\Contactos\EstatusUsuario $estatusUsuario
@@ -22,7 +20,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \App\Models\Contactos\Generacion $generacion
  * @property \App\Models\Contactos\NivelFormacion $maximoNivelFormacion
  * @property \App\Models\Contactos\Ocupacion $ocupacionActual
- * @property \App\Models\Contactos\Origen $origen
  * @property \App\Models\Contactos\Personalidad $personalidad
  * @property \App\Models\Contactos\Raza $raza
  * @property \App\Models\Contactos\Religion $religion
@@ -30,9 +27,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Database\Eloquent\Collection $preferenciaCampoEducacions
  * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormacions
  * @property \Illuminate\Database\Eloquent\Collection $preferenciaMedioComunicacions
- * @property integer $contacto_id
- * @property integer $origen_id
- * @property integer $referido_por_id
  * @property integer $maximo_nivel_formacion_id
  * @property integer $ocupacion_actual_id
  * @property integer $estilo_vida_id
@@ -58,10 +52,7 @@ class InformacionRelacional extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable;
 
-    public $fillable = [
-        'contacto_id',
-        'origen_id',
-        'referido_por_id',
+    public $fillable = [        
         'maximo_nivel_formacion_id',
         'ocupacion_actual_id',
         'estilo_vida_id',
@@ -85,10 +76,7 @@ class InformacionRelacional extends Model implements Auditable
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'contacto_id' => 'integer',
-        'origen_id' => 'integer',
-        'referido_por_id' => 'integer',
+        'id' => 'integer',       
         'maximo_nivel_formacion_id' => 'integer',
         'ocupacion_actual_id' => 'integer',
         'estilo_vida_id' => 'integer',
@@ -111,10 +99,7 @@ class InformacionRelacional extends Model implements Auditable
      *
      * @var array
      */
-    public static $rules = [
-        'contacto_id' => 'required|integer',
-        'origen_id' => 'required|integer',
-        'referido_por_id' => 'nullable|integer',
+    public static $rules = [        
         'maximo_nivel_formacion_id' => 'nullable|integer',
         'ocupacion_actual_id' => 'nullable|integer',
         'estilo_vida_id' => 'nullable|integer',
@@ -147,24 +132,6 @@ class InformacionRelacional extends Model implements Auditable
     public function beneficio()
     {
         return $this->belongsTo(\App\Models\Contactos\Beneficio::class, 'beneficio_id')
-            ->withDefault(['nombre' => '']);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function contacto()
-    {
-        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id')
-            ->withDefault(['nombre' => '']);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function referidoPor()
-    {
-        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'referido_por_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -238,16 +205,7 @@ class InformacionRelacional extends Model implements Auditable
     {
         return $this->belongsTo(\App\Models\Contactos\Ocupacion::class, 'ocupacion_actual_id')
             ->withDefault(['nombre' => '']);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function origen()
-    {
-        return $this->belongsTo(\App\Models\Contactos\Origen::class, 'origen_id')
-            ->withDefault(['nombre' => '']);
-    }
+    }s    
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

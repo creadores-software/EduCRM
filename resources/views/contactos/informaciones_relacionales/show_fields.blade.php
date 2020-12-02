@@ -1,21 +1,3 @@
-<!-- Contacto Id Field -->
-<div class="form-group">
-    {!! Form::label('contacto_id', __('models/informacionesRelacionales.fields.contacto_id').':') !!}
-    <p>{{ $informacionRelacional->contacto_id }}</p>
-</div>
-
-<!-- Origen Id Field -->
-<div class="form-group">
-    {!! Form::label('origen_id', __('models/informacionesRelacionales.fields.origen_id').':') !!}
-    <p>{{ $informacionRelacional->origen_id }}</p>
-</div>
-
-<!-- Referido Por Id Field -->
-<div class="form-group">
-    {!! Form::label('referido_por_id', __('models/informacionesRelacionales.fields.referido_por_id').':') !!}
-    <p>{{ $informacionRelacional->referido_por_id }}</p>
-</div>
-
 <!-- Maximo Nivel Formacion Id Field -->
 <div class="form-group">
     {!! Form::label('maximo_nivel_formacion_id', __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id').':') !!}

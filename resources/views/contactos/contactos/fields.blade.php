@@ -112,6 +112,24 @@
     {!! Form::text('observacion', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Informacion Relacional Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('informacion_relacional_id', __('models/contactos.fields.informacion_relacional_id').':') !!}
+    {!! Form::number('informacion_relacional_id', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Origen Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+    {!! Form::number('origen_id', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Referido Por Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
+    {!! Form::number('referido_por', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}

@@ -12,42 +12,6 @@
         "inView": false
     },
     {
-        "name": "contacto_id",
-        "dbType": "integer,false,true",
-        "htmlType": null,
-        "validations": "required|integer|integer",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "origen_id",
-        "dbType": "integer,false,true",
-        "htmlType": null,
-        "validations": "required|integer|integer",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
-        "name": "referido_por_id",
-        "dbType": "integer,false,true",
-        "htmlType": null,
-        "validations": "nullable|integer|nullable|integer",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "name": "maximo_nivel_formacion_id",
         "dbType": "integer,false,true",
         "htmlType": null,
@@ -237,14 +201,6 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Contacto,contacto_id"
-    },
-    {
-        "type": "relation",
-        "relation": "mt1,Contacto,referido_por_id"
-    },
-    {
-        "type": "relation",
         "relation": "mt1,EstadoDisposicion,estado_disposicion_id"
     },
     {
@@ -277,10 +233,6 @@
     },
     {
         "type": "relation",
-        "relation": "mt1,Origen,origen_id"
-    },
-    {
-        "type": "relation",
         "relation": "mt1,Personalidad,personalidad_id"
     },
     {
@@ -290,6 +242,10 @@
     {
         "type": "relation",
         "relation": "mt1,Religion,religion_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Contacto,informacion_relacional_id"
     },
     {
         "type": "relation",

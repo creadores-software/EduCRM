@@ -25,6 +25,6 @@
     },
     {
         "type": "relation",
-        "relation": "1tm,InformacionRelacional,origen_id"
+        "relation": "1tm,Contacto,origen_id"
     }
 ]

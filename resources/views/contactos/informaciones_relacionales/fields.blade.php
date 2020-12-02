@@ -1,21 +1,3 @@
-<!-- Contacto Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contacto_id', __('models/informacionesRelacionales.fields.contacto_id').':') !!}
-    {!! Form::number('contacto_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Origen Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('origen_id', __('models/informacionesRelacionales.fields.origen_id').':') !!}
-    {!! Form::number('origen_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Referido Por Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('referido_por_id', __('models/informacionesRelacionales.fields.referido_por_id').':') !!}
-    {!! Form::number('referido_por_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Maximo Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('maximo_nivel_formacion_id', __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id').':') !!}

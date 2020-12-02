@@ -74,9 +74,6 @@ class InformacionRelacionalDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_id' => new Column(['title' => __('models/informacionesRelacionales.fields.contacto_id'), 'data' => 'contacto_id']),
-            'origen_id' => new Column(['title' => __('models/informacionesRelacionales.fields.origen_id'), 'data' => 'origen_id']),
-            'referido_por_id' => new Column(['title' => __('models/informacionesRelacionales.fields.referido_por_id'), 'data' => 'referido_por_id']),
             'maximo_nivel_formacion_id' => new Column(['title' => __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id'), 'data' => 'maximo_nivel_formacion_id']),
             'ocupacion_actual_id' => new Column(['title' => __('models/informacionesRelacionales.fields.ocupacion_actual_id'), 'data' => 'ocupacion_actual_id']),
             'estilo_vida_id' => new Column(['title' => __('models/informacionesRelacionales.fields.estilo_vida_id'), 'data' => 'estilo_vida_id']),

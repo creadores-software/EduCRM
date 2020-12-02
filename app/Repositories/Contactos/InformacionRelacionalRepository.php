@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class InformacionRelacionalRepository
  * @package App\Repositories\Contactos
- * @version November 19, 2020, 10:52 pm UTC
+ * @version December 1, 2020, 11:01 pm -05
 */
 
 class InformacionRelacionalRepository extends BaseRepository
@@ -17,9 +17,6 @@ class InformacionRelacionalRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'contacto_id',
-        'origen_id',
-        'referido_por_id',
         'maximo_nivel_formacion_id',
         'ocupacion_actual_id',
         'estilo_vida_id',

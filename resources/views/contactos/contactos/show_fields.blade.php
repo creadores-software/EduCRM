@@ -100,3 +100,21 @@
     <p>{{ $contacto->observacion }}</p>
 </div>
 
+<!-- Informacion Relacional Id Field -->
+<div class="form-group">
+    {!! Form::label('informacion_relacional_id', __('models/contactos.fields.informacion_relacional_id').':') !!}
+    <p>{{ $contacto->informacion_relacional_id }}</p>
+</div>
+
+<!-- Origen Id Field -->
+<div class="form-group">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+    <p>{{ $contacto->origen_id }}</p>
+</div>
+
+<!-- Referido Por Field -->
+<div class="form-group">
+    {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
+    <p>{{ $contacto->referido_por }}</p>
+</div>
+

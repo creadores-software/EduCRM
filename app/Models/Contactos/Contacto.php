@@ -8,21 +8,21 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * Class Contacto
  * @package App\Models\Contactos
- * @version November 19, 2020, 10:51 pm UTC
+ * @version December 1, 2020, 10:53 pm -05
  *
  * @property \App\Models\Contactos\Lugar $lugarResidencia
  * @property \App\Models\Contactos\EstadoCivil $estadoCivil
  * @property \App\Models\Contactos\Genero $genero
+ * @property \App\Models\Contactos\InformacionRelacional $informacionRelacional
+ * @property \App\Models\Contactos\Origen $origen
  * @property \App\Models\Contactos\Prefijo $prefijo
  * @property \App\Models\Contactos\TipoDocumento $tipoDocumento
  * @property \Illuminate\Database\Eloquent\Collection $contactoTipoContactos
  * @property \Illuminate\Database\Eloquent\Collection $informacionAcademicas
  * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
  * @property \Illuminate\Database\Eloquent\Collection $informacionLaborals
- * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
- * @property \Illuminate\Database\Eloquent\Collection $informacionRelacional1s
- * @property \Illuminate\Database\Eloquent\Collection $parentescos
- * @property \Illuminate\Database\Eloquent\Collection $parentesco2s
+ * @property \Illuminate\Database\Eloquent\Collection $parentescosDestino
+ * @property \Illuminate\Database\Eloquent\Collection $parentescosOrigen
  * @property integer $tipo_documento_id
  * @property string $identificacion
  * @property integer $prefijo_id
@@ -40,6 +40,9 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $estrato
  * @property boolean $activo
  * @property string $observacion
+ * @property integer $informacion_relacional_id
+ * @property integer $origen_id
+ * @property integer $referido_por
  */
 class Contacto extends Model implements Auditable
 {
@@ -49,6 +52,7 @@ class Contacto extends Model implements Auditable
     public $timestamps = false;
 
     use \OwenIt\Auditing\Auditable;
+
 
     public $fillable = [
         'tipo_documento_id',
@@ -67,7 +71,10 @@ class Contacto extends Model implements Auditable
         'direccion_residencia',
         'estrato',
         'activo',
-        'observacion'
+        'observacion',
+        'informacion_relacional_id',
+        'origen_id',
+        'referido_por'
     ];
 
     /**
@@ -93,7 +100,10 @@ class Contacto extends Model implements Auditable
         'direccion_residencia' => 'string',
         'estrato' => 'integer',
         'activo' => 'boolean',
-        'observacion' => 'string'
+        'observacion' => 'string',
+        'informacion_relacional_id' => 'integer',
+        'origen_id' => 'integer',
+        'referido_por' => 'integer'
     ];
 
     /**
@@ -118,7 +128,10 @@ class Contacto extends Model implements Auditable
         'direccion_residencia' => 'nullable|string|max:200',
         'estrato' => 'nullable|integer',
         'activo' => 'nullable|boolean',
-        'observacion' => 'nullable|string|max:255'
+        'observacion' => 'nullable|string|max:255',
+        'informacion_relacional_id' => 'nullable|integer',
+        'origen_id' => 'required|integer',
+        'referido_por' => 'nullable|integer'
     ];
 
     /**
@@ -145,6 +158,23 @@ class Contacto extends Model implements Auditable
     public function genero()
     {
         return $this->belongsTo(\App\Models\Contactos\Genero::class, 'genero_id')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function informacionRelacional()
+    {
+        return $this->belongsTo(\App\Models\Contactos\InformacionRelacional::class, 'informacion_relacional_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function origen()
+    {
+        return $this->belongsTo(\App\Models\Contactos\Origen::class, 'origen_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -201,23 +231,7 @@ class Contacto extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionRelacionals()
-    {
-        return $this->hasMany(\App\Models\Contactos\InformacionRelacional::class, 'contacto_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function informacionRelacional1s()
-    {
-        return $this->hasMany(\App\Models\Contactos\InformacionRelacional::class, 'referido_por_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function parentescos()
+    public function parentescosDestino()
     {
         return $this->hasMany(\App\Models\Contactos\Parentesco::class, 'contacto_destino');
     }
@@ -225,7 +239,7 @@ class Contacto extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function parentesco2s()
+    public function parentescosOrigen()
     {
         return $this->hasMany(\App\Models\Contactos\Parentesco::class, 'contacto_origen');
     }

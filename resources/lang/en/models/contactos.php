@@ -23,5 +23,8 @@ return array (
     'estrato' => 'Estrato',
     'activo' => 'Activo',
     'observacion' => 'Observación',
+    'informacion_relacional_id' => 'Información Relacional',
+    'origen_id' => 'Origen',
+    'referido_por' => 'Referido Por',
   ),
 );

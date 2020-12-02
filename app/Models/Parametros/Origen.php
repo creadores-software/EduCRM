@@ -48,8 +48,8 @@ class Origen extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionRelacionals()
+    public function contactos()
     {
-        return $this->hasMany(\App\Models\Parametros\InformacionRelacional::class, 'origen_id');
+        return $this->hasMany(\App\Models\Parametros\Contacto::class, 'origen_id');
     }
 }
