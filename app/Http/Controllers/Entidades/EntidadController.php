@@ -156,6 +156,19 @@ class EntidadController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->entidadRepository->infoSelect2($request->input('q', ''));
+        $search=null;
+        $term=$request->input('q', '');
+        $join=[];
+        $es_ies=$request->input('es_ies');
+        $es_colegio=$request->input('es_colegio');
+        if($es_ies!=null){
+            $search=['actividad_economica.es_ies'=>$es_ies];    
+            $join=['actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'];
+        }else if($es_colegio!=null){
+            $search=['actividad_economica.es_colegio'=>$es_colegio];    
+            $join=['actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'];
+        }
+        
+        return $this->entidadRepository->infoSelect2($term,$search, $join);
     }
 }
