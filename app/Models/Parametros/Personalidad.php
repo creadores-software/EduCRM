@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @package App\Models\Parametros
  * @version November 19, 2020, 10:53 pm UTC
  *
- * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
+ * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionales
  * @property string $nombre
  */
 class Personalidad extends Model implements Auditable
@@ -48,7 +48,7 @@ class Personalidad extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionRelacionals()
+    public function informacionRelacionales()
     {
         return $this->hasMany(\App\Models\Parametros\InformacionRelacional::class, 'personalidad_id');
     }

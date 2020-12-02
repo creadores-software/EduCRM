@@ -14,8 +14,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \App\Models\Entidades\ActividadEconomica $actividadEconomica
  * @property \App\Models\Entidades\Sector $sector
  * @property \Illuminate\Database\Eloquent\Collection $formacions
- * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
- * @property \Illuminate\Database\Eloquent\Collection $informacionLaborals
+ * @property \Illuminate\Database\Eloquent\Collection $informacionEscolares
+ * @property \Illuminate\Database\Eloquent\Collection $informacionLaborales
  * @property string $nombre
  * @property integer $lugar_id
  * @property string $direccion
@@ -112,7 +112,7 @@ class Entidad extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionEscolars()
+    public function informacionEscolares()
     {
         return $this->hasMany(\App\Models\Entidades\InformacionEscolar::class, 'entidad_id');
     }
@@ -120,7 +120,7 @@ class Entidad extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionLaborals()
+    public function informacionLaborales()
     {
         return $this->hasMany(\App\Models\Entidades\InformacionLaboral::class, 'entidad_id');
     }

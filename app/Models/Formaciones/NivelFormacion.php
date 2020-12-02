@@ -11,8 +11,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @version December 1, 2020, 9:41 pm -05
  *
  * @property \Illuminate\Database\Eloquent\Collection $formacions
- * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
- * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
+ * @property \Illuminate\Database\Eloquent\Collection $informacionEscolares
+ * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionales
  * @property string $nombre
  * @property boolean $es_ies
  */
@@ -63,7 +63,7 @@ class NivelFormacion extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionEscolars()
+    public function informacionEscolares()
     {
         return $this->hasMany(\App\Models\Formaciones\InformacionEscolar::class, 'nivel_educativo_id');
     }
@@ -71,7 +71,7 @@ class NivelFormacion extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionRelacionals()
+    public function informacionRelacionales()
     {
         return $this->hasMany(\App\Models\Formaciones\InformacionRelacional::class, 'maximo_nivel_formacion_id');
     }
