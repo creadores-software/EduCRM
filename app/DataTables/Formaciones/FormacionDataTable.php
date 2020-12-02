@@ -30,7 +30,7 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery()->with(['entidad','nivelFormacion','areaConocimiento'])->select('formacion.*');
+        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion'])->select('formacion.*');
     }
 
     /**
@@ -77,7 +77,7 @@ class FormacionDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/formaciones.fields.nombre'), 'data' => 'nombre']),
             'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name'=>'entidad.nombre']),
             'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name'=>'nivelFormacion.nombre']),
-            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'area_conocimiento.nombre', 'name'=>'areaConocimiento.nombre']),
+            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre', 'name'=>'campoEducacion.nombre']),
             'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo','render'=> "function(){ return data? 'Sí' : 'No' }"])
         ];
     }

@@ -10,8 +10,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @package App\Models\Formaciones
  * @version November 19, 2020, 10:52 pm UTC
  *
- * @property \App\Models\Formaciones\Entidad $entidad
- * @property \App\Models\Formaciones\CampoEducacion $areaConocimiento
+ * @property \App\Models\Entidades\Entidad $entidad
+ * @property \App\Models\Formaciones\CampoEducacion $campoEducacion
  * @property \App\Models\Formaciones\NivelFormacion $nivelFormacion
  * @property \Illuminate\Database\Eloquent\Collection $informacionAcademicas
  * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormacions
@@ -70,13 +70,13 @@ class Formacion extends Model implements Auditable
      **/
     public function entidad()
     {
-        return $this->belongsTo(\App\Models\Formaciones\Entidad::class, 'entidad_id');
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
-    public function areaConocimiento()
+    public function campoEducacion()
     {
         return $this->belongsTo(\App\Models\Formaciones\CampoEducacion::class, 'campo_educacion_id')
             ->withDefault(['nombre' => '']);
@@ -87,7 +87,8 @@ class Formacion extends Model implements Auditable
      **/
     public function nivelFormacion()
     {
-        return $this->belongsTo(\App\Models\Formaciones\NivelFormacion::class, 'nivel_formacion_id');
+        return $this->belongsTo(\App\Models\Formaciones\NivelFormacion::class, 'nivel_formacion_id')
+            ->withDefault(['nombre' => '']);;
     }
 
     /**

@@ -29,7 +29,7 @@
     {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id').':') !!}
     <select name="campo_educacion_id" id="campo_educacion_id" class="form-control">
         @if(!empty(old('campo_educacion_id', $formacion->campo_educacion_id ?? '' )))
-            <option value="{{ old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\AreaConocimiento::find(old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ))->nombre }} </option>
+            <option value="{{ old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\CampoEducacion::find(old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ))->nombre }} </option>
         @endif
     </select>  
 </div>
@@ -56,12 +56,24 @@
                 ajax: {
                     url: '{{ route("entidades.entidades.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            es_ies: 1,
+                        };
+                    },
                 },
             });
             $('#nivel_formacion_id').select2({
                 ajax: {
                     url: '{{ route("formaciones.nivelesFormacion.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            es_ies: 1,
+                        };
+                    },
                 },
             });
             $('#campo_educacion_id').select2({
