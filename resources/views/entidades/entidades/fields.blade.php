@@ -93,8 +93,7 @@
         });
 
         $(document).on('change', '#mi_universidad', function(e){
-            $('#mi_universidad').
-            if(seleccionado && seleccionado[0]){
+           if(seleccionado && seleccionado[0]){
                 id_seleccionado=seleccionado[0].id;
                 texto_seleccionado=seleccionado[0].text; 
             }  
