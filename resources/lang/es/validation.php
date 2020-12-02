@@ -170,7 +170,7 @@ return [
         'generacion_id' => 'Generación',
         'genero_id' => 'Genero',
         'informacion_relacional_id' => 'Información Relacional',
-        'lugar_id' => 'Lugar',
+        'lugar_id' => 'Ubicación',
         'maximo_nivel_formacion_id' => 'Máximo Nivel Formacion',
         'medio_comunicacion_id' => 'Medio Comunicación',
         'nivel_educativo_id' => 'Nivel Educativo',

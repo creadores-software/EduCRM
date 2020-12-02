@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Lugar',
-  'plural' => 'Lugares',
+  'singular' => 'Ubicación',
+  'plural' => 'Ubicaciones',
   'fields' => 
   array (
     'id' => 'Id',

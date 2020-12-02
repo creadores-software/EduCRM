@@ -18,7 +18,7 @@ return array (
     'telefono' => 'Teléfono',
     'correo_personal' => 'Correo Personal',
     'correo_institucional' => 'Correo Institucional',
-    'lugar_residencia' => 'Lugar Residencia',
+    'lugar_residencia' => 'Ubicación Residencia',
     'direccion_residencia' => 'Dirección Residencia',
     'estrato' => 'Estrato',
     'activo' => 'Activo',

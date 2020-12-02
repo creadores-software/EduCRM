@@ -7,7 +7,7 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'lugar_id' => 'Lugar',
+    'lugar_id' => 'Ubicación',
     'direccion' => 'Dirección',
     'telefono' => 'Telefono',
     'sector_id' => 'Sector',
