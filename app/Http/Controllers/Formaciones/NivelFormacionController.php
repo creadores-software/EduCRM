@@ -156,6 +156,12 @@ class NivelFormacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->nivelFormacionRepository->infoSelect2($request->input('q', ''));
+        $search=null;
+        $es_ies=$request->input('es_ies');
+        $term=$request->input('q', '');
+        if($es_ies!=null){
+            $search=['es_ies'=>$es_ies];     
+        }
+        return $this->nivelFormacionRepository->infoSelect2($term,$search);
     }
 }

@@ -8,12 +8,13 @@ use OwenIt\Auditing\Contracts\Auditable;
 /**
  * Class NivelFormacion
  * @package App\Models\Formaciones
- * @version November 19, 2020, 10:53 pm UTC
+ * @version December 1, 2020, 9:41 pm -05
  *
  * @property \Illuminate\Database\Eloquent\Collection $formacions
  * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
  * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
  * @property string $nombre
+ * @property boolean $es_ies
  */
 class NivelFormacion extends Model implements Auditable
 {
@@ -24,8 +25,10 @@ class NivelFormacion extends Model implements Auditable
 
     use \OwenIt\Auditing\Auditable;
 
+
     public $fillable = [
         'nombre',
+        'es_ies'
     ];
 
     /**
@@ -36,6 +39,7 @@ class NivelFormacion extends Model implements Auditable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
+        'es_ies' => 'boolean'
     ];
 
     /**
@@ -45,6 +49,7 @@ class NivelFormacion extends Model implements Auditable
      */
     public static $rules = [
         'nombre' => 'required|string|max:100',
+        'es_ies' => 'nullable|boolean'
     ];
 
     /**

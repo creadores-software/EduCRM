@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class NivelFormacionRepository
  * @package App\Repositories\Formaciones
- * @version November 19, 2020, 10:53 pm UTC
+ * @version December 1, 2020, 9:41 pm -05
 */
 
 class NivelFormacionRepository extends BaseRepository
@@ -18,6 +18,7 @@ class NivelFormacionRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'nombre',
+        'es_ies'
     ];
 
     /**

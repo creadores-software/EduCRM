@@ -7,5 +7,6 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
+    'es_ies' => 'Es IES',
   ),
 );

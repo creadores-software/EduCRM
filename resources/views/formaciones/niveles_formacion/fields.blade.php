@@ -4,6 +4,15 @@
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Es Ies Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('es_ies', __('models/nivelesFormacion.fields.es_ies').':') !!}
+    <label class="checkbox-inline">
+        {!! Form::hidden('es_ies', 0) !!}
+        {!! Form::checkbox('es_ies', '1', null) !!} ¿Es un nivel relacionado con IES?
+    </label>
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
