@@ -208,22 +208,24 @@ abstract class BaseRepository
      * Información para select2 con términos de búsqueda 
      * @throws \Exception
      */
-    public function infoSelect2($term,$search=null)
+    public function infoSelect2($term,$search=null,$join=[])
     {
         //DB::enableQueryLog();
         $query = $this->model->newQuery();
 
+        if(!empty($join)){
+            $query->join($join[0],$join[1],$join[2],$join[3]);    
+        }
+
         if ($search!=null) {
             foreach($search as $key => $value) {
-                if (in_array($key, $this->getFieldsSearchable())) {
-                    $query->where($key, $value);
-                }
+                $query->where($key, $value);
             }
         }
 
-        $query->where('nombre', 'LIKE', '%'.$term.'%');
-        $query->orderBy('nombre', 'ASC');
-        $coincidentes = $query->get(['id', 'nombre as text']);
+        $query->where($this->model->table.'.nombre', 'LIKE', '%'.$term.'%');
+        $query->orderBy($this->model->table.'.nombre', 'ASC');
+        $coincidentes = $query->get([$this->model->table.'.id', $this->model->table.'.nombre as text']);
         //dd(DB::getQueryLog()); 
         return ['results' => $coincidentes];
     }
