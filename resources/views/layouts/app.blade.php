@@ -70,6 +70,11 @@
             padding-right: 3px;
             cursor: pointer;
         }
+
+        tfoot input {
+            width: 100%;
+            font-weight: normal;
+        }
     </style>
     
 </head>
