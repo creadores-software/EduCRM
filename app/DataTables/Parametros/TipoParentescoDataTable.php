@@ -56,6 +56,11 @@ class TipoParentescoDataTable extends DataTable
                        'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
                     ],
                     [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
+                    ],
+                    [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
@@ -64,6 +69,16 @@ class TipoParentescoDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(2)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -76,7 +91,8 @@ class TipoParentescoDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/tiposParentesco.fields.nombre'), 'data' => 'nombre','name'=>'tipo_parentesco.nombre']),
-            'tipo_contrario_id' => new Column(['title' => __('models/tiposParentesco.fields.tipo_contrario_id'), 'data' => 'nombre_contrario','name'=>'contrario.nombre'])
+            'tipo_contrario_id' => new Column(['title' => __('models/tiposParentesco.fields.tipo_contrario_id'), 'data' => 'nombre_contrario','name'=>'contrario.nombre']),
+            'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
 

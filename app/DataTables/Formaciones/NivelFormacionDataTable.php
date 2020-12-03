@@ -55,6 +55,11 @@ class NivelFormacionDataTable extends DataTable
                        'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
                     ],
                     [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
+                    ],
+                    [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
@@ -63,6 +68,16 @@ class NivelFormacionDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(3)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -75,7 +90,8 @@ class NivelFormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),
-            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Sí' : 'No' }"])
+            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
 

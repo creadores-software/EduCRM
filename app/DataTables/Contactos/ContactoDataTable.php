@@ -19,7 +19,8 @@ class ContactoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'contactos.contactos.datatables_actions');
+        return 
+        $dataTable->addColumn('action', 'contactos.contactos.datatables_actions');
     }
 
     /**
@@ -55,6 +56,11 @@ class ContactoDataTable extends DataTable
                        'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
                     ],
                     [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
+                    ],
+                    [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
@@ -63,6 +69,16 @@ class ContactoDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(8)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -74,26 +90,27 @@ class ContactoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'tipo_documento_id' => new Column(['title' => __('models/contactos.fields.tipo_documento_id'), 'data' => 'tipo_documento_id']),
+            //'tipo_documento_id' => new Column(['title' => __('models/contactos.fields.tipo_documento_id'), 'data' => 'tipo_documento_id']),
             'identificacion' => new Column(['title' => __('models/contactos.fields.identificacion'), 'data' => 'identificacion']),
-            'prefijo_id' => new Column(['title' => __('models/contactos.fields.prefijo_id'), 'data' => 'prefijo_id']),
+            //'prefijo_id' => new Column(['title' => __('models/contactos.fields.prefijo_id'), 'data' => 'prefijo_id']),
             'nombres' => new Column(['title' => __('models/contactos.fields.nombres'), 'data' => 'nombres']),
             'apellidos' => new Column(['title' => __('models/contactos.fields.apellidos'), 'data' => 'apellidos']),
-            'fecha_nacimiento' => new Column(['title' => __('models/contactos.fields.fecha_nacimiento'), 'data' => 'fecha_nacimiento']),
-            'genero_id' => new Column(['title' => __('models/contactos.fields.genero_id'), 'data' => 'genero_id']),
-            'estado_civil_id' => new Column(['title' => __('models/contactos.fields.estado_civil_id'), 'data' => 'estado_civil_id']),
+            //'fecha_nacimiento' => new Column(['title' => __('models/contactos.fields.fecha_nacimiento'), 'data' => 'fecha_nacimiento']),
+            //'genero_id' => new Column(['title' => __('models/contactos.fields.genero_id'), 'data' => 'genero_id']),
+            //'estado_civil_id' => new Column(['title' => __('models/contactos.fields.estado_civil_id'), 'data' => 'estado_civil_id']),
             'celular' => new Column(['title' => __('models/contactos.fields.celular'), 'data' => 'celular']),
             'telefono' => new Column(['title' => __('models/contactos.fields.telefono'), 'data' => 'telefono']),
             'correo_personal' => new Column(['title' => __('models/contactos.fields.correo_personal'), 'data' => 'correo_personal']),
-            'correo_institucional' => new Column(['title' => __('models/contactos.fields.correo_institucional'), 'data' => 'correo_institucional']),
-            'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'), 'data' => 'lugar_residencia']),
-            'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia']),
-            'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato']),
-            'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo']),
-            'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion']),
-            'informacion_relacional_id' => new Column(['title' => __('models/contactos.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id']),
-            'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen_id']),
-            'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por'])
+            //'correo_institucional' => new Column(['title' => __('models/contactos.fields.correo_institucional'), 'data' => 'correo_institucional']),
+            //'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'), 'data' => 'lugar_residencia']),
+            //'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia']),
+            //'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato']),
+            'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo', 'render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            //'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion']),
+            //'informacion_relacional_id' => new Column(['title' => __('models/contactos.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id']),
+            //'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen_id']),
+            //'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por'])
+            'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
 
