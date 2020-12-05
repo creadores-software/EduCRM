@@ -24,22 +24,38 @@
 
 
 <!-- Origen Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6" id="div_origen">
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
-    {!! Form::number('origen_id', null, ['class' => 'form-control']) !!}
+    <select name="origen_id" id="origen_id" class="form-control">
+        @if(!empty(old('origen_id', $contacto->origen_id ?? '' )))
+            <option value="{{ old('origen_id', $contacto->origen_id ?? '' ) }}" selected> {{ App\Models\Parametros\Origen::find(old('origen_id', $contacto->origen_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Referido Por Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6" id="div_referido">
     {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
-    {!! Form::number('referido_por', null, ['class' => 'form-control']) !!}
+    <select name="referido_por" id="referido_por" class="form-control">
+        @if(!empty(old('referido_por', $contacto->referido_por ?? '' )))
+            <option value="{{ old('referido_por', $contacto->referido_por ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('referido_por', $contacto->referido_por ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
+
+<br/><br/>
+
+<h2 class="page-header" style="padding-left: 20px">Campos Opcionales</h2>
 
 
 <!-- Tipo Documento Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('tipo_documento_id', __('models/contactos.fields.tipo_documento_id').':') !!}
-    {!! Form::number('tipo_documento_id', null, ['class' => 'form-control']) !!}
+    <select name="tipo_documento_id" id="tipo_documento_id" class="form-control">
+        @if(!empty(old('tipo_documento_id', $contacto->tipo_documento_id ?? '' )))
+            <option value="{{ old('tipo_documento_id', $contacto->tipo_documento_id ?? '' ) }}" selected> {{ App\Models\Parametros\TipoDocumento::find(old('tipo_documento_id', $contacto->tipo_documento_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Identificacion Field -->
@@ -64,15 +80,22 @@
 <!-- Genero Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('genero_id', __('models/contactos.fields.genero_id').':') !!}
-    {!! Form::number('genero_id', null, ['class' => 'form-control']) !!}
+    <select name="genero_id" id="genero_id" class="form-control">
+        @if(!empty(old('genero_id', $contacto->genero_id ?? '' )))
+            <option value="{{ old('genero_id', $contacto->genero_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('genero_id', $contacto->genero_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Prefijo Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id').':') !!}
-    {!! Form::number('prefijo_id', null, ['class' => 'form-control']) !!}
+    <select name="prefijo_id" id="prefijo_id" class="form-control">
+        @if(!empty(old('prefijo_id', $contacto->prefijo_id ?? '' )))
+            <option value="{{ old('prefijo_id', $contacto->prefijo_id ?? '' ) }}" selected> {{ App\Models\Parametros\Prefijo::find(old('prefijo_id', $contacto->prefijo_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
-
 
 
 <!-- Fecha Nacimiento Field -->
@@ -85,13 +108,11 @@
 <!-- Estado Civil Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estado_civil_id', __('models/contactos.fields.estado_civil_id').':') !!}
-    {!! Form::number('estado_civil_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Lugar Residencia Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
-    {!! Form::number('lugar_residencia', null, ['class' => 'form-control']) !!}
+    <select name="estado_civil_id" id="estado_civil_id" class="form-control">
+        @if(!empty(old('estado_civil_id', $contacto->estado_civil_id ?? '' )))
+            <option value="{{ old('estado_civil_id', $contacto->estado_civil_id ?? '' ) }}" selected> {{ App\Models\Parametros\EstadoCivil::find(old('estado_civil_id', $contacto->estado_civil_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Direccion Residencia Field -->
@@ -103,7 +124,18 @@
 <!-- Estrato Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estrato', __('models/contactos.fields.estrato').':') !!}
-    {!! Form::number('estrato', null, ['class' => 'form-control']) !!}
+    {!! Form::select('estrato',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6], old('estrato'), ['class' => 'form-control']) !!}
+</div>
+
+<!-- Lugar Residencia Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
+    <select name="lugar_residencia" id="lugar_residencia" class="form-control">
+        @if(!empty(old('lugar_residencia', $contacto->lugar_residencia ?? '' )))
+            <option value="{{ old('lugar_residencia', $contacto->lugar_residencia ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('lugar_residencia', $contacto->lugar_residencia ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+    <small>Seleccionar primero el pais, luego el departamento y por último la ciudad.<br/> Para el exterior solo es necesario el pais</small>
 </div>
 
 <!-- Observacion Field -->
@@ -131,8 +163,132 @@
 @push('scripts')
     <script type="text/javascript">
         $('#fecha_nacimiento').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
+            format: 'YYYY-MM-DD',
             useCurrent: false
-        })
+        });
+        $('#origen_id').change(function(){
+            var seleccionado=$('#origen_id').select2('data');
+            if(seleccionado && seleccionado[0] && seleccionado[0].text=='Referido'){
+                $('#div_referido').show();  
+                $('#div_origen').removeClass('col-sm-12');  
+                $('#div_origen').addClass('col-sm-6');  
+            }else{
+                $('#div_referido').hide(); 
+                $('#div_origen').removeClass('col-sm-6');  
+                $('#div_origen').addClass('col-sm-12');     
+            }
+        }); 
+        $(document).ready(function() { 
+            $('#origen_id').select2({
+                ajax: {
+                    url: '{{ route("parametros.origenes.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });  
+            $('#referido_por').select2({
+                ajax: {
+                    url: '{{ route("contactos.contactos.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });    
+            $('#tipo_documento_id').select2({
+                ajax: {
+                    url: '{{ route("parametros.tiposDocumento.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });       
+            $('#genero_id').select2({
+                ajax: {
+                    url: '{{ route("parametros.generos.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });   
+            $('#prefijo_id').select2({
+                ajax: {
+                    url: '{{ route("parametros.prefijos.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {
+                        genero_seleccionado = $('#genero_id').val();
+                        return {
+                            q: params.term, 
+                            genero: genero_seleccionado,
+                        };
+                    },
+                },
+            });  
+            $('#estado_civil_id').select2({
+                ajax: {
+                    url: '{{ route("parametros.estadosCiviles.dataAjax") }}',
+                    dataType: 'json',
+                },
+            }); 
+            $('#lugar_residencia').select2({
+                ajax: {
+                    url: '{{ route("parametros.lugares.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            padre_id: $('#lugar_residencia').attr('data-id'),
+                        };
+                    },
+                },
+            }); 
+            var seleccionado=$('#origen_id').select2('data');
+            if(!seleccionado || !seleccionado[0] || seleccionado[0].text!='Referido'){
+                $('#div_referido').hide(); 
+                $('#div_origen').removeClass('col-sm-6');  
+                $('#div_origen').addClass('col-sm-12');   
+            }           
+        });
+
+        //Métodos relacionados con la actualización en el select de lugar
+        $(document).on('change', '#lugar_residencia', function(e){
+            var th = $('#lugar_residencia');
+            var seleccionado=th.select2('data');
+            var id_seleccionado=null;
+            var texto_seleccionado=''; 
+            if(seleccionado && seleccionado[0]){
+                id_seleccionado=seleccionado[0].id;
+                texto_seleccionado=seleccionado[0].text; 
+            }                  
+            $.ajax({
+                url:'{{ route("parametros.lugares.childrenCount",["padre_id"=>"_pid_"]) }}'.replace("_pid_",id_seleccionado),
+                dataType: 'json',               
+                success: function(data) {
+                    if (parseInt(data) > 0) {
+                        addLocationPreTag(th, th.attr('data-id'),texto_seleccionado);                        
+                        th.attr('data-id', id_seleccionado);
+                        $('#lugar_residencia').val('').trigger('change');
+                    }
+                }
+            });
+        });
+        $(document).on('click', 'a.location-pre', function(e){
+            $(this).parent().children('#lugar_residencia').attr('data-id', $(this).attr('data-id'));
+            $(this).parent().children('#lugar_residencia').select2('val','');
+            $(this).nextUntil('div.location-select', 'a.location-pre').remove();
+            $(this).remove();
+        });
+        function addLocationPreTag(input, id, label) {
+            input.prev().before('<a class=\"location-pre\" data-id=\"'+(id||'')+'\">'+label+'</a>');
+        }
+        $('#lugar_residencia').each(function(){
+            var th = $('#lugar_residencia');
+            $.ajax({
+                url: '{{ route("parametros.lugares.parents",["id"=>"_pid_"]) }}'.replace("_pid_",th.val()),
+                'dataType':'json',
+                'success': function(data) {
+                    if (Array.isArray(data) && data.length > 0) {
+                        var lastId = '';
+                        for (var i = 0; i < data.length; i++) {
+                            addLocationPreTag(th, lastId, data[i].label);
+                            lastId = data[i].id;
+                            th.attr('data-id', lastId);
+                        }
+                    }
+                }
+            });
+        });
     </script>
 @endpush

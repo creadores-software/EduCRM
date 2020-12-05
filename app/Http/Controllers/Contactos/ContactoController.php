@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Contactos;
 
 use App\DataTables\Contactos\ContactoDataTable;
+use App\Models\Contactos\Contacto;
 use App\Http\Requests\Contactos\CreateContactoRequest;
 use App\Http\Requests\Contactos\UpdateContactoRequest;
 use App\Repositories\Contactos\ContactoRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Response;
 use Flash;
 
@@ -154,7 +156,19 @@ class ContactoController extends AppBaseController
      * Obtiene una lista formateada lista para ser usada en un select2
      */
     public function dataAjax(Request $request)
-    {
-        return $this->contactoRepository->infoSelect2($request->input('q', ''));
+    {        
+        $term=$request->input('q', '');        
+        $model = new Contacto();        
+        $query = $model->newQuery();
+
+        $concat_alias= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', COALESCE(identificacion,'')) as text");
+        $concat= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', COALESCE(identificacion,''))");
+
+        $query->select('id',$concat_alias);
+        $query->where($concat, 'LIKE', '%'.$term.'%');
+        $query->orderBy('text', 'ASC');        
+        $coincidentes = $query->get();
+
+        return ['results' => $coincidentes];
     }
 }
