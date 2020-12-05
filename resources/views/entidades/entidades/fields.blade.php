@@ -90,26 +90,7 @@
                     dataType: 'json',
                 },
             });
-        });
-
-        $(document).on('change', '#mi_universidad', function(e){
-           if(seleccionado && seleccionado[0]){
-                id_seleccionado=seleccionado[0].id;
-                texto_seleccionado=seleccionado[0].text; 
-            }  
-            th.attr('data-id', id_seleccionado);                
-            $.ajax({
-                url:'{{ route("parametros.lugares.childrenCount",["padre_id"=>"_pid_"]) }}'.replace("_pid_",id_seleccionado),
-                dataType: 'json',               
-                success: function(data) {
-                    if (parseInt(data) > 0) {
-                        addLocationPreTag(th, th.attr('data-id'),texto_seleccionado);                        
-                        
-                        $('#lugar_id').val('').trigger('change');
-                    }
-                }
-            });
-        });
+        });       
 
         //Métodos relacionados con la actualización en el select de lugar
         $(document).on('change', '#lugar_id', function(e){
