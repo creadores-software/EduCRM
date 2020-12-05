@@ -25,8 +25,13 @@ class UpdateReligionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Religion::$rules;
-        
+        $rules= Religion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:religion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

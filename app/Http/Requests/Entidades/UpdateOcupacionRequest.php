@@ -25,8 +25,13 @@ class UpdateOcupacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Ocupacion::$rules;
-        
+        $rules= Ocupacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            'iunique:ocupacion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

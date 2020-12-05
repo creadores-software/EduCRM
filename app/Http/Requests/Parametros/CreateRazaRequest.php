@@ -25,6 +25,13 @@ class CreateRazaRequest extends FormRequest
      */
     public function rules()
     {
-        return Raza::$rules;
+        $rules= Raza::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:raza,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

@@ -25,6 +25,13 @@ class CreateEstadoDisposicionRequest extends FormRequest
      */
     public function rules()
     {
-        return EstadoDisposicion::$rules;
+        $rules= EstadoDisposicion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estado_disposicion,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

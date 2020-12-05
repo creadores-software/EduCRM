@@ -25,6 +25,13 @@ class CreateCategoriaCampoEducacionRequest extends FormRequest
      */
     public function rules()
     {
-        return CategoriaCampoEducacion::$rules;
+        $rules= CategoriaCampoEducacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            'iunique:categoria_campo_educacion,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

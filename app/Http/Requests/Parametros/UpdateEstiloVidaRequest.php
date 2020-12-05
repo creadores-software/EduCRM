@@ -25,8 +25,13 @@ class UpdateEstiloVidaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = EstiloVida::$rules;
-        
+        $rules= EstiloVida::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estilo_vida,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

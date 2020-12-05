@@ -25,8 +25,13 @@ class UpdateMedioComunicacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = MedioComunicacion::$rules;
-        
+        $rules= MedioComunicacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:medio_comunicacion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

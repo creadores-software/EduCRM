@@ -25,6 +25,13 @@ class CreateSectorRequest extends FormRequest
      */
     public function rules()
     {
-        return Sector::$rules;
+        $rules= Sector::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:sector,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

@@ -25,6 +25,13 @@ class CreateTipoDocumentoRequest extends FormRequest
      */
     public function rules()
     {
-        return TipoDocumento::$rules;
+        $rules= TipoDocumento::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_documento,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

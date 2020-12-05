@@ -25,6 +25,13 @@ class CreateActividadOcioRequest extends FormRequest
      */
     public function rules()
     {
-        return ActividadOcio::$rules;
+        $rules= ActividadOcio::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:actividad_ocio,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

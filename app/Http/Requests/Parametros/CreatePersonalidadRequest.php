@@ -25,6 +25,13 @@ class CreatePersonalidadRequest extends FormRequest
      */
     public function rules()
     {
-        return Personalidad::$rules;
+        $rules= Personalidad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:personalidad,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

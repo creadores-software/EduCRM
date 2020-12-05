@@ -25,6 +25,13 @@ class CreateContactoRequest extends FormRequest
      */
     public function rules()
     {
-        return Contacto::$rules;
+        $rules= Contacto::$rules;
+        $rules['identificacion'] = [
+            'nullable',
+            'string',
+            'max:30',
+            'iunique:contacto,identificacion,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

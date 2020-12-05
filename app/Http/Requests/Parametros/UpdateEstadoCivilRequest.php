@@ -25,8 +25,13 @@ class UpdateEstadoCivilRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = EstadoCivil::$rules;
-        
+        $rules= EstadoCivil::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estado_civil,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

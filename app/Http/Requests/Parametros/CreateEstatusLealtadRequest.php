@@ -25,6 +25,13 @@ class CreateEstatusLealtadRequest extends FormRequest
      */
     public function rules()
     {
-        return EstatusLealtad::$rules;
+        $rules= EstatusLealtad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estatus_lealtad,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

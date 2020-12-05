@@ -25,8 +25,13 @@ class UpdateEstatusLealtadRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = EstatusLealtad::$rules;
-        
+        $rules= EstatusLealtad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estatus_lealtad,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

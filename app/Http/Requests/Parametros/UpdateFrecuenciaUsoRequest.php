@@ -25,8 +25,13 @@ class UpdateFrecuenciaUsoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = FrecuenciaUso::$rules;
-        
+        $rules= FrecuenciaUso::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:frecuencia_uso,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

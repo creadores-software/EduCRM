@@ -25,6 +25,13 @@ class CreateTipoContactoRequest extends FormRequest
      */
     public function rules()
     {
-        return TipoContacto::$rules;
+        $rules= TipoContacto::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_contacto,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

@@ -25,6 +25,13 @@ class CreateEstiloVidaRequest extends FormRequest
      */
     public function rules()
     {
-        return EstiloVida::$rules;
+        $rules= EstiloVida::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estilo_vida,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

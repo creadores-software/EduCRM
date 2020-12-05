@@ -25,8 +25,13 @@ class UpdateRazaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Raza::$rules;
-        
+        $rules= Raza::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:raza,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

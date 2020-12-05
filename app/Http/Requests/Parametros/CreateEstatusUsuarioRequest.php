@@ -25,6 +25,13 @@ class CreateEstatusUsuarioRequest extends FormRequest
      */
     public function rules()
     {
-        return EstatusUsuario::$rules;
+        $rules= EstatusUsuario::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estatus_usuario,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

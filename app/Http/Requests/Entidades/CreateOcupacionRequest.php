@@ -25,6 +25,13 @@ class CreateOcupacionRequest extends FormRequest
      */
     public function rules()
     {
-        return Ocupacion::$rules;
+        $rules= Ocupacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            'iunique:ocupacion,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

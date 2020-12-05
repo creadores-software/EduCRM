@@ -25,8 +25,13 @@ class UpdateTipoParentescoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = TipoParentesco::$rules;
-        
+        $rules= TipoParentesco::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_parentesco,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

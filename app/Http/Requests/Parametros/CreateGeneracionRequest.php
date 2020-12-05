@@ -25,6 +25,13 @@ class CreateGeneracionRequest extends FormRequest
      */
     public function rules()
     {
-        return Generacion::$rules;
+        $rules= Generacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:generacion,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

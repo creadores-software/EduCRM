@@ -25,6 +25,13 @@ class CreateActividadEconomicaRequest extends FormRequest
      */
     public function rules()
     {
-        return ActividadEconomica::$rules;
+        $rules= ActividadEconomica::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            'iunique:actividad_economica,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

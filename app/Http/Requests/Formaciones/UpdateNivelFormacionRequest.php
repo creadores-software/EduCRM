@@ -25,8 +25,13 @@ class UpdateNivelFormacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = NivelFormacion::$rules;
-        
+        $rules= NivelFormacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:100',
+            'iunique:nivel_formacion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

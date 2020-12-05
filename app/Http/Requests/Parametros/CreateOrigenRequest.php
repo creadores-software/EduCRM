@@ -25,6 +25,13 @@ class CreateOrigenRequest extends FormRequest
      */
     public function rules()
     {
-        return Origen::$rules;
+        $rules= Origen::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:origen,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

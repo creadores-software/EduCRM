@@ -25,6 +25,13 @@ class CreateFrecuenciaUsoRequest extends FormRequest
      */
     public function rules()
     {
-        return FrecuenciaUso::$rules;
+        $rules= FrecuenciaUso::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:frecuencia_uso,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

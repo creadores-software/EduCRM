@@ -25,6 +25,13 @@ class CreateGeneroRequest extends FormRequest
      */
     public function rules()
     {
-        return Genero::$rules;
+        $rules= Genero::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:genero,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

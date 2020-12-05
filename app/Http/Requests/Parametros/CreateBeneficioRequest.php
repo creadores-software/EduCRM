@@ -25,6 +25,13 @@ class CreateBeneficioRequest extends FormRequest
      */
     public function rules()
     {
-        return Beneficio::$rules;
+        $rules= Beneficio::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:beneficio,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

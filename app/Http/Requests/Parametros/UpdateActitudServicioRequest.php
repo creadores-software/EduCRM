@@ -25,8 +25,13 @@ class UpdateActitudServicioRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = ActitudServicio::$rules;
-        
+        $rules= ActitudServicio::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:actitud_servicio,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

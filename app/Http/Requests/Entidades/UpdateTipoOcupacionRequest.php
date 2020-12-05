@@ -25,8 +25,13 @@ class UpdateTipoOcupacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = TipoOcupacion::$rules;
-        
+        $rules= TipoOcupacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_ocupacion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

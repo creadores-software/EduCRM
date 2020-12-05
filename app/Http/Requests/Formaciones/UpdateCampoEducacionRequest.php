@@ -25,8 +25,13 @@ class UpdateCampoEducacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = CampoEducacion::$rules;
-        
+        $rules= CampoEducacion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            'iunique:campo_educacion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }
