@@ -1,3 +1,41 @@
+<!-- Nombres Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('nombres', __('models/contactos.fields.nombres').':') !!}
+    {!! Form::text('nombres', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Apellidos Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('apellidos', __('models/contactos.fields.apellidos').':') !!}
+    {!! Form::text('apellidos', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Correo Personal Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal').':') !!}
+    {!! Form::text('correo_personal', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Celular Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('celular', __('models/contactos.fields.celular').':') !!}
+    {!! Form::text('celular', null, ['class' => 'form-control']) !!}
+</div>
+
+
+<!-- Origen Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+    {!! Form::number('origen_id', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Referido Por Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
+    {!! Form::number('referido_por', null, ['class' => 'form-control']) !!}
+</div>
+
+
 <!-- Tipo Documento Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('tipo_documento_id', __('models/contactos.fields.tipo_documento_id').':') !!}
@@ -11,38 +49,17 @@
     {!! Form::hidden('id', old('id', $contacto->id ?? '')) !!}
 </div>
 
-<!-- Prefijo Id Field -->
+<!-- Telefono Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id').':') !!}
-    {!! Form::number('prefijo_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('telefono', __('models/contactos.fields.telefono').':') !!}
+    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Nombres Field -->
+<!-- Correo Institucional Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nombres', __('models/contactos.fields.nombres').':') !!}
-    {!! Form::text('nombres', null, ['class' => 'form-control']) !!}
+    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional').':') !!}
+    {!! Form::text('correo_institucional', null, ['class' => 'form-control']) !!}
 </div>
-
-<!-- Apellidos Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('apellidos', __('models/contactos.fields.apellidos').':') !!}
-    {!! Form::text('apellidos', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Fecha Nacimiento Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
-    {!! Form::date('fecha_nacimiento', null, ['class' => 'form-control','id'=>'fecha_nacimiento']) !!}
-</div>
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#fecha_nacimiento').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: false
-        })
-    </script>
-@endpush
 
 <!-- Genero Id Field -->
 <div class="form-group col-sm-6">
@@ -50,34 +67,25 @@
     {!! Form::number('genero_id', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Prefijo Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id').':') !!}
+    {!! Form::number('prefijo_id', null, ['class' => 'form-control']) !!}
+</div>
+
+
+
+<!-- Fecha Nacimiento Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
+    {!! Form::date('fecha_nacimiento', null, ['class' => 'form-control','id'=>'fecha_nacimiento']) !!}
+</div>
+
+
 <!-- Estado Civil Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estado_civil_id', __('models/contactos.fields.estado_civil_id').':') !!}
     {!! Form::number('estado_civil_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Celular Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('celular', __('models/contactos.fields.celular').':') !!}
-    {!! Form::text('celular', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Telefono Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/contactos.fields.telefono').':') !!}
-    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Correo Personal Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal').':') !!}
-    {!! Form::text('correo_personal', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Correo Institucional Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional').':') !!}
-    {!! Form::text('correo_institucional', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Lugar Residencia Field -->
@@ -98,6 +106,12 @@
     {!! Form::number('estrato', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Observacion Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
+    {!! Form::textarea('observacion', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
@@ -107,32 +121,18 @@
     </label>
 </div>
 
-<!-- Observacion Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
-    {!! Form::text('observacion', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Informacion Relacional Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('informacion_relacional_id', __('models/contactos.fields.informacion_relacional_id').':') !!}
-    {!! Form::number('informacion_relacional_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Origen Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
-    {!! Form::number('origen_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Referido Por Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
-    {!! Form::number('referido_por', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('contactos.contactos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+
+@push('scripts')
+    <script type="text/javascript">
+        $('#fecha_nacimiento').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            useCurrent: false
+        })
+    </script>
+@endpush

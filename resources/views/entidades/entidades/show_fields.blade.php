@@ -37,6 +37,6 @@
 <!-- Mi Universidad Field -->
 <div class="form-group">
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
-    <p>{{ $entidad->mi_universidad? 'Sí': 'No' }}</p>
+    <p>{{ $entidad->mi_universidad? 'Si': 'No' }}</p>
 </div>
 

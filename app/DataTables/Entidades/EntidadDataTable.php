@@ -105,7 +105,7 @@ class EntidadDataTable extends DataTable
             'lugar_id' => new Column(['title' => __('models/entidades.fields.lugar_id'), 'data' => 'lugar.nombre', 'name'=>'lugar.nombre']),
             'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector.nombre', 'name'=>'sector.nombre']),
             'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
-            'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad','render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

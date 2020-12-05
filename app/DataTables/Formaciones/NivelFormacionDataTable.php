@@ -90,7 +90,7 @@ class NivelFormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),
-            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

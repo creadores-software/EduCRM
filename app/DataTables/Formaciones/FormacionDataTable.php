@@ -93,7 +93,7 @@ class FormacionDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name'=>'entidad.nombre']),
             'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name'=>'nivelFormacion.nombre']),
             'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre', 'name'=>'campoEducacion.nombre']),
-            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo','render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

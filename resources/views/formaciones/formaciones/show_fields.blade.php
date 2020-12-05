@@ -25,6 +25,6 @@
 <!-- Activo Field -->
 <div class="form-group">
     {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
-    <p>{{ $formacion->activo? 'Sí': 'No' }}</p>
+    <p>{{ $formacion->activo? 'Si': 'No' }}</p>
 </div>
 

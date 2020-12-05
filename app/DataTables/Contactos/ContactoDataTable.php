@@ -105,7 +105,7 @@ class ContactoDataTable extends DataTable
             //'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'), 'data' => 'lugar_residencia']),
             //'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia']),
             //'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato']),
-            'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo', 'render'=> "function(){ return data? 'Sí' : 'No' }"]),
+            'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
             //'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion']),
             //'informacion_relacional_id' => new Column(['title' => __('models/contactos.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id']),
             //'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen_id']),
