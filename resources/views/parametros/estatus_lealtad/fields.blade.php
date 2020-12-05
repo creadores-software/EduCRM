@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/estatusLealtad.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $esatusLealtad->id ?? '')) !!}
 </div>
 
 <!-- Submit Field -->

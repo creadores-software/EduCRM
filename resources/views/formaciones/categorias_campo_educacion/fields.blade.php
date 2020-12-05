@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/categoriasCampoEducacion.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $categoriaCampoEducacion->id ?? '')) !!}
 </div>
 
 <!-- Submit Field -->

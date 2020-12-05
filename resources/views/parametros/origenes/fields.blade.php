@@ -1,5 +1,6 @@
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
+    {!! Form::hidden('id', old('id', $origen->id ?? '')) !!}
     {!! Form::label('nombre', __('models/origenes.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>

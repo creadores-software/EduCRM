@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/tiposParentesco.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $tipoParentesco->id ?? '')) !!}
 </div>
 
 <!-- Tipo Contrario Id Field -->

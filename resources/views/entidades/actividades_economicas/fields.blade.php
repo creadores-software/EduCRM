@@ -10,6 +10,7 @@
 
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
+    {!! Form::hidden('id', old('id', $actividadEconomica->id ?? '')) !!}
     {!! Form::label('nombre', __('models/actividadesEconomicas.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     <div class="help-block with-errors"></div>
