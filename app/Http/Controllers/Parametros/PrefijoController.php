@@ -157,7 +157,13 @@ class PrefijoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->prefijoRepository->infoSelect2($request->input('q', ''));
+        $search=null;
+        $genero=$request->input('genero', '');
+        $term=$request->input('q', '');
+        if(!empty($genero)){
+            $search=['genero_id'=>$genero];      
+        }
+        return $this->prefijoRepository->infoSelect2($term,$search);
     }
 
 }
