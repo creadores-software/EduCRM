@@ -23,7 +23,7 @@ class EntidadDataTable extends DataTable
             ->addColumn('action', 'entidades.entidades.datatables_actions')
             ->filterColumn('mi_universidad', function ($query, $keyword) {
                 $validacion=null;
-                if($keyword=="Sí"){
+                if($keyword=="Si"){
                     $validacion=1; 
                     $query->whereRaw("mi_universidad = ?", [$validacion]);   
                 }else if($keyword=="No"){
@@ -58,7 +58,7 @@ class EntidadDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => true,               
+                'stateSave' => false,               
                 'order'     => [[0, 'asc']],
                 'buttons'   => [                    
                     [
@@ -107,6 +107,8 @@ class EntidadDataTable extends DataTable
             'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
             'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            'direccion' => new Column(['title' => __('models/entidades.fields.direccion'), 'data' => 'direccion','visible'=>false,'searchable'=>false]),
+            'telefono' => new Column(['title' => __('models/entidades.fields.telefono'), 'data' => 'telefono','visible'=>false,'searchable'=>false]),
         ];
     }
 

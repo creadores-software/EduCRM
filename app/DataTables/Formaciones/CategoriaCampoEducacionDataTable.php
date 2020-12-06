@@ -46,7 +46,7 @@ class CategoriaCampoEducacionDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => true,
+                'stateSave' => false,
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
