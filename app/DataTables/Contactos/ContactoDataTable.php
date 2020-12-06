@@ -20,7 +20,18 @@ class ContactoDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
 
         return 
-        $dataTable->addColumn('action', 'contactos.contactos.datatables_actions');
+        $dataTable
+            ->addColumn('action', 'contactos.contactos.datatables_actions')
+            ->filterColumn('activo', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("activo = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("activo = ?", [$validacion]);    
+                }                
+            });
     }
 
     /**
@@ -31,7 +42,7 @@ class ContactoDataTable extends DataTable
      */
     public function query(Contacto $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->select('contacto.*');
     }
 
     /**
@@ -47,7 +58,7 @@ class ContactoDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => true,
+                'stateSave' => false,
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
@@ -90,27 +101,28 @@ class ContactoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            //'tipo_documento_id' => new Column(['title' => __('models/contactos.fields.tipo_documento_id'), 'data' => 'tipo_documento_id']),
             'identificacion' => new Column(['title' => __('models/contactos.fields.identificacion'), 'data' => 'identificacion']),
-            //'prefijo_id' => new Column(['title' => __('models/contactos.fields.prefijo_id'), 'data' => 'prefijo_id']),
             'nombres' => new Column(['title' => __('models/contactos.fields.nombres'), 'data' => 'nombres']),
             'apellidos' => new Column(['title' => __('models/contactos.fields.apellidos'), 'data' => 'apellidos']),
-            //'fecha_nacimiento' => new Column(['title' => __('models/contactos.fields.fecha_nacimiento'), 'data' => 'fecha_nacimiento']),
-            //'genero_id' => new Column(['title' => __('models/contactos.fields.genero_id'), 'data' => 'genero_id']),
-            //'estado_civil_id' => new Column(['title' => __('models/contactos.fields.estado_civil_id'), 'data' => 'estado_civil_id']),
             'celular' => new Column(['title' => __('models/contactos.fields.celular'), 'data' => 'celular']),
             'telefono' => new Column(['title' => __('models/contactos.fields.telefono'), 'data' => 'telefono']),
             'correo_personal' => new Column(['title' => __('models/contactos.fields.correo_personal'), 'data' => 'correo_personal']),
-            //'correo_institucional' => new Column(['title' => __('models/contactos.fields.correo_institucional'), 'data' => 'correo_institucional']),
-            //'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'), 'data' => 'lugar_residencia']),
-            //'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia']),
-            //'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato']),
             'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
-            //'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion']),
-            //'informacion_relacional_id' => new Column(['title' => __('models/contactos.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id']),
-            //'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen_id']),
-            //'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por'])
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            //Campos no visibles
+            'tipo_documento_id' => new Column(['title' => __('models/contactos.fields.tipo_documento_id'), 'data' => 'tipo_documento_id','visible'=>false]),            
+            'prefijo_id' => new Column(['title' => __('models/contactos.fields.prefijo_id'), 'data' => 'prefijo_id','visible'=>false]),            
+            'fecha_nacimiento' => new Column(['title' => __('models/contactos.fields.fecha_nacimiento'), 'data' => 'fecha_nacimiento','visible'=>false]),
+            'genero_id' => new Column(['title' => __('models/contactos.fields.genero_id'), 'data' => 'genero_id','visible'=>false]),
+            'estado_civil_id' => new Column(['title' => __('models/contactos.fields.estado_civil_id'), 'data' => 'estado_civil_id','visible'=>false]),            
+            'correo_institucional' => new Column(['title' => __('models/contactos.fields.correo_institucional'), 'data' => 'correo_institucional','visible'=>false]),
+            'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'), 'data' => 'lugar_residencia','visible'=>false]),
+            'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia','visible'=>false]),
+            'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato','visible'=>false]),            
+            'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion','visible'=>false]),
+            'informacion_relacional_id' => new Column(['title' => __('models/contactos.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id','visible'=>false]),
+            'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen_id','visible'=>false]),
+            'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por','visible'=>false]),            
         ];
     }
 

@@ -19,7 +19,19 @@ class FormacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.formaciones.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'formaciones.formaciones.datatables_actions')
+            ->filterColumn('activo', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("activo = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("activo = ?", [$validacion]);    
+                }                
+            });
+            
     }
 
     /**

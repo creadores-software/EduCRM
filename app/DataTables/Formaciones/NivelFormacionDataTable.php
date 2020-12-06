@@ -19,7 +19,18 @@ class NivelFormacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.niveles_formacion.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions')
+            ->filterColumn('es_ies', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("es_ies = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("es_ies = ?", [$validacion]);    
+                }                
+            });
     }
 
     /**

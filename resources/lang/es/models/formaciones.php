@@ -10,6 +10,6 @@ return array (
     'entidad_id' => 'Entidad',
     'nivel_formacion_id' => 'Nivel Formación',
     'campo_educacion_id' => 'Campo Educación',
-    'activo' => 'Activo',
+    'activo' => 'Activa',
   ),
 );

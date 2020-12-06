@@ -23,10 +23,10 @@ class EntidadDataTable extends DataTable
             ->addColumn('action', 'entidades.entidades.datatables_actions')
             ->filterColumn('mi_universidad', function ($query, $keyword) {
                 $validacion=null;
-                if($keyword=="Si"){
+                if(strpos(strtolower($keyword), 's')!==false){
                     $validacion=1; 
                     $query->whereRaw("mi_universidad = ?", [$validacion]);   
-                }else if($keyword=="No"){
+                }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("mi_universidad = ?", [$validacion]);    
                 }                

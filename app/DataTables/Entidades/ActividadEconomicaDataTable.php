@@ -19,7 +19,29 @@ class ActividadEconomicaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'entidades.actividades_economicas.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'entidades.actividades_economicas.datatables_actions')
+            ->filterColumn('es_ies', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("es_ies = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("es_ies = ?", [$validacion]);    
+                }                
+            })
+            ->filterColumn('es_colegio', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("es_colegio = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("es_colegio = ?", [$validacion]);    
+                }                
+            });
+            
     }
 
     /**
