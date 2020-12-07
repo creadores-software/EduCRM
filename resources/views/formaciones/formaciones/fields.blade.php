@@ -39,7 +39,7 @@
     {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('activo', 0) !!}
-        {!! Form::checkbox('activo', '1', null) !!} &nbsp;
+        {!! Form::checkbox('activo', 1, old('activo', $formacion->activo ?? 1)) !!}  &nbsp;
     </label>
 </div>
 
