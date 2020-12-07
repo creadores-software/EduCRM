@@ -122,8 +122,8 @@ class Contacto extends Model implements Auditable
         'estado_civil_id' => 'nullable|integer',
         'celular' => 'required|string|max:15',
         'telefono' => 'nullable|string|max:15',
-        'correo_personal' => 'required|string|max:200',
-        'correo_institucional' => 'nullable|string|max:200',
+        'correo_personal' => 'required|string|email|max:200',
+        'correo_institucional' => 'nullable|string|email|max:200',
         'lugar_residencia' => 'nullable|integer',
         'direccion_residencia' => 'nullable|string|max:200',
         'estrato' => 'nullable|integer',
@@ -139,7 +139,7 @@ class Contacto extends Model implements Auditable
      **/
     public function lugarResidencia()
     {
-        return $this->belongsTo(\App\Models\Contactos\Lugar::class, 'lugar_residencia')
+        return $this->belongsTo(\App\Models\Parametros\Lugar::class, 'lugar_residencia')
             ->withDefault(['nombre' => '']);
     }
 
@@ -148,7 +148,7 @@ class Contacto extends Model implements Auditable
      **/
     public function estadoCivil()
     {
-        return $this->belongsTo(\App\Models\Contactos\EstadoCivil::class, 'estado_civil_id')
+        return $this->belongsTo(\App\Models\Parametros\EstadoCivil::class, 'estado_civil_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -157,7 +157,7 @@ class Contacto extends Model implements Auditable
      **/
     public function genero()
     {
-        return $this->belongsTo(\App\Models\Contactos\Genero::class, 'genero_id')
+        return $this->belongsTo(\App\Models\Parametros\Genero::class, 'genero_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -174,7 +174,7 @@ class Contacto extends Model implements Auditable
      **/
     public function origen()
     {
-        return $this->belongsTo(\App\Models\Contactos\Origen::class, 'origen_id')
+        return $this->belongsTo(\App\Models\Parametros\Origen::class, 'origen_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -183,7 +183,7 @@ class Contacto extends Model implements Auditable
      **/
     public function prefijo()
     {
-        return $this->belongsTo(\App\Models\Contactos\Prefijo::class, 'prefijo_id')
+        return $this->belongsTo(\App\Models\Parametros\Prefijo::class, 'prefijo_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -192,9 +192,18 @@ class Contacto extends Model implements Auditable
      **/
     public function tipoDocumento()
     {
-        return $this->belongsTo(\App\Models\Contactos\TipoDocumento::class, 'tipo_documento_id')
+        return $this->belongsTo(\App\Models\Parametros\TipoDocumento::class, 'tipo_documento_id')
             ->withDefault(['nombre' => '']);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function referido()
+    {
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'referido_por');
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -233,7 +242,7 @@ class Contacto extends Model implements Auditable
      **/
     public function parentescosDestino()
     {
-        return $this->hasMany(\App\Models\Contactos\Parentesco::class, 'contacto_destino');
+        return $this->hasMany(\App\Models\Parametros\Parentesco::class, 'contacto_destino');
     }
 
     /**
@@ -241,6 +250,10 @@ class Contacto extends Model implements Auditable
      **/
     public function parentescosOrigen()
     {
-        return $this->hasMany(\App\Models\Contactos\Parentesco::class, 'contacto_origen');
+        return $this->hasMany(\App\Models\Parametros\Parentesco::class, 'contacto_origen');
+    }
+
+    public function getNombreCompleto(){
+        return $this->nombres.' '.$this->apellidos;
     }
 }

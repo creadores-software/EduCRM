@@ -101,7 +101,12 @@
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
-    {!! Form::date('fecha_nacimiento', null, ['class' => 'form-control','id'=>'fecha_nacimiento']) !!}
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_nacimiento',$contacto->fecha_nacimiento ?? '' ) }}" class="form-control pull-right" id="fecha_nacimiento">
+    </div>
 </div>
 
 
@@ -146,10 +151,10 @@
 
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
+    {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('activo', 0) !!}
-        {!! Form::checkbox('activo', '1', null) !!} &nbsp;
+        {!! Form::checkbox('activo', 1, old('activo', $contacto->activo ?? 1)) !!}  &nbsp;
     </label>
 </div>
 
@@ -164,7 +169,8 @@
     <script type="text/javascript">
         $('#fecha_nacimiento').datetimepicker({
             format: 'YYYY-MM-DD',
-            useCurrent: false
+            useCurrent: false,
+            locale: 'es',
         });
         $('#origen_id').change(function(){
             var seleccionado=$('#origen_id').select2('data');
@@ -235,7 +241,7 @@
                 },
             }); 
             var seleccionado=$('#origen_id').select2('data');
-            if(!seleccionado || !seleccionado[0] || seleccionado[0].text!='Referido'){
+            if(!seleccionado || !seleccionado[0] || !seleccionado[0].text.includes('Referido')){
                 $('#div_referido').hide(); 
                 $('#div_origen').removeClass('col-sm-6');  
                 $('#div_origen').addClass('col-sm-12');   
