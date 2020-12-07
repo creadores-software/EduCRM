@@ -205,7 +205,7 @@ class InformacionRelacional extends Model implements Auditable
     {
         return $this->belongsTo(\App\Models\Contactos\Ocupacion::class, 'ocupacion_actual_id')
             ->withDefault(['nombre' => '']);
-    }s    
+    } 
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
