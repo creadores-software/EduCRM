@@ -88,7 +88,7 @@ class Formacion extends Model implements Auditable
     public function nivelFormacion()
     {
         return $this->belongsTo(\App\Models\Formaciones\NivelFormacion::class, 'nivel_formacion_id')
-            ->withDefault(['nombre' => '']);;
+            ->withDefault(['nombre' => '']);
     }
 
     /**
