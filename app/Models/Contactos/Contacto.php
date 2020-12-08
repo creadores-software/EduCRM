@@ -4,6 +4,7 @@ namespace App\Models\Contactos;
 
 use Eloquent as Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\Contactos\InformacionRelacional;
 
 /**
  * Class Contacto
@@ -253,7 +254,31 @@ class Contacto extends Model implements Auditable
         return $this->hasMany(\App\Models\Parametros\Parentesco::class, 'contacto_origen');
     }
 
+    /**
+     * Metodo para obtener nombre completo, es decir
+     * Nombres concatenados con apellidos
+     */
     public function getNombreCompleto(){
         return $this->nombres.' '.$this->apellidos;
+    }
+
+    /**
+     * Se sobreescribe el nombre con el fin de crear el registro relacional
+     * Posterior a la creación del registro de contacto
+     */
+    public function save(array $options = [])
+    {
+        parent::save($options);        
+        try{
+            if($this->informacion_relacional_id==null){
+                $relacional = new InformacionRelacional;
+                if($relacional->save()){
+                    $this->informacion_relacional_id=$relacional->id;
+                    $this->save();
+                }
+            }            
+        }catch(\Exception $e){
+            \Log::debug('Error al asociar la relación al contacto'.$e->getMessage());   // insert query
+        }
     }
 }
