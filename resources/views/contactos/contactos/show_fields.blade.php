@@ -88,18 +88,6 @@
     <p>{{ $contacto->estrato }}</p>
 </div>
 
-<!-- Activo Field -->
-<div class="form-group col-sm-6" >
-    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
-    <p>{{ $contacto->activo? 'Si' : 'No' }}</p>
-</div>
-
-<!-- Observacion Field -->
-<div class="form-group col-sm-6" >
-    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
-    <p>{{ $contacto->observacion }}</p>
-</div>
-
 <!-- Origen Id Field -->
 <div class="form-group col-sm-6" >
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
@@ -111,4 +99,17 @@
     {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
     <p>{{ $contacto->referido_por? $contacto->referido->getNombreCompleto():'' }}</p>
 </div>
+
+<!-- Observacion Field -->
+<div class="form-group col-sm-12" >
+    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
+    <p>{{ $contacto->observacion }}</p>
+</div>
+
+<!-- Activo Field -->
+<div class="form-group col-sm-12" >
+    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
+    <p>{{ $contacto->activo? 'Si' : 'No' }}</p>
+</div>
+
 
