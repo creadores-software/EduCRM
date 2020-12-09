@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\QueryException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -51,17 +52,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof QueryException) {
-            $mensaje=$exception->getMessage();
+        $mensaje=$exception->getMessage();
+        if ($exception instanceof QueryException) {            
             if($exception->getCode() == "23000"){ //Error de llave foranea
                 if($request->method()==='DELETE'){//En método de eliminación
                     $mensaje = "Validar que el registro no tenga asociación con otro elemento antes de eliminar.";
                 }else if($request->method()==='PUT' || $request->method()==='PATCH'){//En método de eliminación
                     $mensaje = "Verificar que todas las asociaciones existan correctamente.";
                 }               
-            }
-            return response()->view('layouts.error', ['message'=>$mensaje], 500);
+            }            
+        }else if($exception instanceof MethodNotAllowedHttpException){
+            $mensaje ="Este método no está permitido";
         }
-        return parent::render($request, $exception);
+        return response()->view('layouts.error', ['message'=>$mensaje], 500);
     }
 }
