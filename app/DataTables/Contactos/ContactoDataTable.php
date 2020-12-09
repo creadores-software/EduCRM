@@ -77,6 +77,13 @@ class ContactoDataTable extends DataTable
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
                     ],
+                    [
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text'=>'<i class="fa fa-search-plus" data-toggle="modal" data-target="#applicantModal"></i> Búsqueda avanzada',
+                        'action'=> "function (e, node, config){
+                                        $('#advanced_filter').modal('show');
+                                    }"
+                    ]
                 ],
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
