@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Contactos;
 
-use App\DataTables\Contactos\InformacionRelacionalDataTable;
-use App\Http\Requests\Contactos;
-use App\Http\Requests\Contactos\CreateInformacionRelacionalRequest;
 use App\Http\Requests\Contactos\UpdateInformacionRelacionalRequest;
 use App\Repositories\Contactos\InformacionRelacionalRepository;
 use Flash;
