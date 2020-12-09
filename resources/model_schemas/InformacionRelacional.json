@@ -180,18 +180,6 @@
         "inView": true
     },
     {
-        "name": "actualizacion_autoriza_comunicacion",
-        "dbType": "date:nullable",
-        "htmlType": "date",
-        "validations": "nullable|nullable",
-        "searchable": true,
-        "fillable": true,
-        "primary": false,
-        "inForm": true,
-        "inIndex": true,
-        "inView": true
-    },
-    {
         "type": "relation",
         "relation": "mt1,ActitudServicio,actitud_servicio_id"
     },
