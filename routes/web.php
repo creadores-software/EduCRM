@@ -97,7 +97,7 @@ Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
     Route::resource('informacionesAcademicas', 'Contactos\InformacionAcademicaController', ["as" => 'contactos']);
     Route::resource('informacionesEscolares', 'Contactos\InformacionEscolarController', ["as" => 'contactos']);
     Route::resource('informacionesLaborales', 'Contactos\InformacionLaboralController', ["as" => 'contactos']);
-    Route::resource('informacionesRelacionales', 'Contactos\InformacionRelacionalController', ["as" => 'contactos']);
+    Route::resource('informacionesRelacionales', 'Contactos\InformacionRelacionalController', ["as" => 'contactos','except'=> ['index','create','destroy']]);
     Route::resource('parentescos', 'Contactos\ParentescoController', ["as" => 'contactos']);
     Route::resource('preferenciasActividadesOcio', 'Contactos\PreferenciaActividadOcioController', ["as" => 'contactos']);
     Route::resource('preferenciasCamposEducacion', 'Contactos\PreferenciaCampoEducacionController', ["as" => 'contactos']);

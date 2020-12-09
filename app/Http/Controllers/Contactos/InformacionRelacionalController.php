@@ -21,44 +21,7 @@ class InformacionRelacionalController extends AppBaseController
         $this->informacionRelacionalRepository = $informacionRelacionalRepo;
     }
 
-    /**
-     * Display a listing of the InformacionRelacional.
-     *
-     * @param InformacionRelacionalDataTable $informacionRelacionalDataTable
-     * @return Response
-     */
-    public function index(InformacionRelacionalDataTable $informacionRelacionalDataTable)
-    {
-        return $informacionRelacionalDataTable->render('contactos.informaciones_relacionales.index');
-    }
-
-    /**
-     * Show the form for creating a new InformacionRelacional.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('contactos.informaciones_relacionales.create');
-    }
-
-    /**
-     * Store a newly created InformacionRelacional in storage.
-     *
-     * @param CreateInformacionRelacionalRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateInformacionRelacionalRequest $request)
-    {
-        $input = $request->all();
-
-        $informacionRelacional = $this->informacionRelacionalRepository->create($input);
-
-        Flash::success(__('messages.saved', ['model' => __('models/informacionesRelacionales.singular')]));
-
-        return redirect(route('contactos.informacionesRelacionales.index'));
-    }
+    //Solo se deja métodos de vista y edición pues creación y eliminación se realizará directamente desde el modelo
 
     /**
      * Display the specified InformacionRelacional.
@@ -124,30 +87,6 @@ class InformacionRelacionalController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/informacionesRelacionales.singular')]));
 
-        return redirect(route('contactos.informacionesRelacionales.index'));
-    }
-
-    /**
-     * Remove the specified InformacionRelacional from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $informacionRelacional = $this->informacionRelacionalRepository->find($id);
-
-        if (empty($informacionRelacional)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/informacionesRelacionales.singular')]));
-
-            return redirect(route('contactos.informacionesRelacionales.index'));
-        }
-
-        $this->informacionRelacionalRepository->delete($id);
-
-        Flash::success(__('messages.deleted', ['model' => __('models/informacionesRelacionales.singular')]));
-
-        return redirect(route('contactos.informacionesRelacionales.index'));
+        return redirect(route('contactos.informacionesRelacionales.show',$informacionRelacional->id));
     }
 }
