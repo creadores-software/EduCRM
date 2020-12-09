@@ -263,7 +263,7 @@ class Contacto extends Model implements Auditable
     }
 
     /**
-     * Se sobreescribe el nombre con el fin de crear el registro relacional
+     * Se sobreescribe el método con el fin de crear el registro relacional
      * Posterior a la creación del registro de contacto
      */
     public function save(array $options = [])
@@ -279,6 +279,24 @@ class Contacto extends Model implements Auditable
             }            
         }catch(\Exception $e){
             \Log::debug('Error al asociar la relación al contacto'.$e->getMessage());   // insert query
+        }
+    }
+
+    /**
+     * Se sobreescribe el método con el fin de eliminar el registro relacional
+     * Posterior a la eliminación del registro de contacto
+     */
+    public function delete(array $options = [])
+    {
+        $id_relacional=$this->informacion_relacional_id;        
+        parent::delete($options);        
+        try{
+            $modeloRelacional=InformacionRelacional::find($id_relacional);
+            if(!empty($modeloRelacional)){
+                $modeloRelacional->delete();
+            }            
+        }catch(\Exception $e){
+            \Log::debug('Error al eliminar la información relación del contacto'.$e->getMessage());   // insert query
         }
     }
 }
