@@ -20,6 +20,5 @@ return array (
     'estado_disposicion_id' => 'Estado Disposición',
     'actitud_servicio_id' => 'Actitud Servicio',
     'autoriza_comunicacion' => 'Autoriza Comunicación',
-    'actualizacion_autoriza_comunicacion' => 'Actualización Autoriza Comunicación',
   ),
 );

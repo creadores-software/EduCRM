@@ -40,7 +40,6 @@ class CreateInformacionRelacionalTable extends Migration
             $table->unsignedInteger('estado_disposicion_id')->nullable();
             $table->unsignedInteger('actitud_servicio_id')->nullable();
             $table->boolean('autoriza_comunicacion')->nullable();
-            $table->date('actualizacion_autoriza_comunicacion')->nullable();
 
             $table->index(["generacion_id"], 'fk_informacion_relacional_generacion_idx');
 

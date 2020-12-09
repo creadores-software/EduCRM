@@ -88,7 +88,6 @@ class InformacionRelacionalDataTable extends DataTable
             'estado_disposicion_id' => new Column(['title' => __('models/informacionesRelacionales.fields.estado_disposicion_id'), 'data' => 'estado_disposicion_id']),
             'actitud_servicio_id' => new Column(['title' => __('models/informacionesRelacionales.fields.actitud_servicio_id'), 'data' => 'actitud_servicio_id']),
             'autoriza_comunicacion' => new Column(['title' => __('models/informacionesRelacionales.fields.autoriza_comunicacion'), 'data' => 'autoriza_comunicacion']),
-            'actualizacion_autoriza_comunicacion' => new Column(['title' => __('models/informacionesRelacionales.fields.actualizacion_autoriza_comunicacion'), 'data' => 'actualizacion_autoriza_comunicacion'])
         ];
     }
 

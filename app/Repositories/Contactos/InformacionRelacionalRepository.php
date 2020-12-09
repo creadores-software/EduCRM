@@ -31,7 +31,6 @@ class InformacionRelacionalRepository extends BaseRepository
         'estado_disposicion_id',
         'actitud_servicio_id',
         'autoriza_comunicacion',
-        'actualizacion_autoriza_comunicacion'
     ];
 
     /**

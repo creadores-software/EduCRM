@@ -41,7 +41,6 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $estado_disposicion_id
  * @property integer $actitud_servicio_id
  * @property boolean $autoriza_comunicacion
- * @property string $actualizacion_autoriza_comunicacion
  */
 class InformacionRelacional extends Model implements Auditable
 {
@@ -67,7 +66,6 @@ class InformacionRelacional extends Model implements Auditable
         'estado_disposicion_id',
         'actitud_servicio_id',
         'autoriza_comunicacion',
-        'actualizacion_autoriza_comunicacion'
     ];
 
     /**
@@ -91,7 +89,6 @@ class InformacionRelacional extends Model implements Auditable
         'estado_disposicion_id' => 'integer',
         'actitud_servicio_id' => 'integer',
         'autoriza_comunicacion' => 'boolean',
-        'actualizacion_autoriza_comunicacion' => 'date'
     ];
 
     /**
@@ -114,7 +111,6 @@ class InformacionRelacional extends Model implements Auditable
         'estado_disposicion_id' => 'nullable|integer',
         'actitud_servicio_id' => 'nullable|integer',
         'autoriza_comunicacion' => 'nullable|boolean',
-        'actualizacion_autoriza_comunicacion' => 'nullable'
     ];
 
     /**
