@@ -125,7 +125,7 @@ class ContactoController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/contactos.singular')]));
 
-        return redirect(route('contactos.contactos.index'));
+        return redirect(route('contactos.contactos.show',$contacto->id));
     }
 
     /**
