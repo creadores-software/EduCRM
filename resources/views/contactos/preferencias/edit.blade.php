@@ -15,7 +15,10 @@
                         <div class="nav-tabs-custom">
                             @include('contactos.contactos.nav_edit',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacionRelacional->id])                          
                             <div class="tab-content">
-                                <div class="tab-pane fade in active">                                   
+                                <div class="tab-pane fade in active"> 
+                                    {!! Form::model($contacto, ['route' => ['contactos.preferencias.edit', ['idContacto'=>$contacto->id]], 'method' => 'patch']) !!}
+                                            @include('contactos.preferencias.fields')
+                                    {!! Form::close() !!}                                  
                                 </div>                               
                             </div>
                         </div>
