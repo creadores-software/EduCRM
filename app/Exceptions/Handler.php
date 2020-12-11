@@ -60,10 +60,12 @@ class Handler extends ExceptionHandler
                 }else if($request->method()==='PUT' || $request->method()==='PATCH'){//En método de eliminación
                     $mensaje = "Verificar que todas las asociaciones existan correctamente.";
                 }               
-            }            
+            }   
+            return response()->view('layouts.error', ['message'=>$mensaje], 500);         
         }else if($exception instanceof MethodNotAllowedHttpException){
-            $mensaje ="Este método no está permitido";
-        }
-        return response()->view('layouts.error', ['message'=>$mensaje], 500);
+            $mensaje ="Este acción no está habilitada.";
+            return response()->view('layouts.error', ['message'=>$mensaje], 500);
+        }        
+        return parent::render($request, $exception);
     }
 }
