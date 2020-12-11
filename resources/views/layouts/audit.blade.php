@@ -10,8 +10,9 @@
         <th scope="col">Acción</th>
         <th scope="col">Usuario</th>
         <th scope="col">Fecha</th>
-        <th scope="col">Valores anteriores</th>
-        <th scope="col">Valores nuevos</th>
+        <th scope="col">Atributo</th>
+        <th scope="col">Valor nuevo</th>
+        <th scope="col">Valor antiguo</th>
       </tr>
     </thead>
     <tbody id="audits">
@@ -22,24 +23,26 @@
           <td>{{ $audit->created_at }}</td>
           <td>
             <table class="table">
-              @foreach($audit->old_values as $attribute => $value)
-                <tr>
-                  <td><b>{{ $attribute }}</b></td>
-                  <td>{{ $value }}</td>
-                </tr>
+              @foreach($audit->new_values as $attribute => $value)
+                <tr><td><b>{{ $attribute }}</b></td></tr>
               @endforeach
             </table>
           </td>
           <td>
             <table class="table">
               @foreach($audit->new_values as $attribute => $value)
-                <tr>
-                  <td><b>{{ $attribute }}</b></td>
-                  <td>{{ $value }}</td>
-                </tr>
+                <tr><td>{{ empty($value)? '(sin valor)':$value }}</td></tr>
               @endforeach
             </table>
           </td>
+          <td>
+            <table class="table">
+              @foreach($audit->old_values as $attribute => $value)
+                <tr><td>{{ empty($value)? '(sin valor)':$value }}</td></tr>
+              @endforeach
+            </table>
+          </td>
+          
         </tr>
       @endforeach
     </tbody>
