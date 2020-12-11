@@ -23,10 +23,10 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \App\Models\Contactos\Personalidad $personalidad
  * @property \App\Models\Contactos\Raza $raza
  * @property \App\Models\Contactos\Religion $religion
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaActividadOcios
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaCampoEducacions
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormacions
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaMedioComunicacions
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasActividadesOcio
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasCamposEducacion
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasFormaciones
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasMediosComunicacion
  * @property integer $maximo_nivel_formacion_id
  * @property integer $ocupacion_actual_id
  * @property integer $estilo_vida_id
@@ -241,7 +241,7 @@ class InformacionRelacional extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaActividadOcios()
+    public function preferenciasActividadesOcio()
     {
         return $this->hasMany(\App\Models\Contactos\PreferenciaActividadOcio::class, 'informacion_relacional_id');
     }
@@ -249,7 +249,7 @@ class InformacionRelacional extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaCampoEducacions()
+    public function preferenciasCamposEducacion()
     {
         return $this->hasMany(\App\Models\Contactos\PreferenciaCampoEducacion::class, 'informacion_relacional_id');
     }
@@ -257,7 +257,7 @@ class InformacionRelacional extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaFormacions()
+    public function preferenciasFormaciones()
     {
         return $this->hasMany(\App\Models\Contactos\PreferenciaFormacion::class, 'informacion_relacional_id');
     }
@@ -265,7 +265,7 @@ class InformacionRelacional extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaMedioComunicacions()
+    public function preferenciasMediosComunicacion()
     {
         return $this->hasMany(\App\Models\Contactos\PreferenciaMedioComunicacion::class, 'informacion_relacional_id');
     }

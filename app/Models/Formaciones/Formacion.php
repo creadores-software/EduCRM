@@ -14,7 +14,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \App\Models\Formaciones\CampoEducacion $campoEducacion
  * @property \App\Models\Formaciones\NivelFormacion $nivelFormacion
  * @property \Illuminate\Database\Eloquent\Collection $informacionAcademicas
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormacions
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasFormaciones
  * @property string $nombre
  * @property integer $entidad_id
  * @property integer $nivel_formacion_id
@@ -102,7 +102,7 @@ class Formacion extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaFormacions()
+    public function preferenciasFormaciones()
     {
         return $this->hasMany(\App\Models\Formaciones\PreferenciaFormacion::class, 'formacion_id');
     }

@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @package App\Models\Parametros
  * @version November 19, 2020, 10:51 pm UTC
  *
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaActividadOcios
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasActividadesOcio
  * @property string $nombre
  */
 class ActividadOcio extends Model implements Auditable
@@ -48,7 +48,7 @@ class ActividadOcio extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaActividadOcios()
+    public function preferenciasActividadesOcio()
     {
         return $this->hasMany(\App\Models\Parametros\PreferenciaActividadOcio::class, 'actividad_ocio_id');
     }

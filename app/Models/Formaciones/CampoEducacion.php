@@ -12,7 +12,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @property \App\Models\Formaciones\CategoriaCampoEducacion $categoriaCampoEducacion
  * @property \Illuminate\Database\Eloquent\Collection $formacions
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaCampoEducacions
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasCamposEducacion
  * @property integer $categoria_campo_educacion_id
  * @property string $nombre
  */
@@ -70,7 +70,7 @@ class CampoEducacion extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaCampoEducacions()
+    public function preferenciasCamposEducacion()
     {
         return $this->hasMany(\App\Models\Formaciones\PreferenciaCampoEducacion::class, 'campo_educacion_id');
     }

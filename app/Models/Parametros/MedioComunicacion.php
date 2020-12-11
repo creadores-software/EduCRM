@@ -10,7 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @package App\Models\Parametros
  * @version November 19, 2020, 10:53 pm UTC
  *
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaMedioComunicacions
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciasMediosComunicacion
  * @property string $nombre
  */
 class MedioComunicacion extends Model implements Auditable
@@ -48,7 +48,7 @@ class MedioComunicacion extends Model implements Auditable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function preferenciaMedioComunicacions()
+    public function preferenciasMediosComunicacion()
     {
         return $this->hasMany(\App\Models\Parametros\PreferenciaMedioComunicacion::class, 'medio_comunicacion_id');
     }
