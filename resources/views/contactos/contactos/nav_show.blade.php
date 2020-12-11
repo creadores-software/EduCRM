@@ -4,7 +4,7 @@
     <li class="{{ (request()->is('contactos/informacionesRelacionales*')) ? 'active' : '' }}">
         <a href="{{ route('contactos.informacionesRelacionales.show',$idRelacional) }}"><i class="fa fa-heart"></i> Relacional</a></li>
     <li class="{{ (request()->is('contactos/preferencia*')) ? 'active' : '' }}">
-        <a href="{{ route('contactos.preferenciasFormaciones.index',['idContacto'=>$idContacto,'soloVista'=>true]) }}"><i class="fa fa-thumbs-up"></i> Preferencias</a></li>
+        <a href="{{ route('contactos.preferencias.show',['idContacto'=>$idContacto]) }}"><i class="fa fa-thumbs-up"></i> Preferencias</a></li>
     <li class="{{ (request()->is('contactos/informacionesAcademicas*')) ? 'active' : '' }}">
         <a href="{{ route('contactos.informacionesAcademicas.index',['idContacto'=>$idContacto,'soloVista'=>true]) }}"><i class="fa fa-graduation-cap"></i> Académica</a></li>
     <li class="{{ (request()->is('contactos/informacionesLaborales*')) ? 'active' : '' }}">
