@@ -75,6 +75,10 @@
             width: 100%;
             font-weight: normal;
         }
+
+        .nav-tabs-custom{
+            box-shadow: none;
+        }
     </style>
     
 </head>
