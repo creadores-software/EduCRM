@@ -77,7 +77,71 @@
 </div>
 
 <!-- Autoriza Comunicacion Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
     <p>{{ $informacionRelacional->autoriza_comunicacion? 'Si' : 'No' }}</p>
 </div>
+
+<!-- Preferencias Medios Comunicacion -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasMediosComunicacion', ' Preferencias Medios de Comunicación:') !!}
+    <select name="preferenciasMediosComunicacion[]" id="preferenciasMediosComunicacion" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('preferenciasMediosComunicacion', $informacionRelacional->preferenciasMediosComunicacion,null) as $medio)
+            <option value="{{ $medio->id }}" selected="selected">{{ $medio->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Formaciones -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasFormaciones', ' Preferencias Formaciones:') !!}
+    <select name="preferenciasFormaciones[]" id="preferenciasFormaciones" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('preferenciasFormaciones', $informacionRelacional->preferenciasFormaciones,null) as $formacion)
+            <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Campos Educación -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasCamposEducacion', ' Preferencias Campos de Educación:') !!}
+    <select name="preferenciasCamposEducacion[]" id="preferenciasCamposEducacion" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('preferenciasCamposEducacion', $informacionRelacional->preferenciasCamposEducacion,null) as $campo)
+            <option value="{{ $campo->id }}" selected="selected">{{ $campo->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Actividades Ocio -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades Ocio:') !!}
+    <select name="preferenciasActividadesOcio[]" id="preferenciasActividadesOcio" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('preferenciasActividadesOcio', $informacionRelacional->preferenciasActividadesOcio,null) as $actividad)
+            <option value="{{ $actividad->id }}" selected="selected">{{ $actividad->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+
+@push('scripts')
+    <script type="text/javascript">       
+        $(document).ready(function() { 
+            $('#preferenciasFormaciones').select2({
+                tags: true,
+                multiple: true,
+            });  
+            $('#preferenciasMediosComunicacion').select2({
+                tags: true,
+                multiple: true,
+            });  
+            $('#preferenciasCamposEducacion').select2({
+                tags: true,
+                multiple: true,
+            });
+            $('#preferenciasActividadesOcio').select2({
+                tags: true,
+                multiple: true,
+            });
+        });   
+    </script>
+@endpush

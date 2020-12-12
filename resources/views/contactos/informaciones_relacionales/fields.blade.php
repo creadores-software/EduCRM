@@ -129,12 +129,52 @@
 </div>
 
 <!-- Autoriza Comunicacion Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('autoriza_comunicacion', 0) !!}
         {!! Form::checkbox('autoriza_comunicacion', 1, old('autoriza_comunicacion', $informacionRelacional->autoriza_comunicacion ?? 1)) !!}  &nbsp;
     </label>
+</div>
+
+<!-- Preferencias Medios Comunicacion -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasMediosComunicacion', ' Preferencias Medios de Comunicación:') !!}
+    <select name="preferenciasMediosComunicacion[]" id="preferenciasMediosComunicacion" class="form-control"  multiple="multiple">
+        @foreach (old('preferenciasMediosComunicacion', $informacionRelacional->preferenciasMediosComunicacion,null) as $medio)
+            <option value="{{ $medio->id }}" selected="selected">{{ $medio->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Formaciones -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasFormaciones', ' Preferencias Formaciones:') !!}
+    <select name="preferenciasFormaciones[]" id="preferenciasFormaciones" class="form-control"  multiple="multiple">
+        @foreach (old('preferenciasFormaciones', $informacionRelacional->preferenciasFormaciones,null) as $formacion)
+            <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Campos Educación -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasCamposEducacion', ' Preferencias Campos de Educación:') !!}
+    <select name="preferenciasCamposEducacion[]" id="preferenciasCamposEducacion" class="form-control"  multiple="multiple">
+        @foreach (old('preferenciasCamposEducacion', $informacionRelacional->preferenciasCamposEducacion,null) as $campo)
+            <option value="{{ $campo->id }}" selected="selected">{{ $campo->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
+<!-- Preferencias Actividades Ocio -->
+<div class="form-group col-sm-12">
+    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades Ocio:') !!}
+    <select name="preferenciasActividadesOcio[]" id="preferenciasActividadesOcio" class="form-control"  multiple="multiple">
+        @foreach (old('preferenciasActividadesOcio', $informacionRelacional->preferenciasActividadesOcio,null) as $actividad)
+            <option value="{{ $actividad->id }}" selected="selected">{{ $actividad->nombre }}</option>
+        @endforeach
+    </select> 
 </div>
 
 <!-- Submit Field -->
@@ -152,102 +192,114 @@
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#ocupacion_actual_id').select2({
                 ajax: {
                     url: '{{ route("entidades.ocupaciones.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#estilo_vida_id').select2({
                 ajax: {
                     url: '{{ route("parametros.estilosVida.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#religion_id').select2({
                 ajax: {
                     url: '{{ route("parametros.religiones.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
-        $(document).ready(function() { 
+            })
             $('#generacion_id').select2({
                 ajax: {
                     url: '{{ route("parametros.generaciones.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
-        $(document).ready(function() { 
+            });
             $('#personalidad_id').select2({
                 ajax: {
                     url: '{{ route("parametros.personalidades.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#beneficio_id').select2({
                 ajax: {
                     url: '{{ route("parametros.beneficios.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#frecuencia_uso_id').select2({
                 ajax: {
                     url: '{{ route("parametros.frecuenciasUso.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#estatus_usuario_id').select2({
                 ajax: {
                     url: '{{ route("parametros.estatusUsuario.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
-        $(document).ready(function() { 
+            });
             $('#estatus_lealtad_id').select2({
                 ajax: {
                     url: '{{ route("parametros.estatusLealtad.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
-        $(document).ready(function() { 
+            });
             $('#estado_disposicion_id').select2({
                 ajax: {
                     url: '{{ route("parametros.estadosDisposicion.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
-        });
-        $(document).ready(function() { 
             $('#actitud_servicio_id').select2({
                 ajax: {
                     url: '{{ route("parametros.actitudesServicio.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
-        $(document).ready(function() { 
+            });
             $('#raza_id').select2({
                 ajax: {
                     url: '{{ route("parametros.razas.dataAjax") }}',
                     dataType: 'json',
                 },
-            }); 
-        });
+            });
+            $('#preferenciasFormaciones').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                ajax: {
+                    url: '{{ route("formaciones.formaciones.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });  
+            $('#preferenciasMediosComunicacion').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                ajax: {
+                    url: '{{ route("parametros.mediosComunicacion.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });  
+            $('#preferenciasCamposEducacion').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                ajax: {
+                    url: '{{ route("formaciones.camposEducacion.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#preferenciasActividadesOcio').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                ajax: {
+                    url: '{{ route("parametros.actividadesOcio.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+        });   
     </script>
 @endpush

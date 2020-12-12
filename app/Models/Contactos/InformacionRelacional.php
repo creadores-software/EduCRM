@@ -239,34 +239,34 @@ class InformacionRelacional extends Model implements Auditable
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      **/
     public function preferenciasActividadesOcio()
     {
-        return $this->hasMany(\App\Models\Contactos\PreferenciaActividadOcio::class, 'informacion_relacional_id');
+        return $this->belongsToMany(\App\Models\Parametros\ActividadOcio::class, 'preferencia_actividad_ocio');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      **/
     public function preferenciasCamposEducacion()
     {
-        return $this->hasMany(\App\Models\Contactos\PreferenciaCampoEducacion::class, 'informacion_relacional_id');
+        return $this->belongsToMany(\App\Models\Formaciones\CampoEducacion::class, 'preferencia_campo_educacion');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      **/
     public function preferenciasFormaciones()
     {
-        return $this->hasMany(\App\Models\Contactos\PreferenciaFormacion::class, 'informacion_relacional_id');
+        return $this->belongsToMany(\App\Models\Formaciones\Formacion::class, 'preferencia_formacion');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      **/
     public function preferenciasMediosComunicacion()
     {
-        return $this->hasMany(\App\Models\Contactos\PreferenciaMedioComunicacion::class, 'informacion_relacional_id');
+        return $this->belongsToMany(\App\Models\Parametros\MedioComunicacion::class, 'preferencia_medio_comunicacion');
     }
 }
