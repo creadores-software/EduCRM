@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "altek/accountant": "2.x",
+        "altek/eventually": "1.X",
         "doctrine/dbal": "~2.3",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",

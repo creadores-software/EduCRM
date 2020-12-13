@@ -4,8 +4,157 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf07bb1174afdbd5ccbaffe5a8f522bb",
+    "content-hash": "f3387ff29f11b03e132e2c34b09074ce",
     "packages": [
+        {
+            "name": "altek/accountant",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/altek/accountant.git",
+                "reference": "188a997bc42b1fd79c968b84e19fdce0cd96004b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/altek%2Faccountant/repository/archive.zip?sha=188a997bc42b1fd79c968b84e19fdce0cd96004b",
+                "reference": "188a997bc42b1fd79c968b84e19fdce0cd96004b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/console": "^7.0",
+                "illuminate/database": "^7.0",
+                "illuminate/filesystem": "^7.0",
+                "php": "^7.2.5"
+            },
+            "require-dev": {
+                "altek/eventually": "^1.0",
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^5.0",
+                "roave/security-advisories": "dev-master"
+            },
+            "suggest": {
+                "altek/eventually": "Required for keeping track of BelongsToMany and MorphToMany relations.",
+                "laravelista/lumen-vendor-publish": "Required to publish the package config file in Lumen."
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Altek\\Accountant\\AccountantServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Altek\\Accountant\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quetzy Garcia",
+                    "email": "quetzyg@altek.org"
+                }
+            ],
+            "description": "The auditing & accountability package for Laravel's Eloquent ORM.",
+            "homepage": "https://altek.gitlab.io/accountant/",
+            "keywords": [
+                "Accountability",
+                "Audit",
+                "accountable",
+                "accountant",
+                "auditing",
+                "changes",
+                "eloquent",
+                "history",
+                "laravel",
+                "ledger",
+                "liable",
+                "log",
+                "logging",
+                "lumen",
+                "record"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/altek/accountant/issues",
+                "source": "https://gitlab.com/altek/accountant"
+            },
+            "time": "2020-09-18T23:28:43+00:00"
+        },
+        {
+            "name": "altek/eventually",
+            "version": "v1.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.com/altek/eventually.git",
+                "reference": "f189d2ec034c5aa6474260f8e6755fbc1c86f18b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/altek%2Feventually/repository/archive.zip?sha=f189d2ec034c5aa6474260f8e6755fbc1c86f18b",
+                "reference": "f189d2ec034c5aa6474260f8e6755fbc1c86f18b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.5 || ^6.0 || ^7.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^3.8 || ^4.0 || ^5.0",
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Altek\\Eventually\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quetzy Garcia",
+                    "email": "quetzyg@altek.org"
+                }
+            ],
+            "description": "The missing many-to-many Eloquent events.",
+            "homepage": "https://altek.gitlab.io/eventually",
+            "keywords": [
+                "attach",
+                "detach",
+                "eloquent",
+                "events",
+                "eventually",
+                "laravel",
+                "lumen",
+                "many-to-many",
+                "pivot",
+                "relations",
+                "sync",
+                "toggle",
+                "update"
+            ],
+            "support": {
+                "issues": "https://gitlab.com/altek/eventually/issues",
+                "source": "https://gitlab.com/altek/eventually"
+            },
+            "time": "2020-03-03T16:45:40+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "1.3.0",
