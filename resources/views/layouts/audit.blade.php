@@ -10,9 +10,7 @@
         <th scope="col">Acción</th>
         <th scope="col">Usuario</th>
         <th scope="col">Fecha</th>
-        <th scope="col">Atributo</th>
-        <th scope="col">Valor nuevo</th>
-        <th scope="col">Valor antiguo</th>
+        <th scope="col">Valores modificados</th>
       </tr>
     </thead>
     <tbody id="audits">
@@ -23,26 +21,25 @@
           <td>{{ $audit->created_at }}</td>
           <td>
             <table class="table">
-              @foreach($audit->new_values as $attribute => $value)
-                <tr><td><b>{{ $attribute }}</b></td></tr>
+              @if(!empty($audit->pivot))
+                <tr>
+                  <td><b>{{ $audit->pivot['relation'] }}</b></td>
+                  <td>
+                    @foreach($audit->pivot['properties'] as $property)
+                      {{ $property[array_key_first($property)] }}<br/>
+                    @endforeach
+                  </td>
+                </tr> 
+              @else
+              @foreach($audit->getData() as $attribute => $value)
+                <tr>
+                  <td><b>{{ $attribute }}</b></td>
+                  <td>{{ $value }}</td>
+                </tr>
               @endforeach
+              @endif
             </table>
           </td>
-          <td>
-            <table class="table">
-              @foreach($audit->new_values as $attribute => $value)
-                <tr><td>{{ empty($value)? '(sin valor)':$value }}</td></tr>
-              @endforeach
-            </table>
-          </td>
-          <td>
-            <table class="table">
-              @foreach($audit->old_values as $attribute => $value)
-                <tr><td>{{ empty($value)? '(sin valor)':$value }}</td></tr>
-              @endforeach
-            </table>
-          </td>
-          
         </tr>
       @endforeach
     </tbody>
