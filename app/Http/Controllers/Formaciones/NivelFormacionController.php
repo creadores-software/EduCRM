@@ -77,7 +77,7 @@ class NivelFormacionController extends AppBaseController
             return redirect(route('formaciones.nivelesFormacion.index'));
         }
 
-        $audits = $nivelFormacion->audits;
+        $audits = $nivelFormacion->ledgers()->with('user')->get();
 
         return view('formaciones.niveles_formacion.show')->with(['nivelFormacion'=> $nivelFormacion, 'audits'=>$audits]);
     }

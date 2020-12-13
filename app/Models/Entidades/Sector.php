@@ -3,7 +3,7 @@
 namespace App\Models\Entidades;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class Sector
@@ -13,14 +13,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Database\Eloquent\Collection $entidads
  * @property string $nombre
  */
-class Sector extends Model implements Auditable
+class Sector extends Model implements Recordable
 {
 
     public $table = 'sector';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre'

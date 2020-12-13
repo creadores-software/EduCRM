@@ -78,7 +78,7 @@ class OrigenController extends AppBaseController
             return redirect(route('parametros.origenes.index'));
         }
 
-        $audits = $origen->audits;
+        $audits = $origen->ledgers()->with('user')->get();
 
         return view('parametros.origenes.show')->with(['origen'=> $origen, 'audits'=>$audits]);
     }

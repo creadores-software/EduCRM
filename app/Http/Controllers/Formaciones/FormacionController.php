@@ -77,7 +77,7 @@ class FormacionController extends AppBaseController
             return redirect(route('formaciones.formaciones.index'));
         }
 
-        $audits = $formacion->audits;
+        $audits = $formacion->ledgers()->with('user')->get();
 
         return view('formaciones.formaciones.show')->with(['formacion'=> $formacion, 'audits'=>$audits]);
     }

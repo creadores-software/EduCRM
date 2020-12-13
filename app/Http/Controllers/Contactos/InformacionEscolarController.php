@@ -77,7 +77,7 @@ class InformacionEscolarController extends AppBaseController
             return redirect(route('contactos.informacionesEscolares.index'));
         }
 
-        $audits = $informacionEscolar->audits;
+        $audits = $informacionEscolar->ledgers()->with('user')->get();
 
         return view('contactos.informaciones_escolares.show')->with(['informacionEscolar'=> $informacionEscolar, 'audits'=>$audits]);
     }

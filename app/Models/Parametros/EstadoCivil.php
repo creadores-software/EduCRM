@@ -3,7 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class EstadoCivil
@@ -13,14 +13,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Database\Eloquent\Collection $contactos
  * @property string $nombre
  */
-class EstadoCivil extends Model implements Auditable
+class EstadoCivil extends Model implements Recordable
 {
 
     public $table = 'estado_civil';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre'

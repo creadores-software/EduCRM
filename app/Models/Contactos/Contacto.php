@@ -3,7 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 use App\Models\Contactos\InformacionRelacional;
 
 /**
@@ -45,14 +45,14 @@ use App\Models\Contactos\InformacionRelacional;
  * @property integer $origen_id
  * @property integer $referido_por
  */
-class Contacto extends Model implements Auditable
+class Contacto extends Model implements Recordable
 {
 
     public $table = 'contacto';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
 
     public $fillable = [

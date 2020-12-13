@@ -3,7 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class Genero
@@ -14,14 +14,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Database\Eloquent\Collection $prefijos
  * @property string $nombre
  */
-class Genero extends Model implements Auditable
+class Genero extends Model implements Recordable
 {
 
     public $table = 'genero';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre'

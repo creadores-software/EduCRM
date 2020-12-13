@@ -77,7 +77,7 @@ class EstadoDisposicionController extends AppBaseController
             return redirect(route('parametros.estadosDisposicion.index'));
         }
 
-        $audits = $estadoDisposicion->audits;
+        $audits = $estadoDisposicion->ledgers()->with('user')->get();
 
         return view('parametros.estados_disposicion.show')->with(['estadoDisposicion'=> $estadoDisposicion, 'audits'=>$audits]);
     }

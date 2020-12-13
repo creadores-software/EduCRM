@@ -3,7 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class NivelFormacion
@@ -16,14 +16,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string $nombre
  * @property boolean $es_ies
  */
-class NivelFormacion extends Model implements Auditable
+class NivelFormacion extends Model implements Recordable
 {
 
     public $table = 'nivel_formacion';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
 
     public $fillable = [

@@ -77,7 +77,7 @@ class BeneficioController extends AppBaseController
             return redirect(route('parametros.beneficios.index'));
         }
 
-        $audits = $beneficio->audits;
+        $audits = $beneficio->ledgers()->with('user')->get();
 
         return view('parametros.beneficios.show')->with(['beneficio'=> $beneficio, 'audits'=>$audits]);
     }

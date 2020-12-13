@@ -3,7 +3,7 @@
 namespace App\Models\Entidades;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class ActividadEconomica
@@ -17,14 +17,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property boolean $es_ies
  * @property boolean $es_colegio
  */
-class ActividadEconomica extends Model implements Auditable
+class ActividadEconomica extends Model implements Recordable
 {
 
     public $table = 'actividad_economica';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'categoria_actividad_economica_id',

@@ -3,7 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class ContactoTipoContacto
@@ -15,14 +15,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $tipo_contacto_id
  * @property integer $contacto_id
  */
-class ContactoTipoContacto extends Model implements Auditable
+class ContactoTipoContacto extends Model implements Recordable
 {
 
     public $table = 'contacto_tipo_contacto';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'tipo_contacto_id',

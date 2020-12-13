@@ -79,7 +79,7 @@ class PersonalidadController extends AppBaseController
             return redirect(route('parametros.personalidades.index'));
         }
 
-        $audits = $personalidad->audits;
+        $audits = $personalidad->ledgers()->with('user')->get();
 
         return view('parametros.personalidades.show')->with(['personalidad'=> $personalidad, 'audits'=>$audits]);
     }

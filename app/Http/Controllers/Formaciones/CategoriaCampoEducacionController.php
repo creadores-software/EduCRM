@@ -77,7 +77,7 @@ class CategoriaCampoEducacionController extends AppBaseController
             return redirect(route('formaciones.categoriasCampoEducacion.index'));
         }
 
-        $audits = $categoriaCampoEducacion->audits;
+        $audits = $categoriaCampoEducacion->ledgers()->with('user')->get();
 
         return view('formaciones.categorias_campo_educacion.show')->with(['categoriaCampoEducacion'=> $categoriaCampoEducacion, 'audits'=>$audits]);
     }

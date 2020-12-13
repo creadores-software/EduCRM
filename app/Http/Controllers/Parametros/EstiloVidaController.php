@@ -77,7 +77,7 @@ class EstiloVidaController extends AppBaseController
             return redirect(route('parametros.estilosVida.index'));
         }
 
-        $audits = $estiloVida->audits;
+        $audits = $estiloVida->ledgers()->with('user')->get();
 
         return view('parametros.estilos_vida.show')->with(['estiloVida'=> $estiloVida, 'audits'=>$audits]);
     }

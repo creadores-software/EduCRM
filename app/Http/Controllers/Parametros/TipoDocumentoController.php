@@ -77,7 +77,7 @@ class TipoDocumentoController extends AppBaseController
             return redirect(route('parametros.tiposDocumento.index'));
         }
 
-        $audits = $tipoDocumento->audits;
+        $audits = $tipoDocumento->ledgers()->with('user')->get();
 
         return view('parametros.tipos_documento.show')->with(['tipoDocumento'=> $tipoDocumento, 'audits'=>$audits]);
     }

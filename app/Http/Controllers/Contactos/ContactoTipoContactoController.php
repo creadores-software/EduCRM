@@ -77,7 +77,7 @@ class ContactoTipoContactoController extends AppBaseController
             return redirect(route('contactos.contactosTipoContacto.index'));
         }
 
-        $audits = $contactoTipoContacto->audits;
+        $audits = $contactoTipoContacto->ledgers()->with('user')->get();
 
         return view('contactos.contactos_tipo_contacto.show')->with(['contactoTipoContacto'=> $contactoTipoContacto, 'audits'=>$audits]);
     }

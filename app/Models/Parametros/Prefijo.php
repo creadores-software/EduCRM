@@ -3,7 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class Prefijo
@@ -15,14 +15,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $genero_id
  * @property string $nombre
  */
-class Prefijo extends Model implements Auditable
+class Prefijo extends Model implements Recordable
 {
 
     public $table = 'prefijo';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'genero_id',

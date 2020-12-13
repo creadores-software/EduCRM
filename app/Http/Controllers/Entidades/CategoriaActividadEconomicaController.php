@@ -77,7 +77,7 @@ class CategoriaActividadEconomicaController extends AppBaseController
             return redirect(route('entidades.categoriasActividadEconomica.index'));
         }
 
-        $audits = $categoriaActividadEconomica->audits;
+        $audits = $categoriaActividadEconomica->ledgers()->with('user')->get();
 
         return view('entidades.categorias_actividad_economica.show')->with(['categoriaActividadEconomica'=> $categoriaActividadEconomica, 'audits'=>$audits]);
     }

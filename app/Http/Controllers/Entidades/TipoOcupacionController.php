@@ -77,7 +77,7 @@ class TipoOcupacionController extends AppBaseController
             return redirect(route('entidades.tiposOcupacion.index'));
         }
 
-        $audits = $tipoOcupacion->audits;
+        $audits = $tipoOcupacion->ledgers()->with('user')->get();
 
         return view('entidades.tipos_ocupacion.show')->with(['tipoOcupacion'=> $tipoOcupacion, 'audits'=>$audits]);
     }

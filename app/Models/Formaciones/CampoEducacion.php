@@ -3,7 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class CampoEducacion
@@ -16,14 +16,14 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $categoria_campo_educacion_id
  * @property string $nombre
  */
-class CampoEducacion extends Model implements Auditable
+class CampoEducacion extends Model implements Recordable
 {
 
     public $table = 'campo_educacion';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'categoria_campo_educacion_id',

@@ -78,7 +78,7 @@ class SectorController extends AppBaseController
             return redirect(route('entidades.sectores.index'));
         }
 
-        $audits = $sector->audits;
+        $audits = $sector->ledgers()->with('user')->get();
 
         return view('entidades.sectores.show')->with(['sector'=> $sector, 'audits'=>$audits]);
     }

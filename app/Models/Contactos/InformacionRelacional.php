@@ -3,7 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
-use OwenIt\Auditing\Contracts\Auditable;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class InformacionRelacional
@@ -42,14 +42,16 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property integer $actitud_servicio_id
  * @property boolean $autoriza_comunicacion
  */
-class InformacionRelacional extends Model implements Auditable
+class InformacionRelacional extends Model implements Recordable
 {
 
     public $table = 'informacion_relacional';
     
     public $timestamps = false;
 
-    use \OwenIt\Auditing\Auditable;
+    use \Altek\Accountant\Recordable;
+    //Para los eventos de BelongsToMany
+    use \Altek\Eventually\Eventually;
 
     public $fillable = [        
         'maximo_nivel_formacion_id',

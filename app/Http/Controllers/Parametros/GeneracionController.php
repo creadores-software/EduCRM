@@ -77,7 +77,7 @@ class GeneracionController extends AppBaseController
             return redirect(route('parametros.generaciones.index'));
         }
 
-        $audits = $generacion->audits;
+        $audits = $generacion->ledgers()->with('user')->get();
 
         return view('parametros.generaciones.show')->with(['generacion'=> $generacion, 'audits'=>$audits]);
     }
