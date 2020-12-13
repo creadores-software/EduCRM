@@ -10,7 +10,7 @@
         <th scope="col">Acción</th>
         <th scope="col">Usuario</th>
         <th scope="col">Fecha</th>
-        <th scope="col">Valores modificados</th>
+        <th scope="col">Atributos modificados</th>
       </tr>
     </thead>
     <tbody id="audits">
