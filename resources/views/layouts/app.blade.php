@@ -79,6 +79,10 @@
         .nav-tabs-custom{
             box-shadow: none;
         }
+
+        .select2-results__option[aria-selected=true] {
+            display: none;
+        }
     </style>
     
 </head>
