@@ -19,9 +19,9 @@ use App\Models\Contactos\InformacionRelacional;
  * @property \App\Models\Contactos\Prefijo $prefijo
  * @property \App\Models\Contactos\TipoDocumento $tipoDocumento
  * @property \Illuminate\Database\Eloquent\Collection $contactoTipoContactos
- * @property \Illuminate\Database\Eloquent\Collection $informacionAcademicas
- * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
- * @property \Illuminate\Database\Eloquent\Collection $informacionLaborals
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesAcademicas
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesEscolares
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesLaborales
  * @property \Illuminate\Database\Eloquent\Collection $parentescosDestino
  * @property \Illuminate\Database\Eloquent\Collection $parentescosOrigen
  * @property integer $tipo_documento_id
@@ -53,6 +53,8 @@ class Contacto extends Model implements Recordable
     public $timestamps = false;
 
     use \Altek\Accountant\Recordable;
+    //Para los eventos de BelongsToMany
+    use \Altek\Eventually\Eventually;
 
 
     public $fillable = [
@@ -209,15 +211,15 @@ class Contacto extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function contactoTipoContactos()
+    public function tiposContacto()
     {
-        return $this->hasMany(\App\Models\Contactos\ContactoTipoContacto::class, 'contacto_id');
+        return $this->belongsToMany(\App\Models\Parametros\TipoContacto::class, 'contacto_tipo_contacto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionAcademicas()
+    public function informacionesAcademicas()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionAcademica::class, 'contacto_id');
     }
@@ -225,7 +227,7 @@ class Contacto extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionEscolars()
+    public function informacionesEscolares()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionEscolar::class, 'contacto_id');
     }
@@ -233,7 +235,7 @@ class Contacto extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionLaborals()
+    public function informacionesLaborales()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionLaboral::class, 'contacto_id');
     }
