@@ -25,6 +25,9 @@
                 <tr>
                   <td><b>{{ $audit->pivot['relation'] }}</b></td>
                   <td>
+                    @if(empty($audit->pivot['properties']))
+                      {{'(vacío)'}}
+                    @endif
                     @foreach($audit->pivot['properties'] as $property)
                       {{ $property[array_key_first($property)] }}<br/>
                     @endforeach
@@ -34,7 +37,7 @@
               @foreach($audit->getData() as $attribute => $value)
                 <tr>
                   <td><b>{{ $attribute }}</b></td>
-                  <td>{{ $value }}</td>
+                  <td>{{ empty($value)?'(vacío)': $value }}</td>
                 </tr>
               @endforeach
               @endif
