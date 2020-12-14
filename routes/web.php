@@ -93,7 +93,6 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
 Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
     Route::get('contactos/dataAjax', 'Contactos\ContactoController@dataAjax')->name('contactos.contactos.dataAjax');
     Route::resource('contactos', 'Contactos\ContactoController', ["as" => 'contactos']);
-    Route::resource('contactosTipoContacto', 'Contactos\ContactoTipoContactoController', ["as" => 'contactos']);
     Route::resource('informacionesAcademicas', 'Contactos\InformacionAcademicaController', ["as" => 'contactos']);
     Route::resource('informacionesEscolares', 'Contactos\InformacionEscolarController', ["as" => 'contactos']);
     Route::resource('informacionesLaborales', 'Contactos\InformacionLaboralController', ["as" => 'contactos']);

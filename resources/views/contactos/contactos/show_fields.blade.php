@@ -100,6 +100,16 @@
     <p>{{ $contacto->referido_por? $contacto->referido->getNombreCompleto():'' }}</p>
 </div>
 
+<!-- Tipos de Contacto -->
+<div class="form-group col-sm-12">
+    {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
+    <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('tiposContacto', $contacto->tiposContacto,null) as $tipo)
+            <option value="{{ $tipo->id }}" selected="selected">{{ $tipo->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 <!-- Observacion Field -->
 <div class="form-group col-sm-12" >
     {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
@@ -111,5 +121,16 @@
     {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
     <p>{{ $contacto->activo? 'Si' : 'No' }}</p>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">       
+        $(document).ready(function() { 
+            $('#tiposContacto').select2({
+                tags: true,
+                multiple: true,
+            });            
+        });   
+    </script>
+@endpush
 
 

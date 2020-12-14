@@ -149,6 +149,16 @@
     <small>Seleccionar primero el pais, luego el departamento y por último la ciudad.<br/> Para el exterior solo es necesario el pais</small>
 </div>
 
+<!-- Tipos de Contacto -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
+    <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
+        @foreach (old('tiposContacto', $contacto->tiposContacto,null) as $tipo)
+            <option value="{{ $tipo->id }}" selected="selected">{{ $tipo->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 <!-- Observacion Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
@@ -246,6 +256,17 @@
                     dataType: 'json',
                 },
             }); 
+            $('#tiposContacto').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("parametros.tiposContacto.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
             $('#lugar_residencia').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
@@ -258,8 +279,8 @@
                             padre_id: $('#lugar_residencia').attr('data-id'),
                         };
                     },
-                },
-            }); 
+                },                
+            });             
             var seleccionado=$('#origen_id').select2('data');
             if(!seleccionado || !seleccionado[0] || !seleccionado[0].text.includes('Referido')){
                 $('#div_referido').hide(); 
