@@ -77,7 +77,7 @@ class CampoEducacionController extends AppBaseController
             return redirect(route('formaciones.camposEducacion.index'));
         }
 
-        $audits = $campoEducacion->ledgers()->with('user')->get();
+        $audits = $campoEducacion->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('formaciones.campos_educacion.show')->with(['campoEducacion'=> $campoEducacion, 'audits'=>$audits]);
     }

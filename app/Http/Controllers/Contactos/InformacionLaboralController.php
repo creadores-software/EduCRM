@@ -77,7 +77,7 @@ class InformacionLaboralController extends AppBaseController
             return redirect(route('contactos.informacionesLaborales.index'));
         }
 
-        $audits = $informacionLaboral->ledgers()->with('user')->get();
+        $audits = $informacionLaboral->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('contactos.informaciones_laborales.show')->with(['informacionLaboral'=> $informacionLaboral, 'audits'=>$audits]);
     }

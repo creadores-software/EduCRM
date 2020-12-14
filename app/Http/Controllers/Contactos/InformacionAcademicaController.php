@@ -77,7 +77,7 @@ class InformacionAcademicaController extends AppBaseController
             return redirect(route('contactos.informacionesAcademicas.index'));
         }
 
-        $audits = $informacionAcademica->ledgers()->with('user')->get();
+        $audits = $informacionAcademica->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('contactos.informaciones_academicas.show')->with(['informacionAcademica'=> $informacionAcademica, 'audits'=>$audits]);
     }

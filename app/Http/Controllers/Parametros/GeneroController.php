@@ -78,7 +78,7 @@ class GeneroController extends AppBaseController
             return redirect(route('parametros.generos.index'));
         }
         
-        $audits = $genero->ledgers()->with('user')->get();
+        $audits = $genero->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.generos.show')->with(['genero'=> $genero, 'audits'=>$audits]);
     }

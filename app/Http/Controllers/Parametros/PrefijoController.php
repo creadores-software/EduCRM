@@ -78,7 +78,7 @@ class PrefijoController extends AppBaseController
             return redirect(route('parametros.prefijos.index'));
         }
 
-        $audits = $prefijo->ledgers()->with('user')->get();
+        $audits = $prefijo->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.prefijos.show')->with(['prefijo'=> $prefijo, 'audits'=>$audits]);
     }

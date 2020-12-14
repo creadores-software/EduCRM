@@ -77,7 +77,7 @@ class FrecuenciaUsoController extends AppBaseController
             return redirect(route('parametros.frecuenciasUso.index'));
         }
 
-        $audits = $frecuenciaUso->ledgers()->with('user')->get();
+        $audits = $frecuenciaUso->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.frecuencias_uso.show')->with(['frecuenciaUso'=> $frecuenciaUso, 'audits'=>$audits]);
     }

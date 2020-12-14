@@ -77,7 +77,7 @@ class EntidadController extends AppBaseController
             return redirect(route('entidades.entidades.index'));
         }
 
-        $audits = $entidad->ledgers()->with('user')->get();
+        $audits = $entidad->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('entidades.entidades.show')->with(['entidad'=> $entidad, 'audits'=>$audits]);
     }

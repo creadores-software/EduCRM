@@ -77,7 +77,7 @@ class FormacionController extends AppBaseController
             return redirect(route('formaciones.formaciones.index'));
         }
 
-        $audits = $formacion->ledgers()->with('user')->get();
+        $audits = $formacion->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('formaciones.formaciones.show')->with(['formacion'=> $formacion, 'audits'=>$audits]);
     }

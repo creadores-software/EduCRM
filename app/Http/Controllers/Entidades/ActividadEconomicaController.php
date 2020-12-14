@@ -77,7 +77,7 @@ class ActividadEconomicaController extends AppBaseController
             return redirect(route('entidades.actividadesEconomicas.index'));
         }
 
-        $audits = $actividadEconomica->ledgers()->with('user')->get();
+        $audits = $actividadEconomica->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('entidades.actividades_economicas.show')->with(['actividadEconomica'=> $actividadEconomica, 'audits'=>$audits]);
     }

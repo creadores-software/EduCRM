@@ -77,7 +77,7 @@ class ParentescoController extends AppBaseController
             return redirect(route('contactos.parentescos.index'));
         }
 
-        $audits = $parentesco->ledgers()->with('user')->get();
+        $audits = $parentesco->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('contactos.parentescos.show')->with(['parentesco'=> $parentesco, 'audits'=>$audits]);
     }

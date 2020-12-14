@@ -78,7 +78,7 @@ class ContactoController extends AppBaseController
 
             return redirect(route('contactos.contactos.index'));
         }
-        $audits = $contacto->ledgers()->with('user')->get();
+        $audits = $contacto->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('contactos.contactos.show')->with(['contacto'=> $contacto, 'audits'=>$audits]);
     }

@@ -77,7 +77,7 @@ class EstatusUsuarioController extends AppBaseController
             return redirect(route('parametros.estatusUsuario.index'));
         }
 
-        $audits = $estatusUsuario->ledgers()->with('user')->get();
+        $audits = $estatusUsuario->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.estatus_usuario.show')->with(['estatusUsuario'=> $estatusUsuario, 'audits'=>$audits]);
     }

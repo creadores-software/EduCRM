@@ -76,7 +76,7 @@ class ActitudServicioController extends AppBaseController
             return redirect(route('parametros.actitudesServicio.index'));
         }
 
-        $audits = $actitudServicio->ledgers()->with('user')->get();
+        $audits = $actitudServicio->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.actitudes_servicio.show')->with(['actitudServicio'=> $actitudServicio, 'audits'=>$audits]);
     }

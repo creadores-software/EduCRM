@@ -77,7 +77,7 @@ class ActividadOcioController extends AppBaseController
             return redirect(route('parametros.actividadesOcio.index'));
         }
 
-        $audits = $actividadOcio->ledgers()->with('user')->get();
+        $audits = $actividadOcio->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.actividades_ocio.show')->with(['actividadOcio'=> $actividadOcio, 'audits'=>$audits]);
     }

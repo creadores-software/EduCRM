@@ -77,7 +77,7 @@ class ReligionController extends AppBaseController
             return redirect(route('parametros.religiones.index'));
         }
 
-        $audits = $religion->ledgers()->with('user')->get();
+        $audits = $religion->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.religiones.show')->with(['religion'=> $religion, 'audits'=>$audits]);
     }

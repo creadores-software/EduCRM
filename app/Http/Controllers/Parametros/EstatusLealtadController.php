@@ -77,7 +77,7 @@ class EstatusLealtadController extends AppBaseController
             return redirect(route('parametros.estatusLealtad.index'));
         }
 
-        $audits = $estatusLealtad->ledgers()->with('user')->get();
+        $audits = $estatusLealtad->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.estatus_lealtad.show')->with(['estatusLealtad'=> $estatusLealtad, 'audits'=>$audits]);
     }

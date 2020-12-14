@@ -77,7 +77,7 @@ class TipoParentescoController extends AppBaseController
             return redirect(route('parametros.tiposParentesco.index'));
         }
 
-        $audits = $tipoParentesco->ledgers()->with('user')->get();
+        $audits = $tipoParentesco->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.tipos_parentesco.show')->with(['tipoParentesco'=> $tipoParentesco, 'audits'=>$audits]);
     }

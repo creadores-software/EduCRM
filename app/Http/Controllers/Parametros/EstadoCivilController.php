@@ -77,7 +77,7 @@ class EstadoCivilController extends AppBaseController
             return redirect(route('parametros.estadosCiviles.index'));
         }
 
-        $audits = $estadoCivil->ledgers()->with('user')->get();
+        $audits = $estadoCivil->ledgers()->with('user')->get()->sortByDesc('created_at');
 
         return view('parametros.estados_civiles.show')->with(['estadoCivil'=> $estadoCivil, 'audits'=>$audits]);
     }
