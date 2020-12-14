@@ -64,18 +64,31 @@ class InformacionRelacionalRepository extends BaseRepository
         $query = $this->model->newQuery();
         $model = $query->findOrFail($id);
         $model->fill($input);
+
         if(array_key_exists('preferenciasFormaciones',$input)){            
             $model->preferenciasFormaciones()->sync((array)$input['preferenciasFormaciones']);
-        } 
+        }else{
+            $model->preferenciasFormaciones()->sync([]);
+        }
+
         if(array_key_exists('preferenciasMediosComunicacion',$input)){            
             $model->preferenciasMediosComunicacion()->sync((array)$input['preferenciasMediosComunicacion']);
+        }else{
+            $model->preferenciasMediosComunicacion()->sync([]);
         }  
+
         if(array_key_exists('preferenciasCamposEducacion',$input)){            
             $model->preferenciasCamposEducacion()->sync((array)$input['preferenciasCamposEducacion']);
+        }else{
+            $model->preferenciasCamposEducacion()->sync([]);
         } 
+
         if(array_key_exists('preferenciasActividadesOcio',$input)){            
             $model->preferenciasActividadesOcio()->sync((array)$input['preferenciasActividadesOcio']);
-        }        
+        }else{            
+            $model->preferenciasActividadesOcio()->sync([]);
+        } 
+
         $model->save();
         return $model;
     }
