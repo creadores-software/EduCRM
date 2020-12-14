@@ -21,6 +21,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('sector_id', __('models/entidades.fields.sector_id').':') !!}
     <select name="sector_id" id="sector_id" class="form-control">
+        <option></option>
         @if(!empty(old('sector_id', $entidad->sector_id ?? '' )))
             <option value="{{ old('sector_id', $entidad->sector_id ?? '' ) }}" selected> {{ App\Models\Entidades\Sector::find(old('sector_id', $entidad->sector_id ?? '' ))->nombre }} </option>
         @endif
@@ -31,6 +32,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id').':') !!}
     <select name="actividad_economica_id" id="actividad_economica_id" class="form-control">
+        <option></option>
         @if(!empty(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' )))
             <option value="{{ old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\ActividadEconomica::find(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ))->nombre }} </option>
         @endif
@@ -41,6 +43,7 @@
 <div class="form-group col-sm-6 location-select">    
     {!! Form::label('lugar_id', __('models/entidades.fields.lugar_id').':') !!}    
     <select name="lugar_id" id="lugar_id" class="form-control">
+        <option></option>
         @if(!empty(old('lugar_id', $entidad->lugar_id ?? '' )))
             <option value="{{ old('lugar_id', $entidad->lugar_id ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('lugar_id', $entidad->lugar_id ?? '' ))->nombre }} </option>
         @endif
@@ -67,6 +70,8 @@
     <script type="text/javascript">
         $(document).ready(function() {            
             $('#lugar_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.lugares.dataAjax") }}',
                     dataType: 'json',
@@ -79,12 +84,16 @@
                 },
             });
             $('#sector_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("entidades.sectores.dataAjax") }}',
                     dataType: 'json',
                 },
             });
             $('#actividad_economica_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("entidades.actividadesEconomicas.dataAjax") }}',
                     dataType: 'json',

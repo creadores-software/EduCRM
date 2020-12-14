@@ -9,6 +9,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('tipo_contrario_id', __('models/tiposParentesco.fields.tipo_contrario_id').':') !!}
     <select name="tipo_contrario_id" id="tipo_contrario_id" class="form-control">
+        <option></option>
         @if(!empty(old('tipo_contrario_id', $tipoParentesco->tipo_contrario_id ?? '' )))
             <option value="{{ old('tipo_contrario_id', $tipoParentesco->tipo_contrario_id ?? '' ) }}" selected> {{ App\Models\Parametros\TipoParentesco::find(old('tipo_contrario_id', $tipoParentesco->tipo_contrario_id ?? '' ))->nombre }} </option>
         @endif
@@ -25,6 +26,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tipo_contrario_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.tiposParentesco.dataAjax") }}',
                     dataType: 'json',

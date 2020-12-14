@@ -13,7 +13,8 @@
           <div class="form-group col-sm-12" id="div_origen">
               {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
               <select name="origen_id" id="origen_id" class="form-control">
-                  @if(!empty(old('origen_id', $contacto->origen_id ?? '' )))
+                <option></option>  
+                @if(!empty(old('origen_id', $contacto->origen_id ?? '' )))
                       <option value="{{ old('origen_id', $contacto->origen_id ?? '' ) }}" selected> {{ App\Models\Parametros\Origen::find(old('origen_id', $contacto->origen_id ?? '' ))->nombre }} </option>
                   @endif
               </select> 
@@ -32,6 +33,8 @@
     <script type="text/javascript">        
         $(document).ready(function() { 
             $('#origen_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.origenes.dataAjax") }}',
                     dataType: 'json',

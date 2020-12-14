@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('categoria_actividad_economica_id', __('models/actividadesEconomicas.fields.categoria_actividad_economica_id').':') !!}
     <select name="categoria_actividad_economica_id" id="categoria_actividad_economica_id" class="form-control">
+        <option></option>
         @if(!empty(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' )))
             <option value="{{ old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\CategoriaActividadEconomica::find(old('categoria_actividad_economica_id', $actividadEconomica->categoria_actividad_economica_id ?? '' ))->nombre }} </option>
         @endif
@@ -44,6 +45,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#categoria_actividad_economica_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("entidades.categoriasActividadEconomica.dataAjax") }}',
                     dataType: 'json',

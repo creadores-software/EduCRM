@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('genero_id', __('models/prefijos.fields.genero_id').':') !!}
     <select name="genero_id" id="genero_id" class="form-control">
+        <option></option>
         @if(!empty(old('genero_id', $prefijo->genero_id ?? '' )))
             <option value="{{ old('genero_id', $prefijo->genero_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('genero_id', $prefijo->genero_id ?? '' ))->nombre }} </option>
         @endif
@@ -24,6 +25,8 @@
     <script type="text/javascript">
         $(document).ready(function() {            
             $('#genero_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.generos.dataAjax") }}',
                     dataType: 'json',

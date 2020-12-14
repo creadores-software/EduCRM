@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('categoria_campo_educacion_id', __('models/camposEducacion.fields.categoria_campo_educacion_id').':') !!}
     <select name="categoria_campo_educacion_id" id="categoria_campo_educacion_id" class="form-control">
+        <option></option>
         @if(!empty(old('categoria_campo_educacion_id', $campoEducacion->categoria_campo_educacion_id ?? '' )))
             <option value="{{ old('categoria_campo_educacion_id', $campoEducacion->categoria_campo_educacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\CategoriaCampoEducacion::find(old('categoria_campo_educacion_id', $campoEducacion->categoria_campo_educacion_id ?? '' ))->nombre }} </option>
         @endif
@@ -25,6 +26,8 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#categoria_campo_educacion_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.categoriasCampoEducacion.dataAjax") }}',
                     dataType: 'json',

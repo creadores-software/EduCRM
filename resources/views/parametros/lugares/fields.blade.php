@@ -14,6 +14,7 @@
 <div class="form-group col-sm-6" id="div_padre_id">
     {!! Form::label('padre_id', __('models/lugares.fields.padre_id').':') !!}
     <select name="padre_id" id="padre_id" class="form-control">
+        <option></option>
         @if(!empty(old('padre_id', $lugar->padre_id ?? '' )))
             <option value="{{ old('padre_id', $lugar->padre_id ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('padre_id', $lugar->padre_id ?? '' ))->nombre }} </option>
         @endif
@@ -37,6 +38,8 @@
         }); 
         $(document).ready(function() {  
             $('#padre_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.lugares.dataAjax") }}',
                     dataType: 'json',

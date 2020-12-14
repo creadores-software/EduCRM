@@ -37,6 +37,7 @@
 <div class="form-group col-sm-6" id="div_referido">
     {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
     <select name="referido_por" id="referido_por" class="form-control">
+        <option></option>
         @if(!empty(old('referido_por', $contacto->referido_por ?? '' )))
             <option value="{{ old('referido_por', $contacto->referido_por ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('referido_por', $contacto->referido_por ?? '' ))->nombre }} </option>
         @endif
@@ -52,6 +53,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('tipo_documento_id', __('models/contactos.fields.tipo_documento_id').':') !!}
     <select name="tipo_documento_id" id="tipo_documento_id" class="form-control">
+        <option></option>
         @if(!empty(old('tipo_documento_id', $contacto->tipo_documento_id ?? '' )))
             <option value="{{ old('tipo_documento_id', $contacto->tipo_documento_id ?? '' ) }}" selected> {{ App\Models\Parametros\TipoDocumento::find(old('tipo_documento_id', $contacto->tipo_documento_id ?? '' ))->nombre }} </option>
         @endif
@@ -81,6 +83,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('genero_id', __('models/contactos.fields.genero_id').':') !!}
     <select name="genero_id" id="genero_id" class="form-control">
+        <option></option>
         @if(!empty(old('genero_id', $contacto->genero_id ?? '' )))
             <option value="{{ old('genero_id', $contacto->genero_id ?? '' ) }}" selected> {{ App\Models\Parametros\Genero::find(old('genero_id', $contacto->genero_id ?? '' ))->nombre }} </option>
         @endif
@@ -91,6 +94,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id').':') !!}
     <select name="prefijo_id" id="prefijo_id" class="form-control">
+        <option></option>
         @if(!empty(old('prefijo_id', $contacto->prefijo_id ?? '' )))
             <option value="{{ old('prefijo_id', $contacto->prefijo_id ?? '' ) }}" selected> {{ App\Models\Parametros\Prefijo::find(old('prefijo_id', $contacto->prefijo_id ?? '' ))->nombre }} </option>
         @endif
@@ -114,6 +118,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('estado_civil_id', __('models/contactos.fields.estado_civil_id').':') !!}
     <select name="estado_civil_id" id="estado_civil_id" class="form-control">
+        <option></option>
         @if(!empty(old('estado_civil_id', $contacto->estado_civil_id ?? '' )))
             <option value="{{ old('estado_civil_id', $contacto->estado_civil_id ?? '' ) }}" selected> {{ App\Models\Parametros\EstadoCivil::find(old('estado_civil_id', $contacto->estado_civil_id ?? '' ))->nombre }} </option>
         @endif
@@ -136,6 +141,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
     <select name="lugar_residencia" id="lugar_residencia" class="form-control">
+        <option></option>
         @if(!empty(old('lugar_residencia', $contacto->lugar_residencia ?? '' )))
             <option value="{{ old('lugar_residencia', $contacto->lugar_residencia ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('lugar_residencia', $contacto->lugar_residencia ?? '' ))->nombre }} </option>
         @endif
@@ -186,30 +192,40 @@
         }); 
         $(document).ready(function() { 
             $('#origen_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.origenes.dataAjax") }}',
                     dataType: 'json',
                 },
             });  
             $('#referido_por').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',
                 },
             });    
             $('#tipo_documento_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.tiposDocumento.dataAjax") }}',
                     dataType: 'json',
                 },
             });       
             $('#genero_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.generos.dataAjax") }}',
                     dataType: 'json',
                 },
             });   
             $('#prefijo_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.prefijos.dataAjax") }}',
                     dataType: 'json',
@@ -223,12 +239,16 @@
                 },
             });  
             $('#estado_civil_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.estadosCiviles.dataAjax") }}',
                     dataType: 'json',
                 },
             }); 
             $('#lugar_residencia').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
                 ajax: {
                     url: '{{ route("parametros.lugares.dataAjax") }}',
                     dataType: 'json',
