@@ -1,19 +1,19 @@
 <!-- Contacto Id Field -->
 <div class="form-group">
     {!! Form::label('contacto_id', __('models/informacionesAcademicas.fields.contacto_id').':') !!}
-    <p>{{ $informacionAcademica->contacto_id }}</p>
+    <p>{{ $informacionAcademica->contacto->nombre }}</p>
 </div>
 
 <!-- Formacion Id Field -->
 <div class="form-group">
     {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}
-    <p>{{ $informacionAcademica->formacion_id }}</p>
+    <p>{{ $informacionAcademica->formacion->nombre }}</p>
 </div>
 
 <!-- Finalizado Field -->
 <div class="form-group">
     {!! Form::label('finalizado', __('models/informacionesAcademicas.fields.finalizado').':') !!}
-    <p>{{ $informacionAcademica->finalizado }}</p>
+    <p>{{ $informacionAcademica->finalizado?'Si':'No' }}</p>
 </div>
 
 <!-- Fecha Grado Estimada Field -->

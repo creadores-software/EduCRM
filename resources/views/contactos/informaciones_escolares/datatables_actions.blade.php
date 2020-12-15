@@ -3,6 +3,7 @@
     <a href="{{ route('contactos.informacionesEscolares.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
+    @if(!$request->has('soloVista'))
     <a href="{{ route('contactos.informacionesEscolares.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
@@ -11,5 +12,6 @@
         'class' => 'btn btn-danger btn-xs',
         'onclick' => 'return confirm("'.__('crud.are_you_sure').'")'
     ]) !!}
+    @endif
 </div>
 {!! Form::close() !!}

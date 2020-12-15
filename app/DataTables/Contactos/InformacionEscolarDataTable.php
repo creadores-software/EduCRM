@@ -30,7 +30,7 @@ class InformacionEscolarDataTable extends DataTable
      */
     public function query(InformacionEscolar $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['entidad','nivelEducativo'])->select('informacion_escolar.*');
     }
 
     /**
@@ -55,6 +55,11 @@ class InformacionEscolarDataTable extends DataTable
                        'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
                     ],
                     [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
+                    ],
+                    [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
@@ -63,6 +68,16 @@ class InformacionEscolarDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(5)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -74,10 +89,9 @@ class InformacionEscolarDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_id' => new Column(['title' => __('models/informacionesEscolares.fields.contacto_id'), 'data' => 'contacto_id']),
-            'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad_id']),
-            'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo_id']),
-            'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
+            'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
+            'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
+            'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'fecha_grado_estimada' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),
             'fecha_grado_real' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado_real'), 'data' => 'fecha_grado_real'])
         ];

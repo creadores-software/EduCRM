@@ -1,62 +1,122 @@
 <!-- Contacto Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('contacto_id', __('models/informacionesEscolares.fields.contacto_id').':') !!}
-    {!! Form::number('contacto_id', null, ['class' => 'form-control']) !!}
+    <select name="contacto_id" id="contacto_id" class="form-control" disabled=true>
+        <option></option>
+        @if(!empty(old('contacto_id', $informacionEscolar->contacto_id ?? '' )))
+            <option value="{{ old('contacto_id', $informacionEscolar->contacto_id ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_id', $informacionEscolar->contacto_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id').':') !!}
-    {!! Form::number('entidad_id', null, ['class' => 'form-control']) !!}
+    <select name="entidad_id" id="entidad_id" class="form-control">
+        <option></option>
+        @if(!empty(old('entidad_id', $informacionEscolar->entidad_id ?? '' )))
+            <option value="{{ old('entidad_id', $informacionEscolar->entidad_id ?? '' ) }}" selected> {{ App\Models\Entidades\Entidad::find(old('entidad_id', $informacionEscolar->entidad_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Nivel Educativo Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nivel_educativo_id', __('models/informacionesEscolares.fields.nivel_educativo_id').':') !!}
-    {!! Form::number('nivel_educativo_id', null, ['class' => 'form-control']) !!}
+    <select name="nivel_educativo_id" id="nivel_educativo_id" class="form-control">
+        <option></option>
+        @if(!empty(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' )))
+            <option value="{{ old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelEducativo::find(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Finalizado Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('finalizado', 0) !!}
-        {!! Form::checkbox('finalizado', '1', null) !!} &nbsp;
+        {!! Form::checkbox('finalizado', 1, old('finalizado', $informacionEscolar->finalizado ?? 1)) !!}  &nbsp;
     </label>
 </div>
 
 <!-- Fecha Grado Estimada Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha_grado_estimada', __('models/informacionesEscolares.fields.fecha_grado_estimada').':') !!}
-    {!! Form::date('fecha_grado_estimada', null, ['class' => 'form-control','id'=>'fecha_grado_estimada']) !!}
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionEscolar->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right" id="fecha_grado_estimada">
+    </div>
 </div>
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#fecha_grado_estimada').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: false
-        })
-    </script>
-@endpush
 
 <!-- Fecha Grado Real Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha_grado_real', __('models/informacionesEscolares.fields.fecha_grado_real').':') !!}
-    {!! Form::date('fecha_grado_real', null, ['class' => 'form-control','id'=>'fecha_grado_real']) !!}
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionEscolar->fecha_grado_real ?? '' ) }}" class="form-control pull-right" id="fecha_grado_real">
+    </div>
 </div>
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#fecha_grado_real').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: false
-        })
-    </script>
-@endpush
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('contactos.informacionesEscolares.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $('#fecha_grado_estimada').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+            locale: 'es',
+        })
+        $('#fecha_grado_real').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+            locale: 'es',
+        })
+        $(document).ready(function() { 
+            $('#contacto_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("contactos.contactos.dataAjax") }}',
+                    dataType: 'json',
+                },
+            }); 
+            $('#entidad_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("entidades.entidades.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            es_colegio: 1,
+                        };
+                    },
+                },
+            }); 
+            $('#nivel_educativo_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.nivelesFormacion.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            es_ies: 0,
+                        };
+                    },
+                },
+            });
+        }); 
+    </script>
+@endpush

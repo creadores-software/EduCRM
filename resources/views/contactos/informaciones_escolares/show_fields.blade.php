@@ -1,25 +1,25 @@
 <!-- Contacto Id Field -->
 <div class="form-group">
     {!! Form::label('contacto_id', __('models/informacionesEscolares.fields.contacto_id').':') !!}
-    <p>{{ $informacionEscolar->contacto_id }}</p>
+    <p>{{ $informacionEscolar->contacto->nombre }}</p>
 </div>
 
 <!-- Entidad Id Field -->
 <div class="form-group">
     {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id').':') !!}
-    <p>{{ $informacionEscolar->entidad_id }}</p>
+    <p>{{ $informacionEscolar->entidad->nombre }}</p>
 </div>
 
 <!-- Nivel Educativo Id Field -->
 <div class="form-group">
     {!! Form::label('nivel_educativo_id', __('models/informacionesEscolares.fields.nivel_educativo_id').':') !!}
-    <p>{{ $informacionEscolar->nivel_educativo_id }}</p>
+    <p>{{ $informacionEscolar->nivelEducativo->nombre }}</p>
 </div>
 
 <!-- Finalizado Field -->
 <div class="form-group">
     {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
-    <p>{{ $informacionEscolar->finalizado }}</p>
+    <p>{{ $informacionEscolar->finalizado?'Si':'No' }}</p>
 </div>
 
 <!-- Fecha Grado Estimada Field -->
