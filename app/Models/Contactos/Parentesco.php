@@ -80,6 +80,6 @@ class Parentesco extends Model implements Recordable
      **/
     public function tipoParentesco()
     {
-        return $this->belongsTo(\App\Models\Contactos\TipoParentesco::class, 'tipo_parentesco_id');
+        return $this->belongsTo(\App\Models\Parametros\TipoParentesco::class, 'tipo_parentesco_id');
     }
 }

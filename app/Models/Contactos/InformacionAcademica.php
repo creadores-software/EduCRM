@@ -75,6 +75,6 @@ class InformacionAcademica extends Model implements Recordable
      **/
     public function formacion()
     {
-        return $this->belongsTo(\App\Models\Contactos\Formacion::class, 'formacion_id');
+        return $this->belongsTo(\App\Models\Formaciones\Formacion::class, 'formacion_id');
     }
 }

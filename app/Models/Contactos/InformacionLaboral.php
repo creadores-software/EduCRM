@@ -80,7 +80,7 @@ class InformacionLaboral extends Model implements Recordable
      **/
     public function ocupacion()
     {
-        return $this->belongsTo(\App\Models\Contactos\Ocupacion::class, 'ocupacion_id');
+        return $this->belongsTo(\App\Models\Entidades\Ocupacion::class, 'ocupacion_id');
     }
 
     /**
@@ -96,6 +96,6 @@ class InformacionLaboral extends Model implements Recordable
      **/
     public function entidad()
     {
-        return $this->belongsTo(\App\Models\Contactos\Entidad::class, 'entidad_id');
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
     }
 }
