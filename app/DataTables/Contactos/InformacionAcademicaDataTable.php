@@ -6,6 +6,7 @@ use App\Models\Contactos\InformacionAcademica;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Http\Request;
 
 class InformacionAcademicaDataTable extends DataTable
 {
@@ -15,11 +16,38 @@ class InformacionAcademicaDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query)
+    public function dataTable($query, Request $request)
     {
         $dataTable = new EloquentDataTable($query);
+        $soloVista=false;
+        if ($request->has('soloVista')) {
+            $soloVista=$request->get('soloVista');
+        }
 
-        return $dataTable->addColumn('action', 'contactos.informaciones_academicas.datatables_actions');
+        return $dataTable
+        ->addColumn('action', function($row) use ($soloVista){
+            $id=$row->id;
+            return view('contactos.informaciones_academicas.datatables_actions', 
+            compact('soloVista','id'));
+        })        
+        ->filterColumn('finalizado', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("activo = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("activo = ?", [$validacion]);    
+            }                
+        })
+        ->filterColumn('contacto_id', function ($query, $keyword) use ($request) {
+            if (!$request->has('idContacto')) {
+                return;
+            }else{
+                $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
+            }            
+        })
+        ->with('soloVista', $soloVista);
     }
 
     /**
@@ -30,7 +58,8 @@ class InformacionAcademicaDataTable extends DataTable
      */
     public function query(InformacionAcademica $model)
     {
-        return $model->newQuery()->with(['formacion'])->select('informacion_academica.*');;
+        return $model->newQuery()
+            ->with(['formacion'])->select('informacion_academica.*');
     }
 
     /**
@@ -48,12 +77,7 @@ class InformacionAcademicaDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
+                'buttons'   => [                    
                     [
                         'extend' => 'reset',
                         'className' => 'btn btn-default btn-sm no-corner',
@@ -89,6 +113,7 @@ class InformacionAcademicaDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'contacto_id' => new Column(['title' => __('models/informacionesAcademicas.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
             'formacion_id' => new Column(['title' => __('models/informacionesAcademicas.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'fecha_grado_estimada' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),

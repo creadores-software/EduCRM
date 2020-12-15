@@ -1,13 +1,4 @@
-<!-- Contacto Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contacto_id', __('models/informacionesAcademicas.fields.contacto_id').':') !!}
-    <select name="contacto_id" id="contacto_id" class="form-control" disabled=true>
-        <option></option>
-        @if(!empty(old('contacto_id', $informacionAcademica->contacto_id ?? '' )))
-            <option value="{{ old('contacto_id', $informacionAcademica->contacto_id ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_id', $informacionAcademica->contacto_id ?? '' ))->nombre }} </option>
-        @endif
-    </select> 
-</div>
+{!! Form::hidden('contacto_id',$idContacto) !!}
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
@@ -15,7 +6,7 @@
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('formacion_id', $informacionAcademica->formacion_id ?? '' )))
-            <option value="{{ old('formacion_id', $informacionAcademica->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('contacto_id', $informacionAcademica->contacto_id ?? '' ))->nombre }} </option>
+            <option value="{{ old('formacion_id', $informacionAcademica->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('formacion_id', $informacionAcademica->formacion_id ?? '' ))->nombre }} </option>
         @endif
     </select> 
 </div>
@@ -71,8 +62,6 @@
         })
         $(document).ready(function() { 
             $('#contacto_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
                 ajax: {
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',

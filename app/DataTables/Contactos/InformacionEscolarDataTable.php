@@ -6,6 +6,7 @@ use App\Models\Contactos\InformacionEscolar;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Http\Request;
 
 class InformacionEscolarDataTable extends DataTable
 {
@@ -15,11 +16,38 @@ class InformacionEscolarDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query)
+    public function dataTable($query, Request $request)
     {
         $dataTable = new EloquentDataTable($query);
+        $soloVista=false;
+        if ($request->has('soloVista')) {
+            $soloVista=$request->get('soloVista');
+        }
 
-        return $dataTable->addColumn('action', 'contactos.informaciones_escolares.datatables_actions');
+        return $dataTable
+        ->addColumn('action', function($row) use ($soloVista){
+            $id=$row->id;
+            return view('contactos.informaciones_escolares.datatables_actions', 
+            compact('soloVista','id'));
+        }) 
+        ->filterColumn('finalizado', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("activo = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("activo = ?", [$validacion]);    
+            }                
+        })
+        ->filterColumn('contacto_id', function ($query, $keyword) use ($request) {
+            if (!$request->has('idContacto')) {
+                return;
+            }else{
+                $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
+            }            
+        })
+        ->with('soloVista', $soloVista);
     }
 
     /**
@@ -48,12 +76,7 @@ class InformacionEscolarDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
+                'buttons'   => [                    
                     [
                         'extend' => 'reset',
                         'className' => 'btn btn-default btn-sm no-corner',
@@ -89,6 +112,7 @@ class InformacionEscolarDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'contacto_id' => new Column(['title' => __('models/informacionesEscolares.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
             'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),

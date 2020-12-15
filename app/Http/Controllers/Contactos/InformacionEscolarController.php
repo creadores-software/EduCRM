@@ -10,6 +10,7 @@ use App\Repositories\Contactos\InformacionEscolarRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Http\Request;
 
 class InformacionEscolarController extends AppBaseController
 {
@@ -27,9 +28,14 @@ class InformacionEscolarController extends AppBaseController
      * @param InformacionEscolarDataTable $informacionEscolarDataTable
      * @return Response
      */
-    public function index(InformacionEscolarDataTable $informacionEscolarDataTable)
+    public function index(InformacionEscolarDataTable $informacionEscolarDataTable, Request $request)
     {
-        return $informacionEscolarDataTable->render('contactos.informaciones_escolares.index');
+        if ($request->has('idContacto')) {
+            return $informacionEscolarDataTable->render('contactos.informaciones_escolares.index',
+                ['idContacto'=>$request->get('idContacto')]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
+        }        
     }
 
     /**
@@ -37,9 +43,13 @@ class InformacionEscolarController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('contactos.informaciones_escolares.create');
+        if ($request->has('idContacto')) {
+            return view('contactos.informaciones_escolares.create',['idContacto'=>$request->get('idContacto')]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        } 
     }
 
     /**

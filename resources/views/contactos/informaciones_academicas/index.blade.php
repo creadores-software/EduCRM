@@ -6,7 +6,7 @@
             @lang('models/informacionesAcademicas.plural')
         </h1>
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('contactos.informacionesAcademicas.create') }}">@lang('crud.add_new')</a>
+           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('contactos.informacionesAcademicas.create',['idContacto'=>$idContacto]) }}">@lang('crud.add_new')</a>
         </h1>
     </section>
     <div class="content">

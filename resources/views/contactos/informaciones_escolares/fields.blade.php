@@ -1,13 +1,4 @@
-<!-- Contacto Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('contacto_id', __('models/informacionesEscolares.fields.contacto_id').':') !!}
-    <select name="contacto_id" id="contacto_id" class="form-control" disabled=true>
-        <option></option>
-        @if(!empty(old('contacto_id', $informacionEscolar->contacto_id ?? '' )))
-            <option value="{{ old('contacto_id', $informacionEscolar->contacto_id ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_id', $informacionEscolar->contacto_id ?? '' ))->nombre }} </option>
-        @endif
-    </select> 
-</div>
+{!! Form::hidden('contacto_id',$idContacto) !!}
 
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6">

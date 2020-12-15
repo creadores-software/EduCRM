@@ -10,6 +10,7 @@ use App\Repositories\Contactos\InformacionAcademicaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Http\Request;
 
 class InformacionAcademicaController extends AppBaseController
 {
@@ -27,9 +28,14 @@ class InformacionAcademicaController extends AppBaseController
      * @param InformacionAcademicaDataTable $informacionAcademicaDataTable
      * @return Response
      */
-    public function index(InformacionAcademicaDataTable $informacionAcademicaDataTable)
+    public function index(InformacionAcademicaDataTable $informacionAcademicaDataTable, Request $request)
     {
-        return $informacionAcademicaDataTable->render('contactos.informaciones_academicas.index');
+        if ($request->has('idContacto')) {
+            return $informacionAcademicaDataTable->render('contactos.informaciones_academicas.index',
+                ['idContacto'=>$request->get('idContacto')]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
+        }
     }
 
     /**
@@ -37,9 +43,13 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('contactos.informaciones_academicas.create');
+        if ($request->has('idContacto')) {
+            return view('contactos.informaciones_academicas.create',['idContacto'=>$request->get('idContacto')]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        } 
     }
 
     /**
@@ -50,7 +60,7 @@ class InformacionAcademicaController extends AppBaseController
      * @return Response
      */
     public function store(CreateInformacionAcademicaRequest $request)
-    {
+    {        
         $input = $request->all();
 
         $informacionAcademica = $this->informacionAcademicaRepository->create($input);

@@ -3,7 +3,7 @@
     <a href="{{ route('contactos.informacionesEscolares.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    @if(!$request->has('soloVista'))
+    @if(!$soloVista)
     <a href="{{ route('contactos.informacionesEscolares.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>

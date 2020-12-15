@@ -39,7 +39,7 @@
     <select name="referido_por" id="referido_por" class="form-control">
         <option></option>
         @if(!empty(old('referido_por', $contacto->referido_por ?? '' )))
-            <option value="{{ old('referido_por', $contacto->referido_por ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('referido_por', $contacto->referido_por ?? '' ))->nombre }} </option>
+            <option value="{{ old('referido_por', $contacto->referido_por ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('referido_por', $contacto->referido_por ?? '' ))->getNombreCompleto() }} </option>
         @endif
     </select> 
 </div>
