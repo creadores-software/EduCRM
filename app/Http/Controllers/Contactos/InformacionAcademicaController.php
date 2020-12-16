@@ -11,6 +11,7 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
 use Illuminate\Http\Request;
+use App\Models\Contactos\Contacto;
 
 class InformacionAcademicaController extends AppBaseController
 {
@@ -31,8 +32,9 @@ class InformacionAcademicaController extends AppBaseController
     public function index(InformacionAcademicaDataTable $informacionAcademicaDataTable, Request $request)
     {
         if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
             return $informacionAcademicaDataTable->render('contactos.informaciones_academicas.index',
-                ['idContacto'=>$request->get('idContacto')]); 
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }
@@ -46,7 +48,9 @@ class InformacionAcademicaController extends AppBaseController
     public function create(Request $request)
     {
         if ($request->has('idContacto')) {
-            return view('contactos.informaciones_academicas.create',['idContacto'=>$request->get('idContacto')]);
+            $contacto = Contacto::find($request->get('idContacto'));
+            return view('contactos.informaciones_academicas.create',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]);
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
         } 
@@ -67,7 +71,7 @@ class InformacionAcademicaController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index'));
+        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -77,19 +81,25 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $informacionAcademica = $this->informacionAcademicaRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
-        if (empty($informacionAcademica)) {
-            Flash::error(__('models/informacionesAcademicas.singular').' '.__('messages.not_found'));
-
-            return redirect(route('contactos.informacionesAcademicas.index'));
+            if (empty($informacionAcademica)) {
+                Flash::error(__('models/informacionesAcademicas.singular').' '.__('messages.not_found'));
+    
+                return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+            }
+    
+            $audits = $informacionAcademica->ledgers()->with('user')->get()->sortByDesc('created_at');
+    
+            return view('contactos.informaciones_academicas.show',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto,'audits'=>$audits,'informacionAcademica'=>$informacionAcademica]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }
-
-        $audits = $informacionAcademica->ledgers()->with('user')->get()->sortByDesc('created_at');
-
-        return view('contactos.informaciones_academicas.show')->with(['informacionAcademica'=> $informacionAcademica, 'audits'=>$audits]);
     }
 
     /**
@@ -99,17 +109,23 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        $informacionAcademica = $this->informacionAcademicaRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
-        if (empty($informacionAcademica)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
-
-            return redirect(route('contactos.informacionesAcademicas.index'));
-        }
-
-        return view('contactos.informaciones_academicas.edit')->with('informacionAcademica', $informacionAcademica);
+            if (empty($informacionAcademica)) {
+                Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
+    
+                return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+            }
+    
+            return view('contactos.informaciones_academicas.edit',
+            ['idContacto'=>$contacto->id,'contacto'=>$contacto,'informacionAcademica'=>$informacionAcademica]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        }        
     }
 
     /**
@@ -122,19 +138,20 @@ class InformacionAcademicaController extends AppBaseController
      */
     public function update($id, UpdateInformacionAcademicaRequest $request)
     {
+        dd($request);
         $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
         if (empty($informacionAcademica)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
 
-            return redirect(route('contactos.informacionesAcademicas.index'));
+            return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $informacionAcademica = $this->informacionAcademicaRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index'));
+        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -144,20 +161,20 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id,Request $request)
     {
         $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
         if (empty($informacionAcademica)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
 
-            return redirect(route('contactos.informacionesAcademicas.index'));
+            return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $this->informacionAcademicaRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index'));
+        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
     }
 }

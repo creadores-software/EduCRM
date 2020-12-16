@@ -24,11 +24,16 @@ class InformacionAcademicaDataTable extends DataTable
             $soloVista=$request->get('soloVista');
         }
 
+        $idContacto=false;
+        if ($request->has('idContacto')) {
+            $idContacto=$request->get('idContacto');
+        }
+
         return $dataTable
-        ->addColumn('action', function($row) use ($soloVista){
+        ->addColumn('action', function($row) use ($soloVista,$idContacto){
             $id=$row->id;
             return view('contactos.informaciones_academicas.datatables_actions', 
-            compact('soloVista','id'));
+            compact('soloVista','id','idContacto'));
         })        
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;

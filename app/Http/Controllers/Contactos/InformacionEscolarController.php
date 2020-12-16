@@ -31,8 +31,9 @@ class InformacionEscolarController extends AppBaseController
     public function index(InformacionEscolarDataTable $informacionEscolarDataTable, Request $request)
     {
         if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
             return $informacionEscolarDataTable->render('contactos.informaciones_escolares.index',
-                ['idContacto'=>$request->get('idContacto')]); 
+                ['idContacto'=>$request->get('idContacto'),'contacto'=>$contacto]); 
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }        
