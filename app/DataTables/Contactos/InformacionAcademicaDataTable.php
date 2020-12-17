@@ -19,10 +19,6 @@ class InformacionAcademicaDataTable extends DataTable
     public function dataTable($query, Request $request)
     {
         $dataTable = new EloquentDataTable($query);
-        $soloVista=false;
-        if ($request->has('soloVista')) {
-            $soloVista=$request->get('soloVista');
-        }
 
         $idContacto=false;
         if ($request->has('idContacto')) {
@@ -30,10 +26,10 @@ class InformacionAcademicaDataTable extends DataTable
         }
 
         return $dataTable
-        ->addColumn('action', function($row) use ($soloVista,$idContacto){
+        ->addColumn('action', function($row) use ($idContacto){
             $id=$row->id;
             return view('contactos.informaciones_academicas.datatables_actions', 
-            compact('soloVista','id','idContacto'));
+            compact('id','idContacto'));
         })        
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
@@ -51,8 +47,7 @@ class InformacionAcademicaDataTable extends DataTable
             }else{
                 $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
             }            
-        })
-        ->with('soloVista', $soloVista);
+        });
     }
 
     /**
@@ -82,7 +77,7 @@ class InformacionAcademicaDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [                    
+                'buttons'   => [                
                     [
                         'extend' => 'reset',
                         'className' => 'btn btn-default btn-sm no-corner',
