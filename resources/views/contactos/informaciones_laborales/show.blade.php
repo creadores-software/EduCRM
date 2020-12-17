@@ -13,9 +13,6 @@
                     <h2 class="page-header">Datos</h2>
                     @include('contactos.informaciones_laborales.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('contactos.informacionesLaborales.index') }}" class="btn btn-default">
-                        @lang('crud.back')
-                    </a>
                 </div>
             </div>
         </div>

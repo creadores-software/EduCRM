@@ -18,9 +18,6 @@
                                     <a href="{{ route('contactos.contactos.edit',$contacto->id) }}" class="btn btn-primary">
                                         @lang('crud.edit')
                                     </a>  
-                                    <a href="{{ route('contactos.contactos.index') }}" class="btn btn-default">
-                                        @lang('crud.back')
-                                    </a> 
                                 </h2>      
                                 <h2 class="page-header">Datos</h2> 
                                 @include('contactos.contactos.show_fields')                                                               
