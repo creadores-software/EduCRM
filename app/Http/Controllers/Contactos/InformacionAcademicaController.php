@@ -138,7 +138,6 @@ class InformacionAcademicaController extends AppBaseController
      */
     public function update($id, UpdateInformacionAcademicaRequest $request)
     {
-        dd($request);
         $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
         if (empty($informacionAcademica)) {
