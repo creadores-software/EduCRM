@@ -19,12 +19,12 @@
 <!-- Fecha Grado Estimada Field -->
 <div class="form-group">
     {!! Form::label('fecha_grado_estimada', __('models/informacionesAcademicas.fields.fecha_grado_estimada').':') !!}
-    <p>{{ $informacionAcademica->fecha_grado_estimada }}</p>
+    <p>{{ Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_estimada)) }}</p>
 </div>
 
 <!-- Fecha Grado Real Field -->
 <div class="form-group">
     {!! Form::label('fecha_grado_real', __('models/informacionesAcademicas.fields.fecha_grado_real').':') !!}
-    <p>{{ $informacionAcademica->fecha_grado_real }}</p>
+    <p>{{ Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_real)) }}</p>
 </div>
 

@@ -27,7 +27,7 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionAcademica->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right" id="fecha_grado_estimada">
+        <input id="fecha_grado_estimada" name="fecha_grado_estimada" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionAcademica->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
@@ -38,7 +38,7 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionAcademica->fecha_grado_real ?? '' ) }}" class="form-control pull-right" id="fecha_grado_real">
+        <input id="fecha_grado_real" name="fecha_grado_real" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionAcademica->fecha_grado_real ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 

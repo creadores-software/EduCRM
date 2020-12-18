@@ -21,6 +21,18 @@ class InformacionAcademicaDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         return $dataTable
         ->addColumn('action', 'contactos.informaciones_academicas.datatables_actions')
+        ->editColumn('fecha_grado_estimada', function ($informacion){
+            if(empty($informacion->fecha_grado_estimada)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_grado_estimada));
+        })
+        ->editColumn('fecha_grado_real', function ($informacion){
+            if(empty($informacion->fecha_grado_real)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_grado_real));
+        })
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
             if(strpos(strtolower($keyword), 's')!==false){

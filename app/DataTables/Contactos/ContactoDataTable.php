@@ -22,6 +22,12 @@ class ContactoDataTable extends DataTable
         return 
         $dataTable
             ->addColumn('action', 'contactos.contactos.datatables_actions')
+            ->editColumn('fecha_nacimiento', function ($contacto){
+                if(empty($contacto->fecha_nacimiento)){
+                    return;
+                }
+                return date('Y-m-d', strtotime($contacto->fecha_nacimiento));
+            })
             ->filterColumn('activo', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
