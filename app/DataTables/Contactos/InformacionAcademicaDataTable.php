@@ -20,12 +20,7 @@ class InformacionAcademicaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable
-        ->addColumn('action', function($row){
-            $idContacto=Session::get('idContacto');
-            $id=$row->id;
-            return view('contactos.informaciones_academicas.datatables_actions', 
-            compact('id','idContacto'));
-        })        
+        ->addColumn('action', 'contactos.informaciones_academicas.datatables_actions')
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
             if(strpos(strtolower($keyword), 's')!==false){
@@ -72,7 +67,12 @@ class InformacionAcademicaDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [                
+                'buttons'   => [  
+                    [
+                        'extend' => 'create',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
+                     ],              
                     [
                         'extend' => 'reset',
                         'className' => 'btn btn-default btn-sm no-corner',

@@ -161,7 +161,7 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id,Request $request)
+    public function destroy($id)
     {
         $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
