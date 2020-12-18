@@ -17,7 +17,7 @@
                                 <h2 class="pull-right">
                                     <a href="{{ route('contactos.contactos.edit',$contacto->id) }}" class="btn btn-primary">
                                         @lang('crud.edit')
-                                    </a>  
+                                    </a> 
                                 </h2>      
                                 <h2 class="page-header">Datos</h2> 
                                 @include('contactos.contactos.show_fields')                                                               
@@ -28,5 +28,5 @@
                </div>
             </div>
         </div>
-    </div>
+    </div>  
 @endsection

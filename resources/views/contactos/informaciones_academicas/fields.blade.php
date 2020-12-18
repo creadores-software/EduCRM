@@ -1,5 +1,4 @@
 {!! Form::hidden('contacto_id',$idContacto) !!}
-{!! Form::hidden('idContacto',$idContacto) !!}
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">

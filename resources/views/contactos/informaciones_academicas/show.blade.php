@@ -15,7 +15,7 @@
                             @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
                             <div class="tab-content">
                                 <h2 class="pull-right">
-                                    <a href="{{ route('contactos.informacionesAcademicas.edit',[$informacionAcademica->id,'idContacto'=>$contacto->id]) }}" class="btn btn-primary">
+                                    <a href="{{ route('contactos.informacionesAcademicas.edit',[$informacionAcademica->id]) }}" class="btn btn-primary">
                                         @lang('crud.edit')
                                     </a>  
                                 </h2>      

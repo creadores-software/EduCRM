@@ -10,7 +10,9 @@ use App\Repositories\Contactos\InformacionEscolarRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Session;
 use Illuminate\Http\Request;
+use App\Models\Contactos\Contacto;
 
 class InformacionEscolarController extends AppBaseController
 {
@@ -28,12 +30,12 @@ class InformacionEscolarController extends AppBaseController
      * @param InformacionEscolarDataTable $informacionEscolarDataTable
      * @return Response
      */
-    public function index(InformacionEscolarDataTable $informacionEscolarDataTable, Request $request)
+    public function index(InformacionEscolarDataTable $informacionEscolarDataTable)
     {
-        if ($request->has('idContacto')) {
-            $contacto = Contacto::find($request->get('idContacto'));
+        if (Session::get('idContacto')) {
+            $contacto = Contacto::find(Session::get('idContacto'));
             return $informacionEscolarDataTable->render('contactos.informaciones_escolares.index',
-                ['idContacto'=>$request->get('idContacto'),'contacto'=>$contacto]); 
+                ['idContacto'=>Session::get('idContacto'),'contacto'=>$contacto]); 
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }        
@@ -46,8 +48,8 @@ class InformacionEscolarController extends AppBaseController
      */
     public function create(Request $request)
     {
-        if ($request->has('idContacto')) {
-            return view('contactos.informaciones_escolares.create',['idContacto'=>$request->get('idContacto')]);
+        if (Session::get('idContacto')) {
+            return view('contactos.informaciones_escolares.create');
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
         } 

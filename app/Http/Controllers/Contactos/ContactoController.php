@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Response;
 use Flash;
+use Session;
 
 class ContactoController extends AppBaseController
 {
@@ -72,7 +73,7 @@ class ContactoController extends AppBaseController
     public function show($id)
     {
         $contacto = $this->contactoRepository->find($id);
-
+        Session::put('idContacto', $id);
         if (empty($contacto)) {
             Flash::error(__('models/contactos.singular').' '.__('messages.not_found'));
 
@@ -93,6 +94,7 @@ class ContactoController extends AppBaseController
     public function edit($id)
     {
         $contacto = $this->contactoRepository->find($id);
+        Session::put('idContacto', $id);
 
         if (empty($contacto)) {
             Flash::error(__('messages.not_found', ['model' => __('models/contactos.singular')]));

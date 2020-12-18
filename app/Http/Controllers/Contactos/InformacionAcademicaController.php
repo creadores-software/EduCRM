@@ -10,6 +10,7 @@ use App\Repositories\Contactos\InformacionAcademicaRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Session;
 use Illuminate\Http\Request;
 use App\Models\Contactos\Contacto;
 
@@ -29,10 +30,10 @@ class InformacionAcademicaController extends AppBaseController
      * @param InformacionAcademicaDataTable $informacionAcademicaDataTable
      * @return Response
      */
-    public function index(InformacionAcademicaDataTable $informacionAcademicaDataTable, Request $request)
+    public function index(InformacionAcademicaDataTable $informacionAcademicaDataTable)
     {
-        if ($request->has('idContacto')) {
-            $contacto = Contacto::find($request->get('idContacto'));
+       if (Session::get('idContacto')) {
+            $contacto = Contacto::find(Session::get('idContacto'));
             return $informacionAcademicaDataTable->render('contactos.informaciones_academicas.index',
                 ['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
         }else{
@@ -45,10 +46,10 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        if ($request->has('idContacto')) {
-            $contacto = Contacto::find($request->get('idContacto'));
+        if (Session::get('idContacto')) {
+            $contacto = Contacto::find(Session::get('idContacto'));
             return view('contactos.informaciones_academicas.create',
                 ['idContacto'=>$contacto->id,'contacto'=>$contacto]);
         }else{
@@ -71,7 +72,7 @@ class InformacionAcademicaController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+        return redirect(route('contactos.informacionesAcademicas.index'));
     }
 
     /**
@@ -81,16 +82,16 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id, Request $request)
+    public function show($id)
     {
-        if ($request->has('idContacto')) {
-            $contacto = Contacto::find($request->get('idContacto'));
+        if (Session::get('idContacto')) {
+            $contacto = Contacto::find(Session::get('idContacto'));
             $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
             if (empty($informacionAcademica)) {
                 Flash::error(__('models/informacionesAcademicas.singular').' '.__('messages.not_found'));
     
-                return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+                return redirect(route('contactos.informacionesAcademicas.index'));
             }
     
             $audits = $informacionAcademica->ledgers()->with('user')->get()->sortByDesc('created_at');
@@ -109,16 +110,16 @@ class InformacionAcademicaController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id, Request $request)
+    public function edit($id)
     {
-        if ($request->has('idContacto')) {
-            $contacto = Contacto::find($request->get('idContacto'));
+        if (Session::get('idContacto')) {
+            $contacto = Contacto::find(Session::get('idContacto'));
             $informacionAcademica = $this->informacionAcademicaRepository->find($id);
 
             if (empty($informacionAcademica)) {
                 Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
     
-                return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+                return redirect(route('contactos.informacionesAcademicas.index'));
             }
     
             return view('contactos.informaciones_academicas.edit',
@@ -143,14 +144,14 @@ class InformacionAcademicaController extends AppBaseController
         if (empty($informacionAcademica)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
 
-            return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+            return redirect(route('contactos.informacionesAcademicas.index'));
         }
 
         $informacionAcademica = $this->informacionAcademicaRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+        return redirect(route('contactos.informacionesAcademicas.index'));
     }
 
     /**
@@ -167,13 +168,13 @@ class InformacionAcademicaController extends AppBaseController
         if (empty($informacionAcademica)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesAcademicas.singular')]));
 
-            return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+            return redirect(route('contactos.informacionesAcademicas.index'));
         }
 
         $this->informacionAcademicaRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/informacionesAcademicas.singular')]));
 
-        return redirect(route('contactos.informacionesAcademicas.index',['idContacto'=>$request->get('idContacto')]));
+        return redirect(route('contactos.informacionesAcademicas.index'));
     }
 }

@@ -18,17 +18,18 @@ class InformacionEscolarDataTable extends DataTable
      */
     public function dataTable($query, Request $request)
     {
-        $dataTable = new EloquentDataTable($query);
-        $soloVista=false;
-        if ($request->has('soloVista')) {
-            $soloVista=$request->get('soloVista');
+        $dataTable = new EloquentDataTable($query);       
+
+        $idContacto=false;
+        if ($request->has('idContacto')) {
+            $idContacto=$request->get('idContacto');
         }
 
         return $dataTable
-        ->addColumn('action', function($row) use ($soloVista){
+        ->addColumn('action', function($row) use ($idContacto){
             $id=$row->id;
             return view('contactos.informaciones_escolares.datatables_actions', 
-            compact('soloVista','id'));
+            compact('id','idContacto'));
         }) 
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
@@ -46,8 +47,7 @@ class InformacionEscolarDataTable extends DataTable
             }else{
                 $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
             }            
-        })
-        ->with('soloVista', $soloVista);
+        });
     }
 
     /**
@@ -76,7 +76,7 @@ class InformacionEscolarDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [                    
+                'buttons'   => [                  
                     [
                         'extend' => 'reset',
                         'className' => 'btn btn-default btn-sm no-corner',

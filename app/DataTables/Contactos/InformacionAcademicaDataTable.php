@@ -6,7 +6,7 @@ use App\Models\Contactos\InformacionAcademica;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
-use Illuminate\Http\Request;
+use Session;
 
 class InformacionAcademicaDataTable extends DataTable
 {
@@ -16,17 +16,12 @@ class InformacionAcademicaDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query, Request $request)
+    public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
-        $idContacto=false;
-        if ($request->has('idContacto')) {
-            $idContacto=$request->get('idContacto');
-        }
-
         return $dataTable
-        ->addColumn('action', function($row) use ($idContacto){
+        ->addColumn('action', function($row){
+            $idContacto=Session::get('idContacto');
             $id=$row->id;
             return view('contactos.informaciones_academicas.datatables_actions', 
             compact('id','idContacto'));
@@ -41,11 +36,11 @@ class InformacionAcademicaDataTable extends DataTable
                 $query->whereRaw("activo = ?", [$validacion]);    
             }                
         })
-        ->filterColumn('contacto_id', function ($query, $keyword) use ($request) {
-            if (!$request->has('idContacto')) {
+        ->filterColumn('contacto_id', function ($query, $keyword) {
+            if (!Session::get('idContacto')) {
                 return;
             }else{
-                $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
+                $query->whereRaw("contacto_id = ?", [Session::get('idContacto')]);   
             }            
         });
     }

@@ -192,11 +192,7 @@
                     localStorage.setItem('menu_hijo_seleccionado', $(this).attr('id'));
                 } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-nieto') != -1) {
                     localStorage.setItem('menu_nieto_seleccionado', $(this).attr('id'));
-                } else {                    
-                    localStorage.removeItem('menu_padre_seleccionado');
-                    localStorage.removeItem('menu_hijo_seleccionado');
-                    localStorage.removeItem('menu_nieto_seleccionado');
-                }
+                } 
             });
             var menu_padre_seleccionado = localStorage.getItem('menu_padre_seleccionado');
             var menu_hijo_seleccionado = localStorage.getItem('menu_hijo_seleccionado');
