@@ -201,6 +201,10 @@
             }
         }); 
         $(document).ready(function() { 
+            $('#estrato').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+            }); 
             $('#origen_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
@@ -262,6 +266,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.tiposContacto.dataAjax") }}',
                     dataType: 'json',

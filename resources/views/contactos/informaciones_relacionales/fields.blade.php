@@ -309,6 +309,7 @@
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("formaciones.formaciones.dataAjax") }}',
                     dataType: 'json',
@@ -320,6 +321,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.mediosComunicacion.dataAjax") }}',
                     dataType: 'json',
@@ -331,6 +333,7 @@
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("formaciones.camposEducacion.dataAjax") }}',
                     dataType: 'json',
@@ -342,6 +345,7 @@
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.actividadesOcio.dataAjax") }}',
                     dataType: 'json',

@@ -37,6 +37,10 @@
            }
         }); 
         $(document).ready(function() {  
+            $('#tipo').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+            }); 
             $('#padre_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
