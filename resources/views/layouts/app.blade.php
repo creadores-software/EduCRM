@@ -83,6 +83,10 @@
         .select2-results__option[aria-selected=true] {
             display: none;
         }
+
+        .content-header > h1.pull-left  {
+            margin-bottom: 12px;
+        }
     </style>
     
 </head>
