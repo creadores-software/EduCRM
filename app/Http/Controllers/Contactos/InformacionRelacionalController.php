@@ -7,6 +7,8 @@ use App\Repositories\Contactos\InformacionRelacionalRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Http\Request;
+use App\Models\Contactos\Contacto;
 
 class InformacionRelacionalController extends AppBaseController
 {
@@ -27,19 +29,24 @@ class InformacionRelacionalController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $informacionRelacional = $this->informacionRelacionalRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionRelacional = $this->informacionRelacionalRepository->find($id);
 
-        if (empty($informacionRelacional)) {
-            Flash::error(__('models/informacionesRelacionales.singular').' '.__('messages.not_found'));
+            if (empty($informacionRelacional)) {
+                Flash::error(__('models/informacionesRelacionales.singular').' '.__('messages.not_found'));
 
-            return redirect(route('contactos.informacionesRelacionales.index'));
-        }
+                return redirect(route('contactos.informacionesRelacionales.index'));
+            }
 
-        $audits = $informacionRelacional->ledgers()->with('user')->get()->sortByDesc('created_at');
+            $audits = $informacionRelacional->ledgers()->with('user')->get()->sortByDesc('created_at');
 
-        return view('contactos.informaciones_relacionales.show')->with(['informacionRelacional'=> $informacionRelacional, 'audits'=>$audits]);
+            return view('contactos.informaciones_relacionales.show')->with(['informacionRelacional'=> $informacionRelacional, 'audits'=>$audits, 'idContacto'=>$contacto->id]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
+        }        
     }
 
     /**
@@ -49,17 +56,21 @@ class InformacionRelacionalController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
-        $informacionRelacional = $this->informacionRelacionalRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionRelacional = $this->informacionRelacionalRepository->find($id);
+            if (empty($informacionRelacional)) {
+                Flash::error(__('messages.not_found', ['model' => __('models/informacionesRelacionales.singular')]));
 
-        if (empty($informacionRelacional)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/informacionesRelacionales.singular')]));
+                return redirect(route('contactos.informacionesRelacionales.index'));
+            }
 
-            return redirect(route('contactos.informacionesRelacionales.index'));
-        }
-
-        return view('contactos.informaciones_relacionales.edit')->with('informacionRelacional', $informacionRelacional);
+            return view('contactos.informaciones_relacionales.edit', ['informacionRelacional'=> $informacionRelacional, 'idContacto'=>$contacto->id]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        } 
     }
 
     /**

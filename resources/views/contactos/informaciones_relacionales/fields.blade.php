@@ -193,7 +193,7 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('contactos.informacionesRelacionales.show',$informacionRelacional->id) }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <a href="{{ route('contactos.informacionesRelacionales.show',[$informacionRelacional->id,'idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
 
 @push('scripts')

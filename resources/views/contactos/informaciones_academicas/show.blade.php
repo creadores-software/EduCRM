@@ -14,10 +14,13 @@
                         <div class="nav-tabs-custom">
                             @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
                             <div class="tab-content">
-                                <h2 class="pull-right">
-                                    <a href="{{ route('contactos.informacionesAcademicas.edit',[$informacionAcademica->id]) }}" class="btn btn-primary">
+                                <h2 class="pull-right">                                    
+                                    <a href="{{ route('contactos.informacionesAcademicas.edit',[$informacionAcademica->id,'idContacto'=>$contacto->id]) }}" class="btn btn-primary">
                                         @lang('crud.edit')
                                     </a>  
+                                    <a href="{{ route('contactos.informacionesAcademicas.index',['idContacto'=>$contacto->id]) }}" class="btn btn-default">
+                                        @lang('crud.back')
+                                    </a> 
                                 </h2>      
                                 <h2 class="page-header">Datos</h2> 
                                 @include('contactos.informaciones_academicas.show_fields')                                                              

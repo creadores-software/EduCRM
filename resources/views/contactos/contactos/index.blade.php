@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@section('css')
+<style> 
+div.dataTables_wrapper div.dataTables_filter {
+    float: right;
+    text-align: right;
+    visibility: hidden;
+}
+</style> 
+@endsection
+
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">

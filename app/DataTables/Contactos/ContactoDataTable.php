@@ -6,6 +6,7 @@ use App\Models\Contactos\Contacto;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Http\Request;
 
 class ContactoDataTable extends DataTable
 {
@@ -15,7 +16,7 @@ class ContactoDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query)
+    public function dataTable($query, Request $request)
     {
         $dataTable = new EloquentDataTable($query);
 
@@ -37,7 +38,16 @@ class ContactoDataTable extends DataTable
                     $validacion=0;
                     $query->whereRaw("activo = ?", [$validacion]);    
                 }                
+            })
+            ->filter(function ($query) use($request) {
+                \Log::debug('Filtrando');
+                \Log::debug(print_r($request->all(),true));   // insert query
+                if($request->has('origen_id')){
+                    \Log::debug('Filtrando con'.$request->get('origen_id'));   
+                    $query->whereRaw("origen_id = ?", [$request->get('origen_id')]);  
+                }
             });
+            
     }
 
     /**
