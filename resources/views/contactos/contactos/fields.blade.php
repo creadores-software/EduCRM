@@ -153,7 +153,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
     <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
-        @foreach (old('tiposContacto', $contacto->tiposContacto,null) as $tipo)
+        @foreach (old('tiposContacto[]', $contacto->tiposContacto,null) as $tipo)
             <option value="{{ $tipo->id }}" selected="selected">{{ $tipo->nombre }}</option>
         @endforeach
     </select> 
