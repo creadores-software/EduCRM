@@ -120,7 +120,7 @@ class Contacto extends Model implements Recordable
         'prefijo_id' => 'nullable|integer',
         'nombres' => 'required|string|max:200',
         'apellidos' => 'required|string|max:200',
-        'fecha_nacimiento' => 'nullable',
+        'fecha_nacimiento' => 'nullable|before:today',
         'genero_id' => 'nullable|integer',
         'estado_civil_id' => 'nullable|integer',
         'celular' => 'required|string|max:15',

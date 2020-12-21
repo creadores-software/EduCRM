@@ -15,14 +15,14 @@ return [
 
     'accepted' => 'El campo :Attribute debe ser aceptado.',
     'active_url' => 'El campo :Attribute no es una URL valida.',
-    'after' => 'El campo :Attribute debe ser una fecha posterior a :date.',
-    'after_or_equal' => 'El campo :Attribute debe ser una fecha igual o posterior a :date.',
+    'after' => 'El campo :Attribute debe ser posterior a :date.',
+    'after_or_equal' => 'El campo :Attribute debe ser igual o posterior a :date.',
     'alpha' => 'El campo :Attribute solo puede contener letras.',
     'alpha_dash' => 'El campo :Attribute solo puede contener letras, números, guiones o guiones bajo.',
     'alpha_num' => 'El campo :Attribute solo puede contener letras y números.',
     'array' => 'El campo :Attribute debe ser un arreglo.',
-    'before' => 'El campo :Attribute debe ser una fecha antes de :date.',
-    'before_or_equal' => 'El campo :Attribute debe ser una fecha igual o anterior a :date.',
+    'before' => 'El campo :Attribute debe ser antes de :date.',
+    'before_or_equal' => 'El campo :Attribute debe ser igual o anterior a :date.',
     'between' => [
         'numeric' => 'El campo :Attribute debe ser un número entre :min y :max.',
         'file' => 'El campo :Attribute debe ser un archivo que pese entre :min y :max kilobytes.',
@@ -32,7 +32,7 @@ return [
     'boolean' => 'El campo :Attribute debe ser true (verdadero) o false (falso).',
     'confirmed' => 'La confirmación del campo :Attribute no coincide.',
     'date' => 'El campo :Attribute no corresponde a una fecha válida.',
-    'date_equals' => 'El campo :Attribute debe ser una fecha igual a :date.',
+    'date_equals' => 'El campo :Attribute debe ser igual a :date.',
     'date_format' => 'El campo :Attribute no coincide con el formato :format.',
     'different' => 'El campo :Attribute y el campo :other deben ser diferentes.',
     'digits' => 'El campo :Attribute debe ser de :digits digitos.',
@@ -190,6 +190,7 @@ return [
         'tipo_documento_id' => 'Tipo Documento',
         'tipo_ocupacion_id' => 'Tipo Ocupación',
         'tipo_parentesco_id' => 'Tipo Parentesco',
+        'today'=>'Hoy',
     ],
 
     /**
@@ -199,5 +200,8 @@ return [
         'tipo' => [
             'P' => 'Pais',
          ],
+         'fecha_nacimiento' => [
+             'today'=>'hoy'
+         ]
      ],
 ];
