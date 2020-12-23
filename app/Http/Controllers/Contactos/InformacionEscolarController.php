@@ -10,7 +10,6 @@ use App\Repositories\Contactos\InformacionEscolarRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
-use Session;
 use Illuminate\Http\Request;
 use App\Models\Contactos\Contacto;
 
@@ -32,13 +31,13 @@ class InformacionEscolarController extends AppBaseController
      */
     public function index(InformacionEscolarDataTable $informacionEscolarDataTable)
     {
-        if (Session::get('idContacto')) {
-            $contacto = Contacto::find(Session::get('idContacto'));
+        if ($informacionEscolarDataTable->request()->has('idContacto')) {
+            $contacto = Contacto::find($informacionEscolarDataTable->request()->get('idContacto'));
             return $informacionEscolarDataTable->render('contactos.informaciones_escolares.index',
-                ['idContacto'=>Session::get('idContacto'),'contacto'=>$contacto]); 
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
-        }        
+        }       
     }
 
     /**
@@ -48,8 +47,10 @@ class InformacionEscolarController extends AppBaseController
      */
     public function create(Request $request)
     {
-        if (Session::get('idContacto')) {
-            return view('contactos.informaciones_escolares.create');
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            return view('contactos.informaciones_escolares.create',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]);
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
         } 
@@ -70,7 +71,7 @@ class InformacionEscolarController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/informacionesEscolares.singular')]));
 
-        return redirect(route('contactos.informacionesEscolares.index'));
+        return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -80,19 +81,25 @@ class InformacionEscolarController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $informacionEscolar = $this->informacionEscolarRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionEscolar = $this->informacionEscolarRepository->find($id);
 
-        if (empty($informacionEscolar)) {
-            Flash::error(__('models/informacionesEscolares.singular').' '.__('messages.not_found'));
-
-            return redirect(route('contactos.informacionesEscolares.index'));
+            if (empty($informacionEscolar)) {
+                Flash::error(__('models/informacionesEscolares.singular').' '.__('messages.not_found'));
+    
+                return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
+            }
+    
+            $audits = $informacionEscolar->ledgers()->with('user')->get()->sortByDesc('created_at');
+    
+            return view('contactos.informaciones_escolares.show',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto,'audits'=>$audits,'informacionEscolar'=>$informacionEscolar]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }
-
-        $audits = $informacionEscolar->ledgers()->with('user')->get()->sortByDesc('created_at');
-
-        return view('contactos.informaciones_escolares.show')->with(['informacionEscolar'=> $informacionEscolar, 'audits'=>$audits]);
     }
 
     /**
@@ -102,17 +109,23 @@ class InformacionEscolarController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        $informacionEscolar = $this->informacionEscolarRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $informacionEscolar = $this->informacionEscolarRepository->find($id);
 
-        if (empty($informacionEscolar)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/informacionesEscolares.singular')]));
-
-            return redirect(route('contactos.informacionesEscolares.index'));
-        }
-
-        return view('contactos.informaciones_escolares.edit')->with('informacionEscolar', $informacionEscolar);
+            if (empty($informacionEscolar)) {
+                Flash::error(__('messages.not_found', ['model' => __('models/informacionesEscolares.singular')]));
+    
+                return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
+            }
+    
+            return view('contactos.informaciones_escolares.edit',
+            ['idContacto'=>$contacto->id,'contacto'=>$contacto,'informacionEscolar'=>$informacionEscolar]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        }  
     }
 
     /**
@@ -130,14 +143,14 @@ class InformacionEscolarController extends AppBaseController
         if (empty($informacionEscolar)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesEscolares.singular')]));
 
-            return redirect(route('contactos.informacionesEscolares.index'));
+            return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $informacionEscolar = $this->informacionEscolarRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/informacionesEscolares.singular')]));
 
-        return redirect(route('contactos.informacionesEscolares.index'));
+        return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -147,20 +160,20 @@ class InformacionEscolarController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id,Request $request)
     {
         $informacionEscolar = $this->informacionEscolarRepository->find($id);
 
         if (empty($informacionEscolar)) {
             Flash::error(__('messages.not_found', ['model' => __('models/informacionesEscolares.singular')]));
 
-            return redirect(route('contactos.informacionesEscolares.index'));
+            return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $this->informacionEscolarRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/informacionesEscolares.singular')]));
 
-        return redirect(route('contactos.informacionesEscolares.index'));
+        return redirect(route('contactos.informacionesEscolares.index',['idContacto'=>$request->get('idContacto')]));
     }
 }

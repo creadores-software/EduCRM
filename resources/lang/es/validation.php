@@ -197,11 +197,9 @@ return [
      * Traducción de valores en validaciones
      */
     'values' => [
-        'tipo' => [
-            'P' => 'Pais',
-         ],
-         'fecha_nacimiento' => [
-             'today'=>'hoy'
-         ]
+        'tipo' => ['P' => 'Pais'],
+        'fecha_nacimiento' => ['today'=>'hoy'],
+        'fecha_grado_estimada' => ['today'=>'hoy'],
+        'fecha_grado_real' => ['today'=>'hoy'],
      ],
 ];

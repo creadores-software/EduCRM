@@ -1,4 +1,6 @@
 {!! Form::hidden('contacto_id',$idContacto) !!}
+{!! Form::hidden('idContacto',$idContacto) !!}
+{!! Form::hidden('id', old('id', $informacionEscolar->id ?? '')) !!}
 
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6">
@@ -17,7 +19,7 @@
     <select name="nivel_educativo_id" id="nivel_educativo_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' )))
-            <option value="{{ old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelEducativo::find(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ))->nombre }} </option>
+            <option value="{{ old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelFormacion::find(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ))->nombre }} </option>
         @endif
     </select> 
 </div>
@@ -38,7 +40,7 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionEscolar->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right" id="fecha_grado_estimada">
+        <input id="fecha_grado_estimada" name="fecha_grado_estimada" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionEscolar->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
@@ -49,14 +51,14 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionEscolar->fecha_grado_real ?? '' ) }}" class="form-control pull-right" id="fecha_grado_real">
+        <input id="fecha_grado_real" name="fecha_grado_real" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionEscolar->fecha_grado_real ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('contactos.informacionesEscolares.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <a href="{{ route('contactos.informacionesEscolares.index',['idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
 
 @push('scripts')
@@ -72,14 +74,6 @@
             locale: 'es',
         })
         $(document).ready(function() { 
-            $('#contacto_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("contactos.contactos.dataAjax") }}',
-                    dataType: 'json',
-                },
-            }); 
             $('#entidad_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

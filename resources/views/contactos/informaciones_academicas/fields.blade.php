@@ -1,5 +1,6 @@
 {!! Form::hidden('contacto_id',$idContacto) !!}
 {!! Form::hidden('idContacto',$idContacto) !!}
+{!! Form::hidden('id', old('id', $informacionAcademica->id ?? '')) !!}
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
@@ -62,12 +63,6 @@
             locale: 'es',
         })
         $(document).ready(function() { 
-            $('#contacto_id').select2({
-                ajax: {
-                    url: '{{ route("contactos.contactos.dataAjax") }}',
-                    dataType: 'json',
-                },
-            }); 
             $('#formacion_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

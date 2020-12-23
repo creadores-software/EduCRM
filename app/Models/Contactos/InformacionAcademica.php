@@ -58,8 +58,8 @@ class InformacionAcademica extends Model implements Recordable
         'contacto_id' => 'required|integer',
         'formacion_id' => 'required|integer',
         'finalizado' => 'nullable|boolean',
-        'fecha_grado_estimada' => 'nullable',
-        'fecha_grado_real' => 'nullable'
+        'fecha_grado_estimada' => 'nullable|after_or_equal:today',
+        'fecha_grado_real' => 'nullable|before_or_equal:today'
     ];
 
     /**

@@ -31,17 +31,29 @@ class InformacionEscolarDataTable extends DataTable
             return view('contactos.informaciones_escolares.datatables_actions', 
             compact('id','idContacto'));
         }) 
+        ->editColumn('fecha_grado_estimada', function ($informacion){
+            if(empty($informacion->fecha_grado_estimada)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_grado_estimada));
+        })
+        ->editColumn('fecha_grado_real', function ($informacion){
+            if(empty($informacion->fecha_grado_real)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_grado_real));
+        })      
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
             if(strpos(strtolower($keyword), 's')!==false){
                 $validacion=1; 
-                $query->whereRaw("activo = ?", [$validacion]);   
+                $query->whereRaw("finalizado = ?", [$validacion]);   
             }else if(strpos(strtolower($keyword), 'n')!==false){
                 $validacion=0;
-                $query->whereRaw("activo = ?", [$validacion]);    
+                $query->whereRaw("finalizado = ?", [$validacion]);    
             }                
         })
-        ->filterColumn('contacto_id', function ($query, $keyword) use ($request) {
+        ->filter(function ($query) use ($request) {
             if (!$request->has('idContacto')) {
                 return;
             }else{
@@ -58,7 +70,8 @@ class InformacionEscolarDataTable extends DataTable
      */
     public function query(InformacionEscolar $model)
     {
-        return $model->newQuery()->with(['entidad','nivelEducativo'])->select('informacion_escolar.*');
+        return $model->newQuery()
+            ->with(['entidad','nivelEducativo'])->select('informacion_escolar.*');
     }
 
     /**
@@ -112,7 +125,6 @@ class InformacionEscolarDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_id' => new Column(['title' => __('models/informacionesEscolares.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
             'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),

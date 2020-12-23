@@ -63,8 +63,8 @@ class InformacionEscolar extends Model implements Recordable
         'entidad_id' => 'required|integer',
         'nivel_educativo_id' => 'required|integer',
         'finalizado' => 'nullable|boolean',
-        'fecha_grado_estimada' => 'nullable',
-        'fecha_grado_real' => 'nullable'
+        'fecha_grado_estimada' => 'nullable|after_or_equal:today',
+        'fecha_grado_real' => 'nullable|before_or_equal:today'
     ];
 
     /**

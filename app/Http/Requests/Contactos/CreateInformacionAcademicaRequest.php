@@ -4,6 +4,7 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\InformacionAcademica;
+use Illuminate\Validation\Rule;
 
 class CreateInformacionAcademicaRequest extends FormRequest
 {
@@ -25,6 +26,13 @@ class CreateInformacionAcademicaRequest extends FormRequest
      */
     public function rules()
     {
-        return InformacionAcademica::$rules;
+        $rules= InformacionAcademica::$rules;
+        $rules['formacion_id'] = [
+            'required',
+            'integer',
+            Rule::unique('informacion_academica')
+                ->where('contacto_id', $this->contacto_id)
+        ];
+        return $rules;
     }
 }

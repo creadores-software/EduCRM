@@ -1,7 +1,7 @@
 <!-- Contacto Id Field -->
 <div class="form-group">
     {!! Form::label('contacto_id', __('models/informacionesEscolares.fields.contacto_id').':') !!}
-    <p>{{ $informacionEscolar->contacto->nombre }}</p>
+    <p>{{ $informacionEscolar->contacto->getNombreCompleto() }}</p>
 </div>
 
 <!-- Entidad Id Field -->

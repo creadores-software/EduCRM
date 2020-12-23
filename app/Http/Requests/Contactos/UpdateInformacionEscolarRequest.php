@@ -25,8 +25,14 @@ class UpdateInformacionEscolarRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = InformacionEscolar::$rules;
-        
+        $rules= InformacionEscolar::$rules;
+        $rules['nivel_educativo'] = [
+            'required',
+            'integer',
+            Rule::unique('informacion_academica')
+                ->ignore($this->id)
+                ->where('contacto_id', $this->contacto_id)
+        ];
         return $rules;
     }
 }

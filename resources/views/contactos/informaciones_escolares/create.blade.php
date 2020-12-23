@@ -11,11 +11,18 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'contactos.informacionesEscolares.store']) !!}
-
-                        @include('contactos.informaciones_escolares.fields')
-
-                    {!! Form::close() !!}
+                    <div class="col-md-12">
+                        <div class="nav-tabs-custom">
+                            @include('contactos.contactos.nav_edit',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active">
+                                    {!! Form::open(['route' => 'contactos.informacionesEscolares.store']) !!}
+                                        @include('contactos.informaciones_escolares.fields')
+                                    {!! Form::close() !!}
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
         </div>
