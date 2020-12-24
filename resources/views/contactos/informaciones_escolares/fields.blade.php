@@ -25,16 +25,13 @@
 </div>
 
 <!-- Finalizado Field -->
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-6">
     {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('finalizado', 0) !!}
-        {!! Form::checkbox('finalizado', 1, old('finalizado', $informacionEscolar->finalizado ?? 1)) !!}  &nbsp;
-    </label>
+    {!! Form::select('finalizado',[0=>'NO',1=>'SI'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Grado Estimada Field -->
-<div class="form-group col-sm-6">
+<div id="div_fecha_estimada" class="form-group col-sm-6">
     {!! Form::label('fecha_grado_estimada', __('models/informacionesEscolares.fields.fecha_grado_estimada').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -45,7 +42,7 @@
 </div>
 
 <!-- Fecha Grado Real Field -->
-<div class="form-group col-sm-6">
+<div id="div_fecha_real" class="form-group col-sm-6">
     {!! Form::label('fecha_grado_real', __('models/informacionesEscolares.fields.fecha_grado_real').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -67,13 +64,30 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        })
+        });
         $('#fecha_grado_real').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        })
+        });
+        $('#finalizado').change(function(){
+           if($('#finalizado').val()==1){
+                $('#div_fecha_estimada').hide(); 
+                $('#div_fecha_real').show();   
+           }else{
+                $('#div_fecha_estimada').show(); 
+                $('#div_fecha_real').hide();      
+           }
+        }); 
         $(document).ready(function() { 
+            if($('#finalizado').val()==1){
+                $('#div_fecha_estimada').hide(); 
+                $('#div_fecha_real').show();   
+            }else{
+                $('#div_fecha_estimada').show(); 
+                $('#div_fecha_real').hide();      
+            }
+            $('#finalizado').select2(); 
             $('#entidad_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
