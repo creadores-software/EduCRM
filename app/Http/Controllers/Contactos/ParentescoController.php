@@ -10,6 +10,8 @@ use App\Repositories\Contactos\ParentescoRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Http\Request;
+use App\Models\Contactos\Contacto;
 
 class ParentescoController extends AppBaseController
 {
@@ -29,7 +31,13 @@ class ParentescoController extends AppBaseController
      */
     public function index(ParentescoDataTable $parentescoDataTable)
     {
-        return $parentescoDataTable->render('contactos.parentescos.index');
+        if ($parentescoDataTable->request()->has('idContacto')) {
+            $contacto = Contacto::find($parentescoDataTable->request()->get('idContacto'));
+            return $parentescoDataTable->render('contactos.parentescos.index',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
+        }
     }
 
     /**
@@ -37,9 +45,15 @@ class ParentescoController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('contactos.parentescos.create');
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            return view('contactos.parentescos.create',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+        } 
     }
 
     /**
@@ -57,7 +71,7 @@ class ParentescoController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('contactos.parentescos.index'));
+        return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -67,19 +81,25 @@ class ParentescoController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $parentesco = $this->parentescoRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $parentesco = $this->parentescoRepository->find($id);
 
-        if (empty($parentesco)) {
-            Flash::error(__('models/parentescos.singular').' '.__('messages.not_found'));
-
-            return redirect(route('contactos.parentescos.index'));
+            if (empty($parentesco)) {
+                Flash::error(__('models/parentescos.singular').' '.__('messages.not_found'));
+    
+                return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
+            }
+    
+            $audits = $parentesco->ledgers()->with('user')->get()->sortByDesc('created_at');
+    
+            return view('contactos.parentescos.show',
+                ['idContacto'=>$contacto->id,'contacto'=>$contacto,'audits'=>$audits,'parentesco'=>$parentesco]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un contacto asociado'], 500);     
         }
-
-        $audits = $parentesco->ledgers()->with('user')->get()->sortByDesc('created_at');
-
-        return view('contactos.parentescos.show')->with(['parentesco'=> $parentesco, 'audits'=>$audits]);
     }
 
     /**
@@ -89,17 +109,21 @@ class ParentescoController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
-        $parentesco = $this->parentescoRepository->find($id);
+        if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            $parentesco = $this->parentescoRepository->find($id);
+            if (empty($parentesco)) {
+                Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-        if (empty($parentesco)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
+                return redirect(route('contactos.parentescos.index',['idContacto'=>$contacto->id]));
+            }
 
-            return redirect(route('contactos.parentescos.index'));
-        }
-
-        return view('contactos.parentescos.edit')->with('parentesco', $parentesco);
+            return view('contactos.parentescos.edit', ['parentesco'=> $parentesco, 'idContacto'=>$contacto->id]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible editar este registro sin un contacto asociado'], 500);     
+        } 
     }
 
     /**
@@ -117,14 +141,14 @@ class ParentescoController extends AppBaseController
         if (empty($parentesco)) {
             Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-            return redirect(route('contactos.parentescos.index'));
+            return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $parentesco = $this->parentescoRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('contactos.parentescos.index'));
+        return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
     }
 
     /**
@@ -134,20 +158,20 @@ class ParentescoController extends AppBaseController
      *
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $parentesco = $this->parentescoRepository->find($id);
 
         if (empty($parentesco)) {
             Flash::error(__('messages.not_found', ['model' => __('models/parentescos.singular')]));
 
-            return redirect(route('contactos.parentescos.index'));
+            return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
         }
 
         $this->parentescoRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/parentescos.singular')]));
 
-        return redirect(route('contactos.parentescos.index'));
+        return redirect(route('contactos.parentescos.index',['idContacto'=>$request->get('idContacto')]));
     }
 }

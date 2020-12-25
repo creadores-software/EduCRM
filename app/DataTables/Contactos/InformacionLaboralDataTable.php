@@ -19,7 +19,38 @@ class InformacionLaboralDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'contactos.informaciones_laborales.datatables_actions');
+        $request=$this->request();     
+
+        $idContacto=false;
+        if ($request->has('idContacto')) {
+            $idContacto=$request->get('idContacto');
+        }
+
+        return $dataTable
+        ->addColumn('action', function($row) use ($idContacto){
+            $id=$row->id;
+            return view('contactos.informaciones_laborales.datatables_actions', 
+            compact('id','idContacto'));
+        }) 
+        ->editColumn('fecha_inicio', function ($informacion){
+            if(empty($informacion->fecha_inicio)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_inicio));
+        })
+        ->editColumn('fecha_fin', function ($informacion){
+            if(empty($informacion->fecha_fin)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_fin));
+        })  
+        ->filter(function ($query) use ($request) {
+            if (!$request->has('idContacto')) {
+                return;
+            }else{
+                $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
+            }            
+        });    
     }
 
     /**
@@ -30,7 +61,8 @@ class InformacionLaboralDataTable extends DataTable
      */
     public function query(InformacionLaboral $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with(['entidad','ocupacion'])->select('informacion_laboral.*');
     }
 
     /**
@@ -40,9 +72,14 @@ class InformacionLaboralDataTable extends DataTable
      */
     public function html()
     {
+        $idContacto=null;
+        if ($this->request()->has("idContacto")) {
+            $idContacto = $this->request()->get("idContacto");
+        }
+
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('contactos.informacionesLaborales.index', ['idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -50,9 +87,9 @@ class InformacionLaboralDataTable extends DataTable
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
                     ],
                     [
                        'extend' => 'export',
@@ -63,6 +100,16 @@ class InformacionLaboralDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(4)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -74,14 +121,13 @@ class InformacionLaboralDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_id' => new Column(['title' => __('models/informacionesLaborales.fields.contacto_id'), 'data' => 'contacto_id']),
-            'entidad_id' => new Column(['title' => __('models/informacionesLaborales.fields.entidad_id'), 'data' => 'entidad_id']),
-            'ocupacion_id' => new Column(['title' => __('models/informacionesLaborales.fields.ocupacion_id'), 'data' => 'ocupacion_id']),
-            'area' => new Column(['title' => __('models/informacionesLaborales.fields.area'), 'data' => 'area']),
-            'funciones' => new Column(['title' => __('models/informacionesLaborales.fields.funciones'), 'data' => 'funciones']),
-            'telefono' => new Column(['title' => __('models/informacionesLaborales.fields.telefono'), 'data' => 'telefono']),
+            'entidad_id' => new Column(['title' => __('models/informacionesLaborales.fields.entidad_id'), 'data' => 'entidad.nombre','name'=>'entidad.nombre']),
+            'ocupacion_id' => new Column(['title' => __('models/informacionesLaborales.fields.ocupacion_id'), 'data' => 'ocupacion.nombre','name'=>'ocupacion.nombre']),            
             'fecha_inicio' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
-            'fecha_fin' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_fin'), 'data' => 'fecha_fin'])
+            'fecha_fin' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_fin'), 'data' => 'fecha_fin']),
+            'area' => new Column(['title' => __('models/informacionesLaborales.fields.area'), 'data' => 'area', 'visible'=>false]),
+            'funciones' => new Column(['title' => __('models/informacionesLaborales.fields.funciones'), 'data' => 'funciones', 'visible'=>false]),
+            'telefono' => new Column(['title' => __('models/informacionesLaborales.fields.telefono'), 'data' => 'telefono', 'visible'=>false]),
         ];
     }
 

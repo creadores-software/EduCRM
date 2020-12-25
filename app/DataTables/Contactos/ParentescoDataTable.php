@@ -6,6 +6,7 @@ use App\Models\Contactos\Parentesco;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\DB;
 
 class ParentescoDataTable extends DataTable
 {
@@ -19,7 +20,29 @@ class ParentescoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'contactos.parentescos.datatables_actions');
+        $request=$this->request();     
+
+        $idContacto=false;
+        if ($request->has('idContacto')) {
+            $idContacto=$request->get('idContacto');
+        }
+
+        return $dataTable
+        ->addColumn('action', function($row) use ($idContacto){
+            $id=$row->id;
+            return view('contactos.parentescos.datatables_actions', 
+            compact('id','idContacto'));
+        })  
+        ->filterColumn('contacto_destino', function($query, $keyword) {
+            $query->whereRaw('CONCAT(pariente.nombres," ",pariente.apellidos) like ?', ["%{$keyword}%"]);
+        })       
+        ->filter(function ($query) use ($request) {
+            if (!$request->has('idContacto')) {
+                return;
+            }else{
+                $query->whereRaw("contacto_origen = ?", [$request->get('idContacto')]);   
+            }            
+        });    
     }
 
     /**
@@ -30,7 +53,9 @@ class ParentescoDataTable extends DataTable
      */
     public function query(Parentesco $model)
     {
-        return $model->newQuery();
+        return $model::leftjoin('contacto as pariente', 'parentesco.contacto_destino', '=', 'contacto.id')
+            ->with('tipoParentesco')
+            ->select(['parentesco.id','parentesco.contacto_origen',DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),'tipo_parentesco.nombre','acudiente'])->newQuery();
     }
 
     /**
@@ -40,9 +65,14 @@ class ParentescoDataTable extends DataTable
      */
     public function html()
     {
+        $idContacto=null;
+        if ($this->request()->has("idContacto")) {
+            $idContacto = $this->request()->get("idContacto");
+        }
+
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('contactos.parentescos.index', ['idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -50,9 +80,9 @@ class ParentescoDataTable extends DataTable
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
                     ],
                     [
                        'extend' => 'export',
@@ -74,9 +104,8 @@ class ParentescoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_origen' => new Column(['title' => __('models/parentescos.fields.contacto_origen'), 'data' => 'contacto_origen']),
-            'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'contacto_destino']),
-            'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'tipo_parentesco_id']),
+            'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'nombre_pariente']),
+            'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'tipo_parentesco.nombre','name'=>'tipoParentesco.nombre']),
             'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente'])
         ];
     }
