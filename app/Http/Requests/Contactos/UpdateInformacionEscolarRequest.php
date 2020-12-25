@@ -4,6 +4,7 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\InformacionEscolar;
+use Illuminate\Validation\Rule;
 
 class UpdateInformacionEscolarRequest extends FormRequest
 {
@@ -26,10 +27,10 @@ class UpdateInformacionEscolarRequest extends FormRequest
     public function rules()
     {
         $rules= InformacionEscolar::$rules;
-        $rules['nivel_educativo'] = [
+        $rules['nivel_educativo_id'] = [
             'required',
             'integer',
-            Rule::unique('informacion_academica')
+            Rule::unique('informacion_escolar')
                 ->ignore($this->id)
                 ->where('contacto_id', $this->contacto_id)
         ];

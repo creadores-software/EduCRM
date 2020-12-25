@@ -6,7 +6,6 @@ use App\Models\Contactos\InformacionEscolar;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
-use Illuminate\Http\Request;
 
 class InformacionEscolarDataTable extends DataTable
 {
@@ -16,9 +15,10 @@ class InformacionEscolarDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query, Request $request)
+    public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query);       
+        $dataTable = new EloquentDataTable($query);  
+        $request=$this->request();     
 
         $idContacto=false;
         if ($request->has('idContacto')) {
@@ -81,9 +81,14 @@ class InformacionEscolarDataTable extends DataTable
      */
     public function html()
     {
+        $idContacto=null;
+        if ($this->request()->has("idContacto")) {
+            $idContacto = $this->request()->get("idContacto");
+        }
+
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('contactos.informacionesEscolares.index', ['idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',

@@ -27,7 +27,7 @@
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
-    {!! Form::select('finalizado',[0=>'NO',1=>'SI'], old('finalizado'), ['class' => 'form-control']) !!}
+    {!! Form::select('finalizado',[1=>'SI', 0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Grado Estimada Field -->
