@@ -69,7 +69,7 @@ class InformacionRelacionalController extends AppBaseController
 
             return view('contactos.informaciones_relacionales.edit', ['informacionRelacional'=> $informacionRelacional, 'idContacto'=>$contacto->id]);
         }else{
-            return response()->view('layouts.error', ['message'=>'No es posible crear este registro sin un contacto asociado'], 500);     
+            return response()->view('layouts.error', ['message'=>'No es posible editar este registro sin un contacto asociado'], 500);     
         } 
     }
 
