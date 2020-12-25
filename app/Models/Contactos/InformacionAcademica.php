@@ -8,11 +8,13 @@ use Altek\Accountant\Contracts\Recordable;
 /**
  * Class InformacionAcademica
  * @package App\Models\Contactos
- * @version November 19, 2020, 10:52 pm UTC
+ * @version December 25, 2020, 12:27 pm -05
  *
  * @property \App\Models\Contactos\Contacto $contacto
+ * @property \App\Models\Contactos\Entidad $entidad
  * @property \App\Models\Contactos\Formacion $formacion
  * @property integer $contacto_id
+ * @property integer $entidad_id
  * @property integer $formacion_id
  * @property boolean $finalizado
  * @property string $fecha_grado_estimada
@@ -27,8 +29,10 @@ class InformacionAcademica extends Model implements Recordable
 
     use \Altek\Accountant\Recordable;
 
+
     public $fillable = [
         'contacto_id',
+        'entidad_id',
         'formacion_id',
         'finalizado',
         'fecha_grado_estimada',
@@ -43,6 +47,7 @@ class InformacionAcademica extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'contacto_id' => 'integer',
+        'entidad_id' => 'integer',
         'formacion_id' => 'integer',
         'finalizado' => 'boolean',
         'fecha_grado_estimada' => 'date',
@@ -56,6 +61,7 @@ class InformacionAcademica extends Model implements Recordable
      */
     public static $rules = [
         'contacto_id' => 'required|integer',
+        'entidad_id' => 'required|integer',
         'formacion_id' => 'required|integer',
         'finalizado' => 'nullable|boolean',
         'fecha_grado_estimada' => 'nullable|after_or_equal:today',
@@ -68,6 +74,14 @@ class InformacionAcademica extends Model implements Recordable
     public function contacto()
     {
         return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function entidad()
+    {
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
     }
 
     /**

@@ -24,6 +24,18 @@
         "inView": true
     },
     {
+        "name": "entidad_id",
+        "dbType": "integer,false,true",
+        "htmlType": null,
+        "validations": "required|integer|integer",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "name": "formacion_id",
         "dbType": "integer,false,true",
         "htmlType": null,
@@ -74,6 +86,10 @@
     {
         "type": "relation",
         "relation": "mt1,Contacto,contacto_id"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,Entidad,entidad_id"
     },
     {
         "type": "relation",

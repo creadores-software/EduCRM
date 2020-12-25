@@ -156,6 +156,12 @@ class FormacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->formacionRepository->infoSelect2($request->input('q', ''));
+        $search=null;
+        $entidad=$request->input('entidad', '');
+        $term=$request->input('q', '');
+        if(!empty($entidad)){            
+            $search=['entidad_id'=>$entidad];     
+        }
+        return $this->formacionRepository->infoSelect2($term,$search);
     }
 }

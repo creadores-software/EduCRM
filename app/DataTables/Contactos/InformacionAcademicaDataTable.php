@@ -72,7 +72,7 @@ class InformacionAcademicaDataTable extends DataTable
     public function query(InformacionAcademica $model)
     {
         return $model->newQuery()
-            ->with(['formacion'])->select('informacion_academica.*');
+            ->with(['formacion','entidad'])->select('informacion_academica.*');
     }
 
     /**
@@ -111,7 +111,7 @@ class InformacionAcademicaDataTable extends DataTable
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(4)').every(function () {
+                    this.api().columns(':lt(5)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -130,7 +130,8 @@ class InformacionAcademicaDataTable extends DataTable
      */
     protected function getColumns()
     {
-        return [            
+        return [   
+            'entidad_id' => new Column(['title' => __('models/informacionesAcademicas.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
             'formacion_id' => new Column(['title' => __('models/informacionesAcademicas.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),
             'fecha_grado_estimada' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),

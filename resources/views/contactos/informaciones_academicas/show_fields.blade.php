@@ -4,6 +4,12 @@
     <p>{{ $informacionAcademica->contacto->getNombreCompleto() }}</p>
 </div>
 
+<!-- Entidad Id Field -->
+<div class="form-group">
+    {!! Form::label('entidad', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
+    <p>{{ $informacionAcademica->entidad->nombre }}</p>
+</div>
+
 <!-- Formacion Id Field -->
 <div class="form-group">
     {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}

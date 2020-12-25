@@ -2,6 +2,17 @@
 {!! Form::hidden('idContacto',$idContacto) !!}
 {!! Form::hidden('id', old('id', $informacionAcademica->id ?? '')) !!}
 
+<!-- Entidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('entidad_id', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
+    <select name="entidad_id" id="entidad_id" class="form-control">
+        <option></option>
+        @if(!empty(old('entidad_id', $informacionAcademica->entidad_id ?? '' )))
+            <option value="{{ old('entidad_id', $informacionAcademica->entidad_id ?? '' ) }}" selected> {{ App\Models\Entidades\Entidad::find(old('entidad_id', $informacionAcademica->entidad_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}
@@ -16,7 +27,7 @@
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('finalizado', __('models/informacionesAcademicas.fields.finalizado').':') !!}
-    {!! Form::select('finalizado',[0=>'NO',1=>'SI'], old('finalizado'), ['class' => 'form-control']) !!}
+    {!! Form::select('finalizado',[1=>'SI',0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Grado Estimada Field -->
@@ -68,6 +79,9 @@
                 $('#div_fecha_real').hide();      
            }
         }); 
+        $('#entidad_id').change(function(){
+            $('#formacion_id').val(null).trigger('change');
+        }); 
         $(document).ready(function() { 
             if($('#finalizado').val()==1){
                 $('#div_fecha_estimada').hide(); 
@@ -77,12 +91,36 @@
                 $('#div_fecha_real').hide();      
             }
             $('#finalizado').select2(); 
+            $('#entidad_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("entidades.entidades.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            es_ies: 1,
+                        };
+                    },
+                },
+            });
             $('#formacion_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.formaciones.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        entidad_seleccionada = $('#entidad_id').val();
+                        if($('#entidad_id').val()=== ''){
+                            entidad_seleccionada='n';    
+                        }
+                        return {
+                            q: params.term, 
+                            entidad: entidad_seleccionada,
+                        };
+                    },
                 },
             });             
         }); 
