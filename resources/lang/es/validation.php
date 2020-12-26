@@ -201,5 +201,7 @@ return [
         'fecha_nacimiento' => ['today'=>'hoy'],
         'fecha_grado_estimada' => ['today'=>'hoy'],
         'fecha_grado_real' => ['today'=>'hoy'],
+        'fecha_inicio' => ['today'=>'hoy'],
+        'fecha_fin' => ['today'=>'hoy'],
      ],
 ];
