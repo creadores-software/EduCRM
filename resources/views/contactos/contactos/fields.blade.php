@@ -1,3 +1,5 @@
+{!! Form::hidden('id', old('id', $contacto->id ?? '')) !!}
+
 <!-- Nombres Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nombres', __('models/contactos.fields.nombres').':') !!}
@@ -219,6 +221,13 @@
                 ajax: {
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        id_actual = $("[name='id']").val();
+                        return {
+                            q: params.term, 
+                            contacto_excluir: id_actual,
+                        };
+                    },
                 },
             });    
             $('#tipo_documento_id').select2({

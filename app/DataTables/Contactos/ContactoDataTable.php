@@ -40,10 +40,7 @@ class ContactoDataTable extends DataTable
                 }                
             })
             ->filter(function ($query) use($request) {
-                \Log::debug('Filtrando');
-                \Log::debug(print_r($request->all(),true));   // insert query
                 if($request->has('origen_id')){
-                    \Log::debug('Filtrando con'.$request->get('origen_id'));   
                     $query->whereRaw("origen_id = ?", [$request->get('origen_id')]);  
                 }
             });

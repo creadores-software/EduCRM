@@ -81,7 +81,8 @@ class InformacionAcademica extends Model implements Recordable
      **/
     public function entidad()
     {
-        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -89,6 +90,7 @@ class InformacionAcademica extends Model implements Recordable
      **/
     public function formacion()
     {
-        return $this->belongsTo(\App\Models\Formaciones\Formacion::class, 'formacion_id');
+        return $this->belongsTo(\App\Models\Formaciones\Formacion::class, 'formacion_id')
+            ->withDefault(['nombre' => '']);
     }
 }
