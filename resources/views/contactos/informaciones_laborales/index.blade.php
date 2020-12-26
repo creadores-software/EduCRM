@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
+@section('css')
+<style> 
+div.dataTables_wrapper div.dataTables_filter {
+    float: right;
+    text-align: right;
+    visibility: hidden;
+}
+</style> 
+@endsection
+
 @section('content')
     <section class="content-header">
-        <h1 class="pull-left">
-            @lang('models/informacionesLaborales.plural')
-        </h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('contactos.informacionesLaborales.create') }}">@lang('crud.add_new')</a>
+        <h1>
+            Vista: {{$contacto->getNombreCompleto()}}
         </h1>
     </section>
     <div class="content">
@@ -17,7 +24,19 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('contactos.informaciones_laborales.table')
+                <div class="row">
+                    <div class="col-md-12">                        
+                        <div class="nav-tabs-custom">
+                            @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
+                            <h1 class="pull-left">
+                                <a class="btn btn-default buttons-reset btn-sm no-corner" style="margin-top: -35px;" href="{{ route('contactos.informacionesLaborales.create',['idContacto'=>$idContacto]) }}"><span><i class="fa fa-plus"></i> Crear</span></a>
+                             </h1>                             
+                            <div class="tab-content">                                
+                                @include('contactos.informaciones_laborales.table')
+                            </div>
+                        </div>
+                    </div>
+               </div>                   
             </div>
         </div>
         <div class="text-center">

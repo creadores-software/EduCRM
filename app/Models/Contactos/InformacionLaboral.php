@@ -71,8 +71,8 @@ class InformacionLaboral extends Model implements Recordable
         'area' => 'nullable|string|max:45',
         'funciones' => 'nullable|string|max:255',
         'telefono' => 'nullable|string|max:15',
-        'fecha_inicio' => 'required',
-        'fecha_fin' => 'nullable'
+        'fecha_inicio' => 'required|before_or_equal:today',
+        'fecha_fin' => 'nullable|after:fecha_inicio|before_or_equal:today'
     ];
 
     /**
@@ -80,7 +80,8 @@ class InformacionLaboral extends Model implements Recordable
      **/
     public function ocupacion()
     {
-        return $this->belongsTo(\App\Models\Entidades\Ocupacion::class, 'ocupacion_id');
+        return $this->belongsTo(\App\Models\Entidades\Ocupacion::class, 'ocupacion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -96,6 +97,7 @@ class InformacionLaboral extends Model implements Recordable
      **/
     public function entidad()
     {
-        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id')
+            ->withDefault(['nombre' => '']);
     }
 }
