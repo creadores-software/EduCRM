@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/parentescos.singular')
+            Edición: {{$contacto->getNombreCompleto()}}
         </h1>
     </section>
     <div class="content">
@@ -11,11 +11,18 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'contactos.parentescos.store']) !!}
-
-                        @include('contactos.parentescos.fields')
-
-                    {!! Form::close() !!}
+                    <div class="col-md-12">
+                        <div class="nav-tabs-custom">
+                            @include('contactos.contactos.nav_edit',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
+                            <div class="tab-content">
+                                <div class="tab-pane fade in active">
+                                    {!! Form::open(['route' => 'contactos.parentescos.store']) !!}
+                                        @include('contactos.parentescos.fields')
+                                    {!! Form::close() !!}
+                                </div>                               
+                            </div>
+                        </div>
+                    </div>                   
                 </div>
             </div>
         </div>

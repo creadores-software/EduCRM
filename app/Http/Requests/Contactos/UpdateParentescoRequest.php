@@ -4,6 +4,8 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\Parentesco;
+use App\Rules\UnicoAcudiente;
+use Illuminate\Validation\Rule;
 
 class UpdateParentescoRequest extends FormRequest
 {
@@ -25,8 +27,19 @@ class UpdateParentescoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Parentesco::$rules;
-        
+        $rules= Parentesco::$rules;
+        $rules['acudiente'] = [
+            'nullable',
+            'boolean',
+            new UnicoAcudiente($this->request->get('id'),$this->request->get('contacto_origen')),
+        ];
+        $rules['contacto_destino'] = [
+            'required',
+            'integer',
+            Rule::unique('parentesco')
+                ->ignore($this->id)
+                ->where('contacto_origen', $this->contacto_origen)
+        ];
         return $rules;
     }
 }

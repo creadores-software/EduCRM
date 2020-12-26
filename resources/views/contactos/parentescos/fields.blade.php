@@ -1,19 +1,26 @@
-<!-- Contacto Origen Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contacto_origen', __('models/parentescos.fields.contacto_origen').':') !!}
-    {!! Form::number('contacto_origen', null, ['class' => 'form-control']) !!}
-</div>
+{!! Form::hidden('contacto_origen', old('contacto_origen', $parentesco->contacto_origen ?? $idContacto)) !!}
+{!! Form::hidden('idContacto',$idContacto) !!}
 
 <!-- Contacto Destino Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('contacto_destino', __('models/parentescos.fields.contacto_destino').':') !!}
-    {!! Form::number('contacto_destino', null, ['class' => 'form-control']) !!}
+    <select name="contacto_destino" id="contacto_destino" class="form-control">
+        <option></option>
+        @if(!empty(old('contacto_destino', $parentesco->contacto_destino ?? '' )))
+            <option value="{{ old('contacto_destino', $parentesco->contacto_destino ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_destino', $parentesco->contacto_destino ?? '' ))->getNombreCompleto() }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Tipo Parentesco Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('tipo_parentesco_id', __('models/parentescos.fields.tipo_parentesco_id').':') !!}
-    {!! Form::number('tipo_parentesco_id', null, ['class' => 'form-control']) !!}
+    <select name="tipo_parentesco_id" id="tipo_parentesco_id" class="form-control">
+        <option></option>
+        @if(!empty(old('tipo_parentesco_id', $parentesco->tipo_parentesco_id ?? '' )))
+            <option value="{{ old('tipo_parentesco_id', $parentesco->tipo_parentesco_id ?? '' ) }}" selected> {{ App\Models\Parametros\TipoParentesco::find(old('tipo_parentesco_id', $parentesco->tipo_parentesco_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Acudiente Field -->
@@ -28,5 +35,35 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('contactos.parentescos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <a href="{{ route('contactos.parentescos.index',['idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">      
+        $(document).ready(function() {    
+            $('#tipo_parentesco_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("parametros.tiposParentesco.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });  
+            $('#contacto_destino').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("contactos.contactos.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        id_actual = $("[name='contacto_origen']").val();
+                        return {
+                            q: params.term, 
+                            contacto_excluir: id_actual,
+                        };
+                    },
+                },
+            });            
+        }); 
+    </script>
+@endpush

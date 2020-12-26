@@ -120,7 +120,8 @@ class ParentescoController extends AppBaseController
                 return redirect(route('contactos.parentescos.index',['idContacto'=>$contacto->id]));
             }
 
-            return view('contactos.parentescos.edit', ['parentesco'=> $parentesco, 'idContacto'=>$contacto->id]);
+            return view('contactos.parentescos.edit', 
+            ['idContacto'=>$contacto->id,'contacto'=>$contacto,'parentesco'=>$parentesco]);
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible editar este registro sin un contacto asociado'], 500);     
         } 

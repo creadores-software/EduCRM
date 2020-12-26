@@ -35,7 +35,17 @@ class ParentescoDataTable extends DataTable
         })  
         ->filterColumn('contacto_destino', function($query, $keyword) {
             $query->whereRaw('CONCAT(pariente.nombres," ",pariente.apellidos) like ?', ["%{$keyword}%"]);
-        })       
+        }) 
+        ->filterColumn('acudiente', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("acudiente = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("acudiente = ?", [$validacion]);    
+            }                
+        })      
         ->filter(function ($query) use ($request) {
             if (!$request->has('idContacto')) {
                 return;
@@ -53,9 +63,9 @@ class ParentescoDataTable extends DataTable
      */
     public function query(Parentesco $model)
     {
-        return $model::leftjoin('contacto as pariente', 'parentesco.contacto_destino', '=', 'contacto.id')
-            ->with('tipoParentesco')
-            ->select(['parentesco.id','parentesco.contacto_origen',DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),'tipo_parentesco.nombre','acudiente'])->newQuery();
+        return $model::leftjoin('contacto as pariente', 'parentesco.contacto_destino', '=', 'pariente.id')
+            ->leftjoin('tipo_parentesco as tipoParentesco', 'parentesco.tipo_parentesco_id', '=', 'tipoParentesco.id')
+            ->select(['parentesco.id','parentesco.contacto_origen',DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),'tipoParentesco.nombre as nombre_tipo','acudiente'])->newQuery();
     }
 
     /**
@@ -77,7 +87,7 @@ class ParentescoDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc']],
+                'order'     => [[1, 'asc']],
                 'buttons'   => [
                     [
                         'extend' => 'reset',
@@ -93,6 +103,16 @@ class ParentescoDataTable extends DataTable
                  'language' => [
                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(3)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -104,9 +124,9 @@ class ParentescoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'nombre_pariente']),
-            'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'tipo_parentesco.nombre','name'=>'tipoParentesco.nombre']),
-            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente'])
+            'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'nombre_pariente','name'=>'pariente.nombre']),
+            'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'nombre_tipo','name'=>'tipoParentesco.nombre']),
+            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente','render'=> "function(){ return data? 'Si' : 'No' }"])
         ];
     }
 
