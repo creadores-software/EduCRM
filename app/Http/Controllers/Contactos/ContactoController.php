@@ -155,16 +155,24 @@ class ContactoController extends AppBaseController
      * Obtiene una lista formateada lista para ser usada en un select2
      */
     public function dataAjax(Request $request)
-    {        
-        $term=$request->input('q', '');        
+    {   
+        $term=$request->input('q', '');   
+        $contacto_excluir=$request->input('contacto_excluir', '');       
+
         $model = new Contacto();        
         $query = $model->newQuery();
 
-        $concat_alias= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', COALESCE(identificacion,'')) as text");
-        $concat= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', COALESCE(identificacion,''))");
+        $concat_alias= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', identificacion) as text");
+        $concat= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', identificacion)");
 
         $query->select('id',$concat_alias);
         $query->where($concat, 'LIKE', '%'.$term.'%');
+        //Solo se muestran contactos con identificación 
+        $query->whereNotNull('identificacion');
+
+        if(!empty($contacto_excluir)){
+            $query->where('id', '<>', $contacto_excluir);    
+        }
         $query->orderBy('text', 'ASC');        
         $coincidentes = $query->get();
 
