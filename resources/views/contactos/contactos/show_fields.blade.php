@@ -31,7 +31,7 @@
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6" >
     {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
-    <p>{{ Date('Y-m-d',strtotime($contacto->fecha_nacimiento)) }}</p>
+    <p>{{ $contacto->fecha_nacimiento? Date('Y-m-d',strtotime($contacto->fecha_nacimiento)):'' }}</p>
 </div>
 
 <!-- Genero Id Field -->

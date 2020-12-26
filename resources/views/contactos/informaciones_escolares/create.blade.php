@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/informacionesEscolares.singular')
+            Edición: {{$contacto->getNombreCompleto()}}
         </h1>
     </section>
     <div class="content">

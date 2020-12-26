@@ -1,9 +1,3 @@
-<!-- Contacto Id Field -->
-<div class="form-group">
-    {!! Form::label('contacto_id', __('models/informacionesAcademicas.fields.contacto_id').':') !!}
-    <p>{{ $informacionAcademica->contacto->getNombreCompleto() }}</p>
-</div>
-
 <!-- Entidad Id Field -->
 <div class="form-group">
     {!! Form::label('entidad', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
@@ -25,12 +19,12 @@
 <!-- Fecha Grado Estimada Field -->
 <div class="form-group">
     {!! Form::label('fecha_grado_estimada', __('models/informacionesAcademicas.fields.fecha_grado_estimada').':') !!}
-    <p>{{ Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_estimada)) }}</p>
+    <p>{{ $informacionAcademica->fecha_grado_estimada? Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_estimada)):'' }}</p>
 </div>
 
 <!-- Fecha Grado Real Field -->
 <div class="form-group">
     {!! Form::label('fecha_grado_real', __('models/informacionesAcademicas.fields.fecha_grado_real').':') !!}
-    <p>{{ Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_real)) }}</p>
+    <p>{{$informacionAcademica->fecha_grado_real?  Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_real)):'' }}</p>
 </div>
 
