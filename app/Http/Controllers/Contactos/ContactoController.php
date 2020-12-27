@@ -39,9 +39,14 @@ class ContactoController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('contactos.contactos.create');
+        $esPariente=0;
+        if($request->has('esPariente') && $request->get('esPariente')){
+            $esPariente=$request->get('esPariente');
+        }
+
+        return view('contactos.contactos.create',['esPariente'=>$esPariente]);
     }
 
     /**
@@ -89,8 +94,13 @@ class ContactoController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id,Request $request)
     {
+        $esPariente=0;
+        if($request->has('esPariente') && $request->get('esPariente')){
+            $esPariente=$request->get('esPariente');
+        }
+
         $contacto = $this->contactoRepository->find($id);
 
         if (empty($contacto)) {
@@ -99,7 +109,7 @@ class ContactoController extends AppBaseController
             return redirect(route('contactos.contactos.index'));
         }
 
-        return view('contactos.contactos.edit')->with('contacto', $contacto);
+        return view('contactos.contactos.edit',['contacto'=>$contacto,'esPariente'=>$esPariente]);
     }
 
     /**

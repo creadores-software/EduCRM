@@ -1,9 +1,3 @@
-<!-- Contacto Origen Field -->
-<div class="form-group">
-    {!! Form::label('contacto_origen', __('models/parentescos.fields.contacto_origen').':') !!}
-    <p>{{ $parentesco->contactoOrigen->getNombreCompleto() }}</p>
-</div>
-
 <!-- Contacto Destino Field -->
 <div class="form-group">
     {!! Form::label('contacto_destino', __('models/parentescos.fields.contacto_destino').':') !!}

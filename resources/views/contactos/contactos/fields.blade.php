@@ -1,4 +1,5 @@
 {!! Form::hidden('id', old('id', $contacto->id ?? '')) !!}
+{!! Form::hidden('esPariente', $esPariente) !!}
 
 <!-- Nombres Field -->
 <div class="form-group col-sm-6">
@@ -24,7 +25,23 @@
     {!! Form::text('celular', null, ['class' => 'form-control']) !!}
 </div>
 
+@if($esPariente)
+<!-- Identificacion Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
+    {!! Form::text('identificacion', null, ['class' => 'form-control']) !!}   
+</div>
+<div class="form-group col-sm-6">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+    <select name="origen_id" id="origen_id" class="form-control" disabled=true>
+        <option value="6" selected> Pariente </option>
+    </select> 
+    {!! Form::hidden('origen_id', 6) !!}
+    {!! Form::hidden('referido_por', $esPariente) !!}
+</div>
+@endif
 
+@if(!$esPariente)
 <!-- Origen Id Field -->
 <div class="form-group col-sm-6" id="div_origen">
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
@@ -45,6 +62,7 @@
         @endif
     </select> 
 </div>
+@endif
 
 <br/><br/>
 
@@ -62,12 +80,13 @@
     </select> 
 </div>
 
+@if(!$esPariente)
 <!-- Identificacion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
     {!! Form::text('identificacion', null, ['class' => 'form-control']) !!}
-    {!! Form::hidden('id', old('id', $contacto->id ?? '')) !!}
 </div>
+@endif
 
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
@@ -155,9 +174,11 @@
 <div class="form-group col-sm-6">
     {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
     <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
-        @foreach (old('tiposContacto[]', $contacto->tiposContacto,null) as $tipo)
-            <option value="{{ $tipo->id }}" selected="selected">{{ $tipo->nombre }}</option>
-        @endforeach
+        @if(!empty($contacto))
+            @foreach (old('tiposContacto[]', $contacto->tiposContacto,null) as $tipo)
+                <option value="{{ $tipo->id }}" selected="selected">{{ $tipo->nombre }}</option>
+            @endforeach
+        @endif
     </select> 
 </div>
 
@@ -179,9 +200,8 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('contactos.contactos.show',$contacto->id) }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <a href="{{ route('contactos.contactos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
-
 
 @push('scripts')
     <script type="text/javascript">
@@ -189,24 +209,25 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        });
+        });  
         $('#origen_id').change(function(){
             var seleccionado=$('#origen_id').select2('data');
-            if(seleccionado && seleccionado[0] && seleccionado[0].text=='Referido'){
-                $('#div_referido').show();  
+            if(seleccionado && seleccionado[0] && 
+            (seleccionado[0].text=='Referido' || seleccionado[0].text=='Pariente')){
+                $('#div_referido').show();
                 $('#div_origen').removeClass('col-sm-12');  
-                $('#div_origen').addClass('col-sm-6');  
+                $('#div_origen').addClass('col-sm-6');    
+                $('#div_referido').removeClass('col-sm-12');  
+                $('#div_referido').addClass('col-sm-6');  
             }else{
                 $('#div_referido').hide(); 
                 $('#div_origen').removeClass('col-sm-6');  
-                $('#div_origen').addClass('col-sm-12');     
+                $('#div_origen').addClass('col-sm-12');  
+                $('#div_referido').removeClass('col-sm-6');  
+                $('#div_referido').addClass('col-sm-12');     
             }
-        }); 
+        });       
         $(document).ready(function() { 
-            $('#estrato').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-            }); 
             $('#origen_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
@@ -229,7 +250,11 @@
                         };
                     },
                 },
-            });    
+            });          
+            $('#estrato').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+            });              
             $('#tipo_documento_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
@@ -294,13 +319,15 @@
                         };
                     },
                 },                
-            });             
+            });  
             var seleccionado=$('#origen_id').select2('data');
-            if(!seleccionado || !seleccionado[0] || !seleccionado[0].text.includes('Referido')){
+            if(!seleccionado || !seleccionado[0] || 
+            (!seleccionado[0].text.includes('Referido') && 
+            !seleccionado[0].text.includes('Pariente'))){
                 $('#div_referido').hide(); 
                 $('#div_origen').removeClass('col-sm-6');  
                 $('#div_origen').addClass('col-sm-12');   
-            }           
+            }            
         });
 
         //Métodos relacionados con la actualización en el select de lugar

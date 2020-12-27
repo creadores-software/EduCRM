@@ -4,12 +4,17 @@
 <!-- Contacto Destino Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('contacto_destino', __('models/parentescos.fields.contacto_destino').':') !!}
-    <select name="contacto_destino" id="contacto_destino" class="form-control">
-        <option></option>
-        @if(!empty(old('contacto_destino', $parentesco->contacto_destino ?? '' )))
-            <option value="{{ old('contacto_destino', $parentesco->contacto_destino ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_destino', $parentesco->contacto_destino ?? '' ))->getNombreCompleto() }} </option>
-        @endif
-    </select> 
+    <div class="input-group">
+        <select name="contacto_destino" id="contacto_destino" class="form-control">
+            <option></option>
+            @if(!empty(old('contacto_destino', $parentesco->contacto_destino ?? '' )))
+                <option value="{{ old('contacto_destino', $parentesco->contacto_destino ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_destino', $parentesco->contacto_destino ?? '' ))->getNombreCompleto() }} </option>
+            @endif
+        </select>   
+        <div class="btn btn-default input-group-addon">
+            <a target="_blank" href="{{ route('contactos.contactos.create',['esPariente'=>$idContacto]) }}">@lang('crud.add_new')</a>
+        </div> 
+    </div>   
 </div>
 
 <!-- Tipo Parentesco Id Field -->

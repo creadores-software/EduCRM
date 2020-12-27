@@ -26,12 +26,14 @@ class UpdateContactoRequest extends FormRequest
     public function rules()
     {
         $rules= Contacto::$rules;
-        $rules['identificacion'] = [
-            'nullable',
+        $rules['identificacion'] = [               
             'string',
             'max:30',
             'iunique:contacto,identificacion,'.$this->request->get('id'),
-        ];
+        ];  
+        if(!$this->request->get('esPariente')){
+            $rules['identificacion'][] = 'nullable';   
+        }
         return $rules;
     }
 }

@@ -191,6 +191,7 @@ return [
         'tipo_ocupacion_id' => 'Tipo Ocupación',
         'tipo_parentesco_id' => 'Tipo Parentesco',
         'today'=>'Hoy',
+        'contacto_destino' => 'Pariente',
     ],
 
     /**

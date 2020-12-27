@@ -83,4 +83,27 @@ class Parentesco extends Model implements Recordable
         return $this->belongsTo(\App\Models\Parametros\TipoParentesco::class, 'tipo_parentesco_id')
          ->withDefault(['nombre' => '']);
     }
+
+    /**
+     * Se sobreescribe el método con el fin de crear 
+     * el registro contrario en el pariente
+     */
+    public function save(array $options = [])
+    {
+        parent::save($options);        
+        try{
+            $contrario = new Parentesco();
+            $contrario->contacto_origen=$this->contacto_destino;   
+            $contrario->contacto_destino=$this->contacto_origen; 
+            $contrario->tipo_parentesco_id=$this->tipoParentesco->tipo_contrario_id;
+            $existeContrario = Parentesco::where('contacto_origen','=',$contrario->contacto_origen)
+            ->where('contacto_destino','=',$contrario->contacto_destino)
+            ->where('tipo_parentesco_id','=',$contrario->tipo_parentesco_id)->first();
+            if(empty($existeContrario)){               
+                $contrario->save(); 
+            }                 
+        }catch(\Exception $e){
+            \Log::debug('Error al asociar el parentesco contrario'.$e->getMessage());   
+        }
+    }
 }
