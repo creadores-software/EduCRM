@@ -95,6 +95,6 @@ class InformacionRelacionalController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/informacionesRelacionales.singular')]));
 
-        return redirect(route('contactos.informacionesRelacionales.show',$informacionRelacional->id));
+        return redirect(route('contactos.informacionesRelacionales.show',[$informacionRelacional, 'idContacto'=>$request->get('idContacto')]));
     }
 }

@@ -1,3 +1,5 @@
+{!! Form::hidden('idContacto',$idContacto) !!}
+
 <!-- Maximo Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('maximo_nivel_formacion_id', __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id').':') !!}
