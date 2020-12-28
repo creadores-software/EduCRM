@@ -62,6 +62,12 @@
         @endif
     </select> 
 </div>
+
+<!-- Otro origen Field -->
+<div class="form-group col-sm-6" id="div_otro_origen">
+    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen').':') !!}
+    {!! Form::text('otro_origen', null, ['class' => 'form-control','placeholder'=>'¿Cuál?']) !!}
+</div>
 @endif
 
 <br/><br/>
@@ -211,21 +217,8 @@
             locale: 'es',
         });  
         $('#origen_id').change(function(){
-            var seleccionado=$('#origen_id').select2('data');
-            if(seleccionado && seleccionado[0] && 
-            (seleccionado[0].text=='Referido' || seleccionado[0].text=='Pariente')){
-                $('#div_referido').show();
-                $('#div_origen').removeClass('col-sm-12');  
-                $('#div_origen').addClass('col-sm-6');    
-                $('#div_referido').removeClass('col-sm-12');  
-                $('#div_referido').addClass('col-sm-6');  
-            }else{
-                $('#div_referido').hide(); 
-                $('#div_origen').removeClass('col-sm-6');  
-                $('#div_origen').addClass('col-sm-12');  
-                $('#div_referido').removeClass('col-sm-6');  
-                $('#div_referido').addClass('col-sm-12');     
-            }
+            actualizarVisibilidadCamposOrigen();
+           
         });       
         $(document).ready(function() { 
             $('#origen_id').select2({
@@ -320,14 +313,7 @@
                     },
                 },                
             });  
-            var seleccionado=$('#origen_id').select2('data');
-            if(!seleccionado || !seleccionado[0] || 
-            (!seleccionado[0].text.includes('Referido') && 
-            !seleccionado[0].text.includes('Pariente'))){
-                $('#div_referido').hide(); 
-                $('#div_origen').removeClass('col-sm-6');  
-                $('#div_origen').addClass('col-sm-12');   
-            }            
+            actualizarVisibilidadCamposOrigen();         
         });
 
         //Métodos relacionados con la actualización en el select de lugar
@@ -360,6 +346,30 @@
         });
         function addLocationPreTag(input, id, label) {
             input.prev().before('<a class=\"location-pre\" data-id=\"'+(id||'')+'\">'+label+'</a>');
+        }
+
+        function actualizarVisibilidadCamposOrigen(){
+            var seleccionado=$('#origen_id').select2('data');
+            $('#div_referido').hide();   
+            $('#div_otro_origen').hide();
+            if(seleccionado && seleccionado[0]){
+                if(seleccionado[0].text.includes('Referido') || 
+                seleccionado[0].text.includes('Pariente')){
+                    $('#div_referido').show(); 
+                    $('#div_origen').removeClass('col-sm-12');  
+                    $('#div_origen').addClass('col-sm-6');
+                }else if(seleccionado[0].text.includes('Otro')){
+                    $('#div_otro_origen').show();
+                    $('#div_origen').removeClass('col-sm-12');  
+                    $('#div_origen').addClass('col-sm-6');    
+                }else{
+                    $('#div_origen').removeClass('col-sm-6');  
+                    $('#div_origen').addClass('col-sm-12');
+                }               
+            }else{
+                $('#div_origen').removeClass('col-sm-6');  
+                $('#div_origen').addClass('col-sm-12');   
+            }
         }
         $('#lugar_residencia').each(function(){
             var th = $('#lugar_residencia');

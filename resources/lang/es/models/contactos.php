@@ -26,5 +26,6 @@ return array (
     'informacion_relacional_id' => 'Información Relacional',
     'origen_id' => 'Origen',
     'referido_por' => 'Referido Por',
+    'otro_origen' => 'Otro origen',
   ),
 );

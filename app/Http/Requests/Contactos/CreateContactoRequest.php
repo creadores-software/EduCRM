@@ -34,6 +34,9 @@ class CreateContactoRequest extends FormRequest
         if(!$this->request->get('esPariente')){
             $rules['identificacion'][] = 'nullable';   
         }
+        if($this->request->get('origen_id')==5){
+            $rules['otro_origen'] = ['required','string','max:45'];
+        }
         return $rules;
     }
 }

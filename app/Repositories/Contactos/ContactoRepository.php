@@ -36,7 +36,8 @@ class ContactoRepository extends BaseRepository
         'observacion',
         'informacion_relacional_id',
         'origen_id',
-        'referido_por'
+        'referido_por',
+        'otro_origen'
     ];
 
     /**

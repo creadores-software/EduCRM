@@ -89,16 +89,26 @@
 </div>
 
 <!-- Origen Id Field -->
-<div class="form-group col-sm-6" >
+<div class="form-group @if(empty($contacto->referido_por) && empty($contacto->otro_origen)) col-sm-12 @else col-sm-6 @endif" >
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
     <p>{{ $contacto->origen->nombre }}</p>
 </div>
 
+@if(!empty($contacto->referido_por))
 <!-- Referido Por Field -->
 <div class="form-group col-sm-6" >
     {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
-    <p>{{ $contacto->referido_por? $contacto->referido->getNombreCompleto():'' }}</p>
+    <p>{{ $contacto->referido->getNombreCompleto() }}</p>
 </div>
+@endif
+
+@if(!empty($contacto->otro_origen))
+<!-- Otro origen Field -->
+<div class="form-group col-sm-6" >
+    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen').':') !!}
+    <p>{{ $contacto->otro_origen }}</p>
+</div>
+@endif
 
 <!-- Tipos de Contacto -->
 <div class="form-group col-sm-12">

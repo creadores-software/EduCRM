@@ -44,6 +44,7 @@ use App\Models\Contactos\InformacionRelacional;
  * @property integer $informacion_relacional_id
  * @property integer $origen_id
  * @property integer $referido_por
+ * @property string $otro_origen
  */
 class Contacto extends Model implements Recordable
 {
@@ -77,7 +78,8 @@ class Contacto extends Model implements Recordable
         'observacion',
         'informacion_relacional_id',
         'origen_id',
-        'referido_por'
+        'referido_por',
+        'otro_origen'
     ];
 
     /**
@@ -106,7 +108,8 @@ class Contacto extends Model implements Recordable
         'observacion' => 'string',
         'informacion_relacional_id' => 'integer',
         'origen_id' => 'integer',
-        'referido_por' => 'integer'
+        'referido_por' => 'integer',
+        'otro_origen' => 'string'
     ];
 
     /**
@@ -134,7 +137,8 @@ class Contacto extends Model implements Recordable
         'observacion' => 'nullable|string|max:255',
         'informacion_relacional_id' => 'nullable|integer',
         'origen_id' => 'required|integer',
-        'referido_por' => 'nullable|integer'
+        'referido_por' => 'nullable|integer',
+        'otro_origen' => 'nullable|string|max:45'
     ];
 
     /**

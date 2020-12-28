@@ -252,6 +252,18 @@
         "inView": true
     },
     {
+        "name": "otro_origen",
+        "dbType": "string,45:nullable",
+        "htmlType": "text",
+        "validations": "nullable|string|max:45|nullable|string|max:45",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
         "type": "relation",
         "relation": "mt1,Lugar,lugar_residencia"
     },

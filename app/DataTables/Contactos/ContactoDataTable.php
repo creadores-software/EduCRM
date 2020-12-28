@@ -128,6 +128,7 @@ class ContactoDataTable extends DataTable
             'celular' => new Column(['title' => __('models/contactos.fields.celular'), 'data' => 'celular']),
             'telefono' => new Column(['title' => __('models/contactos.fields.telefono'), 'data' => 'telefono']),
             'correo_personal' => new Column(['title' => __('models/contactos.fields.correo_personal'), 'data' => 'correo_personal']),
+            'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen.nombre','name'=>'origen.nombre']),
             'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             //Campos no visibles
@@ -140,9 +141,9 @@ class ContactoDataTable extends DataTable
             'lugar_residencia' => new Column(['title' => __('models/contactos.fields.lugar_residencia'),  'data' => 'lugar_residencia.nombre', 'name'=>'lugarResidencia.nombre', 'visible'=>false]),
             'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia','visible'=>false]),
             'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato','visible'=>false]),            
-            'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion','visible'=>false]),
-            'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'origen.nombre','name'=>'origen.nombre','visible'=>false]),
+            'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion','visible'=>false]),            
             'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por','visible'=>false]),            
+            'otro_origen' => new Column(['title' => __('models/contactos.fields.otro_origen'), 'data' => 'otro_origen','visible'=>false]),            
         ];
     }
 
