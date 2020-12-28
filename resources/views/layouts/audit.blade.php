@@ -1,8 +1,9 @@
-<h2 class="page-header">Log de auditoria</h2>
-
 @section('css')
     @include('layouts.datatables_css')
 @endsection
+
+<div class="col-sm-12">
+<h2 class="page-header">Log de auditoria</h2>
 
 <table id="datatable" class="table table-striped table-bordered" style="width:100%" >
     <thead>
@@ -47,6 +48,7 @@
       @endforeach
     </tbody>
   </table>
+</div>
 
 @push('scripts')  
   @include('layouts.datatables_js')

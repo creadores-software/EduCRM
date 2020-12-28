@@ -1,5 +1,6 @@
 {!! Form::hidden('contacto_origen', old('contacto_origen', $parentesco->contacto_origen ?? $idContacto)) !!}
 {!! Form::hidden('idContacto',$idContacto) !!}
+{!! Form::hidden('id', old('id', $parentesco->id ?? '')) !!}
 
 <!-- Contacto Destino Field -->
 <div class="form-group col-sm-6">
