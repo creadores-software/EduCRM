@@ -21,6 +21,9 @@ class FormacionDataTable extends DataTable
 
         return $dataTable
             ->addColumn('action', 'formaciones.formaciones.datatables_actions')
+            ->editColumn('activo', function ($formacion){
+                return $formacion->activo? 'Si':'No';
+            })
             ->filterColumn('activo', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
@@ -29,7 +32,9 @@ class FormacionDataTable extends DataTable
                 }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("activo = ?", [$validacion]);    
-                }                
+                }else{
+                    $query->whereRaw("activo = 3"); //Ninguno    
+                }             
             });
             
     }
@@ -105,7 +110,7 @@ class FormacionDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name'=>'entidad.nombre']),
             'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name'=>'nivelFormacion.nombre']),
             'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre', 'name'=>'campoEducacion.nombre']),
-            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo','render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

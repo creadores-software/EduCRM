@@ -21,6 +21,9 @@ class EntidadDataTable extends DataTable
 
         return $dataTable
             ->addColumn('action', 'entidades.entidades.datatables_actions')
+            ->editColumn('mi_universidad', function ($entidad){
+                return $entidad->mi_universidad? 'Si':'No';
+            })
             ->filterColumn('mi_universidad', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
@@ -29,7 +32,9 @@ class EntidadDataTable extends DataTable
                 }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("mi_universidad = ?", [$validacion]);    
-                }                
+                }else{
+                    $query->whereRaw("mi_universidad = 3"); //Ninguno    
+                }               
             });
     }
 
@@ -105,7 +110,7 @@ class EntidadDataTable extends DataTable
             'lugar_id' => new Column(['title' => __('models/entidades.fields.lugar_id'), 'data' => 'lugar.nombre', 'name'=>'lugar.nombre']),
             'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector.nombre', 'name'=>'sector.nombre']),
             'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
-            'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad','render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             'direccion' => new Column(['title' => __('models/entidades.fields.direccion'), 'data' => 'direccion','visible'=>false,'searchable'=>false]),
             'telefono' => new Column(['title' => __('models/entidades.fields.telefono'), 'data' => 'telefono','visible'=>false,'searchable'=>false]),

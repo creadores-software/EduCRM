@@ -31,6 +31,9 @@ class InformacionAcademicaDataTable extends DataTable
             $id=$row->id;
             return view('contactos.informaciones_academicas.datatables_actions', 
             compact('id','idContacto'));
+        })
+        ->editColumn('finalizado', function ($informacion){
+            return $informacion->finalizado? 'Si':'No';
         })  
         ->editColumn('fecha_grado_estimada', function ($informacion){
             if(empty($informacion->fecha_grado_estimada)){
@@ -52,7 +55,9 @@ class InformacionAcademicaDataTable extends DataTable
             }else if(strpos(strtolower($keyword), 'n')!==false){
                 $validacion=0;
                 $query->whereRaw("finalizado = ?", [$validacion]);    
-            }                
+            }else{
+                $query->whereRaw("finalizado = 3"); //Ninguno    
+            }               
         })
         ->filter(function ($query) use ($request) {
             if (!$request->has('idContacto')) {
@@ -133,7 +138,7 @@ class InformacionAcademicaDataTable extends DataTable
         return [   
             'entidad_id' => new Column(['title' => __('models/informacionesAcademicas.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
             'formacion_id' => new Column(['title' => __('models/informacionesAcademicas.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
-            'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado']),
             'fecha_grado_estimada' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),
             'fecha_grado_real' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_real'), 'data' => 'fecha_grado_real']),
             'contacto_id' => new Column(['title' => __('models/informacionesAcademicas.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),

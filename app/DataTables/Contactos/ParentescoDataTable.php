@@ -28,11 +28,14 @@ class ParentescoDataTable extends DataTable
         }
 
         return $dataTable
+        ->editColumn('acudiente', function ($row){
+            return $row->acudiente? 'Si':'No';
+        }) 
         ->addColumn('action', function($row) use ($idContacto){
             $id=$row->id;
             return view('contactos.parentescos.datatables_actions', 
             compact('id','idContacto'));
-        })  
+        }) 
         ->filterColumn('contacto_destino', function($query, $keyword) {
             $query->whereRaw('CONCAT(pariente.nombres," ",pariente.apellidos) like ?', ["%{$keyword}%"]);
         }) 
@@ -44,6 +47,8 @@ class ParentescoDataTable extends DataTable
             }else if(strpos(strtolower($keyword), 'n')!==false){
                 $validacion=0;
                 $query->whereRaw("acudiente = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("acudiente = 3"); //Ninguno    
             }                
         })      
         ->filter(function ($query) use ($request) {
@@ -126,7 +131,7 @@ class ParentescoDataTable extends DataTable
         return [
             'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'nombre_pariente','name'=>'pariente.nombre']),
             'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'nombre_tipo','name'=>'tipoParentesco.nombre']),
-            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente','render'=> "function(){ return data? 'Si' : 'No' }"])
+            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente'])
         ];
     }
 

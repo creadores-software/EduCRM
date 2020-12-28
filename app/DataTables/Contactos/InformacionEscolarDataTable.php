@@ -31,6 +31,9 @@ class InformacionEscolarDataTable extends DataTable
             return view('contactos.informaciones_escolares.datatables_actions', 
             compact('id','idContacto'));
         }) 
+        ->editColumn('finalizado', function ($informacion){
+            return $informacion->finalizado? 'Si':'No';
+        }) 
         ->editColumn('fecha_grado_estimada', function ($informacion){
             if(empty($informacion->fecha_grado_estimada)){
                 return;
@@ -51,6 +54,8 @@ class InformacionEscolarDataTable extends DataTable
             }else if(strpos(strtolower($keyword), 'n')!==false){
                 $validacion=0;
                 $query->whereRaw("finalizado = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("finalizado = 3"); //Ninguno    
             }                
         })
         ->filter(function ($query) use ($request) {
@@ -132,7 +137,7 @@ class InformacionEscolarDataTable extends DataTable
         return [
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
             'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
-            'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado','render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
             'fecha_grado_estimada' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),
             'fecha_grado_real' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado_real'), 'data' => 'fecha_grado_real'])
         ];

@@ -21,6 +21,9 @@ class NivelFormacionDataTable extends DataTable
 
         return $dataTable
             ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions')
+            ->editColumn('es_ies', function ($nivel){
+                return $nivel->es_ies? 'Si':'No';
+            })
             ->filterColumn('es_ies', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
@@ -29,6 +32,8 @@ class NivelFormacionDataTable extends DataTable
                 }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("es_ies = ?", [$validacion]);    
+                }else{
+                    $query->whereRaw("es_ies = 3"); //Ninguno    
                 }                
             });
     }
@@ -101,7 +106,7 @@ class NivelFormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),
-            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', ]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

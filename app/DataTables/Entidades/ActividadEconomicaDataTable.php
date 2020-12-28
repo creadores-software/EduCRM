@@ -21,6 +21,12 @@ class ActividadEconomicaDataTable extends DataTable
 
         return $dataTable
             ->addColumn('action', 'entidades.actividades_economicas.datatables_actions')
+            ->editColumn('es_ies', function ($actividad){
+                return $actividad->es_ies? 'Si':'No';
+            })
+            ->editColumn('es_colegio', function ($actividad){
+                return $actividad->es_colegio? 'Si':'No';
+            })
             ->filterColumn('es_ies', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
@@ -29,7 +35,9 @@ class ActividadEconomicaDataTable extends DataTable
                 }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("es_ies = ?", [$validacion]);    
-                }                
+                }else{
+                    $query->whereRaw("es_ies = 3"); //Ninguno    
+                }               
             })
             ->filterColumn('es_colegio', function ($query, $keyword) {
                 $validacion=null;
@@ -39,6 +47,8 @@ class ActividadEconomicaDataTable extends DataTable
                 }else if(strpos(strtolower($keyword), 'n')!==false){
                     $validacion=0;
                     $query->whereRaw("es_colegio = ?", [$validacion]);    
+                }else{
+                    $query->whereRaw("es_colegio = 3"); //Ninguno    
                 }                
             });
             
@@ -113,8 +123,8 @@ class ActividadEconomicaDataTable extends DataTable
         return [            
             'nombre' => new Column(['title' => __('models/actividadesEconomicas.fields.nombre'), 'data' => 'nombre']),
             'categoria_actividad_economica_id' => new Column(['title' => 'Categoría', 'data' => 'categoria_actividad_economica.nombre','name' => 'categoriaActividadEconomica.nombre']),
-            'es_ies' => new Column(['title' => __('models/actividadesEconomicas.fields.es_ies'), 'data' => 'es_ies', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
-            'es_colegio' => new Column(['title' => __('models/actividadesEconomicas.fields.es_colegio'), 'data' => 'es_colegio', 'render'=> "function(){ return data? 'Si' : 'No' }"]),
+            'es_ies' => new Column(['title' => __('models/actividadesEconomicas.fields.es_ies'), 'data' => 'es_ies', ]),
+            'es_colegio' => new Column(['title' => __('models/actividadesEconomicas.fields.es_colegio'), 'data' => 'es_colegio', ]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
