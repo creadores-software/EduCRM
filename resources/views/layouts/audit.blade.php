@@ -1,6 +1,6 @@
-@section('css')
+@push('css')
     @include('layouts.datatables_css')
-@endsection
+  @endpush
 
 <div class="col-sm-12">
 <h2 class="page-header">Log de auditoria</h2>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('css')
+@push('css')
 <style> 
 div.dataTables_wrapper div.dataTables_filter {
     float: right;
@@ -8,7 +8,7 @@ div.dataTables_wrapper div.dataTables_filter {
     visibility: hidden;
 }
 </style> 
-@endsection
+@endpush
 
 @section('content')
     <section class="content-header">
