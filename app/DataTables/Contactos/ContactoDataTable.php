@@ -111,7 +111,7 @@ class ContactoDataTable extends DataTable
             ->ajax([
                 'url'  => '',
                 'data' => "function(data){                   
-                    data.origenes  = $('#origenes').val();
+                    data.origenes  = $('#s2_origenes').val();
                     data.segmento  = $('#segmento_seleccionado').val();
                 }"
             ])

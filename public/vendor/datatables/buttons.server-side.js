@@ -240,12 +240,17 @@
 
         action: function (e, dt, button, config) {
             dt.search('');
-            dt.columns().search('');
-           
-            console.log('reseteando 1');
-            if($("#form_filtro_nuevo" ).length){
+            dt.columns().search('');           
+            if($("#form_filtro_nuevo").length){
+                //Resetea todos los input
                 $('#form_filtro_nuevo')[0].reset();
-            }
+                //Resetea todos los select2
+                $('#form_filtro_nuevo select').select2("val", "");
+            }    
+            if($("#segmentos").length){
+                //Elimina segmento seleccionado
+                $("#segmentos").DataTable().rows().deselect();
+            }         
             dt.draw();
         }
     };

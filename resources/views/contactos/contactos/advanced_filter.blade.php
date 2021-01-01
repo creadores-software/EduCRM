@@ -8,6 +8,7 @@
           </button>
         </div>
         <div class="modal-body"> 
+          <form id="form_segmentos">
           <div class="row">
             <div class="col-md-12">
                 <div class="nav-tabs-custom">
@@ -16,15 +17,12 @@
                     <li><a data-toggle="tab" href="#listado">Listar segmentos</a></li>
                   </ul>                
                     <div class="tab-content">
-                      <div id="filtro_nuevo" class="tab-pane fade in active">
-                        <form id="form_filtro_nuevo">
+                      <div id="filtro_nuevo" class="tab-pane fade in active">                        
                         <div class="form-group col-sm-12" id="div_origen">
                           {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
-                          <select name="origenes[]" id="origenes" class="form-control" multiple="multiple">
-                           
+                          <select name="s2_origenes[]" id="s2_origenes" class="form-control" multiple="multiple">                           
                           </select> 
-                        </div>
-                      </form>
+                        </div>                      
                       </div>
                       <div id="listado" class="tab-pane fade">
                         <div class="col-sm-12">
@@ -95,7 +93,8 @@
                     </div>
                 </div>
             </div>
-          </div>          
+          </div>  
+        </form>        
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" type="submit">Guardar Segmento</button>
@@ -109,7 +108,7 @@
 @push('scripts')
     <script type="text/javascript">        
         $(document).ready(function() { 
-            $('#origenes').select2({
+            $('#s2_origenes').select2({
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
