@@ -1,14 +1,18 @@
 @extends('layouts.app')
 
-@section('css')
+@push('css')
 <style> 
 div.dataTables_wrapper div.dataTables_filter {
     float: right;
     text-align: right;
     visibility: hidden;
 }
+.select2-container {
+    width: 100% !important;
+    padding: 0;
+}
 </style> 
-@endsection
+@endpush
 
 @section('content')
     <section class="content-header">
@@ -34,7 +38,7 @@ div.dataTables_wrapper div.dataTables_filter {
         
         </div>
     </div>
-    @include('contactos.contactos.advanced_filter');
+    @include('contactos.contactos.advanced_filter')
    
 @endsection
 
