@@ -241,6 +241,11 @@
         action: function (e, dt, button, config) {
             dt.search('');
             dt.columns().search('');
+           
+            console.log('reseteando 1');
+            if($("#form_filtro_nuevo" ).length){
+                $('#form_filtro_nuevo')[0].reset();
+            }
             dt.draw();
         }
     };

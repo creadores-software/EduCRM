@@ -16,9 +16,10 @@ class ContactoDataTable extends DataTable
      * @param mixed $query Results from query() method.
      * @return \Yajra\DataTables\DataTableAbstract
      */
-    public function dataTable($query, Request $request)
+    public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $request=$this->request();          
 
         return 
         $dataTable
@@ -48,8 +49,8 @@ class ContactoDataTable extends DataTable
                 }               
             })
             ->filter(function ($query) use($request) {
-                if($request->has('origen_id')){
-                    $query->whereRaw("origen_id = ?", [$request->get('origen_id')]);  
+                if($request->has('origenes') && $request->get('origenes')){
+                    $query->whereIn("origen_id",$request->get('origenes'));
                 }
             });
             
@@ -106,9 +107,19 @@ class ContactoDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            //Ver https://github.com/yajra/laravel-datatables/issues/1129
+            ->ajax([
+                'url'  => '',
+                'data' => "function(data){                   
+                    data.origenes  = $('#origenes').val();
+                    data.segmento  = $('#segmento_seleccionado').val();
+                }"
+            ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
+                'processing' => true,
+                'serverSide' => true,
+                'responsive' => true,
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
