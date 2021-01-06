@@ -91,6 +91,9 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
 });
 
 Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
+    Route::get('contactos/subirImportacion', 'Contactos\ContactoController@subirImportacion')->name('contactos.contactos.subirImportacion');
+    Route::post('contactos/cargarImportacion', 'Contactos\ContactoController@cargarImportacion')->name('contactos.contactos.cargarImportacion');
+    Route::get('contactos/archivoEjemplo', 'Contactos\ContactoController@archivoEjemplo')->name('contactos.contactos.archivoEjemplo');
     Route::get('contactos/dataAjax', 'Contactos\ContactoController@dataAjax')->name('contactos.contactos.dataAjax');
     Route::resource('contactos', 'Contactos\ContactoController', ["as" => 'contactos']);
     Route::resource('informacionesAcademicas', 'Contactos\InformacionAcademicaController', ["as" => 'contactos']);

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Contactos;
 
 use App\DataTables\Contactos\ContactoDataTable;
 use App\Models\Contactos\Contacto;
+use App\Imports\Contactos\ContactoImport;
+use App\Exports\Contactos\ContactoExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Contactos\CreateContactoRequest;
 use App\Http\Requests\Contactos\UpdateContactoRequest;
 use App\Repositories\Contactos\ContactoRepository;
@@ -187,5 +190,27 @@ class ContactoController extends AppBaseController
         $coincidentes = $query->get();
 
         return ['results' => $coincidentes];
+    }
+
+    public function archivoEjemplo(){
+        return Excel::download(new ContactoExport, 'archivo_ejemplo.xlsx');
+    }
+    
+    public function subirImportacion(){
+        return view('contactos.contactos.subir_importacion');
+    }
+
+    public function cargarImportacion(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:csv|max:2048'
+        ]);
+
+        if($request->file()) {
+            $nombreArchivo=$request->file->getClientOriginalName();
+            Excel::import(new ContactoImport, $request->file('archivo'));
+            return back()
+            ->with('success','El archivo ha sido importado correctamente.')
+            ->with('file', $nombreArchivo);
+        }
     }
 }
