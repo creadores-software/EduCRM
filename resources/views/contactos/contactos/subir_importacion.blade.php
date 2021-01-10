@@ -31,7 +31,7 @@ dl, ol, ul {
                     {!! Form::open(['route' => 'contactos.contactos.cargarImportacion','files' => true]) !!}
                 
                         <div class="form-group col-sm-12">    
-                            <p>El archivo debe estar en formato csv o excel, conservando en la primera línea los titulos de los campos tal como están en base de datos.</p>
+                            <p>El archivo debe estar en formato Excel (xlsx,xls) conservando en la primera línea los titulos de los campos tal como están en base de datos.</p>
                             <a target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar plantilla</a>
                         </div>
                         <!-- Archivo -->

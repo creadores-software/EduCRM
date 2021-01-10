@@ -211,7 +211,7 @@ class ContactoController extends AppBaseController
                 ],
                 [
                     'file'          => 'required',
-                    'extension'      => 'required|in:csv,xlsx,xls',
+                    'extension'      => 'required|in:xlsx,xls',
                 ]
             );
     
