@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Response;
 use Flash;
+use Cache;
+use Validator;
 
 class ContactoController extends AppBaseController
 {
@@ -193,7 +195,7 @@ class ContactoController extends AppBaseController
     }
 
     public function archivoEjemplo(){
-        return Excel::download(new ContactoExport, 'archivo_ejemplo.xlsx');
+        return Excel::download(new ContactoExport, 'plantilla_contactos.xlsx');
     }
     
     public function subirImportacion(){
@@ -201,16 +203,51 @@ class ContactoController extends AppBaseController
     }
 
     public function cargarImportacion(Request $request){
-        $request->validate([
-            'file' => 'required|mimes:csv|max:2048'
-        ]);
+        if($request->archivo){
+            $validator = Validator::make(
+                [
+                    'file'      => $request->archivo,
+                    'extension' => strtolower($request->archivo->getClientOriginalExtension()),
+                ],
+                [
+                    'file'          => 'required',
+                    'extension'      => 'required|in:csv,xlsx,xls',
+                ]
+            );
+    
+            if ($validator->fails()) {
+                Flash::error($validator);
+                return back();
+            }
+    
+            $nombreArchivo=$request->archivo->getClientOriginalExtension();
+            try {
+                Cache::put('cantidadImportados',0, 10);
+                $import = new ContactoImport;
+                $import->import($request->file('archivo'));
+                $failures=$import->failures();
+                if(!empty($failures)){
+                    $mensaje="";      
+                    foreach ($failures as $failure) {
+                        $mensaje.="Error en la linea ".$failure->row().": ";
+                        foreach($failure->errors() as $error){
+                            $mensaje.=$error." ";    
+                        }
+                        $mensaje.=" <br/>";
+                    }
+                    $importados=Cache::get('cantidadImportados');
+                    $mensaje.="<br/>Se importaron sin error {$importados} registro(s).";
+                    Cache::forget('cantidadImportados');
+                    Flash::error($mensaje);
+                    return back();
+                }
 
-        if($request->file()) {
-            $nombreArchivo=$request->file->getClientOriginalName();
-            Excel::import(new ContactoImport, $request->file('archivo'));
-            return back()
-            ->with('success','El archivo ha sido importado correctamente.')
-            ->with('file', $nombreArchivo);
-        }
+                Flash::success("El archivo ha sido importado correctamente {$nombreArchivo}.");
+                return back(); 
+            } catch (Exception $e) {
+                Flash::error($e->getMessage());
+                return back();
+            }     
+        }       
     }
 }

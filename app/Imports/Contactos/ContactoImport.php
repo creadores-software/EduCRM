@@ -4,11 +4,19 @@ namespace App\Imports\Contactos;
 
 use App\Models\Contactos\Contacto;
 use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Cache;
 
-class ContactoImport implements OnEachRow, WithHeadingRow
+class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsOnFailure,WithChunkReading
 {
+    use Importable, SkipsFailures;
+
     public function onRow(Row $row)
     {
         $row      = $row->toArray();
@@ -50,8 +58,42 @@ class ContactoImport implements OnEachRow, WithHeadingRow
         $informacionRelacional->estatus_lealtad_id=$row['estatus_lealtad_id'];
         $informacionRelacional->estado_disposicion_id=$row['estado_disposicion_id'];
         $informacionRelacional->actitud_servicio_id=$row['actitud_servicio_id'];
-        $informacionRelacional->autoriza_comunicacion=$row['autoriza_comunicacion'];
+        $autoriza=$row['autoriza_comunicacion'];
+        if(empty($autoriza)){
+            $autoriza=1;    
+        }
+        $informacionRelacional->autoriza_comunicacion=$autoriza;
 
-        $informacionRelacional->save();    
+        $informacionRelacional->save();  
+        Cache::increment('cantidadImportados');
+  
+    }
+
+    public function rules(): array
+    {
+        $rules= Contacto::$rules;
+        //Se debe establecer como alfanumerico pues de excel se leen los valores como números y no pasan la validación
+        $rules['identificacion'] = [               
+            'nullable',
+            'alpha_num',
+            'max:30',
+            'unique:contacto',
+        ];
+        $rules['celular'] = [               
+            'required',
+            'alpha_num',
+            'max:15',
+        ];
+        $rules['telefonor'] = [               
+            'nullable',
+            'alpha_num',
+            'max:15',
+        ];
+        return $rules;
+    }
+
+    public function chunkSize(): int
+    {
+        return 1000;
     }
 }

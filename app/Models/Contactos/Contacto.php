@@ -278,6 +278,8 @@ class Contacto extends Model implements Recordable
         try{
             if($this->informacion_relacional_id==null){
                 $relacional = new InformacionRelacional;
+                //Por defecto se establece que si autoriza comunicación
+                $relacional->autoriza_comunicacion=1;
                 if($relacional->save()){
                     $this->informacion_relacional_id=$relacional->id;
                     $this->save();

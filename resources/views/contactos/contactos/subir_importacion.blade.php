@@ -31,8 +31,8 @@ dl, ol, ul {
                     {!! Form::open(['route' => 'contactos.contactos.cargarImportacion','files' => true]) !!}
                 
                         <div class="form-group col-sm-12">    
-                            <p>El archivo debe estar en formato csv separado por coma, conservando en la primera línea los titulos de los campos tal como están en base de datos.</p>
-                            <a target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar archivo de ejemplo</a>
+                            <p>El archivo debe estar en formato csv o excel, conservando en la primera línea los titulos de los campos tal como están en base de datos.</p>
+                            <a target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar plantilla</a>
                         </div>
                         <!-- Archivo -->
                         <div class="form-group col-sm-6">
@@ -43,7 +43,7 @@ dl, ol, ul {
                         <!-- Submit Field -->
                         <div class="form-group col-sm-12">
                             {!! Form::submit('Cargar importación', ['class' => 'btn btn-primary']) !!}
-                            <a href="{{ route('contactos.contactos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
+                            <a href="{{ route('contactos.contactos.index') }}" class="btn btn-default">@lang('crud.back')</a>
                         </div>
                     {!! Form::close() !!}
                 </div>
