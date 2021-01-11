@@ -38,7 +38,7 @@ div.dataTables_wrapper div.dataTables_filter {
         
         </div>
     </div>
-    @include('contactos.contactos.advanced_filter')
+    @include('contactos.advanced_filter.index')
    
 @endsection
 

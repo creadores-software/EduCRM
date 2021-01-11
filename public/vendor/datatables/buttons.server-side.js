@@ -241,11 +241,11 @@
         action: function (e, dt, button, config) {
             dt.search('');
             dt.columns().search('');           
-            if($("#form_filtro_nuevo").length){
+            if($("#form_segmentos").length){
                 //Resetea todos los input
-                $('#form_filtro_nuevo')[0].reset();
+                $('#form_segmentos')[0].reset();
                 //Resetea todos los select2
-                $('#form_filtro_nuevo select').select2("val", "");
+                $(".select2-hidden-accessible").val(null).trigger("change");
             }    
             if($("#segmentos").length){
                 //Elimina segmento seleccionado

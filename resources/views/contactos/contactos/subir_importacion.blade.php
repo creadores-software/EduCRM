@@ -49,14 +49,5 @@ dl, ol, ul {
                 </div>
             </div>
         </div>
-        <div class="text-center">
-        
-        </div>
     </div>
-    @include('contactos.contactos.advanced_filter')
-   
 @endsection
-
-@push('scripts')
-@endpush
-
