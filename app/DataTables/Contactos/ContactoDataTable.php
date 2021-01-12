@@ -6,7 +6,8 @@ use App\Models\Contactos\Contacto;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ContactoDataTable extends DataTable
 {
@@ -49,9 +50,126 @@ class ContactoDataTable extends DataTable
                 }               
             })
             ->filter(function ($query) use($request) {
-                if($request->has('origenes') && $request->get('origenes')){
-                    $query->whereIn("origen_id",$request->get('origenes'));
-                }
+                if($request->has('segmento') && $request->get('segmento')){
+                    //Ubicar sql del segmento
+                    $query->whereRaw("identificacion = '1053815524'");          
+                }else{
+                    if($request->has('nombres') && $request->get('nombres')){
+                        $texto='%'.strtoupper($request->get('nombres')).'%';
+                        $query->where(DB::raw('upper(contacto.nombres)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('apellidos') && $request->get('apellidos')){
+                        $texto='%'.strtoupper($request->get('apellidos')).'%';
+                        $query->where(DB::raw('upper(contacto.apellidos)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('correo_personal') && $request->get('correo_personal')){
+                        $texto='%'.strtoupper($request->get('correo_personal')).'%';
+                        $query->where(DB::raw('upper(contacto.correo_personal)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('correo_institucional') && $request->get('correo_institucional')){
+                        $texto='%'.strtoupper($request->get('correo_institucional')).'%';
+                        $query->where(DB::raw('upper(contacto.correo_institucional)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('celular') && $request->get('celular')){
+                        $texto='%'.strtoupper($request->get('celular')).'%';
+                        $query->where(DB::raw('upper(contacto.celular)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('telefono') && $request->get('telefono')){
+                        $texto='%'.strtoupper($request->get('telefono')).'%';
+                        $query->where(DB::raw('upper(contacto.telefono)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('otro_origen') && $request->get('otro_origen')){
+                        $texto='%'.strtoupper($request->get('otro_origen')).'%';
+                        $query->where(DB::raw('upper(contacto.otro_origen)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('direccion_residencia') && $request->get('direccion_residencia')){
+                        $texto='%'.strtoupper($request->get('direccion_residencia')).'%';
+                        $query->where(DB::raw('upper(contacto.direccion_residencia)'), 'LIKE', $texto);                        
+                    }
+                    if($request->has('observacion') && $request->get('observacion')){
+                        $texto='%'.strtoupper($request->get('observacion')).'%';
+                        $query->where(DB::raw('upper(contacto.observacion)'), 'LIKE', $texto);                        
+                    }
+
+
+                    if($request->has('origenes') && $request->get('origenes')){
+                        $query->whereIn("origen.id",$request->get('origenes'));
+                    }
+                    if($request->has('referidos') && $request->get('referidos')){
+                        $query->whereIn("contacto.referido_por",$request->get('referidos'));
+                    }
+                    if($request->has('estratos') && $request->get('estratos')){
+                        $query->whereIn("contacto.estrato",$request->get('estratos'));
+                    }
+                    if($request->has('tipos_documento') && $request->get('tipos_documento')){
+                        $query->whereIn("tipoDocumento.id",$request->get('tipo_documento_id'));
+                    }
+                    if($request->has('generos') && $request->get('generos')){
+                        $query->whereIn("genero.id",$request->get('generos'));
+                    }
+                    if($request->has('prefijos') && $request->get('prefijos')){
+                        $query->whereIn("prefijo.id",$request->get('prefijos'));
+                    }
+                    if($request->has('estados_civiles') && $request->get('estados_civiles')){
+                        $query->whereIn("estadoCivil.id",$request->get('estados_civiles'));
+                    }
+                    if($request->has('tiposContacto') && $request->get('tiposContacto')){
+                        $query->whereIn("tipoContacto.id",$request->get('tiposContacto'));
+                    }
+                    if($request->has('lugares_residencia') && $request->get('lugares_residencia')){
+                        $query->whereIn("lugarResidencia.id",$request->get('lugares_residencia'));
+                    }
+                    if($request->has('activo') && $request->get('activo')!=''){
+                        $query->whereRaw("activo = ?", $request->get('activo'));
+                    }
+
+                    if($request->has('fecha_nacimiento') && $request->get('fecha_nacimiento')){
+                        $query->where("fecha_nacimiento",  $request->get('fecha_nacimiento'));
+                    }
+                    if($request->has('cumple') && $request->get('cumple')!=0){
+                        /** 
+                        0=>'Cualquier Fecha',
+                        1=>'Ayer',
+                        2=>'Hoy',
+                        3=>'Mañana',
+                        4=>'Esta semana',
+                        5=>'Este mes',
+                        */
+                        $query->whereRaw(
+                            //Retorna al tiempo 29 de febrero y 1 de marzo
+                            "DATE_FORMAT(FROM_UNIXTIME(fecha_nacimiento),'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')
+                            OR (
+                                   (
+                                       DATE_FORMAT(NOW(),'%Y') % 4 <> 0
+                                       OR (
+                                               DATE_FORMAT(NOW(),'%Y') % 100 = 0
+                                               AND DATE_FORMAT(NOW(),'%Y') % 400 <> 0
+                                           )
+                                   )
+                                   AND DATE_FORMAT(NOW(),'%m-%d') = '03-01'
+                                   AND DATE_FORMAT(FROM_UNIXTIME(fecha_nacimiento),'%m-%d') = '02-29'
+                            )"
+                        );
+                        switch ($request->get('cumple')) {
+                            case 1:                                
+                                break;
+                            case 2:
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                break;
+                            case 5:
+                                break;
+                        }
+                    }
+                    if($request->has('edad_minima') && $request->get('edad_minima')){
+                        $query->whereRaw("fecha_nacimiento is not null and  TIMESTAMPDIFF( YEAR, fecha_nacimiento, now()) >= ?",[$request->get('edad_minima')]);
+                    }
+                    if($request->has('edad_maxima') && $request->get('edad_maxima')){
+                        $query->whereRaw("fecha_nacimiento is not null and  TIMESTAMPDIFF( YEAR, fecha_nacimiento, now()) <= ?",[$request->get('edad_maxima')]);
+                    }
+                }                
             });
             
     }
@@ -64,7 +182,8 @@ class ContactoDataTable extends DataTable
      */
     public function query(Contacto $model)
     {
-        return $model::leftjoin('lugar as lugarResidencia', 'contacto.lugar_residencia', '=', 'lugarResidencia.id')
+        return $model
+            ::leftjoin('lugar as lugarResidencia', 'contacto.lugar_residencia', '=', 'lugarResidencia.id')
             ->leftjoin('estado_civil as estadoCivil', 'contacto.estado_civil_id', '=', 'estadoCivil.id')
             ->leftjoin('genero', 'contacto.genero_id', '=', 'genero.id')
             ->leftjoin('origen', 'contacto.origen_id', '=', 'origen.id')
@@ -84,6 +203,7 @@ class ContactoDataTable extends DataTable
             ->leftjoin('estatus_lealtad as estatusLealtad', 'informacionRelacional.estatus_lealtad_id', '=', 'estatusLealtad.id')
             ->leftjoin('estado_disposicion as estadoDisposicion', 'informacionRelacional.estado_disposicion_id', '=', 'estadoDisposicion.id')
             ->leftjoin('actitud_servicio as actitudServicio', 'informacionRelacional.actitud_servicio_id', '=', 'actitudServicio.id')         
+            
             ->select(['contacto.id','tipoDocumento.nombre as nombre_tipo_documento','contacto.identificacion',
             'prefijo.nombre as nombre_prefijo','contacto.nombres','contacto.apellidos','contacto.fecha_nacimiento',
             'genero.nombre as nombre_genero','estadoCivil.nombre as nombre_estado_civil','contacto.celular','contacto.telefono',
@@ -94,8 +214,9 @@ class ContactoDataTable extends DataTable
             'religion.nombre as nombre_religion','raza.nombre as nombre_raza','generacion.nombre as nombre_generacion',
             'personalidad.nombre as nombre_personalidad','beneficio.nombre as nombre_beneficio','frecuenciaUso.nombre as nombre_frecuencia_uso',
             'estatusUsuario.nombre as nombre_estatus_usuario','estatusLealtad.nombre as nombre_estatus_lealtad','estadoDisposicion.nombre as nombre_estado_disposicion',
-            'actitudServicio.nombre as nombre_actitud_servicio','informacionRelacional.autoriza_comunicacion'
-            ])->newQuery();
+            'actitudServicio.nombre as nombre_actitud_servicio','informacionRelacional.autoriza_comunicacion'])
+
+            ->newQuery();
     }
 
     /**
@@ -110,9 +231,35 @@ class ContactoDataTable extends DataTable
             //Ver https://github.com/yajra/laravel-datatables/issues/1129
             ->ajax([
                 'url'  => '',
-                'data' => "function(data){                   
-                    data.origenes  = $('#s2_origenes').val();
+                'data' => "function(data){ 
                     data.segmento  = $('#segmento_seleccionado').val();
+
+                    data.nombres  = $('#nombres').val();
+                    data.apellidos  = $('#apellidos').val();                    
+                    data.correo_personal  = $('#correo_personal').val();
+                    data.correo_institucional  = $('#correo_institucional').val();
+                    data.celular  = $('#celular').val();
+                    data.telefono  = $('#telefono').val();
+                    data.otro_origen  = $('#otro_origen').val();
+                    data.direccion_residencia  = $('#direccion_residencia').val();
+                    data.observacion  = $('#observacion').val();
+
+                    data.origenes  = $('#origenes').val();
+                    data.referidos  = $('#referidos').val();
+                    data.estratos  = $('#estratos').val();
+                    data.tipos_documento  = $('#tipos_documento').val();
+                    data.generos  = $('#generos').val();
+                    data.prefijos  = $('#prefijos').val();
+                    data.estados_civiles  = $('#estados_civiles').val();
+                    data.tiposContacto  = $('#tiposContacto').val();
+                    data.lugares_residencia  = $('#lugares_residencia').val();
+                    data.activo  = $('#activo').val();
+
+                    data.fecha_nacimiento  = $('#fecha_nacimiento').val();
+                    data.cumple  = $('#cumple').val();                    
+                    data.edad_minima  = $('#edad_minima').val();
+                    data.edad_maxima  = $('#edad_maxima').val();
+                    
                 }"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
