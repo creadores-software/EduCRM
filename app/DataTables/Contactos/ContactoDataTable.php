@@ -126,40 +126,29 @@ class ContactoDataTable extends DataTable
                     if($request->has('fecha_nacimiento') && $request->get('fecha_nacimiento')){
                         $query->where("fecha_nacimiento",  $request->get('fecha_nacimiento'));
                     }
+                    //0 es cualquier fecha
                     if($request->has('cumple') && $request->get('cumple')!=0){
-                        /** 
-                        0=>'Cualquier Fecha',
-                        1=>'Ayer',
-                        2=>'Hoy',
-                        3=>'Mañana',
-                        4=>'Esta semana',
-                        5=>'Este mes',
-                        */
-                        $query->whereRaw(
-                            //Retorna al tiempo 29 de febrero y 1 de marzo
-                            "DATE_FORMAT(FROM_UNIXTIME(fecha_nacimiento),'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')
-                            OR (
-                                   (
-                                       DATE_FORMAT(NOW(),'%Y') % 4 <> 0
-                                       OR (
-                                               DATE_FORMAT(NOW(),'%Y') % 100 = 0
-                                               AND DATE_FORMAT(NOW(),'%Y') % 400 <> 0
-                                           )
-                                   )
-                                   AND DATE_FORMAT(NOW(),'%m-%d') = '03-01'
-                                   AND DATE_FORMAT(FROM_UNIXTIME(fecha_nacimiento),'%m-%d') = '02-29'
-                            )"
-                        );
-                        switch ($request->get('cumple')) {
+                       switch ($request->get('cumple')) {
+                            //Ayer
                             case 1:                                
                                 break;
+                            //Hoy
                             case 2:
+                                $query->whereRaw("DATE_FORMAT(fecha_nacimiento,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')");
                                 break;
+                            //Mañana
                             case 3:
                                 break;
+                            //Esta semana
                             case 4:
+                                //https://stackoverflow.com/questions/42934915/mysql-get-birthdays-from-current-week
+                                $query->whereRaw("DATE(fecha_nacimiento + INTERVAL (YEAR(NOW()) - YEAR(fecha_nacimiento)) YEAR)
+                                BETWEEN DATE(NOW() - INTERVAL WEEKDAY(NOW()) DAY)
+                                AND DATE(NOW() + INTERVAL 6 - WEEKDAY(NOW()) DAY)");
                                 break;
+                            //Este mes
                             case 5:
+                                $query->whereRaw("MONTH(fecha_nacimiento) = MONTH(NOW())");
                                 break;
                         }
                     }
