@@ -30,7 +30,8 @@
                         <div id="general" class="tab-pane fade in active">
                           @include('contactos.advanced_filter.filtro_general') 
                         </div>   
-                        <div id="relacional" class="tab-pane fade">                          
+                        <div id="relacional" class="tab-pane fade">   
+                          @include('contactos.advanced_filter.filtro_relacional')                        
                         </div>
                         <div class="form-group col-sm-12"> 
                           <button type="button" class="btn btn-success" type="submit">Guardar</button>                          

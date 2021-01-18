@@ -277,6 +277,8 @@ class InformacionRelacional extends Model implements Recordable
      */
     public static function joinDataTable($model){
         return $model
+        ->leftjoin('informacion_relacional as informacionRelacional', 'contacto.informacion_relacional_id', '=', 'informacionRelacional.id')
+        
         ->leftjoin('nivel_formacion as nivelFormacion', 'informacionRelacional.maximo_nivel_formacion_id', '=', 'nivelFormacion.id')
         ->leftjoin('ocupacion', 'informacionRelacional.ocupacion_actual_id', '=', 'ocupacion.id')
         ->leftjoin('estilo_vida as estiloVida', 'informacionRelacional.estilo_vida_id', '=', 'estiloVida.id')
@@ -289,7 +291,12 @@ class InformacionRelacional extends Model implements Recordable
         ->leftjoin('estatus_usuario as estatusUsuario', 'informacionRelacional.estatus_usuario_id', '=', 'estatusUsuario.id')
         ->leftjoin('estatus_lealtad as estatusLealtad', 'informacionRelacional.estatus_lealtad_id', '=', 'estatusLealtad.id')
         ->leftjoin('estado_disposicion as estadoDisposicion', 'informacionRelacional.estado_disposicion_id', '=', 'estadoDisposicion.id')
-        ->leftjoin('actitud_servicio as actitudServicio', 'informacionRelacional.actitud_servicio_id', '=', 'actitudServicio.id');
+        ->leftjoin('actitud_servicio as actitudServicio', 'informacionRelacional.actitud_servicio_id', '=', 'actitudServicio.id')
+
+        ->leftjoin('preferencia_actividad_ocio as preferenciaActividadOcio', 'preferenciaActividadOcio.informacion_relacional_id', '=', 'informacionRelacional.id')
+        ->leftjoin('preferencia_campo_educacion as preferenciaCampoEducacion', 'preferenciaCampoEducacion.informacion_relacional_id', '=', 'informacionRelacional.id')
+        ->leftjoin('preferencia_formacion as preferenciaFormacion', 'preferenciaFormacion.informacion_relacional_id', '=', 'informacionRelacional.id')
+        ->leftjoin('preferencia_medio_comunicacion as preferenciaMedioComunicacion', 'preferenciaMedioComunicacion.informacion_relacional_id', '=', 'informacionRelacional.id');
     }
 
     /**
@@ -307,12 +314,62 @@ class InformacionRelacional extends Model implements Recordable
     /**
      * Establece la obtención de los valores en los inputs de la vista de segmento
      */
-    public static function inputsDataTable(){       
+    public static function inputsDataTable(){  
+        $dt_atributos = [
+            'nivelesFormacion',
+            'ocupaciones',
+            'estilosVida',
+            'religiones',
+            'razas',
+            'generaciones',
+            'personalidades',
+            'beneficios',
+            'frecuenciasUso',
+            'estatusUsuario',
+            'estatusLealtad',
+            'estadosDisposicion',
+            'actitudesServicio',
+            'autoriza_comunicacion',
+            'preferenciasMediosComunicacion',
+            'preferenciasFormaciones',
+            'preferenciasCamposEducacion',
+            'preferenciasActividadesOcio'
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;     
     }
 
     /**
-     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad informacion relacional
      */
-    public static function filtroDataTable($valores, $query){       
+    public static function filtroDataTable($valores, $query){ 
+        $dt_atributos_in=[
+            'nivelesFormacion'=>'informacionRelacional.maximo_nivel_formacion_id',
+            'ocupaciones'=>'informacionRelacional.ocupacion_actual_id',
+            'estilosVida'=>'informacionRelacional.estilo_vida_id',
+            'religiones'=>'informacionRelacional.religion_id',
+            'razas'=>'informacionRelacional.raza_id',
+            'generaciones'=>'informacionRelacional.generacion_id',
+            'personalidades'=>'informacionRelacional.personalidad_id',
+            'beneficios'=>'informacionRelacional.beneficio_id',
+            'frecuenciasUso'=>'informacionRelacional.frecuencia_uso_id',
+            'estatusUsuario'=>'informacionRelacional.estatus_usuario_id',
+            'estatusLealtad'=>'informacionRelacional.estatus_lealtad_id',
+            'estadosDisposicion'=>'informacionRelacional.estado_disposicion_id',
+            'actitudesServicio'=>'informacionRelacional.actitud_servicio_id',
+            'autoriza_comunicacion'=>'informacionRelacional.autoriza_comunicacion',
+            'preferenciasMediosComunicacion'=>'preferenciaMedioComunicacion.medio_comunicacion_id',
+            'preferenciasFormaciones'=>'preferenciaFormacion.formacion_id',
+            'preferenciasCamposEducacion'=>'preferenciaCampoEducacion.campo_educacion_id',
+            'preferenciasActividadesOcio'=>'preferenciaActividadOcio.actividad_ocio_id',
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }      
     }   
 }

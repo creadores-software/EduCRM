@@ -320,7 +320,7 @@ class Contacto extends Model implements Recordable
             ->leftjoin('origen', 'contacto.origen_id', '=', 'origen.id')
             ->leftjoin('prefijo', 'contacto.prefijo_id', '=', 'prefijo.id')
             ->leftjoin('tipo_documento as tipoDocumento', 'contacto.tipo_documento_id', '=', 'tipoDocumento.id')
-            ->leftjoin('informacion_relacional as informacionRelacional', 'contacto.informacion_relacional_id', '=', 'informacionRelacional.id');
+            ->leftjoin('contacto_tipo_contacto as tipoContacto', 'tipoContacto.contacto_id', '=', 'contacto.id');            
     }
 
     /**
@@ -385,7 +385,7 @@ class Contacto extends Model implements Recordable
             'telefono'=>'contacto.telefono',
             'otro_origen'=>'contacto.otro_origen',
             'direccion_residencia'=>'contacto.direccion_residencia',
-            'observacion'=>'contacto.observacion',
+            'observacion'=>'contacto.observacion'            
         ];
         foreach($dt_atributos_like as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
@@ -401,7 +401,7 @@ class Contacto extends Model implements Recordable
             'generos'=>'genero.id',
             'prefijos'=>'prefijo.id',
             'estados_civiles'=>'estadoCivil.id',
-            'tiposContacto'=>'tipoContacto.id',
+            'tiposContacto'=>'tipoContacto.tipo_contacto_id',
             'lugares_residencia'=>'lugarResidencia.id',
         ];
         foreach($dt_atributos_in as $atributo => $enTabla){

@@ -218,6 +218,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.origenes.dataAjax") }}',
                     dataType: 'json',
@@ -229,6 +230,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',                   
@@ -240,6 +242,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
             });      
             $('#tipos_documento').select2({
                 tags: true,
@@ -247,6 +250,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.tiposDocumento.dataAjax") }}',
                     dataType: 'json',
@@ -258,6 +262,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.generos.dataAjax") }}',
                     dataType: 'json',
@@ -269,6 +274,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.prefijos.dataAjax") }}',
                     dataType: 'json',                    
@@ -280,6 +286,7 @@
                 tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.estadosCiviles.dataAjax") }}',
                     dataType: 'json',

@@ -80,7 +80,7 @@ class ContactoDataTable extends DataTable
         $model=Contacto::joinDataTable($model);
         $model=InformacionRelacional::joinDataTable($model);
         
-        return $model->select(
+        return $model->distinct()->select(
             array_merge(
                 Contacto::selectDataTable(),
                 InformacionRelacional::selectDataTable()

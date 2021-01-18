@@ -232,7 +232,7 @@
                     url: '{{ route("parametros.religiones.dataAjax") }}',
                     dataType: 'json',
                 },
-            })
+            });
             $('#generacion_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
