@@ -271,4 +271,48 @@ class InformacionRelacional extends Model implements Recordable
     {
         return $this->belongsToMany(\App\Models\Parametros\MedioComunicacion::class, 'preferencia_medio_comunicacion');
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+        ->leftjoin('nivel_formacion as nivelFormacion', 'informacionRelacional.maximo_nivel_formacion_id', '=', 'nivelFormacion.id')
+        ->leftjoin('ocupacion', 'informacionRelacional.ocupacion_actual_id', '=', 'ocupacion.id')
+        ->leftjoin('estilo_vida as estiloVida', 'informacionRelacional.estilo_vida_id', '=', 'estiloVida.id')
+        ->leftjoin('religion', 'informacionRelacional.religion_id', '=', 'religion.id')
+        ->leftjoin('raza', 'informacionRelacional.raza_id', '=', 'raza.id')
+        ->leftjoin('generacion', 'informacionRelacional.generacion_id', '=', 'generacion.id')
+        ->leftjoin('personalidad', 'informacionRelacional.personalidad_id', '=', 'personalidad.id')
+        ->leftjoin('beneficio', 'informacionRelacional.beneficio_id', '=', 'beneficio.id')
+        ->leftjoin('frecuencia_uso as frecuenciaUso', 'informacionRelacional.frecuencia_uso_id', '=', 'frecuenciaUso.id')
+        ->leftjoin('estatus_usuario as estatusUsuario', 'informacionRelacional.estatus_usuario_id', '=', 'estatusUsuario.id')
+        ->leftjoin('estatus_lealtad as estatusLealtad', 'informacionRelacional.estatus_lealtad_id', '=', 'estatusLealtad.id')
+        ->leftjoin('estado_disposicion as estadoDisposicion', 'informacionRelacional.estado_disposicion_id', '=', 'estadoDisposicion.id')
+        ->leftjoin('actitud_servicio as actitudServicio', 'informacionRelacional.actitud_servicio_id', '=', 'actitudServicio.id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable
+     */
+    public static function selectDataTable(){
+        return 
+        ['nivelFormacion.nombre as nombre_nivel_formacion','ocupacion.nombre as nombre_ocupacion','estiloVida.nombre as nombre_estilo_vida',
+        'religion.nombre as nombre_religion','raza.nombre as nombre_raza','generacion.nombre as nombre_generacion',
+        'personalidad.nombre as nombre_personalidad','beneficio.nombre as nombre_beneficio','frecuenciaUso.nombre as nombre_frecuencia_uso',
+        'estatusUsuario.nombre as nombre_estatus_usuario','estatusLealtad.nombre as nombre_estatus_lealtad','estadoDisposicion.nombre as nombre_estado_disposicion',
+        'actitudServicio.nombre as nombre_actitud_servicio','informacionRelacional.autoriza_comunicacion'];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){       
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){       
+    }   
 }

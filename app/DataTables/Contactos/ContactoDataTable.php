@@ -3,6 +3,7 @@
 namespace App\DataTables\Contactos;
 
 use App\Models\Contactos\Contacto;
+use App\Models\Contactos\InformacionRelacional;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -50,16 +51,18 @@ class ContactoDataTable extends DataTable
         ->filter(function ($query) use($request) 
         {
             if($request->has('segmento') && $request->get('segmento')){
-                //Ubicar sql del segmento
-                $query->whereRaw("identificacion = '1053815524'");          
+                //Tomar valores en el registro almacenado
+                $valores=['identificacion'=>'1053815524'];      
             }else{
-                Contacto::filtroDataTable($request, $query);
+                $valores=$request->all();               
             }     
+            Contacto::filtroDataTable($valores, $query);
+
             $command=$query->toSql();
-            $posicion=strpos($command,'where');
+            $posicion_where=strpos($command,'where');
             $where="";
-            if( $posicion !== false){
-                $where = substr($command,$posicion+6);  
+            if( $posicion_where !== false){
+                $where = substr($command,$posicion_where+6);  
             }  
             $parametros=$query->getBindings();           
             Log::debug('El query where es '. $where . ' con parametros ' .print_r($parametros,true));
@@ -74,41 +77,15 @@ class ContactoDataTable extends DataTable
      */
     public function query(Contacto $model)
     {
-        return $model
-            ::leftjoin('lugar as lugarResidencia', 'contacto.lugar_residencia', '=', 'lugarResidencia.id')
-            ->leftjoin('estado_civil as estadoCivil', 'contacto.estado_civil_id', '=', 'estadoCivil.id')
-            ->leftjoin('genero', 'contacto.genero_id', '=', 'genero.id')
-            ->leftjoin('origen', 'contacto.origen_id', '=', 'origen.id')
-            ->leftjoin('prefijo', 'contacto.prefijo_id', '=', 'prefijo.id')
-            ->leftjoin('tipo_documento as tipoDocumento', 'contacto.tipo_documento_id', '=', 'tipoDocumento.id')
-            ->leftjoin('informacion_relacional as informacionRelacional', 'contacto.informacion_relacional_id', '=', 'informacionRelacional.id')
-            ->leftjoin('nivel_formacion as nivelFormacion', 'informacionRelacional.maximo_nivel_formacion_id', '=', 'nivelFormacion.id')
-            ->leftjoin('ocupacion', 'informacionRelacional.ocupacion_actual_id', '=', 'ocupacion.id')
-            ->leftjoin('estilo_vida as estiloVida', 'informacionRelacional.estilo_vida_id', '=', 'estiloVida.id')
-            ->leftjoin('religion', 'informacionRelacional.religion_id', '=', 'religion.id')
-            ->leftjoin('raza', 'informacionRelacional.raza_id', '=', 'raza.id')
-            ->leftjoin('generacion', 'informacionRelacional.generacion_id', '=', 'generacion.id')
-            ->leftjoin('personalidad', 'informacionRelacional.personalidad_id', '=', 'personalidad.id')
-            ->leftjoin('beneficio', 'informacionRelacional.beneficio_id', '=', 'beneficio.id')
-            ->leftjoin('frecuencia_uso as frecuenciaUso', 'informacionRelacional.frecuencia_uso_id', '=', 'frecuenciaUso.id')
-            ->leftjoin('estatus_usuario as estatusUsuario', 'informacionRelacional.estatus_usuario_id', '=', 'estatusUsuario.id')
-            ->leftjoin('estatus_lealtad as estatusLealtad', 'informacionRelacional.estatus_lealtad_id', '=', 'estatusLealtad.id')
-            ->leftjoin('estado_disposicion as estadoDisposicion', 'informacionRelacional.estado_disposicion_id', '=', 'estadoDisposicion.id')
-            ->leftjoin('actitud_servicio as actitudServicio', 'informacionRelacional.actitud_servicio_id', '=', 'actitudServicio.id')         
-            
-            ->select(['contacto.id','tipoDocumento.nombre as nombre_tipo_documento','contacto.identificacion',
-            'prefijo.nombre as nombre_prefijo','contacto.nombres','contacto.apellidos','contacto.fecha_nacimiento',
-            'genero.nombre as nombre_genero','estadoCivil.nombre as nombre_estado_civil','contacto.celular','contacto.telefono',
-            'contacto.correo_personal','contacto.correo_institucional','lugarResidencia.nombre as nombre_lugar',
-            'contacto.direccion_residencia','contacto.estrato','contacto.activo','contacto.observacion',
-            'origen.nombre as nombre_origen','contacto.referido_por','contacto.otro_origen',
-            'nivelFormacion.nombre as nombre_nivel_formacion','ocupacion.nombre as nombre_ocupacion','estiloVida.nombre as nombre_estilo_vida',
-            'religion.nombre as nombre_religion','raza.nombre as nombre_raza','generacion.nombre as nombre_generacion',
-            'personalidad.nombre as nombre_personalidad','beneficio.nombre as nombre_beneficio','frecuenciaUso.nombre as nombre_frecuencia_uso',
-            'estatusUsuario.nombre as nombre_estatus_usuario','estatusLealtad.nombre as nombre_estatus_lealtad','estadoDisposicion.nombre as nombre_estado_disposicion',
-            'actitudServicio.nombre as nombre_actitud_servicio','informacionRelacional.autoriza_comunicacion'])
-
-            ->newQuery();
+        $model=Contacto::joinDataTable($model);
+        $model=InformacionRelacional::joinDataTable($model);
+        
+        return $model->select(
+            array_merge(
+                Contacto::selectDataTable(),
+                InformacionRelacional::selectDataTable()
+            )
+        )->newQuery();
     }
 
     /**
