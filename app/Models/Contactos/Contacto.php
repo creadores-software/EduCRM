@@ -405,7 +405,9 @@ class Contacto extends Model implements Recordable
             'lugares_residencia'=>'lugarResidencia.id',
         ];
         foreach($dt_atributos_in as $atributo => $enTabla){
-            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
                 $query->whereIn($enTabla,$valores[$atributo]);
             }
         }
