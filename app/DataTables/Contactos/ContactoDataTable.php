@@ -57,6 +57,7 @@ class ContactoDataTable extends DataTable
                 $valores=$request->all();               
             }     
             Contacto::filtroDataTable($valores, $query);
+            InformacionRelacional::filtroDataTable($valores, $query);
 
             $command=$query->toSql();
             $posicion_where=strpos($command,'where');
@@ -97,12 +98,14 @@ class ContactoDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
+            ->minifiedAjax()
             //Ver https://github.com/yajra/laravel-datatables/issues/1129
-            ->ajax([
+            ->postAjax([
                 'url'  => '',
                 'data' => "function(data){
                     data.segmento  = $('#segmento_seleccionado').val();".
                     Contacto::inputsDataTable().
+                    InformacionRelacional::inputsDataTable().
                     "}"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
