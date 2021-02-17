@@ -219,7 +219,11 @@ abstract class BaseRepository
 
         if ($search!=null) {
             foreach($search as $key => $value) {
-                $query->where($key, $value);
+                if(is_array($value)){
+                    $query->whereIn($key, $value);
+                }else{
+                    $query->where($key, $value);
+                }                
             }
         }
 
