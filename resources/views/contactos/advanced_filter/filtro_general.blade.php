@@ -244,6 +244,9 @@
                 allowClear: true,
                 createTag: function(params) {return undefined;},
             });      
+            @if(empty($segmento->estratos) && empty(old('estratos')))
+                $("#estratos").val(null).trigger("change");
+            @endif
             $('#tipos_documento').select2({
                 tags: true,
                 multiple: true,
@@ -321,13 +324,3 @@
         });
     </script>
 @endpush   
-
-@if(empty($segmento->estratos) && empty(old('estratos')))
-@push('scripts')
-    <script type="text/javascript">        
-        $(document).ready(function() { 
-            $("#estratos").val(null).trigger("change");            
-        });
-    </script>
-@endpush 
-@endif
