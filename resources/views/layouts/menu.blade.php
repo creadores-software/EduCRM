@@ -81,7 +81,10 @@
         </li>   
         <li id="contactos-contactos" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('contactos.contactos.index') }}"><i class="fa fa-circle-o"></i><span>Gestión de Contactos</span></a>
-        </li>                 
+        </li>
+        <li id="contactos-segmentos" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('contactos.segmentos.index') }}"><i class="fa fa-circle-o"></i><span>Gestión de Segmentos</span></a>
+        </li>                         
     </ul> 
 </li>
 <li id="entidades" class="treeview opcion-menu menu-padre">
