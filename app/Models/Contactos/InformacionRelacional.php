@@ -360,7 +360,6 @@ class InformacionRelacional extends Model implements Recordable
             'estatusLealtad'=>'informacionRelacional.estatus_lealtad_id',
             'estadosDisposicion'=>'informacionRelacional.estado_disposicion_id',
             'actitudesServicio'=>'informacionRelacional.actitud_servicio_id',
-            'autoriza_comunicacion'=>'informacionRelacional.autoriza_comunicacion',
             'preferenciasMediosComunicacion'=>'preferenciaMedioComunicacion.medio_comunicacion_id',
             'preferenciasFormaciones'=>'preferenciaFormacion.formacion_id',
             'preferenciasCamposEducacion'=>'preferenciaCampoEducacion.campo_educacion_id',
@@ -373,5 +372,12 @@ class InformacionRelacional extends Model implements Recordable
                 $query->whereIn($enTabla,$valores[$atributo]);
             }
         }   
+
+        //Otras validaciones específicas
+                
+        if(array_key_exists('autoriza_comunicacion', $valores) && $valores['autoriza_comunicacion']!=''){
+            //No se revisa solo con empty pues el valor 0 en activo implica no
+            $query->where("autoriza_comunicacion", $valores['autoriza_comunicacion']);
+        }
     }   
 }

@@ -413,10 +413,10 @@ class Contacto extends Model implements Recordable
         }
 
         //Otras validaciones específicas
-        
+
         if(array_key_exists('activo', $valores) && $valores['activo']!=''){
             //No se revisa solo con empty pues el valor 0 en activo implica no
-            $query->whereRaw("activo", $valores['activo']);
+            $query->where("activo", $valores['activo']);
         }
 
         if(array_key_exists('fecha_nacimiento', $valores) && !empty($valores['fecha_nacimiento'])){
@@ -425,17 +425,21 @@ class Contacto extends Model implements Recordable
        
         if(array_key_exists('cumple', $valores) && $valores['cumple']!=0){ //0 es cualquier fecha
             switch ($valores['cumple']) {                
-                case 1: //Ayer                              
+                case 1: //Ayer
+                    $query->whereRaw("DATE_FORMAT(fecha_nacimiento,'%m-%d') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),'%m-%d')");                              
                     break;               
                 case 2: //Hoy
                     $query->whereRaw("DATE_FORMAT(fecha_nacimiento,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')");
                     break;                
                 case 3: //Mañana
+                    $query->whereRaw("DATE_FORMAT(fecha_nacimiento,'%m-%d') = DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 1 DAY),'%m-%d')");
                     break;                
-                case 4: //Esta semana - https://stackoverflow.com/questions/42934915/mysql-get-birthdays-from-current-week
-                    $query->whereRaw("DATE(fecha_nacimiento + INTERVAL (YEAR(NOW()) - YEAR(fecha_nacimiento)) YEAR)
-                    BETWEEN DATE(NOW() - INTERVAL WEEKDAY(NOW()) DAY)
-                    AND DATE(NOW() + INTERVAL 6 - WEEKDAY(NOW()) DAY)");
+                case 4: //Esta semana 
+                    $query->whereRaw(
+                        "DATE(fecha_nacimiento + INTERVAL (YEAR(NOW()) - YEAR(fecha_nacimiento)) YEAR)
+                        BETWEEN DATE(NOW() - INTERVAL WEEKDAY(NOW()) DAY)
+                        AND DATE(NOW() + INTERVAL 6 - WEEKDAY(NOW()) DAY)"
+                    );
                     break;               
                 case 5: //Este mes
                     $query->whereRaw("MONTH(fecha_nacimiento) = MONTH(NOW())");

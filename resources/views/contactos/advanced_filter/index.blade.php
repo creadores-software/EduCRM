@@ -19,7 +19,7 @@
                         <ul class="nav nav-tabs">
                           <li class="active"><a data-toggle="tab" href="#general"><i class="fa fa-user"></i></a></li>
                           <li><a data-toggle="tab" href="#relacional"><i class="fa fa-heart"></i></a></li>   
-                          <li><a data-toggle="tab" href="#academica"><i class="fa fa-graduation-cap"></i></a></li>
+                          <li><a data-toggle="tab" href="#academico"><i class="fa fa-graduation-cap"></i></a></li>
                           <li><a data-toggle="tab" href="#laboral"><i class="fa fa-briefcase"></i></a></li>
                           <li><a data-toggle="tab" href="#familiar"><i class="fa fa-users"></i></a></li>
                           <li><a data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a></li>
@@ -32,6 +32,9 @@
                         </div>   
                         <div id="relacional" class="tab-pane fade">   
                           @include('contactos.advanced_filter.filtro_relacional')                        
+                        </div>
+                        <div id="academico" class="tab-pane fade">   
+                          @include('contactos.advanced_filter.filtro_academico')                        
                         </div>
                         <div class="form-group col-sm-12"> 
                           <button type="button" class="btn btn-success" type="submit">Guardar</button>                          

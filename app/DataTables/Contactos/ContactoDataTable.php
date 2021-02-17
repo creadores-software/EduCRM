@@ -98,15 +98,13 @@ class ContactoDataTable extends DataTable
     {
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
-            //Ver https://github.com/yajra/laravel-datatables/issues/1129
             ->postAjax([
                 'url'  => '',
                 'data' => "function(data){
                     data.segmento  = $('#segmento_seleccionado').val();".
                     Contacto::inputsDataTable().
                     InformacionRelacional::inputsDataTable().
-                    "}"
+                "}"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
@@ -180,7 +178,7 @@ class ContactoDataTable extends DataTable
             'origen_id' => new Column(['title' => __('models/contactos.fields.origen_id'), 'data' => 'nombre_origen','name'=>'origen.nombre']),
             'activo' => new Column(['title' => __('models/contactos.fields.activo'), 'data' => 'activo']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
-            //Campos no visibles
+            //Campos no visibles que salen en exportación
             'tipo_documento_id' => new Column(['title' => __('models/contactos.fields.tipo_documento_id'), 'data' => 'nombre_tipo_documento', 'name'=> 'tipoDocumento.nombre','visible'=>false]),            
             'prefijo_id' => new Column(['title' => __('models/contactos.fields.prefijo_id'), 'data' => 'nombre_prefijo','name'=>'prefijo.nombre','visible'=>false]),            
             'fecha_nacimiento' => new Column(['title' => __('models/contactos.fields.fecha_nacimiento'), 'data' => 'fecha_nacimiento','visible'=>false]),

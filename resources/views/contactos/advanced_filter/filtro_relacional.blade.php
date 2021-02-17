@@ -159,7 +159,7 @@
 <!-- Autoriza Comunicacion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
-    {!! Form::select('autoriza_comunicacion',[''=>'TODOS',1=>'SI',0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
+    {!! Form::select('autoriza_comunicacion',[''=>'TODOS',1=>'SI',0=>'NO'], old('autoriza_comunicacion'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Preferencias Medios Comunicacion -->
@@ -417,6 +417,7 @@
                     dataType: 'json',
                 },
             });
+            $('#autoriza_comunicacion').select2();  
         });   
     </script>
 @endpush
