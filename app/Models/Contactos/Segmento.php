@@ -12,7 +12,7 @@ use Eloquent as Model;
  * @property \App\Models\Contactos\User $usuario
  * @property string $nombre
  * @property string $descripcion
- * @property string $filtros
+ * @property array $filtros
  * @property boolean $global
  * @property integer $usuario_id
  */
@@ -53,23 +53,26 @@ class Segmento extends Model
     public static $rules = [
         'nombre' => 'required|string|max:100',
         'descripcion' => 'required|string|max:255',
-        'filtros' => 'required|array',
+        'filtros' => 'required|array|min:1',
+        'filtros.*' => 'required',
         'global' => 'nullable|boolean',
         'usuario_id' => 'nullable'
     ];
 
-    //Método para eliminar atributos con valor nulo
-    public function setPropertiesAttribute($value)
+    /**
+     * Se sobreescribe el método con el fin de limpiar 
+     * los campos vacios
+     */
+    public function save(array $options = [])
     {
-        $filtros = [];
-
-        foreach ($value as $array_item) {
+        $filtros = [];        
+        foreach ($this->filtros as $array_item) {
             if (!is_null($array_item['key'])) {
                 $filtros[] = $array_item;
             }
         }
-
         $this->attributes['filtros'] = json_encode($filtros);
+        parent::save($options);       
     }
 
     /**
