@@ -208,7 +208,7 @@ abstract class BaseRepository
      * Información para select2 con términos de búsqueda 
      * @throws \Exception
      */
-    public function infoSelect2($term,$search=null,$join=[])
+    public function infoSelect2($term,$search=null,$join=[],$orSearch=null)
     {
         //DB::enableQueryLog();
         $query = $this->model->newQuery();
@@ -223,6 +223,16 @@ abstract class BaseRepository
                     $query->whereIn($key, $value);
                 }else{
                     $query->where($key, $value);
+                }                
+            }
+        }
+
+        if ($orSearch!=null) {
+            foreach($orSearch as $key => $value) {
+                if(is_array($value)){
+                    $query->whereIn($key, $value, 'or');
+                }else{
+                    $query->orWhere($key, $value);
                 }                
             }
         }
