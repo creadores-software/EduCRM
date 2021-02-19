@@ -15,7 +15,7 @@
     {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!}
     <p>
         @foreach ($segmento->filtros as $filtro)
-            <b>{{ $filtro['key'] }}</b>: {{ $filtro['value'] }}<br />
+            <b>{{ $filtro['campo'] }}</b>: {{ $filtro['valor'] }}<br />
         @endforeach
     </p>
 </div>

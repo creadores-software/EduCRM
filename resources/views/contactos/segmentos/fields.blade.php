@@ -24,10 +24,10 @@
     @for ($i=0; $i <= 4; $i++)
     <div class="row">
         <div class="col-md-2">
-            <input type="text" name="filtros[{{ $i }}][key]" class="form-control" value="{{ old('filtros['.$i.'][key]',$segmento->filtros[$i]['key'] ?? '') }}">
+            <input type="text" name="filtros[{{ $i }}][campo]" class="form-control" value="{{ old('filtros['.$i.'][campo]',$segmento->filtros[$i]['campo'] ?? '') }}">
         </div>
         <div class="col-md-4">
-            <input type="text" name="filtros[{{ $i }}][value]" class="form-control" value="{{ old('filtros['.$i.'][value]',$segmento->filtros[$i]['value'] ?? '') }}">
+            <input type="text" name="filtros[{{ $i }}][valor]" class="form-control" value="{{ old('filtros['.$i.'][valor]',$segmento->filtros[$i]['valor'] ?? '') }}">
         </div>
     </div>
     @endfor

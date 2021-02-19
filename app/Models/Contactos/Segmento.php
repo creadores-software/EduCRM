@@ -67,7 +67,7 @@ class Segmento extends Model
     {
         $filtros = [];        
         foreach ($this->filtros as $array_item) {
-            if (!is_null($array_item['key'])) {
+            if (!is_null($array_item['campo'])) {
                 $filtros[] = $array_item;
             }
         }
