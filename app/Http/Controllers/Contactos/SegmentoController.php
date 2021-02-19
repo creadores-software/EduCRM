@@ -6,9 +6,10 @@ use App\DataTables\Contactos\SegmentoDataTable;
 use App\Http\Requests\Contactos\CreateSegmentoRequest;
 use App\Http\Requests\Contactos\UpdateSegmentoRequest;
 use App\Repositories\Contactos\SegmentoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 use Auth;
 
 class SegmentoController extends AppBaseController
@@ -148,5 +149,18 @@ class SegmentoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/segmentos.singular')]));
 
         return redirect(route('contactos.segmentos.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        $search=null;
+        $term=$request->input('q', '');
+        $search=['usuario_id'=>Auth::user()->id]; 
+        $orSearch=['global'=>1];  
+        
+        return $this->segmentoRepository->infoSelect2($term,$search, null, $orSearch);
     }
 }
