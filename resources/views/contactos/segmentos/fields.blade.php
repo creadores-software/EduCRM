@@ -35,10 +35,10 @@
 
 <!-- Global Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/segmentos.fields.global').':') !!}
+    {!! Form::label('global', __('models/segmentos.fields.global').':') !!}
     <label class="checkbox-inline">
         {!! Form::hidden('global', 0) !!}
-        {!! Form::checkbox('global', 1, old('global', $contacto->global ?? 1)) !!}  &nbsp;
+        {!! Form::checkbox('global', 1, null) !!}  &nbsp;
     </label>
 </div>
 
