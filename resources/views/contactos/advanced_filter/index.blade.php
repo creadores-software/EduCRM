@@ -16,6 +16,26 @@
                   @endif
               </select>  
             </div>
+            <div id="nuevo_segmento">
+              <!-- Nombre Field -->
+              <div class="form-group col-sm-6">
+                  {!! Form::label('nombre', __('models/segmentos.fields.nombre').':') !!}
+                  {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+              </div>          
+              <!-- Descripcion Field -->
+              <div class="form-group col-sm-6">
+                  {!! Form::label('descripcion', __('models/segmentos.fields.descripcion').':') !!}
+                  {!! Form::text('descripcion', null, ['class' => 'form-control']) !!}
+              </div>
+              <!-- Global Field -->
+              <div class="form-group col-sm-6">
+                {!! Form::label('global', __('models/segmentos.fields.global').':') !!}
+                <label class="checkbox-inline">
+                    {!! Form::hidden('global', 0) !!}
+                    {!! Form::checkbox('global', 1, null) !!}  &nbsp;
+                </label>
+              </div>
+            </div>
             <div class="col-md-12">
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -38,7 +58,7 @@
                 <div id="academico" class="tab-pane fade">   
                   @include('contactos.advanced_filter.filtro_academico')                        
                 </div>
-                <div class="form-group col-sm-12"> 
+                <div class="form-group col-sm-12" id="boton-guardar"> 
                   <button type="button" class="btn btn-success" type="submit">Guardar</button>                          
                 </div>
               </div> 
@@ -65,25 +85,69 @@
         $('#botonRestablecer').click(function(e) {
             e.preventDefault();
             if($("#form_segmentos").length){
-                //Resetea todos los input
-                $('#form_segmentos')[0].reset();
-                //Resetea todos los select2
-                $(".select2-hidden-accessible").val(null).trigger("change");
-            }    
-            if($("#segmentos").length){
-                //Elimina segmento seleccionado
-                $("#segmentos").DataTable().rows().deselect();
+                restablecerCampos();
             }  
-        });   
+        });  
+        $('#segmento_seleccionado').change(function(){
+          var seleccionado=$('#segmento_seleccionado :selected').val(); 
+          if(seleccionado == 'nuevo'){    
+            $("#form_segmentos :input").prop("disabled", false); 
+            $('#nuevo_segmento').show();      
+            $('#boton-guardar').show();    
+          }else{
+            getCamposSegmento(seleccionado);
+            $("#form_segmentos :input").not('#segmento_seleccionado').prop("disabled", true);
+            $('#nuevo_segmento').hide();
+            $('#boton-guardar').hide(); 
+          }           
+        });
+ 
         $(document).ready(function() { 
+          $('#nuevo_segmento').hide();
           $('#segmento_seleccionado').select2({
               placeholder: "Seleccionar",
               allowClear: true,
               ajax: {
                   url: '{{ route("contactos.segmentos.dataAjax") }}',
                   dataType: 'json',
+                  data: function (params) {  
+                        return {
+                            q: params.term, 
+                            conNuevo: 1,
+                        };
+                    },
               },
+          });                  
+        });
+
+        function getCamposSegmento(idSegmento){
+          let url = "{{ route('contactos.segmentos.filtros',['id'=>'_idSegmento']) }}"; 
+          url = url.replace('_idSegmento', idSegmento);
+            $.ajax({
+                url:url,
+                type: "GET",
+                dataType: "json",
+                success:function(campos) {
+                    actualizarCamposSegmento(campos);
+                }
+            });
+        };
+
+        function actualizarCamposSegmento(campos){    
+          restablecerCampos();      
+          $.each(campos, function( index, filtro ) {
+            console.log(filtro);
+            $("#" + filtro['campo']).val(filtro['valor']);
+            //Para select2 es necesario llamar este método
+            $("#" + filtro['campo']).trigger('change');
           });
+        };
+
+        function restablecerCampos(){
+          //Resetea todos los input
+          $('#form_segmentos').not('#segmento_seleccionado')[0].reset();
+          //Resetea todos los select2
+          $(".select2-hidden-accessible").not('#segmento_seleccionado').val(null).trigger("change");
         }
     </script>
 @endpush
