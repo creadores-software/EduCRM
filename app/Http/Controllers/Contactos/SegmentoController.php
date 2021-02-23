@@ -158,9 +158,29 @@ class SegmentoController extends AppBaseController
     {
         $search=null;
         $term=$request->input('q', '');
+        $conNuevo=$request->input('conNuevo', '');
         $search=['usuario_id'=>Auth::user()->id]; 
         $orSearch=['global'=>1];  
-        
-        return $this->segmentoRepository->infoSelect2($term,$search, null, $orSearch);
+        $resultado=$this->segmentoRepository->infoSelect2($term,$search, null, $orSearch);
+        if($conNuevo){
+            $resultado['results']->prepend(['id'=>'nuevo','text'=>' [ Nuevo ] ']);
+        }        
+        return $resultado;
+    }
+
+    /**
+     * Obtiene la lista de filtros
+     */
+    public function filtros(Request $request)
+    {
+        $resultado=[];
+        $id=$request->input('id', '');
+        if(!empty($id)){
+            $resultado=$this->segmentoRepository->find($id, ['filtros']);
+            if(!empty($resultado)){
+                $resultado=$resultado['filtros'];   
+            }
+        }
+        return  $resultado;
     }
 }

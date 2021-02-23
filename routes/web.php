@@ -101,6 +101,7 @@ Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
     Route::resource('informacionesLaborales', 'Contactos\InformacionLaboralController', ["as" => 'contactos']);
     Route::resource('informacionesRelacionales', 'Contactos\InformacionRelacionalController', ["as" => 'contactos','except'=> ['index','create','store','destroy']]);
     Route::resource('parentescos', 'Contactos\ParentescoController', ["as" => 'contactos']);    
+    Route::get('segmentos/filtros', 'Contactos\SegmentoController@filtros')->name('contactos.segmentos.filtros');
     Route::get('segmentos/dataAjax', 'Contactos\SegmentoController@dataAjax')->name('contactos.segmentos.dataAjax');
     Route::resource('segmentos', 'Contactos\SegmentoController', ["as" => 'contactos']);
 });
