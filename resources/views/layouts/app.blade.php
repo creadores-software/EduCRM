@@ -88,6 +88,7 @@
             margin-bottom: 12px;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     
 </head>
 
@@ -166,6 +167,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/i18n/es.js"></script>
     <!-- Buscador del menú -->    
     <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         $(document).ready(function () {
             $.fn.select2.defaults.set('language', 'es');
             $.fn.select2.defaults.set( "theme", "bootstrap" );

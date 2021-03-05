@@ -56,8 +56,16 @@ class SegmentoController extends AppBaseController
         $input['usuario_id'] = Auth::user()->id;
 
         $segmento = $this->segmentoRepository->create($input);
+        $mensaje=__('messages.saved', ['model' => __('models/segmentos.singular')]);
 
-        Flash::success(__('messages.saved', ['model' => __('models/segmentos.singular')]));
+        if ($request->ajax()) {
+            return response()->json([
+                'id'      => $segmento->id,
+                'message' => $mensaje
+            ]);
+        }
+
+        Flash::success($mensaje);
 
         return redirect(route('contactos.segmentos.index'));
     }
