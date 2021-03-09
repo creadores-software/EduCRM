@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class Segmento
@@ -16,12 +17,14 @@ use Eloquent as Model;
  * @property boolean $global
  * @property integer $usuario_id
  */
-class Segmento extends Model
+class Segmento extends Model implements Recordable
 {
 
     public $table = 'segmento';
     
     public $timestamps = false;
+
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre',

@@ -12,11 +12,6 @@
         <div class="form-group col-sm-6">
             {!! Form::label('entidad_id', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
             <select name="universidadEntidades[]" id="universidadEntidades" class="form-control" multiple="multiple">
-                @if(!empty($segmento))
-                    @foreach (old('universidadEntidades[]', $segmento->universidadEntidades,null) as $id)
-                        <option value="{{ $id }}" selected="selected">{{ App\Models\Entidades\Entidad::find($id)->nombre }} </option>
-                    @endforeach
-                @endif 
             </select> 
         </div>
         
@@ -24,11 +19,6 @@
         <div class="form-group col-sm-6">
             {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}
             <select name="universidadFormaciones[]" id="universidadFormaciones" class="form-control"  multiple="multiple">
-                @if(!empty($segmento))
-                    @foreach (old('universidadFormaciones[]', $segmento->universidadFormaciones,null) as $id)
-                        <option value="{{ $id }}" selected="selected">{{ App\Models\Formaciones\Formacion::find($id)->nombre }} </option>
-                    @endforeach
-                @endif         
             </select> 
         </div>
         
@@ -43,10 +33,10 @@
             {!! Form::label('universidadFechaGrado', 'Fecha de Grado:') !!}
             <div class="row">
                 <div class="col-sm-6">
-                    <input id="universidadFechaInicialGrado" name="universidadFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('universidadFechaInicialGrado',$segmento->universidadFechaInicialGrado ?? '' ) }}" class="form-control pull-right">
+                    <input id="universidadFechaInicialGrado" name="universidadFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('universidadFechaInicialGrado') }}" class="form-control pull-right">
                 </div>
                 <div class="col-sm-6">
-                    <input id="universidadFechaFinalGrado" name="universidadFechaFinalGrado" type="text" placeholder="Hasta" value="{{ old('universidadFechaFinalGrado',$segmento->universidadFechaFinalGrado ?? '' ) }}" class="form-control pull-right">
+                    <input id="universidadFechaFinalGrado" name="universidadFechaFinalGrado" type="text" placeholder="Hasta" value="{{ old('universidadFechaFinalGrado') }}" class="form-control pull-right">
                 </div>
             </div>
         </div>
@@ -56,11 +46,6 @@
         <div class="form-group col-sm-6">
             {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id').':') !!}
             <select name="colegioEntidades[]" id="colegioEntidades" class="form-control" multiple="multiple">
-                @if(!empty($segmento))
-                    @foreach (old('colegioEntidades[]', $segmento->colegioEntidades,null) as $id)
-                        <option value="{{ $id }}" selected="selected">{{ App\Models\Entidades\Entidad::find($id)->nombre }} </option>
-                    @endforeach
-                @endif
             </select> 
         </div>
         
@@ -68,11 +53,6 @@
         <div class="form-group col-sm-6">
             {!! Form::label('nivel_educativo_id', __('models/informacionesEscolares.fields.nivel_educativo_id').':') !!}
             <select name="colegioNivelesFormacion[]" id="colegioNivelesFormacion" class="form-control" multiple="multiple">
-                @if(!empty($segmento))
-                @foreach (old('colegioNivelesFormacion[]', $segmento->colegioNivelesFormacion,null) as $id)
-                    <option value="{{ $id }}" selected="selected">{{ App\Models\Formaciones\NivelFormacion::find($id)->nombre }} </option>
-                @endforeach
-            @endif
             </select> 
         </div>
         
@@ -87,10 +67,10 @@
             {!! Form::label('colegioFechaGrado', 'Fecha de Grado:') !!}
             <div class="row">
                 <div class="col-sm-6">
-                    <input id="colegioFechaInicialGrado" name="colegioFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialGrado',$segmento->colegioFechaInicialGrado ?? '' ) }}" class="form-control pull-right">
+                    <input id="colegioFechaInicialGrado" name="colegioFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialGrado') }}" class="form-control pull-right">
                 </div>
                 <div class="col-sm-6">
-                    <input id="colegioFechaFinalGrado" name="colegioFechaFinalGrado" type="text" placeholder="Hasta" value="{{ old('colegioFechaFinalGrado',$segmento->colegioFechaFinalGrado ?? '' ) }}" class="form-control pull-right">
+                    <input id="colegioFechaFinalGrado" name="colegioFechaFinalGrado" type="text" placeholder="Hasta" value="{{ old('colegioFechaFinalGrado') }}" class="form-control pull-right">
                 </div>
             </div>
         </div>                       

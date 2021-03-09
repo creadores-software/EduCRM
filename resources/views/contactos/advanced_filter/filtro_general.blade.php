@@ -28,23 +28,13 @@
 <div class="form-group col-sm-6" id="div_origen">
     {!! Form::label('origenes', __('models/contactos.fields.origen_id').':') !!}
     <select name="origenes[]" id="origenes" class="form-control">
-        @if(!empty($segmento))
-            @foreach (old('origenes[]', $segmento->origenes,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\Origen::find($id)->nombre }} </option>
-            @endforeach
-        @endif
     </select> 
 </div>
 
 <!-- Referido Por Field -->
 <div class="form-group col-sm-6" id="div_referido">
     {!! Form::label('referidos', __('models/contactos.fields.referido_por').':') !!}
-    <select name="referidos[]" id="referidos" class="form-control">        
-        @if(!empty($segmento))
-            @foreach (old('referidos[]', $segmento->referidos,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Contactos\Contacto::find($id)->getNombreCompleto() }} </option>
-            @endforeach
-        @endif
+    <select name="referidos[]" id="referidos" class="form-control">
     </select> 
 </div>
 
@@ -57,12 +47,7 @@
 <!-- Tipo Documento Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('tipos_documento', __('models/contactos.fields.tipo_documento_id').':') !!}
-    <select name="tipos_documento[]" id="tipos_documento" class="form-control">        
-        @if(!empty($segmento))
-            @foreach (old('tipos_documento[]', $segmento->tipos_documento,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\TipoDocumento::find($id)->nombre }} </option>
-            @endforeach
-        @endif
+    <select name="tipos_documento[]" id="tipos_documento" class="form-control">               
     </select> 
 </div>
 
@@ -82,23 +67,13 @@
 <div class="form-group col-sm-6">
     {!! Form::label('generos', __('models/contactos.fields.genero_id').':') !!}
     <select name="generos[]" id="generos" class="form-control"> 
-        @if(!empty($segmento))
-            @foreach (old('generos[]', $segmento->generos,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\Genero::find($id)->nombre }} </option>
-            @endforeach
-        @endif
     </select> 
 </div>
 
 <!-- Prefijo Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('prefijos', __('models/contactos.fields.prefijo_id').':') !!}
-    <select name="prefijos[]" id="prefijos" class="form-control">        
-        @if(!empty($segmento))
-            @foreach (old('prefijos[]', $segmento->prefijos,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\Prefijo::find($id)->nombre }} </option>
-            @endforeach
-        @endif
+    <select name="prefijos[]" id="prefijos" class="form-control">   
     </select> 
 </div>
 
@@ -106,11 +81,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('estados_civiles', __('models/contactos.fields.estado_civil_id').':') !!}
     <select name="estados_civiles[]" id="estados_civiles" class="form-control"> 
-        @if(!empty($segmento))
-            @foreach (old('estados_civiles[]', $segmento->estados_civiles,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\EstadoCivil::find($id)->nombre }} </option>
-            @endforeach
-        @endif
     </select> 
 </div>
 
@@ -121,7 +91,7 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_nacimiento" name="fecha_nacimiento" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_nacimiento',$segmento->fecha_nacimiento ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_nacimiento" name="fecha_nacimiento" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_nacimiento') }}" class="form-control pull-right">
     </div>
 </div>
 
@@ -171,12 +141,7 @@
 <!-- Lugar Residencia Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lugares_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
-    <select name="lugares_residencia[]" id="lugares_residencia" class="form-control">        
-        @if(!empty($segmento))
-            @foreach (old('lugares_residencia[]', $segmento->lugares_residencia,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\Lugar::find($id)->nombre }} </option>
-            @endforeach
-        @endif
+    <select name="lugares_residencia[]" id="lugares_residencia" class="form-control">                
     </select> 
 </div>
 
@@ -184,11 +149,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
     <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
-        @if(!empty($contacto))
-            @foreach (old('tiposContacto[]', $segmento->tiposContacto,null) as $id)
-                <option value="{{ $id }}" selected="selected">{{ App\Models\Parametros\TipoContacto::find($id)->nombre }}</option>
-            @endforeach
-        @endif
     </select> 
 </div>
 
@@ -243,8 +203,8 @@
                 placeholder: "Seleccionar",
                 allowClear: true,
                 createTag: function(params) {return undefined;},
-            });      
-            @if(empty($segmento->estratos) && empty(old('estratos')))
+            });
+            @if(empty(old('estratos')))
                 $("#estratos").val(null).trigger("change");
             @endif
             $('#tipos_documento').select2({

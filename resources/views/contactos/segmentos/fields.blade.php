@@ -10,36 +10,23 @@
     {!! Form::text('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Filtros Field -->
-<div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!}
-    <div class="row">
-        <div class="col-md-2">
-            Filtro:
-        </div>
-        <div class="col-md-4">
-            Valor:
-        </div>
-    </div>
-    @for ($i=0; $i <= 4; $i++)
-    <div class="row">
-        <div class="col-md-2">
-            <input type="text" name="filtros[{{ $i }}][campo]" class="form-control" value="{{ old('filtros['.$i.'][campo]',$segmento->filtros[$i]['campo'] ?? '') }}">
-        </div>
-        <div class="col-md-4">
-            <input type="text" name="filtros[{{ $i }}][valor]" class="form-control" value="{{ old('filtros['.$i.'][valor]',$segmento->filtros[$i]['valor'] ?? '') }}">
-        </div>
-    </div>
-    @endfor
-</div>
-
 <!-- Global Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('global', __('models/segmentos.fields.global').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('global', 0) !!}
-        {!! Form::checkbox('global', 1, null) !!}  &nbsp;
-    </label>
+    <select name="global" id="global" class="form-control">
+        <option value="0" selected>NO</option>
+        <option value="1">SI</option>
+    </select> 
+</div>
+
+<!-- Filtros Field -->
+<div class="form-group col-sm-12 col-lg-12">
+    {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!} 
+    {!! Form::hidden('filtros_texto', old('filtros_texto')) !!} 
+    <!-- Por defecto se añade un atributo genérico para que no falle la validación -->
+    <input type="hidden" name="filtros[0][campo]" class="form-control" value="filtro">
+    <input type="hidden" name="filtros[0][valor]" class="form-control" value="1">
+    @include('contactos.segmentos.filtros')
 </div>
 
 <!-- Submit Field -->
@@ -47,3 +34,13 @@
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('contactos.segmentos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+
+@push('scripts')
+    <script type="text/javascript">    
+        $(document).ready(function() {
+            $('#global').select2(); 
+        });
+    </script>
+@endpush
+

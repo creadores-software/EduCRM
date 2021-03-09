@@ -13,15 +13,15 @@
 <!-- Filtros Field -->
 <div class="form-group">
     {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!}
-    <p>
+    <ul>
         @foreach ($segmento->filtros as $filtro)
-            <b>{{ $filtro['campo'] }}</b>: {{ $filtro['valor'] }}<br />
+            <li><b>{{ $filtro['campo'] }}</b>: {{ $filtro['valor'] }}</li>
         @endforeach
-    </p>
+    </ul>
 </div>
 
 <!-- Global Field -->
-<div class="form-group col-sm-12" >
+<div class="form-group" >
     {!! Form::label('global', __('models/segmentos.fields.global').':') !!}
     <p>{{ $segmento->global? 'Si' : 'No' }}</p>
 </div>

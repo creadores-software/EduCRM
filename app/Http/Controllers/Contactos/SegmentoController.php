@@ -43,6 +43,22 @@ class SegmentoController extends AppBaseController
         return view('contactos.segmentos.create');
     }
 
+    private function procesarRequest($request){
+        $input = $request->all();        
+        $filtro_texto=$request->input('filtros_texto','');
+        if(!empty($filtro_texto)){
+            $input['filtros']=[]; 
+            $filtros=explode(';',$filtro_texto);            
+            foreach($filtros as $filtro){
+                $valores=explode(':',$filtro);
+                if(count($valores)==2){
+                    $input['filtros'][]=['campo'=>$valores[0],'valor'=>$valores[1]];  
+                }
+            }
+        }
+        return $input;
+    }
+
     /**
      * Store a newly created Segmento in storage.
      *
@@ -52,9 +68,9 @@ class SegmentoController extends AppBaseController
      */
     public function store(CreateSegmentoRequest $request)
     {
-        $input = $request->all();
+        $input=$this->procesarRequest($request);
         $input['usuario_id'] = Auth::user()->id;
-
+        
         $segmento = $this->segmentoRepository->create($input);
         $mensaje=__('messages.saved', ['model' => __('models/segmentos.singular')]);
 
@@ -87,7 +103,9 @@ class SegmentoController extends AppBaseController
             return redirect(route('contactos.segmentos.index'));
         }
 
-        return view('contactos.segmentos.show')->with('segmento', $segmento);
+        $audits = $segmento->ledgers()->with('user')->get()->sortByDesc('created_at');
+
+        return view('contactos.segmentos.show')->with(['segmento'=> $segmento, 'audits'=>$audits]);
     }
 
     /**
@@ -127,8 +145,8 @@ class SegmentoController extends AppBaseController
 
             return redirect(route('contactos.segmentos.index'));
         }
-
-        $segmento = $this->segmentoRepository->update($request->all(), $id);
+        $input=$this->procesarRequest($request);
+        $segmento = $this->segmentoRepository->update($input, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/segmentos.singular')]));
 

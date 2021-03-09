@@ -21,3 +21,11 @@
        </div>
    </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+       $(document).ready(function() {
+            actualizarSegmento({{ $segmento->id }});
+        });
+    </script>
+@endpush

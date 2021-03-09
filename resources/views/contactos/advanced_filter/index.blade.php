@@ -41,34 +41,10 @@
                     </div>
                     <div class="col-md-12">
                         <form id="form_filtros">
-                            <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#general"><i
-                                                class="fa fa-user"></i></a></li>
-                                    <li><a data-toggle="tab" href="#relacional"><i class="fa fa-heart"></i></a></li>
-                                    <li><a data-toggle="tab" href="#academico"><i class="fa fa-graduation-cap"></i></a>
-                                    </li>
-                                    <li><a data-toggle="tab" href="#laboral"><i class="fa fa-briefcase"></i></a></li>
-                                    <li><a data-toggle="tab" href="#familiar"><i class="fa fa-users"></i></a></li>
-                                    <li><a data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a>
-                                    </li>
-                                    <li><a data-toggle="tab" href="#campañas"><i class="fa fa-filter"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="tab-content">
-                                <div id="general" class="tab-pane fade in active">
-                                    @include('contactos.advanced_filter.filtro_general')
-                                </div>
-                                <div id="relacional" class="tab-pane fade">
-                                    @include('contactos.advanced_filter.filtro_relacional')
-                                </div>
-                                <div id="academico" class="tab-pane fade">
-                                    @include('contactos.advanced_filter.filtro_academico')
-                                </div>
-                                <div class="form-group col-sm-12" id="boton-guardar">
-                                    <button type="button" id="botonGuardar" class="btn btn-success"
-                                        type="submit">Guardar</button>
-                                </div>
+                            @include('contactos.segmentos.filtros') 
+                            <div class="form-group col-sm-12" id="boton-guardar">
+                                <button type="button" id="botonGuardar" class="btn btn-success"
+                                    type="submit">Guardar</button>
                             </div>
                         </form>
                     </div>
@@ -109,7 +85,7 @@
                 $('#nuevo_segmento').show();
                 $('#boton-guardar').show();
             } else {
-                actualizarSegmento(seleccionado);               
+                actualizarSegmentoEnFormulario(seleccionado);               
             }
         });
 
@@ -147,8 +123,8 @@
                 },
                 success: function(json) {
                   var $nuevaOpcion = $("<option selected='selected'></option>").val(json.id).text(nombre)
-                  $("#segmento_seleccionado").append($nuevaOpcion).trigger('change');
-                  actualizarSegmento(json.id);
+                  $("#segmento_seleccionado").append($nuevaOpcion).trigger('change');                  
+                  actualizarSegmentoEnFormulario(json.id);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     data = XMLHttpRequest.responseJSON;
@@ -180,32 +156,14 @@
                 }
             });
             return filtros;
-        }
-
-        function actualizarSegmento(idSegmento) {            
+        }   
+        
+        function actualizarSegmentoEnFormulario(idSegmento) {   
             $("#form_filtros :input").prop("disabled", true);
             $('#nuevo_segmento').hide();
             $('#boton-guardar').hide();
-
-            let url = "{{ route('contactos.segmentos.filtros', ['id' => '_idSegmento']) }}";
-            url = url.replace('_idSegmento', idSegmento);
-            $.ajax({
-                url: url,
-                type: "GET",
-                dataType: "json",
-                success: function(campos) {
-                    actualizarCamposSegmento(campos);
-                }
-            });
-        };
-
-        function actualizarCamposSegmento(campos) {
+            actualizarSegmento(idSegmento);
             restablecerCampos();
-            $.each(campos, function(index, filtro) {
-                $("#" + filtro['campo']).val(filtro['valor']);
-                //Para select2 es necesario llamar este método
-                $("#" + filtro['campo']).trigger('change');
-            });
         };
 
         function restablecerCampos() {
