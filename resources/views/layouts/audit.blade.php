@@ -38,7 +38,24 @@
               @foreach($audit->getData() as $attribute => $value)
                 <tr>
                   <td><b>{{ $attribute }}</b></td>
-                  <td>{{ empty($value)?'(vacío)': $value }}</td>
+                  <td>
+                    @if(is_array($value))
+                        @foreach($value as $key=>$val)
+                          @if(is_array($val)) 
+                              @foreach($val as $subkey=>$subval)
+                                {!!'<b>'.$subkey.'</b>:'!!}
+                                {{ empty($subval)?'(vacío)':$subval }}
+                              @endforeach
+                          <br/>
+                          @else
+                            {!!'<b>'.$key.'</b>:'!!}
+                            {{ empty($val)?'(vacío)': $val }}
+                          @endif
+                        @endforeach
+                    @else
+                      {{ empty($value)?'(vacío)': $value }}
+                    @endif
+                  </td>
                 </tr>
               @endforeach
               @endif
