@@ -87,6 +87,7 @@
         .content-header > h1.pull-left  {
             margin-bottom: 12px;
         }
+        
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     
@@ -156,6 +157,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/locale/es.js"></script>
+    <script src="{{asset('js/app.js')}}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -195,6 +197,7 @@
                 });
             });
             $('[data-toggle="popover"]').popover();
+            $('[data-toggle="tooltip"]').tooltip();
             $("li").click(function (e) {                
                 if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
                     localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));

@@ -21,3 +21,15 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    @if(isset($id)) 
+    <!-- Para duplicar -->
+    <script type="text/javascript">
+       $(document).ready(function() {
+            actualizarSegmento({{ $id }});
+        });    
+    </script>
+    @endif
+@endpush
+

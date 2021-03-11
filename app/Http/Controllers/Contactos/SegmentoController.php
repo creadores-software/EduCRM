@@ -43,6 +43,17 @@ class SegmentoController extends AppBaseController
         return view('contactos.segmentos.create');
     }
 
+     /**
+     * Duplicar un segmento trayendo los filtros del segmento con el id dado
+     *
+     * @return Response
+     */
+    public function duplicar(Request $request)
+    {
+        $id=$request->input('id', '');
+        return view('contactos.segmentos.create')->with('id',$id);
+    }
+
     private function procesarRequest($request){
         $input = $request->all();        
         $filtro_texto=$request->input('filtros_texto','');
@@ -126,7 +137,7 @@ class SegmentoController extends AppBaseController
         }
 
         return view('contactos.segmentos.edit')->with('segmento', $segmento);
-    }
+    }    
 
     /**
      * Update the specified Segmento in storage.

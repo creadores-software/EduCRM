@@ -36,7 +36,6 @@
         });
        
        function actualizarFiltroTexto(){
-           console.log("cambiando");
             let filtros = "";
             $('#content-filtros *').filter(':input').each(function() {
                 var $this = $(this);
@@ -45,7 +44,6 @@
                 }
             });
             $("[name='filtros_texto']").val(filtros);
-            console.log(filtros);
        }
 
        function actualizarSegmento(idSegmento) {   
