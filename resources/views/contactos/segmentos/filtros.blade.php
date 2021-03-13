@@ -1,15 +1,13 @@
 
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#general"><i class="fa fa-user"></i></a></li>
-        <li><a data-toggle="tab" href="#relacional"><i class="fa fa-heart"></i></a></li>
-        <li><a data-toggle="tab" href="#academico"><i class="fa fa-graduation-cap"></i></a>
-        </li>
-        <li><a data-toggle="tab" href="#laboral"><i class="fa fa-briefcase"></i></a></li>
-        <li><a data-toggle="tab" href="#familiar"><i class="fa fa-users"></i></a></li>
-        <li><a data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a>
-        </li>
-        <li><a data-toggle="tab" href="#campañas"><i class="fa fa-filter"></i></a></li>
+        <li class="active"><a data-content="Información General" data-toggle="tab" href="#general"><i class="fa fa-user"></i></a></li>
+        <li><a data-content="Información Relacional" data-toggle="tab" href="#relacional"><i class="fa fa-heart"></i></a></li>
+        <li><a data-content="Información Académica" data-toggle="tab" href="#academico"><i class="fa fa-graduation-cap"></i></a></li>
+        <li><a data-content="Información Laboral" data-toggle="tab" href="#laboral"><i class="fa fa-briefcase"></i></a></li>
+        <li><a data-content="Información Familiar" data-toggle="tab" href="#familiar"><i class="fa fa-users"></i></a></li>
+        <li><a data-content="Interacciones" data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a></li>
+        <li><a data-content="Campañas" data-toggle="tab" href="#campañas"><i class="fa fa-filter"></i></a></li>
     </ul>
 </div>
 <div class="tab-content" id="content-filtros">

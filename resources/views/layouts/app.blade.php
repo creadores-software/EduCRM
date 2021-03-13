@@ -87,6 +87,37 @@
         .content-header > h1.pull-left  {
             margin-bottom: 12px;
         }
+
+        .mytooltip {
+            display: inline;
+            position: relative;
+            text-align: unset;
+        }
+
+        .mytooltip:hover:after {
+            background: #333;
+            background: rgba(0, 0, 0, .8);
+            border-radius: 5px;
+            bottom: -34px;
+            color: #fff;
+            content: attr(gloss);
+            left: 20%;
+            padding: 5px 15px;
+            position: absolute;
+            z-index: 98;
+            width: 80px;
+        }
+
+        .mytooltip:hover:before {
+            border: solid;
+            border-color: #333 transparent;
+            border-width: 0 6px 6px 6px;
+            bottom: -4px;
+            content: "";
+            left: 50%;
+            position: absolute;
+            z-index: 99;
+        }
         
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -157,7 +188,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/locale/es.js"></script>
-    <script src="{{asset('js/app.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -196,8 +227,8 @@
                     }
                 });
             });
-            $('[data-toggle="popover"]').popover();
-            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover();  
+            $('a').popover({trigger: "hover"});
             $("li").click(function (e) {                
                 if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
                     localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));
