@@ -83,7 +83,7 @@ class EntidadDataTable extends DataTable
                     ],     
                 ],  
                  'language' => [
-                   'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json'),
+                   'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
                         this.api().columns(':lt(6)').every(function () {

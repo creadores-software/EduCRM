@@ -72,7 +72,7 @@
     <script>
         $('#datatable').DataTable({
           "language": {
-            "url": "//cdn.datatables.net/plug-ins/1.10.12/i18n/Spanish.json"
+            "url": "/js/Spanish.json"
            }
         });
     </script>
