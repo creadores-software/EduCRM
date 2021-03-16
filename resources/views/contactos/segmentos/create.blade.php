@@ -11,7 +11,7 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'contactos.segmentos.store']) !!}
+                    {!! Form::open(['route' => 'contactos.segmentos.store', 'id'=>'formSegmento']) !!}
 
                         @include('contactos.segmentos.fields')
 

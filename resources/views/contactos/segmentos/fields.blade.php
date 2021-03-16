@@ -30,16 +30,32 @@
 </div>
 
 <!-- Submit Field -->
-<div class="form-group col-sm-12">
-    {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
+<div class="form-group col-sm-12">    
     <a href="{{ route('contactos.segmentos.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <button class = 'btn btn-default' type="submit" value="vistaPrevia">Vista Previa</button>
+    <button class='btn btn-primary' type="submit" value="guardar">Guardar</button>    
 </div>
 
-
 @push('scripts')
-    <script type="text/javascript">    
+    <script type="text/javascript">  
         $(document).ready(function() {
             $('#global').select2(); 
+
+            $("#formSegmento button").click(function (ev) {
+                ev.preventDefault()
+                if ($(this).attr("value") == "guardar") {  
+                    $('#formSegmento').attr('action', '{{ route('contactos.segmentos.store') }}');          
+                    $('#formSegmento').attr('target', '_self');
+                    $('#formSegmento').attr('method', 'post');
+                    $("#formSegmento").submit();
+                }
+                if ($(this).attr("value") == "vistaPrevia") {
+                    $('#formSegmento').attr('action', '{{ route('contactos.contactos.index') }}');
+                    $('#formSegmento').attr('target', '_blank');
+                    $('#formSegmento').attr('method', 'get');
+                    $("#formSegmento").submit();
+                }
+            });
         });
     </script>
 @endpush
