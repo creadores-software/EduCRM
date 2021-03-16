@@ -9,7 +9,7 @@ return array (
     'nombre' => 'Nombre',
     'descripcion' => 'Descripcion',
     'filtros' => 'Filtros',
-    'global' => 'Global',
+    'global' => 'Visibilidad Pública',
     'usuario_id' => 'Usuario',
   ),
 );
