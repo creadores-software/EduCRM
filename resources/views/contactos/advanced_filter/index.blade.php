@@ -90,6 +90,11 @@
         });
 
         $(document).ready(function() {
+            let searchParams = new URLSearchParams(window.location.search)
+            console.log(searchParams);
+            if(searchParams.has('vistaPrevia')){
+                actualizarCamposConFiltroTexto();
+            }
             $('#nuevo_segmento').hide();
             $('#global').select2(); 
             $('#segmento_seleccionado').select2({

@@ -1,4 +1,5 @@
 
+{!! Form::hidden('filtros_texto', old('filtros_texto')) !!} 
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         <li class="active"><a data-content="Información General" data-toggle="tab" href="#general"><i class="fa fa-user"></i></a></li>
@@ -25,7 +26,7 @@
 
 @push('scripts')
     <script type="text/javascript">
-       $("input[type='text']").change( function() {
+       $("form :input").change( function() {
             actualizarFiltroTexto();    
        });
 
@@ -55,15 +56,31 @@
                     actualizarCamposSegmento(campos);
                 }
             });
-        };
+        }
 
         function actualizarCamposSegmento(campos) {            
             $.each(campos, function(index, filtro) {
-                $("#" + filtro['campo']).val(filtro['valor']);
-                //Para select2 es necesario llamar este método
-                $("#" + filtro['campo']).trigger('change');
+                actualizarCampo(filtro['campo'], filtro['valor']); 
             });
-        };
+        }
+
+        function actualizarCamposConFiltroTexto() { 
+            var filtros_texto = sessionStorage.getItem('filtros_texto'); 
+            var filtros = filtros_texto.split(';'); 
+            console.log(filtros);
+            $.each(filtros, function(index, filtro) {                
+                if(filtro){
+                    var valores = filtro.split(':');
+                    actualizarCampo(valores[0], valores[1]); 
+                }                          
+            });
+        }
+
+        function actualizarCampo(campo, valor){
+            $("#" + campo).val(valor);
+            //Para select2 es necesario llamar este método
+            $("#" + campo).trigger('change');
+        }
     </script>
 @endpush
 

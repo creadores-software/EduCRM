@@ -21,8 +21,7 @@
 
 <!-- Filtros Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!} 
-    {!! Form::hidden('filtros_texto', old('filtros_texto')) !!} 
+    {!! Form::label('filtros', __('models/segmentos.fields.filtros').':') !!}     
     <!-- Por defecto se añade un atributo genérico para que no falle la validación -->
     <input type="hidden" name="filtros[0][campo]" class="form-control" value="filtro">
     <input type="hidden" name="filtros[0][valor]" class="form-control" value="1">
@@ -44,16 +43,16 @@
             $("#formSegmento button").click(function (ev) {
                 ev.preventDefault()
                 if ($(this).attr("value") == "guardar") {  
-                    $('#formSegmento').attr('action', '{{ route('contactos.segmentos.store') }}');          
-                    $('#formSegmento').attr('target', '_self');
-                    $('#formSegmento').attr('method', 'post');
                     $("#formSegmento").submit();
                 }
                 if ($(this).attr("value") == "vistaPrevia") {
-                    $('#formSegmento').attr('action', '{{ route('contactos.contactos.index') }}');
-                    $('#formSegmento').attr('target', '_blank');
-                    $('#formSegmento').attr('method', 'get');
-                    $("#formSegmento").submit();
+                    valor_filtro=$("[name='filtros_texto']").val();
+                    if(valor_filtro!="cumple:0;"){
+                        sessionStorage.setItem('filtros_texto', valor_filtro);
+                        window.open("{{ route('contactos.contactos.index',['vistaPrevia'=>'1']) }}", '_blank');
+                    }else{
+                        alert('Es necesario elegir algunos valores en filtros para ver la vista previa.');    
+                    }                    
                 }
             });
         });

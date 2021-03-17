@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($segmento, ['route' => ['contactos.segmentos.update', $segmento->id], 'method' => 'patch']) !!}
+                   {!! Form::model($segmento, ['route' => ['contactos.segmentos.update', $segmento->id], 'method' => 'patch', 'id'=>'formSegmento']) !!}
 
                         @include('contactos.segmentos.fields')
 
