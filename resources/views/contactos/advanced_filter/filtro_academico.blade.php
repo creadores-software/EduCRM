@@ -138,8 +138,6 @@
                         if($('#universidadEntidades').val()=== ''){
                             entidades_seleccionadas='n';    
                         }
-                        console.log('Las entidades seleccionadas son:');
-                        console.log(entidades_seleccionadas);
                         return {
                             q: params.term, 
                             entidad: entidades_seleccionadas,
