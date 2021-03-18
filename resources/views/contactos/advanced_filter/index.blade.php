@@ -65,9 +65,7 @@
 @push('scripts')
     <script type="text/javascript">
         $('#botonFiltrar').click(function(e) {
-            $('#dataTableBuilder').DataTable().draw();
-            e.preventDefault();
-            $('#advanced_filter').modal('hide');
+            filtrarDataTable();
         });
         $('#botonRestablecer').click(function(e) {
             e.preventDefault();
@@ -90,8 +88,7 @@
         });
 
         $(document).ready(function() {
-            let searchParams = new URLSearchParams(window.location.search)
-            console.log(searchParams);
+            let searchParams = new URLSearchParams(window.location.search);
             if(searchParams.has('vistaPrevia')){
                 actualizarCamposConFiltroTexto();
             }
@@ -141,7 +138,6 @@
                         })
                     });
                     mensaje += "</ul>";
-                    console.log(mensaje);
                     $(mensaje).appendTo('#errores');
                 }
             });

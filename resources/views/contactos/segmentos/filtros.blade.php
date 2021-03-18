@@ -39,7 +39,17 @@
             $('#content-filtros *').filter(':input').each(function() {
                 var $this = $(this);
                 if ($(this).val() && $(this).val().length !== 0) {
-                    filtros = filtros + $this.attr('id')+":"+$this.val()+";";
+                    if($(this).hasClass("select2-hidden-accessible")){
+                        var seleccionados = $(this).select2('data');
+                        var valor="";
+                        $.each(seleccionados, function(index, seleccionado) {
+                            valor=valor+seleccionado.id+'='+seleccionado.text+',';
+                        });
+                        
+                    }else{
+                        var valor=$this.val();
+                    }
+                    filtros = filtros + $this.attr('id')+":"+valor+";";
                 }
             });
             $("[name='filtros_texto']").val(filtros);
@@ -65,21 +75,45 @@
         }
 
         function actualizarCamposConFiltroTexto() { 
-            var filtros_texto = sessionStorage.getItem('filtros_texto'); 
-            var filtros = filtros_texto.split(';'); 
-            console.log(filtros);
-            $.each(filtros, function(index, filtro) {                
-                if(filtro){
-                    var valores = filtro.split(':');
-                    actualizarCampo(valores[0], valores[1]); 
-                }                          
-            });
+            /**
+            Se pone de nuevo en document ready para que se ejecute después
+            que estén instanciados los select2
+            */
+            jQuery(document).ready(function(){
+                var filtros_texto = sessionStorage.getItem('filtros_texto'); 
+                var filtros = filtros_texto.split(';'); 
+                $.each(filtros, function(index, filtro) {                
+                    if(filtro){
+                        var valores = filtro.split(':');
+                        actualizarCampo(valores[0], valores[1]); 
+                    }                          
+                });
+                filtrarDataTable();
+            });           
         }
 
         function actualizarCampo(campo, valor){
-            $("#" + campo).val(valor);
-            //Para select2 es necesario llamar este método
-            $("#" + campo).trigger('change');
+            if($('#' + campo).hasClass("select2-hidden-accessible")){
+                //Inputs de tipo select2
+                var opciones = valor.split(','); 
+                $.each(opciones, function(index, opcion) { 
+                    if(opcion){
+                        var valores = opcion.split('=');
+                        var seleccion = new Option(valores[1], valores[0], true, true);
+                        $('#' + campo).append(seleccion);
+                    }                          
+                });
+                $("#" + campo).trigger('change');
+
+            }else{
+                $("#" + campo).val(valor);
+            }
+        }
+
+        function filtrarDataTable(){
+            $('#dataTableBuilder').DataTable().draw();
+            e.preventDefault();
+            $('#advanced_filter').modal('hide');
         }
     </script>
 @endpush
