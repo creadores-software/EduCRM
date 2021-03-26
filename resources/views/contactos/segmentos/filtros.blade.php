@@ -112,7 +112,6 @@
 
         function filtrarDataTable(){
             $('#dataTableBuilder').DataTable().draw();
-            e.preventDefault();
             $('#advanced_filter').modal('hide');
         }
     </script>

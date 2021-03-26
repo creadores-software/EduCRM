@@ -50,12 +50,7 @@ class ContactoDataTable extends DataTable
         })
         ->filter(function ($query) use($request) 
         {
-            if($request->has('segmento') && $request->get('segmento')){
-                //Tomar valores en el registro almacenado
-                $valores=['identificacion'=>'1053815524'];      
-            }else{
-                $valores=$request->all();               
-            }     
+            $valores=$request->all();    
             Contacto::filtroDataTable($valores, $query);
             InformacionRelacional::filtroDataTable($valores, $query);
 

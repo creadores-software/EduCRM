@@ -146,7 +146,7 @@
         function arrayFiltrosActuales() {
             let filtros = {};
             let contador = 0;
-            $('#form_filtros *').filter(':input').each(function() {
+            $('#form_filtros *').filter(':input').not("[name='filtros_texto']").each(function() {
                 var $this = $(this);
                 if ($(this).val() && $(this).val().length !== 0) {
                     filtros[contador] = {
