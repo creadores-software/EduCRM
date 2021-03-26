@@ -124,7 +124,7 @@
                         global: $('#global').val(),
                 },
                 success: function(json) {
-                  var $nuevaOpcion = $("<option selected='selected'></option>").val(json.id).text(nombre)
+                  var $nuevaOpcion = $("<option selected='selected'></option>").val(json.id).text(nombre);
                   $("#segmento_seleccionado").append($nuevaOpcion).trigger('change');                  
                   actualizarSegmentoEnFormulario(json.id);
                 },
@@ -163,13 +163,15 @@
             $("#form_filtros :input").prop("disabled", true);
             $('#nuevo_segmento').hide();
             $('#boton-guardar').hide();
-            actualizarSegmento(idSegmento);
             restablecerCampos();
+            actualizarSegmento(idSegmento);            
         };
 
         function restablecerCampos() {
-            //Resetea todos los input del segmento
-            $('#form_segmento')[0].reset();
+            //Se deben resetear los campos puntuales de segmentos para que no tome los de por defecto
+            $('#nombre').val('');
+            $('#descripcion').val('');
+            $("#global").val(0).trigger('change'); 
             //Resetea todos los input de filtros
             $('#form_filtros')[0].reset();
             //Resetea todos los select2 menos el segmento seleccionado
