@@ -242,7 +242,8 @@
             dt.search('');
             dt.columns().search('');           
             if($("#content-filtros").length){
-                restablecerCampos();
+                restablecerCampos(false);
+                filtrarDataTable();
             }       
             dt.draw();
         }

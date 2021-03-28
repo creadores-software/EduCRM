@@ -116,16 +116,19 @@
         }
 
 
-        function restablecerCampos() {
+        function restablecerCampos(mantieneSeleccionado) {
             //Se deben resetear los campos puntuales de segmentos para que no tome los de por defecto
             $('#nombre').val('');
             $('#descripcion').val('');
             $("#global").val(0).trigger('change'); 
             //Resetea todos los input de filtros
             $('#form_filtros')[0].reset();
-            //Resetea todos los select2 menos el segmento seleccionado
-            $(".select2-hidden-accessible").not('#segmento_seleccionado').not('#global').val(null).trigger("change");
-            filtrarDataTable();
+            if(mantieneSeleccionado){
+                $(".select2-hidden-accessible").not('#segmento_seleccionado').not('#global').val(null).trigger("change");            
+            }else{
+                $(".select2-hidden-accessible").val(null).trigger("change");            
+            }
+            
         }
     </script>
 @endpush

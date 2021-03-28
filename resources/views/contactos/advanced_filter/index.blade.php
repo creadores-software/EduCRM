@@ -69,7 +69,8 @@
         });
         $('#botonRestablecer').click(function(e) {
             e.preventDefault();
-            restablecerCampos();
+            restablecerCampos(false);
+            filtrarDataTable();            
         });
         $('#botonGuardar').click(function(e) {
             e.preventDefault();
@@ -78,7 +79,7 @@
         $('#segmento_seleccionado').change(function() {
             var seleccionado = $('#segmento_seleccionado :selected').val();
             if (seleccionado == 'nuevo') {
-                restablecerCampos();
+                restablecerCampos(true);
                 $("#form_filtros :input").prop("disabled", false);
                 $('#nuevo_segmento').show();
                 $('#boton-guardar').show();
@@ -163,7 +164,7 @@
             $("#form_filtros :input").prop("disabled", true);
             $('#nuevo_segmento').hide();
             $('#boton-guardar').hide();
-            restablecerCampos();
+            restablecerCampos(true);
             actualizarSegmento(idSegmento);            
         };
     </script>
