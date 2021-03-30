@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActividadEconomicaTable extends Migration
+class CreateSegmentoTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'actividad_economica';
+    public $tableName = 'segmento';
 
     /**
      * Run the migrations.
-     * @table actividad_economica
+     * @table segmento
      *
      * @return void
      */
@@ -23,16 +23,17 @@ class CreateActividadEconomicaTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->unsignedInteger('categoria_actividad_economica_id');
-            $table->string('nombre', 150);
-            $table->tinyInteger('es_ies')->nullable()->default('0');
-            $table->tinyInteger('es_colegio')->nullable()->default('0');
+            $table->string('nombre', 100);
+            $table->string('descripcion');
+            $table->json('filtros');
+            $table->tinyInteger('global')->nullable()->default('0');
+            $table->unsignedInteger('usuario_id')->nullable()->default(null);
 
-            $table->index(["categoria_actividad_economica_id"], 'fk_categoria_actividad_economica_idx');
+            $table->index(["usuario_id"], 'fk_usuario_idx');
 
 
-            $table->foreign('categoria_actividad_economica_id', 'fk_categoria_actividad_economica_idx')
-                ->references('id')->on('categoria_actividad_economica')
+            $table->foreign('usuario_id', 'fk_usuario_idx')
+                ->references('id')->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

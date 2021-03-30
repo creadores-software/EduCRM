@@ -23,21 +23,21 @@ class CreateContactoTipoContactoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->unsignedInteger('tipo_contacto_id');
             $table->unsignedInteger('contacto_id');
-
-            $table->index(["tipo_contacto_id"], 'fk_ctc_tipo_contacto_idx');
+            $table->unsignedInteger('tipo_contacto_id');
 
             $table->index(["contacto_id"], 'fk_ctc_contacto_idx');
 
+            $table->index(["tipo_contacto_id"], 'fk_ctc_tipo_contacto_idx');
 
-            $table->foreign('tipo_contacto_id', 'fk_ctc_tipo_contacto_idx')
-                ->references('id')->on('tipo_contacto')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
 
             $table->foreign('contacto_id', 'fk_ctc_contacto_idx')
                 ->references('id')->on('contacto')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('tipo_contacto_id', 'fk_ctc_tipo_contacto_idx')
+                ->references('id')->on('tipo_contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

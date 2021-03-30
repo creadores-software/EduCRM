@@ -26,7 +26,7 @@ class CreateParentescoTable extends Migration
             $table->unsignedInteger('contacto_origen');
             $table->unsignedInteger('contacto_destino');
             $table->unsignedInteger('tipo_parentesco_id');
-            $table->boolean('acudiente')->nullable();
+            $table->tinyInteger('acudiente')->nullable()->default('0');
 
             $table->index(["contacto_destino"], 'fk_parentesco_contacto_destino_idx');
 
@@ -35,12 +35,12 @@ class CreateParentescoTable extends Migration
             $table->index(["tipo_parentesco_id"], 'fk_parentesco_tipo_parentesco_idx');
 
 
-            $table->foreign('contacto_origen', 'fk_parentesco_contacto_origen_idx')
+            $table->foreign('contacto_destino', 'fk_parentesco_contacto_destino_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('contacto_destino', 'fk_parentesco_contacto_destino_idx')
+            $table->foreign('contacto_origen', 'fk_parentesco_contacto_origen_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -31,13 +31,13 @@ class CreatePreferenciaActividadOcioTable extends Migration
             $table->index(["informacion_relacional_id"], 'fk_preferencia_relacional_idx');
 
 
-            $table->foreign('informacion_relacional_id', 'fk_preferencia_relacional_idx')
-                ->references('id')->on('informacion_relacional')
+            $table->foreign('actividad_ocio_id', 'fk_preferencia_actividad_ocio_idx')
+                ->references('id')->on('actividad_ocio')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('actividad_ocio_id', 'fk_preferencia_actividad_ocio_idx')
-                ->references('id')->on('actividad_ocio')
+            $table->foreign('informacion_relacional_id', 'fk_preferencia_relacional_idx')
+                ->references('id')->on('informacion_relacional')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

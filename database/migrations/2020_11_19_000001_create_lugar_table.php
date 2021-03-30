@@ -25,7 +25,7 @@ class CreateLugarTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->enum('tipo', ['P', 'D', 'C'])->comment('Pais, Departamento, Ciudad');
-            $table->unsignedInteger('padre_id')->nullable();
+            $table->unsignedInteger('padre_id')->nullable()->default(null);
 
             $table->index(["padre_id"], 'fk_lugar_padre_idx');
 

@@ -26,10 +26,10 @@ class CreateOcupacionTable extends Migration
             $table->string('nombre', 150);
             $table->unsignedInteger('tipo_ocupacion_id');
 
-            $table->index(["tipo_ocupacion_id"], 'fk_ocupacion_tipo_ocupacion1_idx');
+            $table->index(["tipo_ocupacion_id"], 'fk_ocupacion_tipo_ocupacion_idx');
 
 
-            $table->foreign('tipo_ocupacion_id', 'fk_ocupacion_tipo_ocupacion1_idx')
+            $table->foreign('tipo_ocupacion_id', 'fk_ocupacion_tipo_ocupacion_idx')
                 ->references('id')->on('tipo_ocupacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

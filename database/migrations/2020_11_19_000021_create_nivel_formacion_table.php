@@ -24,6 +24,7 @@ class CreateNivelFormacionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 100);
+            $table->tinyInteger('es_ies')->nullable()->default('0');
         });
     }
 

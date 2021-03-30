@@ -28,10 +28,10 @@ class CreatePreferenciaCampoEducacionTable extends Migration
 
             $table->index(["informacion_relacional_id"], 'fk_pce_informacion_relacional_idx');
 
-            $table->index(["campo_educacion_id"], 'fk_pce_campo_educacionaci_idx');
+            $table->index(["campo_educacion_id"], 'fk_pce_campo_educacion_idx');
 
 
-            $table->foreign('campo_educacion_id', 'fk_pce_campo_educacionaci_idx')
+            $table->foreign('campo_educacion_id', 'fk_pce_campo_educacion_idx')
                 ->references('id')->on('campo_educacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

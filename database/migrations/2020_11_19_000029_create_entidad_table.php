@@ -25,11 +25,11 @@ class CreateEntidadTable extends Migration
             $table->increments('id');
             $table->string('nombre', 200);
             $table->unsignedInteger('lugar_id');
-            $table->string('direccion', 200)->nullable();
-            $table->string('telefono', 15)->nullable();
-            $table->unsignedInteger('sector_id')->nullable();
-            $table->unsignedInteger('actividad_economica_id')->nullable();
-            $table->boolean('mi_universidad')->nullable()->default('0');
+            $table->string('direccion', 200)->nullable()->default(null);
+            $table->string('telefono', 15)->nullable()->default(null);
+            $table->unsignedInteger('sector_id')->nullable()->default(null);
+            $table->unsignedInteger('actividad_economica_id')->nullable()->default(null);
+            $table->tinyInteger('mi_universidad')->nullable()->default('0');
 
             $table->index(["actividad_economica_id"], 'fk_entidad_actividad_economica_idx');
 
@@ -43,13 +43,13 @@ class CreateEntidadTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('sector_id', 'fk_entidad_sector_idx')
-                ->references('id')->on('sector')
+            $table->foreign('actividad_economica_id', 'fk_entidad_actividad_economica_idx')
+                ->references('id')->on('actividad_economica')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('actividad_economica_id', 'fk_entidad_actividad_economica_idx')
-                ->references('id')->on('actividad_economica')
+            $table->foreign('sector_id', 'fk_entidad_sector_idx')
+                ->references('id')->on('sector')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

@@ -26,11 +26,11 @@ class CreateInformacionLaboralTable extends Migration
             $table->unsignedInteger('contacto_id');
             $table->unsignedInteger('entidad_id');
             $table->unsignedInteger('ocupacion_id');
-            $table->string('area', 45)->nullable();
-            $table->string('funciones')->nullable();
-            $table->string('telefono', 15)->nullable();
+            $table->string('area', 45)->nullable()->default(null);
+            $table->string('funciones')->nullable()->default(null);
+            $table->string('telefono', 15)->nullable()->default(null);
             $table->date('fecha_inicio');
-            $table->date('fecha_fin')->nullable();
+            $table->date('fecha_fin')->nullable()->default(null);
 
             $table->index(["contacto_id"], 'fk_informacion_laboral_contacto_idx');
 
@@ -39,13 +39,13 @@ class CreateInformacionLaboralTable extends Migration
             $table->index(["entidad_id"], 'fk_informacion_laboral_empresa_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_laboral_contacto_idx')
-                ->references('id')->on('contacto')
+            $table->foreign('ocupacion_id', 'fk_informacion_laboral_cargos_idx')
+                ->references('id')->on('ocupacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('ocupacion_id', 'fk_informacion_laboral_cargos_idx')
-                ->references('id')->on('ocupacion')
+            $table->foreign('contacto_id', 'fk_informacion_laboral_contacto_idx')
+                ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 

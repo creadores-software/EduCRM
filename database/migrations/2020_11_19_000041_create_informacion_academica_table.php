@@ -24,10 +24,13 @@ class CreateInformacionAcademicaTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->unsignedInteger('contacto_id');
-            $table->unsignedInteger('formacion_id')->comment('Solo es requerido cuando se trata de un estudio de educación superior. No aplica para colegio.');
-            $table->boolean('finalizado')->nullable();
-            $table->date('fecha_grado_estimada')->nullable();
-            $table->date('fecha_grado_real')->nullable();
+            $table->unsignedInteger('entidad_id');
+            $table->unsignedInteger('formacion_id');
+            $table->tinyInteger('finalizado')->nullable()->default(null);
+            $table->date('fecha_grado_estimada')->nullable()->default(null);
+            $table->date('fecha_grado_real')->nullable()->default(null);
+
+            $table->index(["entidad_id"], 'fk_informacion_academica_entidad_idx');
 
             $table->index(["contacto_id"], 'fk_informacion_academica_contacto_idx');
 
@@ -36,6 +39,11 @@ class CreateInformacionAcademicaTable extends Migration
 
             $table->foreign('contacto_id', 'fk_informacion_academica_contacto_idx')
                 ->references('id')->on('contacto')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('entidad_id', 'fk_informacion_academica_entidad_idx')
+                ->references('id')->on('entidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
