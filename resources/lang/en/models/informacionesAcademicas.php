@@ -9,7 +9,7 @@ return array (
     'contacto_id' => 'Contacto',
     'formacion_id' => 'Formación',
     'finalizado' => 'Finalizado',
-    'fecha_grado_estimada' => 'Fecha Grado Estimada',
-    'fecha_grado_real' => 'Fecha Grado Real',
+    'fecha_inicio' => 'Fecha Inicio',
+    'fecha_grado' => 'Fecha Grado',
   ),
 );

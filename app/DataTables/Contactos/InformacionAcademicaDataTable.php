@@ -35,17 +35,17 @@ class InformacionAcademicaDataTable extends DataTable
         ->editColumn('finalizado', function ($informacion){
             return $informacion->finalizado? 'Si':'No';
         })  
-        ->editColumn('fecha_grado_estimada', function ($informacion){
-            if(empty($informacion->fecha_grado_estimada)){
+        ->editColumn('fecha_inicio', function ($informacion){
+            if(empty($informacion->fecha_inicio)){
                 return;
             }
-            return date('Y-m-d', strtotime($informacion->fecha_grado_estimada));
+            return date('Y-m-d', strtotime($informacion->fecha_inicio));
         })
-        ->editColumn('fecha_grado_real', function ($informacion){
-            if(empty($informacion->fecha_grado_real)){
+        ->editColumn('fecha_grado', function ($informacion){
+            if(empty($informacion->fecha_grado)){
                 return;
             }
-            return date('Y-m-d', strtotime($informacion->fecha_grado_real));
+            return date('Y-m-d', strtotime($informacion->fecha_grado));
         })      
         ->filterColumn('finalizado', function ($query, $keyword) {
             $validacion=null;
@@ -139,8 +139,8 @@ class InformacionAcademicaDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/informacionesAcademicas.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
             'formacion_id' => new Column(['title' => __('models/informacionesAcademicas.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado']),
-            'fecha_grado_estimada' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_estimada'), 'data' => 'fecha_grado_estimada']),
-            'fecha_grado_real' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado_real'), 'data' => 'fecha_grado_real']),
+            'fecha_inicio' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
+            'fecha_grado' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado'), 'data' => 'fecha_grado']),
             'contacto_id' => new Column(['title' => __('models/informacionesAcademicas.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }

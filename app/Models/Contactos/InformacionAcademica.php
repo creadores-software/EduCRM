@@ -17,8 +17,8 @@ use Altek\Accountant\Contracts\Recordable;
  * @property integer $entidad_id
  * @property integer $formacion_id
  * @property boolean $finalizado
- * @property string $fecha_grado_estimada
- * @property string $fecha_grado_real
+ * @property string $fecha_inicio
+ * @property string $fecha_grado
  */
 class InformacionAcademica extends Model implements Recordable
 {
@@ -35,8 +35,8 @@ class InformacionAcademica extends Model implements Recordable
         'entidad_id',
         'formacion_id',
         'finalizado',
-        'fecha_grado_estimada',
-        'fecha_grado_real'
+        'fecha_inicio',
+        'fecha_grado'
     ];
 
     /**
@@ -50,8 +50,8 @@ class InformacionAcademica extends Model implements Recordable
         'entidad_id' => 'integer',
         'formacion_id' => 'integer',
         'finalizado' => 'boolean',
-        'fecha_grado_estimada' => 'date',
-        'fecha_grado_real' => 'date'
+        'fecha_inicio' => 'date',
+        'fecha_grado' => 'date'
     ];
 
     /**
@@ -64,8 +64,8 @@ class InformacionAcademica extends Model implements Recordable
         'entidad_id' => 'required|integer',
         'formacion_id' => 'required|integer',
         'finalizado' => 'nullable|boolean',
-        'fecha_grado_estimada' => 'nullable|after_or_equal:today',
-        'fecha_grado_real' => 'nullable|before_or_equal:today'
+        'fecha_inicio' => 'nullable|before_or_equal:today',
+        'fecha_grado' => 'nullable'
     ];
 
     /**

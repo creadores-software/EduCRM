@@ -27,8 +27,8 @@ class CreateInformacionAcademicaTable extends Migration
             $table->unsignedInteger('entidad_id');
             $table->unsignedInteger('formacion_id');
             $table->tinyInteger('finalizado')->nullable()->default(null);
-            $table->date('fecha_grado_estimada')->nullable()->default(null);
-            $table->date('fecha_grado_real')->nullable()->default(null);
+            $table->date('fecha_inicio')->nullable()->default(null);
+            $table->date('fecha_grado')->nullable()->default(null);
 
             $table->index(["entidad_id"], 'fk_informacion_academica_entidad_idx');
 

@@ -21,8 +21,8 @@ class InformacionAcademicaRepository extends BaseRepository
         'entidad_id',
         'formacion_id',
         'finalizado',
-        'fecha_grado_estimada',
-        'fecha_grado_real'
+        'fecha_inicio',
+        'fecha_grado'
     ];
 
     /**

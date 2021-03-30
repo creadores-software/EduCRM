@@ -10,7 +10,7 @@ return array (
     'entidad_id' => 'Entidad',
     'nivel_educativo_id' => 'Nivel Educativo',
     'finalizado' => 'Finalizado',
-    'fecha_grado_estimada' => 'Fecha Grado Estimada',
-    'fecha_grado_real' => 'Fecha Grado Real',
+    'fecha_inicio' => 'Fecha Inicio',
+    'fecha_grado' => 'Fecha Grado',
   ),
 );

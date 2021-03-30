@@ -30,25 +30,25 @@
     {!! Form::select('finalizado',[1=>'SI',0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
-<!-- Fecha Grado Estimada Field -->
-<div id="div_fecha_estimada" class="form-group col-sm-6">
-    {!! Form::label('fecha_grado_estimada', __('models/informacionesAcademicas.fields.fecha_grado_estimada').':') !!}
+<!-- Fecha Inicio Field -->
+<div id="div_fecha_inicio" class="form-group col-sm-6">
+    {!! Form::label('fecha_inicio', __('models/informacionesAcademicas.fields.fecha_inicio').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_grado_estimada" name="fecha_grado_estimada" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_estimada',$informacionAcademica->fecha_grado_estimada ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_inicio" name="fecha_inicio" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_inicio',$informacionAcademica->fecha_inicio ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
-<!-- Fecha Grado Real Field -->
-<div id="div_fecha_real" class="form-group col-sm-6">
-    {!! Form::label('fecha_grado_real', __('models/informacionesAcademicas.fields.fecha_grado_real').':') !!}
+<!-- Fecha Grado Field -->
+<div id="div_fecha_grado" class="form-group col-sm-6">
+    {!! Form::label('fecha_grado', __('models/informacionesAcademicas.fields.fecha_grado').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_grado_real" name="fecha_grado_real" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado_real',$informacionAcademica->fecha_grado_real ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_grado" name="fecha_grado" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado',$informacionAcademica->fecha_grado ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
@@ -60,23 +60,21 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $('#fecha_grado_estimada').datetimepicker({
+        $('#fecha_inicio').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
         });
-        $('#fecha_grado_real').datetimepicker({
+        $('#fecha_grado').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
         });
         $('#finalizado').change(function(){
-           if($('#finalizado').val()==1){
-                $('#div_fecha_estimada').hide(); 
-                $('#div_fecha_real').show();   
-           }else{
-                $('#div_fecha_estimada').show(); 
-                $('#div_fecha_real').hide();      
+            if($('#finalizado').val()==1){
+                $('#div_fecha_grado').show();   
+           }else{ 
+                $('#div_fecha_grado').hide();      
            }
         }); 
         $('#entidad_id').change(function(){
@@ -84,12 +82,10 @@
         }); 
         $(document).ready(function() { 
             if($('#finalizado').val()==1){
-                $('#div_fecha_estimada').hide(); 
-                $('#div_fecha_real').show();   
-            }else{
-                $('#div_fecha_estimada').show(); 
-                $('#div_fecha_real').hide();      
-            }
+                $('#div_fecha_grado').show();   
+           }else{ 
+                $('#div_fecha_grado').hide();      
+           }
             $('#finalizado').select2(); 
             $('#entidad_id').select2({
                 placeholder: "Seleccionar",

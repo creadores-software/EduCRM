@@ -21,8 +21,8 @@ class InformacionEscolarRepository extends BaseRepository
         'entidad_id',
         'nivel_educativo_id',
         'finalizado',
-        'fecha_grado_estimada',
-        'fecha_grado_real'
+        'fecha_inicio',
+        'fecha_grado'
     ];
 
     /**

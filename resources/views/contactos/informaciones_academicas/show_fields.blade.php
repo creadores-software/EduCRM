@@ -16,15 +16,15 @@
     <p>{{ $informacionAcademica->finalizado?'Si':'No' }}</p>
 </div>
 
-<!-- Fecha Grado Estimada Field -->
+<!-- Fecha Inicio Field -->
 <div class="form-group">
-    {!! Form::label('fecha_grado_estimada', __('models/informacionesAcademicas.fields.fecha_grado_estimada').':') !!}
-    <p>{{ $informacionAcademica->fecha_grado_estimada? Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_estimada)):'' }}</p>
+    {!! Form::label('fecha_inicio', __('models/informacionesAcademicas.fields.fecha_inicio').':') !!}
+    <p>{{ $informacionAcademica->fecha_inicio? Date('Y-m-d',strtotime($informacionAcademica->fecha_inicio)):'' }}</p>
 </div>
 
-<!-- Fecha Grado Real Field -->
+<!-- Fecha Grado Field -->
 <div class="form-group">
-    {!! Form::label('fecha_grado_real', __('models/informacionesAcademicas.fields.fecha_grado_real').':') !!}
-    <p>{{$informacionAcademica->fecha_grado_real?  Date('Y-m-d',strtotime($informacionAcademica->fecha_grado_real)):'' }}</p>
+    {!! Form::label('fecha_grado', __('models/informacionesAcademicas.fields.fecha_grado').':') !!}
+    <p>{{$informacionAcademica->fecha_grado?  Date('Y-m-d',strtotime($informacionAcademica->fecha_grado)):'' }}</p>
 </div>
 

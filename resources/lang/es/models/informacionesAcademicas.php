@@ -10,7 +10,7 @@ return array (
     'formacion_id' => 'Formación',
     'entidad_id' => 'Entidad',
     'finalizado' => 'Finalizado',
-    'fecha_grado_estimada' => 'Fecha Grado Estimada',
-    'fecha_grado_real' => 'Fecha Grado Real',
+    'fecha_inicio' => 'Fecha Inicio',
+    'fecha_grado' => 'Fecha Grado',
   ),
 );

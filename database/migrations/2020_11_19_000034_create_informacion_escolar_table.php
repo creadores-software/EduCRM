@@ -27,8 +27,8 @@ class CreateInformacionEscolarTable extends Migration
             $table->unsignedInteger('entidad_id');
             $table->unsignedInteger('nivel_educativo_id');
             $table->tinyInteger('finalizado')->nullable()->default(null);
-            $table->date('fecha_grado_estimada')->nullable()->default(null);
-            $table->date('fecha_grado_real')->nullable()->default(null);
+            $table->date('fecha_inicio')->nullable()->default(null);
+            $table->date('fecha_grado')->nullable()->default(null);
 
             $table->index(["contacto_id"], 'fk_informacion_escolar_contacto_idx');
 

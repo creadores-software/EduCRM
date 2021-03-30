@@ -60,7 +60,7 @@
         "inView": true
     },
     {
-        "name": "fecha_grado_estimada",
+        "name": "fecha_inicio",
         "dbType": "date:nullable",
         "htmlType": "date",
         "validations": "nullable|nullable",
@@ -72,7 +72,7 @@
         "inView": true
     },
     {
-        "name": "fecha_grado_real",
+        "name": "fecha_grado",
         "dbType": "date:nullable",
         "htmlType": "date",
         "validations": "nullable|nullable",
