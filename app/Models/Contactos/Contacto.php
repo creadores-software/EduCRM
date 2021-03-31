@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\DB;
  * @property \App\Models\Contactos\Prefijo $prefijo
  * @property \App\Models\Contactos\TipoDocumento $tipoDocumento
  * @property \Illuminate\Database\Eloquent\Collection $contactoTipoContactos
- * @property \Illuminate\Database\Eloquent\Collection $informacionesAcademicas
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesUniversitarias
  * @property \Illuminate\Database\Eloquent\Collection $informacionesEscolares
  * @property \Illuminate\Database\Eloquent\Collection $informacionesLaborales
  * @property \Illuminate\Database\Eloquent\Collection $parentescosDestino
@@ -224,9 +224,9 @@ class Contacto extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionesAcademicas()
+    public function informacionesUniversitarias()
     {
-        return $this->hasMany(\App\Models\Contactos\InformacionAcademica::class, 'contacto_id');
+        return $this->hasMany(\App\Models\Contactos\InformacionUniversitaria::class, 'contacto_id');
     }
 
     /**

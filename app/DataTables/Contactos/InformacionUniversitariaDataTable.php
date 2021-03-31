@@ -2,13 +2,13 @@
 
 namespace App\DataTables\Contactos;
 
-use App\Models\Contactos\InformacionAcademica;
+use App\Models\Contactos\InformacionUniversitaria;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Http\Request;
 
-class InformacionAcademicaDataTable extends DataTable
+class InformacionUniversitariaDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -29,7 +29,7 @@ class InformacionAcademicaDataTable extends DataTable
         return $dataTable
         ->addColumn('action', function($row) use ($idContacto){
             $id=$row->id;
-            return view('contactos.informaciones_academicas.datatables_actions', 
+            return view('contactos.informaciones_universitarias.datatables_actions', 
             compact('id','idContacto'));
         })
         ->editColumn('finalizado', function ($informacion){
@@ -71,13 +71,13 @@ class InformacionAcademicaDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\InformacionAcademica $model
+     * @param \App\Models\InformacionUniversitaria $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(InformacionAcademica $model)
+    public function query(InformacionUniversitaria $model)
     {
         return $model->newQuery()
-            ->with(['formacion','entidad'])->select('informacion_academica.*');
+            ->with(['formacion','entidad'])->select('informacion_universitaria.*');
     }
 
     /**
@@ -94,7 +94,7 @@ class InformacionAcademicaDataTable extends DataTable
 
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax(route('contactos.informacionesAcademicas.index', ['idContacto' => $idContacto]))
+            ->minifiedAjax(route('contactos.informacionesUniversitarias.index', ['idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -136,12 +136,12 @@ class InformacionAcademicaDataTable extends DataTable
     protected function getColumns()
     {
         return [   
-            'entidad_id' => new Column(['title' => __('models/informacionesAcademicas.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
-            'formacion_id' => new Column(['title' => __('models/informacionesAcademicas.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
-            'finalizado' => new Column(['title' => __('models/informacionesAcademicas.fields.finalizado'), 'data' => 'finalizado']),
-            'fecha_inicio' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
-            'fecha_grado' => new Column(['title' => __('models/informacionesAcademicas.fields.fecha_grado'), 'data' => 'fecha_grado']),
-            'contacto_id' => new Column(['title' => __('models/informacionesAcademicas.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
+            'entidad_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
+            'formacion_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
+            'finalizado' => new Column(['title' => __('models/informacionesUniversitarias.fields.finalizado'), 'data' => 'finalizado']),
+            'fecha_inicio' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
+            'fecha_grado' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_grado'), 'data' => 'fecha_grado']),
+            'contacto_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }
 
@@ -152,6 +152,6 @@ class InformacionAcademicaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'informaciones_academicas_' .  date("Ymd_His");
+        return 'informaciones_universitarias_' .  date("Ymd_His");
     }
 }

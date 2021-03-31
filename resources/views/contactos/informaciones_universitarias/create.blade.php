@@ -16,8 +16,8 @@
                             @include('contactos.contactos.nav_edit',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
                             <div class="tab-content">
                                 <div class="tab-pane fade in active">
-                                    {!! Form::open(['route' => 'contactos.informacionesAcademicas.store']) !!}
-                                        @include('contactos.informaciones_academicas.fields')
+                                    {!! Form::open(['route' => 'contactos.informacionesUniversitarias.store']) !!}
+                                        @include('contactos.informaciones_universitarias.fields')
                                     {!! Form::close() !!}
                                 </div>                               
                             </div>

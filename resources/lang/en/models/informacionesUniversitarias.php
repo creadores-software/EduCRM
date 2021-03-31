@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'singular' => 'Información Académica',
+  'singular' => 'Información Universitaria',
   'plural' => 'Informaciones Académicas',
   'fields' => 
   array (

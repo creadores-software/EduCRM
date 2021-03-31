@@ -10,21 +10,21 @@
     <div id="universitario" class="tab-pane fade in active">
        <!-- Entidad Id Field -->
         <div class="form-group col-sm-6">
-            {!! Form::label('entidad_id', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
+            {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
             <select name="universidadEntidades[]" id="universidadEntidades" class="form-control" multiple="multiple">
             </select> 
         </div>
         
         <!-- Formacion Id Field -->
         <div class="form-group col-sm-6">
-            {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}
+            {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id').':') !!}
             <select name="universidadFormaciones[]" id="universidadFormaciones" class="form-control"  multiple="multiple">
             </select> 
         </div>
         
         <!-- Finalizado Field -->
         <div class="form-group col-sm-6">
-            {!! Form::label('finalizado', __('models/informacionesAcademicas.fields.finalizado').':') !!}
+            {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
             {!! Form::select('universidadFinalizado',[''=>'TODOS',1=>'SI',0=>'NO'], old('universidadFinalizado'), ['class' => 'form-control','id'=>'universidadFinalizado']) !!}
         </div>
         

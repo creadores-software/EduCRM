@@ -2,16 +2,16 @@
 
 namespace App\Repositories\Contactos;
 
-use App\Models\Contactos\InformacionAcademica;
+use App\Models\Contactos\InformacionUniversitaria;
 use App\Repositories\BaseRepository;
 
 /**
- * Class InformacionAcademicaRepository
+ * Class InformacionUniversitariaRepository
  * @package App\Repositories\Contactos
  * @version December 25, 2020, 12:27 pm -05
 */
 
-class InformacionAcademicaRepository extends BaseRepository
+class InformacionUniversitariaRepository extends BaseRepository
 {
     /**
      * @var array
@@ -40,6 +40,6 @@ class InformacionAcademicaRepository extends BaseRepository
      **/
     public function model()
     {
-        return InformacionAcademica::class;
+        return InformacionUniversitaria::class;
     }
 }

@@ -1,61 +1,61 @@
 {!! Form::hidden('contacto_id',$idContacto) !!}
 {!! Form::hidden('idContacto',$idContacto) !!}
-{!! Form::hidden('id', old('id', $informacionAcademica->id ?? '')) !!}
+{!! Form::hidden('id', old('id', $informacionUniversitaria->id ?? '')) !!}
 
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesAcademicas.fields.entidad_id').':') !!}
+    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
     <select name="entidad_id" id="entidad_id" class="form-control">
         <option></option>
-        @if(!empty(old('entidad_id', $informacionAcademica->entidad_id ?? '' )))
-            <option value="{{ old('entidad_id', $informacionAcademica->entidad_id ?? '' ) }}" selected> {{ App\Models\Entidades\Entidad::find(old('entidad_id', $informacionAcademica->entidad_id ?? '' ))->nombre }} </option>
+        @if(!empty(old('entidad_id', $informacionUniversitaria->entidad_id ?? '' )))
+            <option value="{{ old('entidad_id', $informacionUniversitaria->entidad_id ?? '' ) }}" selected> {{ App\Models\Entidades\Entidad::find(old('entidad_id', $informacionUniversitaria->entidad_id ?? '' ))->nombre }} </option>
         @endif
     </select> 
 </div>
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('formacion_id', __('models/informacionesAcademicas.fields.formacion_id').':') !!}
+    {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id').':') !!}
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
-        @if(!empty(old('formacion_id', $informacionAcademica->formacion_id ?? '' )))
-            <option value="{{ old('formacion_id', $informacionAcademica->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('formacion_id', $informacionAcademica->formacion_id ?? '' ))->nombre }} </option>
+        @if(!empty(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' )))
+            <option value="{{ old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ))->nombre }} </option>
         @endif
     </select> 
 </div>
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('finalizado', __('models/informacionesAcademicas.fields.finalizado').':') !!}
+    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
     {!! Form::select('finalizado',[1=>'SI',0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Inicio Field -->
 <div id="div_fecha_inicio" class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/informacionesAcademicas.fields.fecha_inicio').':') !!}
+    {!! Form::label('fecha_inicio', __('models/informacionesUniversitarias.fields.fecha_inicio').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_inicio" name="fecha_inicio" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_inicio',$informacionAcademica->fecha_inicio ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_inicio" name="fecha_inicio" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_inicio',$informacionUniversitaria->fecha_inicio ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
 <!-- Fecha Grado Field -->
 <div id="div_fecha_grado" class="form-group col-sm-6">
-    {!! Form::label('fecha_grado', __('models/informacionesAcademicas.fields.fecha_grado').':') !!}
+    {!! Form::label('fecha_grado', __('models/informacionesUniversitarias.fields.fecha_grado').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_grado" name="fecha_grado" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado',$informacionAcademica->fecha_grado ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_grado" name="fecha_grado" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado',$informacionUniversitaria->fecha_grado ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('contactos.informacionesAcademicas.index',['idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
+    <a href="{{ route('contactos.informacionesUniversitarias.index',['idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
 
 @push('scripts')

@@ -27,10 +27,10 @@ div.dataTables_wrapper div.dataTables_filter {
                         <div class="nav-tabs-custom">
                             @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
                             <h1 class="pull-left">
-                                <a class="btn btn-default buttons-reset btn-sm no-corner" style="margin-top: -35px;" href="{{ route('contactos.informacionesAcademicas.create',['idContacto'=>$idContacto]) }}"><span><i class="fa fa-plus"></i> Crear</span></a>
+                                <a class="btn btn-default buttons-reset btn-sm no-corner" style="margin-top: -35px;" href="{{ route('contactos.informacionesUniversitarias.create',['idContacto'=>$idContacto]) }}"><span><i class="fa fa-plus"></i> Crear</span></a>
                              </h1>                             
                             <div class="tab-content">                                
-                                @include('contactos.informaciones_academicas.table')   
+                                @include('contactos.informaciones_universitarias.table')   
                             </div>
                         </div>
                     </div>

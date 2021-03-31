@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInformacionAcademicaTable extends Migration
+class CreateInformacionUniversitariaTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'informacion_academica';
+    public $tableName = 'informacion_universitaria';
 
     /**
      * Run the migrations.
-     * @table informacion_academica
+     * @table informacion_universitaria
      *
      * @return void
      */
@@ -30,24 +30,24 @@ class CreateInformacionAcademicaTable extends Migration
             $table->date('fecha_inicio')->nullable()->default(null);
             $table->date('fecha_grado')->nullable()->default(null);
 
-            $table->index(["entidad_id"], 'fk_informacion_academica_entidad_idx');
+            $table->index(["entidad_id"], 'fk_informacion_universitaria_entidad_idx');
 
-            $table->index(["contacto_id"], 'fk_informacion_academica_contacto_idx');
+            $table->index(["contacto_id"], 'fk_informacion_universitaria_contacto_idx');
 
-            $table->index(["formacion_id"], 'fk_informacion_academica_formacion_idx');
+            $table->index(["formacion_id"], 'fk_informacion_universitaria_formacion_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_academica_contacto_idx')
+            $table->foreign('contacto_id', 'fk_informacion_universitaria_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('entidad_id', 'fk_informacion_academica_entidad_idx')
+            $table->foreign('entidad_id', 'fk_informacion_universitaria_entidad_idx')
                 ->references('id')->on('entidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('formacion_id', 'fk_informacion_academica_formacion_idx')
+            $table->foreign('formacion_id', 'fk_informacion_universitaria_formacion_idx')
                 ->references('id')->on('formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

@@ -6,7 +6,7 @@ use Eloquent as Model;
 use Altek\Accountant\Contracts\Recordable;
 
 /**
- * Class InformacionAcademica
+ * Class InformacionUniversitaria
  * @package App\Models\Contactos
  * @version December 25, 2020, 12:27 pm -05
  *
@@ -20,10 +20,10 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string $fecha_inicio
  * @property string $fecha_grado
  */
-class InformacionAcademica extends Model implements Recordable
+class InformacionUniversitaria extends Model implements Recordable
 {
 
-    public $table = 'informacion_academica';
+    public $table = 'informacion_universitaria';
     
     public $timestamps = false;
 

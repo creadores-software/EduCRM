@@ -1,10 +1,10 @@
-{!! Form::open(['route' => ['contactos.informacionesAcademicas.destroy', $id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['contactos.informacionesUniversitarias.destroy', $id], 'method' => 'delete']) !!}
 {!! Form::hidden('idContacto',$idContacto) !!}
 <div class='btn-group'>
-    <a href="{{ route('contactos.informacionesAcademicas.show', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('contactos.informacionesUniversitarias.show', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    <a href="{{ route('contactos.informacionesAcademicas.edit', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('contactos.informacionesUniversitarias.edit', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
