@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoParentescoTable extends Migration
+class CreateMedioPagoTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'tipo_parentesco';
+    public $tableName = 'medio_pago';
 
     /**
      * Run the migrations.
-     * @table tipo_parentesco
+     * @table medio_pago
      *
      * @return void
      */
@@ -23,16 +23,7 @@ class CreateTipoParentescoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('nombre', 100);
-            $table->unsignedInteger('tipo_contrario_id')->nullable()->comment('En el tipo madre, el contrario es hijo.');
-
-            $table->index(["tipo_contrario_id"], 'fk_tipo_parentesco_tipo_contrario_idx');
-
-
-            $table->foreign('tipo_contrario_id', 'fk_tipo_parentesco_tipo_contrario_idx')
-                ->references('id')->on('tipo_parentesco')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+            $table->string('nombre', 45);
         });
     }
 

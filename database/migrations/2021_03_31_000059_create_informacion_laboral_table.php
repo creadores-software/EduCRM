@@ -29,8 +29,9 @@ class CreateInformacionLaboralTable extends Migration
             $table->string('area', 45)->nullable()->default(null);
             $table->string('funciones')->nullable()->default(null);
             $table->string('telefono', 15)->nullable()->default(null);
-            $table->date('fecha_inicio');
+            $table->date('fecha_inicio')->nullable();
             $table->date('fecha_fin')->nullable()->default(null);
+            $table->tinyInteger('vinculado_actualmente')->nullable();
 
             $table->index(["contacto_id"], 'fk_informacion_laboral_contacto_idx');
 

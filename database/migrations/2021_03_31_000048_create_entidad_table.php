@@ -29,6 +29,8 @@ class CreateEntidadTable extends Migration
             $table->string('telefono', 15)->nullable()->default(null);
             $table->unsignedInteger('sector_id')->nullable()->default(null);
             $table->unsignedInteger('actividad_economica_id')->nullable()->default(null);
+            $table->string('codigo_ies', 10)->nullable()->comment('Se diligencia si es IES');
+            $table->enum('calendario', ['A', 'B'])->nullable()->comment('Se diligencia si es Colegios');
             $table->tinyInteger('mi_universidad')->nullable()->default('0');
 
             $table->index(["actividad_economica_id"], 'fk_entidad_actividad_economica_idx');

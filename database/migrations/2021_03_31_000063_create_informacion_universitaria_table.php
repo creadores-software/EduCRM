@@ -26,15 +26,20 @@ class CreateInformacionUniversitariaTable extends Migration
             $table->unsignedInteger('contacto_id');
             $table->unsignedInteger('entidad_id');
             $table->unsignedInteger('formacion_id');
-            $table->tinyInteger('finalizado')->nullable()->default(null);
+            $table->unsignedInteger('tipo_acceso_id')->nullable();
             $table->date('fecha_inicio')->nullable()->default(null);
             $table->date('fecha_grado')->nullable()->default(null);
+            $table->tinyInteger('finalizado')->nullable()->default(null);
+            $table->double('promedio')->nullable();
+            $table->integer('periodo_alcanzado')->nullable();
 
             $table->index(["entidad_id"], 'fk_informacion_universitaria_entidad_idx');
 
-            $table->index(["contacto_id"], 'fk_informacion_universitaria_contacto_idx');
+            $table->index(["tipo_acceso_id"], 'fk_informacion_universitaria_tipo_acceso_idx');
 
             $table->index(["formacion_id"], 'fk_informacion_universitaria_formacion_idx');
+
+            $table->index(["contacto_id"], 'fk_informacion_universitaria_contacto_idx');
 
 
             $table->foreign('contacto_id', 'fk_informacion_universitaria_contacto_idx')
@@ -49,6 +54,11 @@ class CreateInformacionUniversitariaTable extends Migration
 
             $table->foreign('formacion_id', 'fk_informacion_universitaria_formacion_idx')
                 ->references('id')->on('formacion')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('tipo_acceso_id', 'fk_informacion_universitaria_tipo_acceso_idx')
+                ->references('id')->on('tipo_acceso')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

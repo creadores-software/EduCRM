@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSegmentoTable extends Migration
+class CreatePeriodicidadTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'segmento';
+    public $tableName = 'periodicidad';
 
     /**
      * Run the migrations.
-     * @table segmento
+     * @table periodicidad
      *
      * @return void
      */
@@ -23,19 +23,7 @@ class CreateSegmentoTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('nombre', 100);
-            $table->string('descripcion');
-            $table->json('filtros');
-            $table->tinyInteger('global')->nullable()->default('0');
-            $table->unsignedInteger('usuario_id')->nullable()->default(null);
-
-            $table->index(["usuario_id"], 'fk_usuario_idx');
-
-
-            $table->foreign('usuario_id', 'fk_usuario_idx')
-                ->references('id')->on('users')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+            $table->string('nombre', 45);
         });
     }
 

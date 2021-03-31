@@ -40,39 +40,42 @@ class CreateContactoTable extends Migration
             $table->unsignedInteger('estrato')->nullable()->default(null);
             $table->tinyInteger('activo')->nullable()->default('1');
             $table->string('observacion')->nullable()->default(null);
-            $table->unsignedInteger('informacion_relacional_id')->nullable()->default(null);
-            $table->unsignedInteger('origen_id');
             $table->unsignedInteger('referido_por')->nullable()->default(null)->comment(' Solo se debe diligenciar cuando el origen es referido.');
+            $table->unsignedInteger('origen_id');
             $table->string('otro_origen', 45)->nullable()->default(null);
+            $table->unsignedInteger('informacion_relacional_id')->nullable()->default(null);
+            $table->unsignedInteger('informacion_financiera_id')->nullable();
 
-            $table->index(["estado_civil_id"], 'fk_contacto_estado_civil_idx');
+            $table->index(["informacion_financiera_id"], 'fk_contacto_informacion_financiera_idx');
 
-            $table->index(["prefijo_id"], 'fk_contacto_prefijo_idx');
+            $table->index(["prefijo_id"], 'fk_contacto_prefijo');
 
-            $table->index(["tipo_documento_id"], 'fk_contacto_tipo_documento_idx');
+            $table->index(["genero_id"], 'fk_contacto_genero');
+
+            $table->index(["lugar_residencia"], 'fk_contacto_ciudad');
+
+            $table->index(["tipo_documento_id"], 'fk_contacto_tipo_documento');
 
             $table->index(["referido_por"], 'fk_contacto_referido_idx');
 
-            $table->index(["genero_id"], 'fk_contacto_genero_idx');
+            $table->index(["estado_civil_id"], 'fk_contacto_estado_civil');
 
             $table->index(["origen_id"], 'fk_contacto_origen_idx');
 
             $table->index(["informacion_relacional_id"], 'fk_contacto_informacion_relacional_idx');
 
-            $table->index(["lugar_residencia"], 'fk_contacto_ciudad_idx');
 
-
-            $table->foreign('lugar_residencia', 'fk_contacto_ciudad_idx')
+            $table->foreign('lugar_residencia', 'fk_contacto_ciudad')
                 ->references('id')->on('lugar')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('estado_civil_id', 'fk_contacto_estado_civil_idx')
+            $table->foreign('estado_civil_id', 'fk_contacto_estado_civil')
                 ->references('id')->on('estado_civil')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('genero_id', 'fk_contacto_genero_idx')
+            $table->foreign('genero_id', 'fk_contacto_genero')
                 ->references('id')->on('genero')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
@@ -87,7 +90,7 @@ class CreateContactoTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('prefijo_id', 'fk_contacto_prefijo_idx')
+            $table->foreign('prefijo_id', 'fk_contacto_prefijo')
                 ->references('id')->on('prefijo')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
@@ -97,8 +100,13 @@ class CreateContactoTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('tipo_documento_id', 'fk_contacto_tipo_documento_idx')
+            $table->foreign('tipo_documento_id', 'fk_contacto_tipo_documento')
                 ->references('id')->on('tipo_documento')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('informacion_financiera_id', 'fk_contacto_informacion_financiera_idx')
+                ->references('id')->on('informacion_financiera')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

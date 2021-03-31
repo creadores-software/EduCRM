@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNivelFormacionTable extends Migration
+class CreateModalidadTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'nivel_formacion';
+    public $tableName = 'modalidad';
 
     /**
      * Run the migrations.
-     * @table nivel_formacion
+     * @table modalidad
      *
      * @return void
      */
@@ -23,8 +23,7 @@ class CreateNivelFormacionTable extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('nombre', 100);
-            $table->tinyInteger('es_ies')->nullable()->default('0');
+            $table->string('nombre', 45);
         });
     }
 
