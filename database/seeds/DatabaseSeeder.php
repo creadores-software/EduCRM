@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RazaTableSeeder::class);
         $this->call(FrecuenciaUsoTableSeeder::class);
         $this->call(PersonalidadTableSeeder::class);
-        $this->call(MedioPagoTableSeeder::class);
         $this->call(ReconocimientoTableSeeder::class);
         $this->call(GeneroTableSeeder::class);
         $this->call(ConceptoPagoTableSeeder::class);
@@ -38,7 +37,14 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriaActividadEconomicaTableSeeder::class);
         $this->call(ActividadOcioTableSeeder::class);
         $this->call(ActitudServicioTableSeeder::class);
-        $this->call(RangoIngresosTableSeeder::class);
         $this->call(EstatusLealtadTableSeeder::class);
+        //Seeder con más parametros y dependencias
+        $this->call(NivelAcademicoTableSeeder::class);
+        $this->call(NivelFormacionTableSeeder::class);
+        $this->call(PrefijoTableSeeder::class);
+        $this->call(TipoDocumentoTableSeeder::class);
+        $this->call(MedioComunicacionTableSeeder::class);
+        $this->call(TipoParentescoTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
     }
 }

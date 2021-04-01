@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Seeder;
 
-class RangoIngresosTableSeeder extends Seeder
+class PrefijoTableSeeder extends Seeder
 {
 
     /**
@@ -16,68 +16,74 @@ class RangoIngresosTableSeeder extends Seeder
     {
         
 
-        DB::table('rango_ingresos')->delete();
+        DB::table('prefijo')->delete();
         
-        DB::table('rango_ingresos')->insert(array (
+        DB::table('prefijo')->insert(array (
             0 => 
             array (
                 'id' => 1,
-                'nombre' => 'Menos de un SMLV',
+                'genero_id' => 1,
+                'nombre' => 'Don',
             ),
             1 => 
             array (
                 'id' => 2,
-                'nombre' => 'Entre 1 y 1,5 SMLV ',
+                'genero_id' => 2,
+                'nombre' => 'Doña',
             ),
             2 => 
             array (
                 'id' => 3,
-                'nombre' => 'Entre 1,5 y 2 SMLV',
+                'genero_id' => 1,
+                'nombre' => 'Señor',
             ),
             3 => 
             array (
                 'id' => 4,
-                'nombre' => 'Entre 2 y 2,5 SMLV',
+                'genero_id' => 2,
+                'nombre' => 'Señora',
             ),
             4 => 
             array (
                 'id' => 5,
-                'nombre' => 'Entre 2,5 y 3 SMLV',
+                'genero_id' => 2,
+                'nombre' => 'Señorita',
             ),
             5 => 
             array (
                 'id' => 6,
-                'nombre' => 'Entre 3 y 3,5 SMLV',
+                'genero_id' => 1,
+                'nombre' => 'Doctor',
             ),
             6 => 
             array (
                 'id' => 7,
-                'nombre' => 'Entre 3,5 y 4 SMLV',
+                'genero_id' => 1,
+                'nombre' => 'Licenciado',
             ),
             7 => 
             array (
                 'id' => 8,
-                'nombre' => 'Entre 4 y 4,5 SMLV',
+                'genero_id' => 1,
+                'nombre' => 'Ingeniero',
             ),
             8 => 
             array (
                 'id' => 9,
-                'nombre' => 'Entre 4,5 y 5 SMLV',
+                'genero_id' => 2,
+                'nombre' => 'Doctora',
             ),
             9 => 
             array (
                 'id' => 10,
-                'nombre' => 'Entre 5 y 5,5 SMLV',
+                'genero_id' => 2,
+                'nombre' => 'Licenciada',
             ),
             10 => 
             array (
                 'id' => 11,
-                'nombre' => 'Entre 5,5 y 6 SMLV',
-            ),
-            11 => 
-            array (
-                'id' => 12,
-                'nombre' => 'Mas de 6 SMLV',
+                'genero_id' => 2,
+                'nombre' => 'Ingeniera',
             ),
         ));
         
