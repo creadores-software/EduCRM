@@ -26,13 +26,14 @@ class CreateReciboTable extends Migration
             $table->unsignedInteger('informacion_financiera_id');
             $table->string('referencia', 45);
             $table->double('valor');
+            $table->unsignedInteger('concepto_pago_id')->nullable();
+            $table->string('detalles')->nullable();
             $table->date('fecha_emision')->nullable();
             $table->date('fecha_vencimiento')->nullable();
             $table->date('fecha_cobro')->nullable();
             $table->unsignedInteger('medio_pago_id')->nullable();
-            $table->unsignedInteger('concepto_pago_id')->nullable();
             $table->unsignedInteger('estado_recibo_id')->nullable();
-            $table->string('detalles')->nullable();
+            $table->tinyInteger('activo')->nullable();
 
             $table->index(["concepto_pago_id"], 'fk_recibo_concepto_pago_idx');
 

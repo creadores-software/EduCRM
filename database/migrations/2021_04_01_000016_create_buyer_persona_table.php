@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRangoSalarioTable extends Migration
+class CreateBuyerPersonaTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'rango_salario';
+    public $tableName = 'buyer_persona';
 
     /**
      * Run the migrations.
-     * @table rango_salario
+     * @table buyer_persona
      *
      * @return void
      */
@@ -24,6 +24,8 @@ class CreateRangoSalarioTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 45);
+            $table->text('descripcion')->nullable();
+            $table->string('ruta_pdf')->nullable();
         });
     }
 

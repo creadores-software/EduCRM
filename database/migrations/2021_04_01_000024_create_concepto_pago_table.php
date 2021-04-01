@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoOcupacionTable extends Migration
+class CreateConceptoPagoTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'tipo_ocupacion';
+    public $tableName = 'concepto_pago';
 
     /**
      * Run the migrations.
-     * @table tipo_ocupacion
+     * @table concepto_pago
      *
      * @return void
      */
@@ -24,6 +24,7 @@ class CreateTipoOcupacionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 45);
+            $table->double('valor')->nullable();
         });
     }
 

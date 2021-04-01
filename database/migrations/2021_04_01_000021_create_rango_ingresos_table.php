@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateConceptoPagoTable extends Migration
+class CreateRangoIngresosTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'concepto_pago';
+    public $tableName = 'rango_ingresos';
 
     /**
      * Run the migrations.
-     * @table concepto_pago
+     * @table rango_ingresos
      *
      * @return void
      */
