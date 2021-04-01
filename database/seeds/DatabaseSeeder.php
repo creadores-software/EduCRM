@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(EstadoReciboTableSeeder::class);
+        Schema::disableForeignKeyConstraints();
         $this->call(SectorTableSeeder::class);
         $this->call(CategoriaCampoEducacionTableSeeder::class);
         $this->call(ModalidadTableSeeder::class);
@@ -28,7 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PersonalidadTableSeeder::class);
         $this->call(ReconocimientoTableSeeder::class);
         $this->call(GeneroTableSeeder::class);
-        $this->call(ConceptoPagoTableSeeder::class);
         $this->call(GeneracionTableSeeder::class);
         $this->call(OrigenTableSeeder::class);
         $this->call(EstadoDisposicionTableSeeder::class);
@@ -38,7 +38,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ActividadOcioTableSeeder::class);
         $this->call(ActitudServicioTableSeeder::class);
         $this->call(EstatusLealtadTableSeeder::class);
-        //Seeder con más parametros y dependencias
         $this->call(NivelAcademicoTableSeeder::class);
         $this->call(NivelFormacionTableSeeder::class);
         $this->call(PrefijoTableSeeder::class);
@@ -46,5 +45,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MedioComunicacionTableSeeder::class);
         $this->call(TipoParentescoTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        Schema::enableForeignKeyConstraints(); 
     }
 }

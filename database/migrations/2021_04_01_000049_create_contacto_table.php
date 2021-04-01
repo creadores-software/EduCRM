@@ -44,9 +44,6 @@ class CreateContactoTable extends Migration
             $table->unsignedInteger('origen_id');
             $table->string('otro_origen', 45)->nullable()->default(null);
             $table->unsignedInteger('informacion_relacional_id')->nullable()->default(null);
-            $table->unsignedInteger('informacion_financiera_id')->nullable();
-
-            $table->index(["informacion_financiera_id"], 'fk_contacto_informacion_financiera_idx');
 
             $table->index(["prefijo_id"], 'fk_contacto_prefijo');
 
@@ -102,11 +99,6 @@ class CreateContactoTable extends Migration
 
             $table->foreign('tipo_documento_id', 'fk_contacto_tipo_documento')
                 ->references('id')->on('tipo_documento')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-
-            $table->foreign('informacion_financiera_id', 'fk_contacto_informacion_financiera_idx')
-                ->references('id')->on('informacion_financiera')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });
