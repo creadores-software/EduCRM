@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ActividadOcioTableSeeder::class);
         $this->call(ActitudServicioTableSeeder::class);
         $this->call(EstatusLealtadTableSeeder::class);
+        //Seeders con más campos
         $this->call(NivelAcademicoTableSeeder::class);
         $this->call(NivelFormacionTableSeeder::class);
         $this->call(PrefijoTableSeeder::class);
@@ -45,6 +46,12 @@ class DatabaseSeeder extends Seeder
         $this->call(MedioComunicacionTableSeeder::class);
         $this->call(TipoParentescoTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        //Información más completa
+        $this->call(ActividadEconomicaTableSeeder::class);
+        $this->call(CampoEducacionTableSeeder::class);
+        $this->call(OcupacionTableSeeder::class);
+        $this->call(LugarTableSeeder::class);
+        $this->call(EntidadTableSeeder::class);
         Schema::enableForeignKeyConstraints(); 
     }
 }
