@@ -43,7 +43,10 @@
                 </li>  
                 <li id="parametros-beneficios" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.beneficios.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/beneficios.plural')</span></a>
-                </li>                
+                </li>    
+                <li id="parametros-buyer-persona" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.buyerPersonas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/buyerPersonas.plural')</span></a>
+                </li>               
                 <li id="parametros-estados-disposicion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.estadosDisposicion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosDisposicion.plural')</span></a>
                 </li>   
@@ -127,8 +130,26 @@
                 <li id="formaciones-categorias-campo-educacion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.categoriasCampoEducacion.index') }}"><i class="fa fa-circle-o"></i><span>Categorías Campo<br>Educación</span></a>
                 </li>
+                <li id="formaciones-facultades" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.facultades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/facultades.plural')</span></a>
+                </li>
+                <li id="formaciones-modalidades" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.modalidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/modalidades.plural')</span></a>
+                </li>
+                <li id="formaciones-niveles-academicos" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.nivelesAcademicos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/nivelesAcademicos.plural')</span></a>
+                </li>  
                 <li id="formaciones-niveles-formacion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.nivelesFormacion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/nivelesFormacion.plural')</span></a>
+                </li>  
+                <li id="formaciones-periodicidades" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.periodicidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/periodicidades.plural')</span></a>
+                </li>  
+                <li id="formaciones-reconocimientos" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.reconocimientos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/reconocimientos.plural')</span></a>
+                </li>  
+                <li id="formaciones-tipos-acceso" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.tiposAcceso.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposAcceso.plural')</span></a>
                 </li>  
             </ul> 
         </li>       

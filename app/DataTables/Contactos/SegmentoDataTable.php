@@ -104,6 +104,7 @@ class SegmentoDataTable extends DataTable
             'descripcion' => new Column(['title' => __('models/segmentos.fields.descripcion'), 'data' => 'descripcion']),            
             'global' => new Column(['title' => __('models/segmentos.fields.global'), 'data' => 'global']),
             'usuario_id' => new Column(['title' => __('models/segmentos.fields.usuario_id'), 'data' => 'usuario.name','name'=>'usuario.name']),
+            //Campos no visibles que salen en exportación
             'filtros' => new Column(['title' => __('models/segmentos.fields.filtros'), 'data' => 'filtros','visible'=>false]),
         ];
     }

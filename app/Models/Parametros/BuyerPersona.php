@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Models\Parametros;
+
+use Eloquent as Model;
+
+/**
+ * Class BuyerPersona
+ * @package App\Models\Parametros
+ * @version April 2, 2021, 4:19 pm -05
+ *
+ * @property \Illuminate\Database\Eloquent\Collection $facultadBuyerPersonas
+ * @property \Illuminate\Database\Eloquent\Collection $formacionBuyerPersonas
+ * @property \Illuminate\Database\Eloquent\Collection $personaBuyerPersonas
+ * @property string $nombre
+ * @property string $descripcion
+ * @property string $ruta_pdf
+ */
+class BuyerPersona extends Model
+{
+
+    public $table = 'buyer_persona';
+    
+    public $timestamps = false;
+
+
+
+
+    public $fillable = [
+        'nombre',
+        'descripcion',
+        'ruta_pdf'
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'nombre' => 'string',
+        'descripcion' => 'string',
+        'ruta_pdf' => 'string'
+    ];
+
+    /**
+     * Validation rules
+     *
+     * @var array
+     */
+    public static $rules = [
+        'nombre' => 'required|string|max:45',
+        'descripcion' => 'nullable|string',
+        'ruta_pdf' => 'nullable|string|max:255'
+    ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function facultadBuyerPersonas()
+    {
+        return $this->hasMany(\App\Models\Parametros\FacultadBuyerPersona::class, 'buyer_persona_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function formacionBuyerPersonas()
+    {
+        return $this->hasMany(\App\Models\Parametros\FormacionBuyerPersona::class, 'buyer_persona_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function personaBuyerPersonas()
+    {
+        return $this->hasMany(\App\Models\Parametros\PersonaBuyerPersona::class, 'buyer_persona_id');
+    }
+}

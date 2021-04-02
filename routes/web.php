@@ -62,6 +62,7 @@ Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::resource('tiposDocumento', 'Parametros\TipoDocumentoController', ["as" => 'parametros']);
     Route::get('tiposParentesco/dataAjax', 'Parametros\TipoParentescoController@dataAjax')->name('parametros.tiposParentesco.dataAjax');
     Route::resource('tiposParentesco', 'Parametros\TipoParentescoController', ["as" => 'parametros']);
+    Route::resource('buyerPersonas', 'Parametros\BuyerPersonaController', ["as" => 'parametros']);
 });
 
 Route::group(['prefix' => 'entidades','middleware'=>'auth'], function () {
@@ -88,6 +89,20 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
     Route::resource('formaciones', 'Formaciones\FormacionController', ["as" => 'formaciones']);
     Route::get('nivelesFormacion/dataAjax', 'Formaciones\NivelFormacionController@dataAjax')->name('formaciones.nivelesFormacion.dataAjax');
     Route::resource('nivelesFormacion', 'Formaciones\NivelFormacionController', ["as" => 'formaciones']);
+    Route::get('facultades/dataAjax', 'Formaciones\FacultadController@dataAjax')->name('formaciones.facultades.dataAjax');
+    Route::resource('facultades', 'Formaciones\FacultadController', ["as" => 'formaciones']);
+    Route::resource('facultadesBuyerPersona', 'Formaciones\FacultadBuyerPersonaController', ["as" => 'formaciones']);
+    Route::resource('formacionBuyerPersonas', 'Formaciones\FormacionBuyerPersonaController', ["as" => 'formaciones']);
+    Route::get('modalidades/dataAjax', 'Formaciones\ModalidadController@dataAjax')->name('formaciones.modalidades.dataAjax');
+    Route::resource('modalidades', 'Formaciones\ModalidadController', ["as" => 'formaciones']);
+    Route::get('nivelesAcademicos/dataAjax', 'Formaciones\NivelAcademicoController@dataAjax')->name('formaciones.nivelesAcademicos.dataAjax');
+    Route::resource('nivelesAcademicos', 'Formaciones\NivelAcademicoController', ["as" => 'formaciones']);
+    Route::get('periodicidades/dataAjax', 'Formaciones\PeriodicidadController@dataAjax')->name('formaciones.periodicidades.dataAjax');
+    Route::resource('periodicidades', 'Formaciones\PeriodicidadController', ["as" => 'formaciones']);
+    Route::get('reconocimientos/dataAjax', 'Formaciones\ReconocimientoController@dataAjax')->name('formaciones.reconocimientos.dataAjax');
+    Route::resource('reconocimientos', 'Formaciones\ReconocimientoController', ["as" => 'formaciones']);
+    Route::get('tiposAcceso/dataAjax', 'Formaciones\TipoAccesoController@dataAjax')->name('formaciones.tiposAcceso.dataAjax');
+    Route::resource('tiposAcceso', 'Formaciones\TipoAccesoController', ["as" => 'formaciones']);
 });
 
 Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
@@ -101,8 +116,10 @@ Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
     Route::resource('informacionesLaborales', 'Contactos\InformacionLaboralController', ["as" => 'contactos']);
     Route::resource('informacionesRelacionales', 'Contactos\InformacionRelacionalController', ["as" => 'contactos','except'=> ['index','create','store','destroy']]);
     Route::resource('parentescos', 'Contactos\ParentescoController', ["as" => 'contactos']);    
+    Route::resource('perfilesMedioComunicacion', 'Contactos\PerfilMedioComunicacionController', ["as" => 'contactos']);
+    Route::resource('personaBuyerPersonas', 'Contactos\PersonaBuyerPersonaController', ["as" => 'contactos']);
     Route::get('segmentos/duplicar', 'Contactos\SegmentoController@duplicar')->name('contactos.segmentos.duplicar');
     Route::get('segmentos/filtros', 'Contactos\SegmentoController@filtros')->name('contactos.segmentos.filtros');
     Route::get('segmentos/dataAjax', 'Contactos\SegmentoController@dataAjax')->name('contactos.segmentos.dataAjax');
-    Route::resource('segmentos', 'Contactos\SegmentoController', ["as" => 'contactos']);
+    Route::resource('segmentos', 'Contactos\SegmentoController', ["as" => 'contactos']);    
 });

@@ -102,11 +102,6 @@ class InformacionUniversitariaDataTable extends DataTable
                 'order'     => [[0, 'asc']],
                 'buttons'   => [                
                     [
-                        'extend' => 'reset',
-                        'className' => 'btn btn-default btn-sm no-corner',
-                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
-                    ],
-                    [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
@@ -141,6 +136,7 @@ class InformacionUniversitariaDataTable extends DataTable
             'finalizado' => new Column(['title' => __('models/informacionesUniversitarias.fields.finalizado'), 'data' => 'finalizado']),
             'fecha_inicio' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
             'fecha_grado' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_grado'), 'data' => 'fecha_grado']),
+            //Campos no visibles que salen en exportación
             'contacto_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }
