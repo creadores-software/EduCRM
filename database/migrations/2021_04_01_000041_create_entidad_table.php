@@ -24,6 +24,7 @@ class CreateEntidadTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 200);
+            $table->string('nit', 45)->nullable();
             $table->unsignedInteger('lugar_id');
             $table->string('direccion', 200)->nullable()->default(null);
             $table->string('barrio', 150)->nullable();
@@ -33,6 +34,7 @@ class CreateEntidadTable extends Migration
             $table->unsignedInteger('sector_id')->nullable()->default(null);
             $table->unsignedInteger('actividad_economica_id')->nullable()->default(null);
             $table->string('codigo_ies', 10)->nullable()->comment('Se diligencia si es IES');
+            $table->tinyInteger('acreditacion_ies')->nullable();
             $table->enum('calendario', ['A', 'B'])->nullable()->comment('Se diligencia si es Colegios');
             $table->tinyInteger('mi_universidad')->nullable()->default('0');
 
