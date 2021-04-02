@@ -37,6 +37,7 @@ class CreateContactoTable extends Migration
             $table->string('correo_institucional', 200)->nullable()->default(null);
             $table->unsignedInteger('lugar_residencia')->nullable()->default(null);
             $table->string('direccion_residencia', 200)->nullable()->default(null);
+            $table->string('barrio', 150)->nullable();
             $table->unsignedInteger('estrato')->nullable()->default(null);
             $table->tinyInteger('activo')->nullable()->default('1');
             $table->string('observacion')->nullable()->default(null);

@@ -26,7 +26,10 @@ class CreateEntidadTable extends Migration
             $table->string('nombre', 200);
             $table->unsignedInteger('lugar_id');
             $table->string('direccion', 200)->nullable()->default(null);
-            $table->string('telefono', 15)->nullable()->default(null);
+            $table->string('barrio', 150)->nullable();
+            $table->string('correo', 200)->nullable();
+            $table->string('telefono', 150)->nullable()->default(null)->comment('Se deja más espacio en caso de tener más telefonos');
+            $table->string('sitio_web')->nullable();
             $table->unsignedInteger('sector_id')->nullable()->default(null);
             $table->unsignedInteger('actividad_economica_id')->nullable()->default(null);
             $table->string('codigo_ies', 10)->nullable()->comment('Se diligencia si es IES');
