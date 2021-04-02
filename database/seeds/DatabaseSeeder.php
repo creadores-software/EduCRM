@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OcupacionTableSeeder::class);
         $this->call(LugarTableSeeder::class);
         $this->call(EntidadTableSeeder::class);
+        $this->call(FormacionTableSeeder::class);
         Schema::enableForeignKeyConstraints(); 
     }
 }

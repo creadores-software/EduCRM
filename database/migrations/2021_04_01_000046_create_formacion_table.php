@@ -35,7 +35,7 @@ class CreateFormacionTable extends Migration
             $table->unsignedInteger('reconocimiento_id')->nullable();
             $table->double('costo_matricula')->nullable();
             $table->tinyInteger('activo')->nullable()->default('1');
-            $table->unsignedInteger('facultad_id');
+            $table->unsignedInteger('facultad_id')->nullable();
 
             $table->index(["reconocimiento_id"], 'fk_formacion_reconocimiento_idx');
 
