@@ -76,8 +76,8 @@ class NivelAcademicoController extends AppBaseController
 
             return redirect(route('formaciones.nivelesAcademicos.index'));
         }
-
-        return view('formaciones.niveles_academicos.show')->with('nivelAcademico', $nivelAcademico);
+        $audits = $nivelAcademico->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.niveles_academicos.show')->with(['nivelAcademico'=>$nivelAcademico, 'audits'=>$audits]);
     }
 
     /**

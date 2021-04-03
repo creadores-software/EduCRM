@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Acceso',
-  'plural' => 'Tipos Acceso',
+  'singular' => 'Facultad',
+  'plural' => 'Facultades',
   'fields' => 
   array (
     'id' => 'Id',

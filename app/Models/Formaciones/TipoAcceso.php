@@ -3,6 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class TipoAcceso
@@ -12,15 +13,14 @@ use Eloquent as Model;
  * @property \Illuminate\Database\Eloquent\Collection $informacionUniversitaria
  * @property string $nombre
  */
-class TipoAcceso extends Model
+class TipoAcceso extends Model implements Recordable
 {
 
     public $table = 'tipo_acceso';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre'

@@ -76,8 +76,8 @@ class PeriodicidadController extends AppBaseController
 
             return redirect(route('formaciones.periodicidades.index'));
         }
-
-        return view('formaciones.periodicidades.show')->with('periodicidad', $periodicidad);
+        $audits = $periodicidad->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.periodicidades.show')->with(['periodicidad'=>$periodicidad, 'audits'=>$audits]);
     }
 
     /**

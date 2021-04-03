@@ -10,7 +10,9 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
+                    <h2 class="page-header">Datos</h2>
                     @include('formaciones.facultades_buyer_persona.show_fields')
+                    @include('layouts.audit')
                     <a href="{{ route('formaciones.facultadesBuyerPersona.index') }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>

@@ -19,7 +19,23 @@ class NivelAcademicoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.niveles_academicos.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'formaciones.niveles_academicos.datatables_actions')
+            ->editColumn('es_ies', function ($nivel){
+                return $nivel->es_ies? 'Si':'No';
+            })
+            ->filterColumn('es_ies', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("es_ies = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("es_ies = ?", [$validacion]);    
+                }else{
+                    $query->whereRaw("es_ies = 3"); //Ninguno    
+                }                
+            });
     }
 
     /**
@@ -46,8 +62,8 @@ class NivelAcademicoDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                 'stateSave' => false,
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',
@@ -71,7 +87,8 @@ class NivelAcademicoDataTable extends DataTable
                         .on('change', function () {
                             column.search($(this).val(), false, false, true).draw();                            
                         });
-                    });"
+                     });
+                }",
             ]);
     }
 

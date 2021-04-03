@@ -46,8 +46,8 @@ class BuyerPersonaDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                'stateSave' => true,
-                'order'     => [[0, 'desc']],
+                 'stateSave' => false,
+                'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
                        'extend' => 'create',

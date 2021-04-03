@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class PerfilMedioComunicacion
@@ -15,15 +16,14 @@ use Eloquent as Model;
  * @property integer $informacion_relacional_id
  * @property string $perfil
  */
-class PerfilMedioComunicacion extends Model
+class PerfilMedioComunicacion extends Model implements Recordable
 {
 
     public $table = 'perfil_medio_comunicacion';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'medio_comunicacion_id',

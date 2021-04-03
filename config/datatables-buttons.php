@@ -58,7 +58,7 @@ return [
      */
     'parameters'    => [
         'dom'     => 'Bfrtip',
-        'order'   => [[0, 'desc']],
+        'order'   => [[0, 'asc']],
         'buttons' => [
             'create',
             'export',

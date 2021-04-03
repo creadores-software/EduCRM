@@ -76,8 +76,8 @@ class FacultadController extends AppBaseController
 
             return redirect(route('formaciones.facultades.index'));
         }
-
-        return view('formaciones.facultades.show')->with('facultad', $facultad);
+        $audits = $facultad->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.facultades.show')->with(['facultad'=>$facultad, 'audits'=>$audits]);
     }
 
     /**

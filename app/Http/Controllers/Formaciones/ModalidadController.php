@@ -76,8 +76,8 @@ class ModalidadController extends AppBaseController
 
             return redirect(route('formaciones.modalidades.index'));
         }
-
-        return view('formaciones.modalidades.show')->with('modalidad', $modalidad);
+        $audits = $modalidad->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.modalidades.show')->with(['modalidad'=>$modalidad, 'audits'=>$audits]);
     }
 
     /**

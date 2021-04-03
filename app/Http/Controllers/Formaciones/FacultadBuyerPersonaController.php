@@ -76,8 +76,8 @@ class FacultadBuyerPersonaController extends AppBaseController
 
             return redirect(route('formaciones.facultadesBuyerPersona.index'));
         }
-
-        return view('formaciones.facultades_buyer_persona.show')->with('facultadBuyerPersona', $facultadBuyerPersona);
+        $audits = $facultadBuyerPersona->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.facultades_buyer_persona.show')->with(['facultadBuyerPersona'=>$facultadBuyerPersona, 'audits'=>$audits]);
     }
 
     /**

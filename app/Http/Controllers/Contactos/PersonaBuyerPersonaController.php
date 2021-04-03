@@ -76,8 +76,8 @@ class PersonaBuyerPersonaController extends AppBaseController
 
             return redirect(route('contactos.personaBuyerPersonas.index'));
         }
-
-        return view('contactos.persona_buyer_personas.show')->with('personaBuyerPersona', $personaBuyerPersona);
+        $audits = $personaBuyerPersona->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('contactos.persona_buyer_personas.show')->with(['personaBuyerPersona'=>$personaBuyerPersona, 'audits'=>$audits]);
     }
 
     /**

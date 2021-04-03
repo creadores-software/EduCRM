@@ -76,8 +76,8 @@ class ReconocimientoController extends AppBaseController
 
             return redirect(route('formaciones.reconocimientos.index'));
         }
-
-        return view('formaciones.reconocimientos.show')->with('reconocimiento', $reconocimiento);
+        $audits = $reconocimiento->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.reconocimientos.show')->with(['reconocimiento'=>$reconocimiento, 'audits'=>$audits]);
     }
 
     /**

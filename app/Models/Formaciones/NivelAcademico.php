@@ -3,6 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class NivelAcademico
@@ -13,15 +14,14 @@ use Eloquent as Model;
  * @property string $nombre
  * @property boolean $es_ies
  */
-class NivelAcademico extends Model
+class NivelAcademico extends Model implements Recordable
 {
 
     public $table = 'nivel_academico';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre',

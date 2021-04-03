@@ -76,8 +76,8 @@ class FormacionBuyerPersonaController extends AppBaseController
 
             return redirect(route('formaciones.formacionBuyerPersonas.index'));
         }
-
-        return view('formaciones.formacion_buyer_personas.show')->with('formacionBuyerPersona', $formacionBuyerPersona);
+        $audits = $formacionBuyerPersona->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.formacion_buyer_personas.show')->with(['formacionBuyerPersona'=>$formacionBuyerPersona, 'audits'=>$audits]);
     }
 
     /**

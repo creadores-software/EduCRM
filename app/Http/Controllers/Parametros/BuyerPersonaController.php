@@ -76,8 +76,8 @@ class BuyerPersonaController extends AppBaseController
 
             return redirect(route('parametros.buyerPersonas.index'));
         }
-
-        return view('parametros.buyer_personas.show')->with('buyerPersona', $buyerPersona);
+        $audits = $buyerPersona->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('parametros.buyer_personas.show')->with(['buyerPersona'=>$buyerPersona, 'audits'=>$audits]);
     }
 
     /**

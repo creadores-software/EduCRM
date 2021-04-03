@@ -3,6 +3,7 @@
 namespace App\Models\Contactos;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class PersonaBuyerPersona
@@ -14,15 +15,14 @@ use Eloquent as Model;
  * @property integer $buyer_persona_id
  * @property integer $informacion_relacional_id
  */
-class PersonaBuyerPersona extends Model
+class PersonaBuyerPersona extends Model implements Recordable
 {
 
     public $table = 'persona_buyer_persona';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'buyer_persona_id',

@@ -3,6 +3,7 @@
 namespace App\Models\Formaciones;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class FacultadBuyerPersona
@@ -14,15 +15,14 @@ use Eloquent as Model;
  * @property integer $facultad_id
  * @property integer $buyer_persona_id
  */
-class FacultadBuyerPersona extends Model
+class FacultadBuyerPersona extends Model implements Recordable
 {
 
     public $table = 'facultad_buyer_persona';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'facultad_id',

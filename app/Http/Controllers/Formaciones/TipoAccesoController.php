@@ -76,8 +76,8 @@ class TipoAccesoController extends AppBaseController
 
             return redirect(route('formaciones.tiposAcceso.index'));
         }
-
-        return view('formaciones.tipos_acceso.show')->with('tipoAcceso', $tipoAcceso);
+        $audits = $tipoAcceso->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('formaciones.tipos_acceso.show')->with(['tipoAcceso'=>$tipoAcceso, 'audits'=>$audits]);
     }
 
     /**

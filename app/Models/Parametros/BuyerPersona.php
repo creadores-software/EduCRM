@@ -3,6 +3,7 @@
 namespace App\Models\Parametros;
 
 use Eloquent as Model;
+use Altek\Accountant\Contracts\Recordable;
 
 /**
  * Class BuyerPersona
@@ -16,15 +17,14 @@ use Eloquent as Model;
  * @property string $descripcion
  * @property string $ruta_pdf
  */
-class BuyerPersona extends Model
+class BuyerPersona extends Model implements Recordable
 {
 
     public $table = 'buyer_persona';
     
     public $timestamps = false;
 
-
-
+    use \Altek\Accountant\Recordable;
 
     public $fillable = [
         'nombre',

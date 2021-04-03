@@ -76,8 +76,8 @@ class PerfilMedioComunicacionController extends AppBaseController
 
             return redirect(route('contactos.perfilesMedioComunicacion.index'));
         }
-
-        return view('contactos.perfiles_medio_comunicacion.show')->with('perfilMedioComunicacion', $perfilMedioComunicacion);
+        $audits = $perfilMedioComunicacion->ledgers()->with('user')->get()->sortByDesc('created_at');
+        return view('contactos.perfiles_medio_comunicacion.show')->with(['perfilMedioComunicacion'=>$perfilMedioComunicacion, 'audits'=>$audits]);
     }
 
     /**
