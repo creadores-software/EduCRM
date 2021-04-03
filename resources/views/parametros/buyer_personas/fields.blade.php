@@ -10,12 +10,6 @@
     {!! Form::textarea('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Ruta Pdf Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('ruta_pdf', __('models/buyerPersonas.fields.ruta_pdf').':') !!}
-    {!! Form::text('ruta_pdf', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}

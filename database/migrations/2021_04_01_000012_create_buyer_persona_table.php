@@ -25,7 +25,6 @@ class CreateBuyerPersonaTable extends Migration
             $table->increments('id');
             $table->string('nombre', 45);
             $table->text('descripcion')->nullable();
-            $table->string('ruta_pdf')->nullable();
         });
     }
 

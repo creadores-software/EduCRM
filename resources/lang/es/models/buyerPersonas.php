@@ -7,7 +7,6 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'descripcion' => 'Descripción',
-    'ruta_pdf' => 'Ruta PDF',
+    'descripcion' => 'Descripción'
   ),
 );

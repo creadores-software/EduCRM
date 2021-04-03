@@ -88,7 +88,6 @@ class BuyerPersonaDataTable extends DataTable
         return [
             'nombre' => new Column(['title' => __('models/buyerPersonas.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/buyerPersonas.fields.descripcion'), 'data' => 'descripcion']),
-            'ruta_pdf' => new Column(['title' => __('models/buyerPersonas.fields.ruta_pdf'), 'data' => 'ruta_pdf']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

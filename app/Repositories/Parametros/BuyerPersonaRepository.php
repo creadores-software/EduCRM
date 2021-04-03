@@ -18,8 +18,7 @@ class BuyerPersonaRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'nombre',
-        'descripcion',
-        'ruta_pdf'
+        'descripcion'
     ];
 
     /**

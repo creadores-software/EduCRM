@@ -15,7 +15,6 @@ use Altek\Accountant\Contracts\Recordable;
  * @property \Illuminate\Database\Eloquent\Collection $personaBuyerPersonas
  * @property string $nombre
  * @property string $descripcion
- * @property string $ruta_pdf
  */
 class BuyerPersona extends Model implements Recordable
 {
@@ -28,8 +27,7 @@ class BuyerPersona extends Model implements Recordable
 
     public $fillable = [
         'nombre',
-        'descripcion',
-        'ruta_pdf'
+        'descripcion'
     ];
 
     /**
@@ -40,8 +38,7 @@ class BuyerPersona extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
-        'descripcion' => 'string',
-        'ruta_pdf' => 'string'
+        'descripcion' => 'string'
     ];
 
     /**
@@ -51,8 +48,7 @@ class BuyerPersona extends Model implements Recordable
      */
     public static $rules = [
         'nombre' => 'required|string|max:45',
-        'descripcion' => 'nullable|string',
-        'ruta_pdf' => 'nullable|string|max:255'
+        'descripcion' => 'nullable|string'
     ];
 
     /**
