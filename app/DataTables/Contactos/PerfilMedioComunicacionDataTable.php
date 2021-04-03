@@ -46,7 +46,7 @@ class PerfilMedioComunicacionDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                 'stateSave' => false,
+                'stateSave' => false,
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
@@ -64,14 +64,14 @@ class PerfilMedioComunicacionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(2)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
                         .on('change', function () {
                             column.search($(this).val(), false, false, true).draw();                            
                         });
-                     });
+                    });
                 }",
             ]);
     }
@@ -84,9 +84,8 @@ class PerfilMedioComunicacionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'medio_comunicacion_id' => new Column(['title' => __('models/perfilesMedioComunicacion.fields.medio_comunicacion_id'), 'data' => 'medio_comunicacion_id']),
-            'informacion_relacional_id' => new Column(['title' => __('models/perfilesMedioComunicacion.fields.informacion_relacional_id'), 'data' => 'informacion_relacional_id']),
-            'perfil' => new Column(['title' => __('models/perfilesMedioComunicacion.fields.perfil'), 'data' => 'perfil'])
+            'medio_comunicacion_id' => new Column(['title' => __('models/perfilesMedioComunicacion.fields.medio_comunicacion_id'), 'data' => 'medio_comunicacion_id']),            
+            'perfil' => new Column(['title' => __('models/perfilesMedioComunicacion.fields.perfil'), 'data' => 'perfil']),
         ];
     }
 

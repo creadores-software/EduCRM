@@ -46,7 +46,7 @@ class BuyerPersonaDataTable extends DataTable
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
-                 'stateSave' => false,
+                'stateSave' => false,
                 'order'     => [[0, 'asc']],
                 'buttons'   => [
                     [
@@ -59,25 +59,20 @@ class BuyerPersonaDataTable extends DataTable
                        'className' => 'btn btn-default btn-sm no-corner',
                        'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
                     ],
-                    [
-                       'extend' => 'print',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-print"></i> ' .__('auth.app.print').''
-                    ],
-                    [
-                       'extend' => 'reset',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-undo"></i> ' .__('auth.app.reset').''
-                    ],
-                    [
-                       'extend' => 'reload',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-refresh"></i> ' .__('auth.app.reload').''
-                    ],
                 ],
                  'language' => [
                    'url' => url('/js/Spanish.json'),
                  ],
+                 'initComplete' => "function () {                                   
+                    this.api().columns(':lt(4)').every(function () {
+                        var column = this;
+                        var input = document.createElement(\"input\");
+                        $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();                            
+                        });
+                    });
+                }",
             ]);
     }
 
@@ -91,7 +86,8 @@ class BuyerPersonaDataTable extends DataTable
         return [
             'nombre' => new Column(['title' => __('models/buyerPersonas.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/buyerPersonas.fields.descripcion'), 'data' => 'descripcion']),
-            'ruta_pdf' => new Column(['title' => __('models/buyerPersonas.fields.ruta_pdf'), 'data' => 'ruta_pdf'])
+            'ruta_pdf' => new Column(['title' => __('models/buyerPersonas.fields.ruta_pdf'), 'data' => 'ruta_pdf']),
+            'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
 

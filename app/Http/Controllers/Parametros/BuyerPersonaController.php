@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Parametros;
 
 use App\DataTables\Parametros\BuyerPersonaDataTable;
-use App\Http\Requests\Parametros;
 use App\Http\Requests\Parametros\CreateBuyerPersonaRequest;
 use App\Http\Requests\Parametros\UpdateBuyerPersonaRequest;
 use App\Repositories\Parametros\BuyerPersonaRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class BuyerPersonaController extends AppBaseController
 {
@@ -77,7 +77,7 @@ class BuyerPersonaController extends AppBaseController
             return redirect(route('parametros.buyerPersonas.index'));
         }
         $audits = $buyerPersona->ledgers()->with('user')->get()->sortByDesc('created_at');
-        return view('parametros.buyer_personas.show')->with(['buyerPersona'=>$buyerPersona, 'audits'=>$audits]);
+        return view('parametros.buyer_personas.show')->with(['buyerPersona'=>$buyerPersona,'audits'=>$audits]);
     }
 
     /**
@@ -148,4 +148,13 @@ class BuyerPersonaController extends AppBaseController
 
         return redirect(route('parametros.buyerPersonas.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->buyerPersonaRepository->infoSelect2($request->input('term', ''));
+    }
+
 }
