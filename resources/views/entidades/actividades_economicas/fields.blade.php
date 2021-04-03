@@ -20,20 +20,28 @@
 <!-- Es Ies Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('es_ies', __('models/actividadesEconomicas.fields.es_ies').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('es_ies', 0) !!}
-        {!! Form::checkbox('es_ies', '1', null) !!} ¿Es una actividad relacionado con IES?
-    </label>
+    {!! Form::select('es_ies',[0=>'NO',1=>'SI'], old('es_ies'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#es_ies').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Es Colegio Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('es_colegio', __('models/actividadesEconomicas.fields.es_colegio').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('es_colegio', 0) !!}
-        {!! Form::checkbox('es_colegio', '1', null) !!} ¿Es una actividad relacionado con Colegios?
-    </label>
+    {!! Form::select('es_colegio',[0=>'NO',1=>'SI'], old('es_colegio'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#es_colegio').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

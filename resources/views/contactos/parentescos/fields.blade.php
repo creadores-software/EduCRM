@@ -32,11 +32,15 @@
 <!-- Acudiente Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('acudiente', __('models/parentescos.fields.acudiente').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('acudiente', 0) !!}
-        {!! Form::checkbox('acudiente', '1', null) !!} &nbsp;
-    </label>
+    {!! Form::select('acudiente',[0=>'NO',1=>'SI'], old('acudiente'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#acudiente').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

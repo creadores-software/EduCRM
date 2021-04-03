@@ -54,11 +54,15 @@
 <!-- Mi Universidad Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('mi_universidad', 0) !!}
-        {!! Form::checkbox('mi_universidad', '1', null) !!} Solo 1 entidad puede ser marcada
-    </label>
+    {!! Form::select('mi_universidad',[0=>'NO',1=>'SI'], old('mi_universidad'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#mi_universidad').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

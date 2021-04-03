@@ -40,11 +40,15 @@
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('activo', 0) !!}
-        {!! Form::checkbox('activo', 1, old('activo', $formacion->activo ?? 1)) !!}  &nbsp;
-    </label>
+    {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#activo').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

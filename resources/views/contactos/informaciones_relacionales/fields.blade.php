@@ -144,13 +144,17 @@
 </div>
 
 <!-- Autoriza Comunicacion Field -->
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-6">
     {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
-    <label class="checkbox-inline">
-        {!! Form::hidden('autoriza_comunicacion', 0) !!}
-        {!! Form::checkbox('autoriza_comunicacion', 1, old('autoriza_comunicacion', $informacionRelacional->autoriza_comunicacion ?? 1)) !!}  &nbsp;
-    </label>
+    {!! Form::select('autoriza_comunicacion',[1=>'SI', 0=>'NO'], old('autoriza_comunicacion'), ['class' => 'form-control']) !!}
 </div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#autoriza_comunicacion').select2(); 
+        }); 
+    </script>
+@endpush
 
 <!-- Preferencias Medios Comunicacion -->
 <div class="form-group col-sm-12">
