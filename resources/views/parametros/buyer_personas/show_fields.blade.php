@@ -7,7 +7,7 @@
 <!-- Descripcion Field -->
 <div class="form-group">
     {!! Form::label('descripcion', __('models/buyerPersonas.fields.descripcion').':') !!}
-    <p>{{ $buyerPersona->descripcion }}</p>
+    <p>{!! $buyerPersona->descripcion !!}</p>
 </div>
 
 <!-- Ruta Pdf Field -->

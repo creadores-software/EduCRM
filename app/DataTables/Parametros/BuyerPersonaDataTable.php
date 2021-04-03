@@ -19,7 +19,9 @@ class BuyerPersonaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.buyer_personas.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'parametros.buyer_personas.datatables_actions')
+            ->rawColumns(['descripcion','action']);
     }
 
     /**
