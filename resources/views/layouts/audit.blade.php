@@ -53,7 +53,7 @@
                           @endif
                         @endforeach
                     @else
-                      {{ empty($value)?'(vacío)': $value }}
+                      {!! empty($value)?'(vacío)': $value !!}
                     @endif
                   </td>
                 </tr>
