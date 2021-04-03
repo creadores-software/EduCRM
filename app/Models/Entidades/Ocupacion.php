@@ -56,7 +56,8 @@ class Ocupacion extends Model implements Recordable
      **/
     public function tipoOcupacion()
     {
-        return $this->belongsTo(\App\Models\Entidades\TipoOcupacion::class, 'tipo_ocupacion_id');
+        return $this->belongsTo(\App\Models\Entidades\TipoOcupacion::class, 'tipo_ocupacion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**

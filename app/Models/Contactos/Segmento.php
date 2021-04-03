@@ -83,6 +83,7 @@ class Segmento extends Model implements Recordable
      **/
     public function usuario()
     {
-        return $this->belongsTo(\App\User::class, 'usuario_id');
+        return $this->belongsTo(\App\User::class, 'usuario_id')
+            ->withDefault(['nombre' => '']);
     }
 }

@@ -63,7 +63,8 @@ class ActividadEconomica extends Model implements Recordable
      **/
     public function categoriaActividadEconomica()
     {
-        return $this->belongsTo(\App\Models\Entidades\CategoriaActividadEconomica::class, 'categoria_actividad_economica_id');
+        return $this->belongsTo(\App\Models\Entidades\CategoriaActividadEconomica::class, 'categoria_actividad_economica_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**

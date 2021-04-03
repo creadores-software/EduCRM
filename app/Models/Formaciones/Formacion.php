@@ -70,7 +70,8 @@ class Formacion extends Model implements Recordable
      **/
     public function entidad()
     {
-        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id');
+        return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**

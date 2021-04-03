@@ -56,7 +56,8 @@ class CampoEducacion extends Model implements Recordable
      **/
     public function categoriaCampoEducacion()
     {
-        return $this->belongsTo(\App\Models\Formaciones\CategoriaCampoEducacion::class, 'categoria_campo_educacion_id');
+        return $this->belongsTo(\App\Models\Formaciones\CategoriaCampoEducacion::class, 'categoria_campo_educacion_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
