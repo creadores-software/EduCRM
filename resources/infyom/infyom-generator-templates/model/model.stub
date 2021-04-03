@@ -3,12 +3,14 @@
 namespace $NAMESPACE_MODEL$;
 
 use $NAMESPACE_MODEL_EXTEND$ as Model;
+use Altek\Accountant\Contracts\Recordable;
 $SOFT_DELETE_IMPORT$
 $DOCS$
-class $MODEL_NAME$ extends Model
+class $MODEL_NAME$ extends Model implements Recordable
 {
 $SOFT_DELETE$
     public $table = '$TABLE_NAME$';
+    use \Altek\Accountant\Recordable;
     $TIMESTAMPS$
 $SOFT_DELETE_DATES$
 $CONNECTION$
