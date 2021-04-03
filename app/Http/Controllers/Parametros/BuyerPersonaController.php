@@ -154,7 +154,7 @@ class BuyerPersonaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->buyerPersonaRepository->infoSelect2($request->input('term', ''));
+        return $this->buyerPersonaRepository->infoSelect2($request->input('q', ''));
     }
 
 }

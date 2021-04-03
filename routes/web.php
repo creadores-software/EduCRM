@@ -62,6 +62,7 @@ Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::resource('tiposDocumento', 'Parametros\TipoDocumentoController', ["as" => 'parametros']);
     Route::get('tiposParentesco/dataAjax', 'Parametros\TipoParentescoController@dataAjax')->name('parametros.tiposParentesco.dataAjax');
     Route::resource('tiposParentesco', 'Parametros\TipoParentescoController', ["as" => 'parametros']);
+    Route::get('buyerPersonas/dataAjax', 'Parametros\BuyerPersonaController@dataAjax')->name('parametros.buyerPersonas.dataAjax');
     Route::resource('buyerPersonas', 'Parametros\BuyerPersonaController', ["as" => 'parametros']);
 });
 

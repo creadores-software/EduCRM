@@ -154,7 +154,7 @@ class $MODEL_NAME$Controller extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->$MODEL_NAME_CAMEL$Repository->infoSelect2($request->input('term', ''));
+        return $this->$MODEL_NAME_CAMEL$Repository->infoSelect2($request->input('q', ''));
     }
 
 }
