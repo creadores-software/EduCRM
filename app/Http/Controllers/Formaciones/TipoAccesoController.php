@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\TipoAccesoDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateTipoAccesoRequest;
 use App\Http\Requests\Formaciones\UpdateTipoAccesoRequest;
 use App\Repositories\Formaciones\TipoAccesoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class TipoAccesoController extends AppBaseController
 {
@@ -147,5 +147,13 @@ class TipoAccesoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/tiposAcceso.singular')]));
 
         return redirect(route('formaciones.tiposAcceso.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->tipoAccesoRepository->infoSelect2($request->input('q', ''));
     }
 }

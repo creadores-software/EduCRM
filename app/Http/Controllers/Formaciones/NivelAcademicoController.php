@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\NivelAcademicoDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateNivelAcademicoRequest;
 use App\Http\Requests\Formaciones\UpdateNivelAcademicoRequest;
 use App\Repositories\Formaciones\NivelAcademicoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class NivelAcademicoController extends AppBaseController
 {
@@ -147,5 +147,13 @@ class NivelAcademicoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/nivelesAcademicos.singular')]));
 
         return redirect(route('formaciones.nivelesAcademicos.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->nivelAcademicoRepository->infoSelect2($request->input('q', ''));
     }
 }

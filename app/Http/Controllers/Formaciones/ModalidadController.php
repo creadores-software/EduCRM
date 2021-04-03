@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\ModalidadDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateModalidadRequest;
 use App\Http\Requests\Formaciones\UpdateModalidadRequest;
 use App\Repositories\Formaciones\ModalidadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class ModalidadController extends AppBaseController
 {
@@ -148,4 +148,13 @@ class ModalidadController extends AppBaseController
 
         return redirect(route('formaciones.modalidades.index'));
     }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->modalidadRepository->infoSelect2($request->input('q', ''));
+    }
+
 }

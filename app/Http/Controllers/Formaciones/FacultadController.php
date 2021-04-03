@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\FacultadDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateFacultadRequest;
 use App\Http\Requests\Formaciones\UpdateFacultadRequest;
 use App\Repositories\Formaciones\FacultadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class FacultadController extends AppBaseController
 {
@@ -147,5 +147,13 @@ class FacultadController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/facultades.singular')]));
 
         return redirect(route('formaciones.facultades.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->facultadRepository->infoSelect2($request->input('q', ''));
     }
 }

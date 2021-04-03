@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\PeriodicidadDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreatePeriodicidadRequest;
 use App\Http\Requests\Formaciones\UpdatePeriodicidadRequest;
 use App\Repositories\Formaciones\PeriodicidadRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class PeriodicidadController extends AppBaseController
 {
@@ -147,5 +147,13 @@ class PeriodicidadController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/periodicidades.singular')]));
 
         return redirect(route('formaciones.periodicidades.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->periodicidadRepository->infoSelect2($request->input('q', ''));
     }
 }

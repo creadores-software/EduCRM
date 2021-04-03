@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\ReconocimientoDataTable;
-use App\Http\Requests\Formaciones;
 use App\Http\Requests\Formaciones\CreateReconocimientoRequest;
 use App\Http\Requests\Formaciones\UpdateReconocimientoRequest;
 use App\Repositories\Formaciones\ReconocimientoRepository;
-use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
+use Flash;
 
 class ReconocimientoController extends AppBaseController
 {
@@ -147,5 +147,13 @@ class ReconocimientoController extends AppBaseController
         Flash::success(__('messages.deleted', ['model' => __('models/reconocimientos.singular')]));
 
         return redirect(route('formaciones.reconocimientos.index'));
+    }
+
+    /**
+     * Obtiene una lista formateada lista para ser usada en un select2
+     */
+    public function dataAjax(Request $request)
+    {
+        return $this->reconocimientoRepository->infoSelect2($request->input('q', ''));
     }
 }
