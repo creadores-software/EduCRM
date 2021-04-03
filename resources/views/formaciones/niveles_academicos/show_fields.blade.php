@@ -7,6 +7,6 @@
 <!-- Es Ies Field -->
 <div class="form-group">
     {!! Form::label('es_ies', __('models/nivelesAcademicos.fields.es_ies').':') !!}
-    <p>{{ $nivelAcademico->es_ies }}</p>
+    <p>{{ $nivelAcademico->es_ies? 'Si' : 'No' }}</p>
 </div>
 
