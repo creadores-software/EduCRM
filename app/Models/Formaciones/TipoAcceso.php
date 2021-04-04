@@ -50,6 +50,6 @@ class TipoAcceso extends Model implements Recordable
      **/
     public function informacionUniversitaria()
     {
-        return $this->hasMany(\App\Models\Formaciones\InformacionUniversitarium::class, 'tipo_acceso_id');
+        return $this->hasMany(\App\Models\Formaciones\InformacionUniversitaria::class, 'tipo_acceso_id');
     }
 }

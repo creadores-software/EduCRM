@@ -14,9 +14,9 @@ use Altek\Accountant\Contracts\Recordable;
  * @property \App\Models\Entidades\ActividadEconomica $actividadEconomica
  * @property \App\Models\Entidades\Sector $sector
  * @property \Illuminate\Database\Eloquent\Collection $formaciones
- * @property \Illuminate\Database\Eloquent\Collection $informacionEscolares
- * @property \Illuminate\Database\Eloquent\Collection $informacionLaborales
- * @property \Illuminate\Database\Eloquent\Collection $informacionUniversitarias
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesEscolares
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesLaborales
+ * @property \Illuminate\Database\Eloquent\Collection $informacionesUniversitarias
  * @property string $nombre
  * @property string $nit
  * @property integer $lugar_id
@@ -143,7 +143,7 @@ class Entidad extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionEscolares()
+    public function informacionesEscolares()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionEscolar::class, 'entidad_id');
     }
@@ -151,7 +151,7 @@ class Entidad extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionLaborales()
+    public function informacionesLaborales()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionLaboral::class, 'entidad_id');
     }
@@ -159,7 +159,7 @@ class Entidad extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionUniversitarias()
+    public function informacionesUniversitarias()
     {
         return $this->hasMany(\App\Models\Contactos\InformacionUniversitaria::class, 'entidad_id');
     }

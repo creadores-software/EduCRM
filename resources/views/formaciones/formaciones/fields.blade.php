@@ -26,7 +26,19 @@
     </select>  
 </div>
 
-<!-- Area Conocimiento Id Field -->
+<!-- Codigo Snies Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('codigo_snies', __('models/formaciones.fields.codigo_snies').':') !!}
+    {!! Form::text('codigo_snies', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Titulo Otorgado Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('titulo_otorgado', __('models/formaciones.fields.titulo_otorgado').':') !!}
+    {!! Form::text('titulo_otorgado', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Campo Educación Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id').':') !!}
     <select name="campo_educacion_id" id="campo_educacion_id" class="form-control">
@@ -35,6 +47,62 @@
             <option value="{{ old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\CampoEducacion::find(old('campo_educacion_id', $formacion->campo_educacion_id ?? '' ))->nombre }} </option>
         @endif
     </select>  
+</div>
+
+<!-- Facultad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('facultad_id', __('models/formaciones.fields.facultad_id').':') !!}
+    <select name="facultad_id" id="facultad_id" class="form-control">
+        <option></option>
+        @if(!empty(old('facultad_id', $formacion->facultad_id ?? '' )))
+            <option value="{{ old('facultad_id', $formacion->facultad_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Facultad::find(old('facultad_id', $formacion->facultad_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
+<!-- Modalidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('modalidad_id', __('models/formaciones.fields.modalidad_id').':') !!}
+    <select name="modalidad_id" id="modalidad_id" class="form-control">
+        <option></option>
+        @if(!empty(old('modalidad_id', $formacion->modalidad_id ?? '' )))
+            <option value="{{ old('modalidad_id', $formacion->modalidad_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Modalidad::find(old('modalidad_id', $formacion->modalidad_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
+</div>
+
+<!-- Periodicidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodicidad_id', __('models/formaciones.fields.periodicidad_id').':') !!}
+    <select name="periodicidad_id" id="periodicidad_id" class="form-control">
+        <option></option>
+        @if(!empty(old('periodicidad_id', $formacion->periodicidad_id ?? '' )))
+            <option value="{{ old('periodicidad_id', $formacion->periodicidad_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Periodicidad::find(old('periodicidad_id', $formacion->modalidad_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
+</div>
+
+<!-- Periodos Duracion Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodos_duracion', __('models/formaciones.fields.periodos_duracion').':') !!}
+    {!! Form::text('periodos_duracion', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Reconocimiento Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('reconocimiento_id', __('models/formaciones.fields.reconocimiento_id').':') !!}
+    <select name="reconocimiento_id" id="reconocimiento_id" class="form-control">
+        <option></option>
+        @if(!empty(old('reconocimiento_id', $formacion->reconocimiento_id ?? '' )))
+            <option value="{{ old('reconocimiento_id', $formacion->reconocimiento_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Reconocimiento::find(old('reconocimiento_id', $formacion->reconocimiento_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
+<!-- Costo Matricula Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('costo_matricula', __('models/formaciones.fields.costo_matricula').':') !!}
+    {!! Form::text('costo_matricula', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Activo Field -->
@@ -92,6 +160,38 @@
                 allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.camposEducacion.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#modalidad_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.modalidades.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#periodicidad_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.periodicidades.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#reconocimiento_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.reconocimientos.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#facultad_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.facultades.dataAjax") }}',
                     dataType: 'json',
                 },
             });

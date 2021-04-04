@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class FormacionRepository
  * @package App\Repositories\Formaciones
- * @version November 19, 2020, 10:52 pm UTC
+ * @version April 4, 2021, 1:08 pm -05
 */
 
 class FormacionRepository extends BaseRepository
@@ -20,8 +20,16 @@ class FormacionRepository extends BaseRepository
         'nombre',
         'entidad_id',
         'nivel_formacion_id',
+        'codigo_snies',
+        'titulo_otorgado',
         'campo_educacion_id',
-        'activo'
+        'modalidad_id',
+        'periodicidad_id',
+        'periodos_duracion',
+        'reconocimiento_id',
+        'costo_matricula',
+        'activo',
+        'facultad_id'
     ];
 
     /**

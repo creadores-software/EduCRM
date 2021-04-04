@@ -36,7 +36,6 @@ class FormacionDataTable extends DataTable
                     $query->whereRaw("activo = 3"); //Ninguno    
                 }             
             });
-            
     }
 
     /**
@@ -47,7 +46,8 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion'])->select('formacion.*');
+        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion','modalidad','periodicidad','reconocimiento','facultad'])
+            ->select('formacion.*');
     }
 
     /**
@@ -81,7 +81,7 @@ class FormacionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(6)').every(function () {
+                    this.api().columns(':lt(5)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -102,11 +102,20 @@ class FormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/formaciones.fields.nombre'), 'data' => 'nombre']),
-            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name'=>'entidad.nombre']),
-            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name'=>'nivelFormacion.nombre']),
-            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre', 'name'=>'campoEducacion.nombre']),
+            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name' => 'entidad.nombre']),
+            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre','name' => 'nivelFormacion.nombre']),                        
+            'modalidad_id' => new Column(['title' => __('models/formaciones.fields.modalidad_id'), 'data' => 'modalidad.nombre','name' => 'modalidad.nombre']),
             'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            //Campos no visibles que salen en exportación
+            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre','name' => 'campoEducacion.nombre','visible'=>false]),
+            'codigo_snies' => new Column(['title' => __('models/formaciones.fields.codigo_snies'), 'data' => 'codigo_snies','visible'=>false]),
+            'titulo_otorgado' => new Column(['title' => __('models/formaciones.fields.titulo_otorgado'), 'data' => 'titulo_otorgado','visible'=>false]),
+            'periodicidad_id' => new Column(['title' => __('models/formaciones.fields.periodicidad_id'), 'data' => 'periodicidad.nombre','name' => 'periodicidad.nombre','visible'=>false]),
+            'periodos_duracion' => new Column(['title' => __('models/formaciones.fields.periodos_duracion'), 'data' => 'periodos_duracion','visible'=>false]),
+            'reconocimiento_id' => new Column(['title' => __('models/formaciones.fields.reconocimiento_id'), 'data' => 'reconocimiento.nombre','data' => 'reconocimiento.nombre','visible'=>false]),
+            'costo_matricula' => new Column(['title' => __('models/formaciones.fields.costo_matricula'), 'data' => 'costo_matricula','visible'=>false]),
+            'facultad_id' => new Column(['title' => __('models/formaciones.fields.facultad_id'), 'data' => 'facultad.nombre','name' => 'facultad.nombre','visible'=>false]),            
         ];
     }
 
@@ -117,6 +126,6 @@ class FormacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'formaciones_' .  date("Ymd_His");
+        return 'formaciones_' .date("Ymd_His");
     }
 }
