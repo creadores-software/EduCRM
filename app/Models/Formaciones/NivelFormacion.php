@@ -8,27 +8,29 @@ use Altek\Accountant\Contracts\Recordable;
 /**
  * Class NivelFormacion
  * @package App\Models\Formaciones
- * @version December 1, 2020, 9:41 pm -05
+ * @version April 3, 2021, 11:47 pm -05
  *
- * @property \Illuminate\Database\Eloquent\Collection $formacions
- * @property \Illuminate\Database\Eloquent\Collection $informacionEscolares
- * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionales
+ * @property \App\Models\Formaciones\NivelAcademico $nivelAcademico
+ * @property \Illuminate\Database\Eloquent\Collection $formaciones
+ * @property \Illuminate\Database\Eloquent\Collection $informacionEscolars
+ * @property \Illuminate\Database\Eloquent\Collection $informacionRelacionals
  * @property string $nombre
- * @property boolean $es_ies
+ * @property integer $nivel_academico_id
  */
 class NivelFormacion extends Model implements Recordable
 {
 
     public $table = 'nivel_formacion';
+    use \Altek\Accountant\Recordable;
     
     public $timestamps = false;
 
-    use \Altek\Accountant\Recordable;
+
 
 
     public $fillable = [
         'nombre',
-        'es_ies'
+        'nivel_academico_id'
     ];
 
     /**
@@ -39,7 +41,7 @@ class NivelFormacion extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
-        'es_ies' => 'boolean'
+        'nivel_academico_id' => 'integer'
     ];
 
     /**
@@ -49,13 +51,22 @@ class NivelFormacion extends Model implements Recordable
      */
     public static $rules = [
         'nombre' => 'required|string|max:100',
-        'es_ies' => 'nullable|boolean'
+        'nivel_academico_id' => 'required|integer'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function nivelAcademico()
+    {
+        return $this->belongsTo(\App\Models\Formaciones\NivelAcademico::class, 'nivel_academico_id')
+            ->withDefault(['nombre' => '']);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function formacions()
+    public function formaciones()
     {
         return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'nivel_formacion_id');
     }
@@ -63,7 +74,7 @@ class NivelFormacion extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionEscolares()
+    public function informacionEscolars()
     {
         return $this->hasMany(\App\Models\Formaciones\InformacionEscolar::class, 'nivel_educativo_id');
     }
@@ -71,7 +82,7 @@ class NivelFormacion extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function informacionRelacionales()
+    public function informacionRelacionals()
     {
         return $this->hasMany(\App\Models\Formaciones\InformacionRelacional::class, 'maximo_nivel_formacion_id');
     }

@@ -4,9 +4,9 @@
     <p>{{ $nivelFormacion->nombre }}</p>
 </div>
 
-<!-- Es Ies Field -->
+<!-- Nivel Academico Id Field -->
 <div class="form-group">
-    {!! Form::label('es_ies', __('models/nivelesFormacion.fields.es_ies').':') !!}
-    <p>{{ $nivelFormacion->es_ies? 'Si': 'No' }}</p>
+    {!! Form::label('nivel_academico_id', __('models/nivelesFormacion.fields.nivel_academico_id').':') !!}
+    <p>{{ $nivelFormacion->nivelAcademico->nombre }}</p>
 </div>
 

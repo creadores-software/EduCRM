@@ -20,22 +20,7 @@ class NivelFormacionDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
 
         return $dataTable
-            ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions')
-            ->editColumn('es_ies', function ($nivel){
-                return $nivel->es_ies? 'Si':'No';
-            })
-            ->filterColumn('es_ies', function ($query, $keyword) {
-                $validacion=null;
-                if(strpos(strtolower($keyword), 's')!==false){
-                    $validacion=1; 
-                    $query->whereRaw("es_ies = ?", [$validacion]);   
-                }else if(strpos(strtolower($keyword), 'n')!==false){
-                    $validacion=0;
-                    $query->whereRaw("es_ies = ?", [$validacion]);    
-                }else{
-                    $query->whereRaw("es_ies = 3"); //Ninguno    
-                }                
-            });
+            ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions');
     }
 
     /**
@@ -46,7 +31,7 @@ class NivelFormacionDataTable extends DataTable
      */
     public function query(NivelFormacion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['nivelAcademico'])->select('nivel_formacion.*');;
     }
 
     /**
@@ -100,8 +85,8 @@ class NivelFormacionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),
-            'es_ies' => new Column(['title' => __('models/nivelesFormacion.fields.es_ies'), 'data' => 'es_ies', ]),
+            'nivel_academico_id' => new Column(['title' => __('models/nivelesFormacion.fields.nivel_academico_id'), 'data' => 'nivel_academico.nombre', 'name'=>'nivelAcademico.nombre']), 
+            'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
