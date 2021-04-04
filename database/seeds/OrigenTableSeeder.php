@@ -54,6 +54,11 @@ class OrigenTableSeeder extends Seeder
                 'id' => 7,
                 'nombre' => 'Pariente',
             ),
+            7 => 
+            array (
+                'id' => 8,
+                'nombre' => 'Otro',
+            ),
         ));
         
         

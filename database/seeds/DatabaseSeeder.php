@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ActividadOcioTableSeeder::class);
         $this->call(ActitudServicioTableSeeder::class);
         $this->call(EstatusLealtadTableSeeder::class);
+        $this->call(BuyerPersonaTableSeeder::class);
         //Seeders con más campos
         $this->call(NivelAcademicoTableSeeder::class);
         $this->call(NivelFormacionTableSeeder::class);
