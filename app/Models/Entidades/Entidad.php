@@ -13,7 +13,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property \App\Models\Entidades\Lugar $lugar
  * @property \App\Models\Entidades\ActividadEconomica $actividadEconomica
  * @property \App\Models\Entidades\Sector $sector
- * @property \Illuminate\Database\Eloquent\Collection $formacions
+ * @property \Illuminate\Database\Eloquent\Collection $formaciones
  * @property \Illuminate\Database\Eloquent\Collection $informacionEscolares
  * @property \Illuminate\Database\Eloquent\Collection $informacionLaborales
  * @property \Illuminate\Database\Eloquent\Collection $informacionUniversitarias

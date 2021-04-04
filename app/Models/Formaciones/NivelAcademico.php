@@ -10,7 +10,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @package App\Models\Formaciones
  * @version April 2, 2021, 4:18 pm -05
  *
- * @property \Illuminate\Database\Eloquent\Collection $nivelFormacions
+ * @property \Illuminate\Database\Eloquent\Collection $nivelformaciones
  * @property string $nombre
  * @property boolean $es_ies
  */
@@ -52,7 +52,7 @@ class NivelAcademico extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function nivelFormacions()
+    public function nivelformaciones()
     {
         return $this->hasMany(\App\Models\Formaciones\NivelFormacion::class, 'nivel_academico_id');
     }

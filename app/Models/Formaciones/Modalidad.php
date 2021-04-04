@@ -10,7 +10,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @package App\Models\Formaciones
  * @version April 2, 2021, 4:18 pm -05
  *
- * @property \Illuminate\Database\Eloquent\Collection $formacions
+ * @property \Illuminate\Database\Eloquent\Collection $formaciones
  * @property string $nombre
  */
 class Modalidad extends Model implements Recordable
@@ -48,7 +48,7 @@ class Modalidad extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function formacions()
+    public function formaciones()
     {
         return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'modalidad_id');
     }

@@ -11,7 +11,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @version November 19, 2020, 10:51 pm UTC
  *
  * @property \App\Models\Formaciones\CategoriaCampoEducacion $categoriaCampoEducacion
- * @property \Illuminate\Database\Eloquent\Collection $formacions
+ * @property \Illuminate\Database\Eloquent\Collection $formaciones
  * @property \Illuminate\Database\Eloquent\Collection $preferenciasCamposEducacion
  * @property integer $categoria_campo_educacion_id
  * @property string $nombre
@@ -63,7 +63,7 @@ class CampoEducacion extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function formacions()
+    public function formaciones()
     {
         return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'campo_educacion_id');
     }
