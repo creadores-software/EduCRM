@@ -4,6 +4,7 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\Contacto;
+use App\Models\Parametros\Origen;
 
 class UpdateContactoRequest extends FormRequest
 {
@@ -29,13 +30,18 @@ class UpdateContactoRequest extends FormRequest
         $rules['identificacion'] = [               
             'string',
             'max:30',
+            'nullable',
             'iunique:contacto,identificacion,'.$this->request->get('id'),
-        ];  
-        if(!$this->request->get('esPariente')){
-            $rules['identificacion'][] = 'nullable';   
-        }
-        if($this->request->get('origen_id')==5){
-            $rules['otro_origen'] = ['required','string','max:45'];
+        ];
+        if($this->request->get('origen_id')){
+            $origen=Origen::find($this->request->get('origen_id'));
+            if(!empty($origen)){
+                if($origen->nombre=='Otro'){
+                    $rules['otro_origen'] = ['required','string','max:45'];
+                }else if($origen->nombre=='Pariente' || $origen->nombre=='Referido'){
+                    $rules['referido_por'] = ['required','integer'];
+                }
+            }            
         }
         return $rules;
     }

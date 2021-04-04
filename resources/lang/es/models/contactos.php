@@ -20,6 +20,7 @@ return array (
     'correo_institucional' => 'Correo Institucional',
     'lugar_residencia' => 'Ubicación Residencia',
     'direccion_residencia' => 'Dirección Residencia',
+    'barrio' => 'Barrio',
     'estrato' => 'Estrato',
     'activo' => 'Activo',
     'observacion' => 'Observación',

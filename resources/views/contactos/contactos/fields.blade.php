@@ -1,5 +1,6 @@
 {!! Form::hidden('id', old('id', $contacto->id ?? '')) !!}
 {!! Form::hidden('esPariente', $esPariente) !!}
+{!! Form::hidden('idPariente', $idPariente) !!}
 
 <!-- Nombres Field -->
 <div class="form-group col-sm-6">
@@ -34,9 +35,9 @@
 <div class="form-group col-sm-6">
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
     <select name="origen_id" id="origen_id" class="form-control" disabled=true>
-        <option value="6" selected> Pariente </option>
+        <option value="{{$idPariente}}" selected> Pariente </option>
     </select> 
-    {!! Form::hidden('origen_id', 6) !!}
+    {!! Form::hidden('origen_id', $idPariente) !!}
     {!! Form::hidden('referido_por', $esPariente) !!}
 </div>
 @endif
@@ -158,6 +159,13 @@
     {!! Form::text('direccion_residencia', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Barrio Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('barrio', __('models/contactos.fields.barrio').':') !!}
+    {!! Form::text('barrio', null, ['class' => 'form-control']) !!}
+</div>
+
+
 <!-- Estrato Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estrato', __('models/contactos.fields.estrato').':') !!}
@@ -188,17 +196,18 @@
     </select> 
 </div>
 
+<!-- Activo Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
+    {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
+</div>
+
 <!-- Observacion Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
     {!! Form::textarea('observacion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Activo Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
-    {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
-</div>
 @push('scripts')
     <script type="text/javascript">
          $(document).ready(function() { 

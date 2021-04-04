@@ -82,6 +82,12 @@
     <p>{{ $contacto->direccion_residencia }}</p>
 </div>
 
+<!-- Barrio Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('barrio', __('models/contactos.fields.barrio').':') !!}
+    <p>{{ $contacto->barrio }}</p>
+</div>
+
 <!-- Estrato Field -->
 <div class="form-group col-sm-6" >
     {!! Form::label('estrato', __('models/contactos.fields.estrato').':') !!}
@@ -89,7 +95,7 @@
 </div>
 
 <!-- Origen Id Field -->
-<div class="form-group @if(empty($contacto->referido_por) && empty($contacto->otro_origen)) col-sm-12 @else col-sm-6 @endif" >
+<div class="form-group col-sm-6" >
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
     <p>{{ $contacto->origen->nombre }}</p>
 </div>

@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $correo_institucional
  * @property integer $lugar_residencia
  * @property string $direccion_residencia
+ * @property string $barrio
  * @property integer $estrato
  * @property boolean $activo
  * @property string $observacion
@@ -74,6 +75,7 @@ class Contacto extends Model implements Recordable
         'correo_institucional',
         'lugar_residencia',
         'direccion_residencia',
+        'barrio',
         'estrato',
         'activo',
         'observacion',
@@ -104,6 +106,7 @@ class Contacto extends Model implements Recordable
         'correo_institucional' => 'string',
         'lugar_residencia' => 'integer',
         'direccion_residencia' => 'string',
+        'barrio' => 'string',
         'estrato' => 'integer',
         'activo' => 'boolean',
         'observacion' => 'string',
@@ -133,6 +136,7 @@ class Contacto extends Model implements Recordable
         'correo_institucional' => 'nullable|string|email|max:200',
         'lugar_residencia' => 'nullable|integer',
         'direccion_residencia' => 'nullable|string|max:200',
+        'barrio' => 'nullable|string|max:150',
         'estrato' => 'nullable|integer',
         'activo' => 'nullable|boolean',
         'observacion' => 'nullable|string|max:255',
@@ -332,7 +336,7 @@ class Contacto extends Model implements Recordable
         'prefijo.nombre as nombre_prefijo','contacto.nombres','contacto.apellidos','contacto.fecha_nacimiento',
         'genero.nombre as nombre_genero','estadoCivil.nombre as nombre_estado_civil','contacto.celular','contacto.telefono',
         'contacto.correo_personal','contacto.correo_institucional','lugarResidencia.nombre as nombre_lugar',
-        'contacto.direccion_residencia','contacto.estrato','contacto.activo','contacto.observacion',
+        'contacto.direccion_residencia','contacto.barrio','contacto.estrato','contacto.activo','contacto.observacion',
         'origen.nombre as nombre_origen','contacto.referido_por','contacto.otro_origen'];
     }
 

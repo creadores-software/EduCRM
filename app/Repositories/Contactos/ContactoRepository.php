@@ -31,6 +31,7 @@ class ContactoRepository extends BaseRepository
         'correo_institucional',
         'lugar_residencia',
         'direccion_residencia',
+        'barrio',
         'estrato',
         'activo',
         'observacion',

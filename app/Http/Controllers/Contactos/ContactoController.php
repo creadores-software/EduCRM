@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contactos;
 
 use App\DataTables\Contactos\ContactoDataTable;
 use App\Models\Contactos\Contacto;
+use App\Models\Parametros\Origen;
 use App\Imports\Contactos\ContactoImport;
 use App\Exports\Contactos\ContactoExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -47,11 +48,16 @@ class ContactoController extends AppBaseController
     public function create(Request $request)
     {
         $esPariente=0;
+        $idPariente=0;
+        $origenPariente = Origen::where('nombre','Pariente')->first();
         if($request->has('esPariente') && $request->get('esPariente')){
-            $esPariente=$request->get('esPariente');
+            if(!empty($origenPariente)){
+                $esPariente=$request->get('esPariente');           
+                $idPariente=$origenPariente->id;
+            }         
         }
 
-        return view('contactos.contactos.create',['esPariente'=>$esPariente]);
+        return view('contactos.contactos.create',['esPariente'=>$esPariente,'idPariente'=>$idPariente]);
     }
 
     /**
@@ -101,11 +107,9 @@ class ContactoController extends AppBaseController
      */
     public function edit($id,Request $request)
     {
+        //Solo aplica en creación
         $esPariente=0;
-        if($request->has('esPariente') && $request->get('esPariente')){
-            $esPariente=$request->get('esPariente');
-        }
-
+        $idPariente=0;
         $contacto = $this->contactoRepository->find($id);
 
         if (empty($contacto)) {
@@ -114,7 +118,7 @@ class ContactoController extends AppBaseController
             return redirect(route('contactos.contactos.index'));
         }
 
-        return view('contactos.contactos.edit',['contacto'=>$contacto,'esPariente'=>$esPariente]);
+        return view('contactos.contactos.edit',['contacto'=>$contacto,'esPariente'=>$esPariente,'idPariente'=>$idPariente]);
     }
 
     /**
