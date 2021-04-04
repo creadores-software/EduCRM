@@ -8,7 +8,7 @@ use Altek\Accountant\Contracts\Recordable;
 /**
  * Class TipoOcupacion
  * @package App\Models\Entidades
- * @version November 19, 2020, 10:54 pm UTC
+ * @version April 4, 2021, 1:01 pm -05
  *
  * @property \Illuminate\Database\Eloquent\Collection $ocupacions
  * @property string $nombre
@@ -17,10 +17,12 @@ class TipoOcupacion extends Model implements Recordable
 {
 
     public $table = 'tipo_ocupacion';
+    use \Altek\Accountant\Recordable;
     
     public $timestamps = false;
 
-    use \Altek\Accountant\Recordable;
+
+
 
     public $fillable = [
         'nombre'
@@ -42,7 +44,7 @@ class TipoOcupacion extends Model implements Recordable
      * @var array
      */
     public static $rules = [
-        'nombre' => 'required|string|max:45'
+        'nombre' => 'required|string|max:150'
     ];
 
     /**

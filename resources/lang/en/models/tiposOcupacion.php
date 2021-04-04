@@ -7,6 +7,5 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'abreviacion' => 'Abreviacion',
   ),
 );
