@@ -19,7 +19,23 @@ class MedioComunicacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.medios_comunicacion.datatables_actions');
+        return $dataTable
+            ->addColumn('action', 'parametros.medios_comunicacion.datatables_actions')
+            ->editColumn('es_red_social', function ($medioComunicacion){
+                return $medioComunicacion->es_red_social? 'Si':'No';
+            })
+            ->filterColumn('es_red_social', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("es_red_social = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("es_red_social = ?", [$validacion]);    
+                }else{
+                    $query->whereRaw("es_red_social = 3"); //Ninguno    
+                }                
+            });
     }
 
     /**
@@ -64,7 +80,7 @@ class MedioComunicacionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(2)').every(function () {
+                    this.api().columns(':lt(3)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -73,7 +89,6 @@ class MedioComunicacionDataTable extends DataTable
                         });
                     });
                 }",
-
             ]);
     }
 
@@ -86,6 +101,7 @@ class MedioComunicacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/mediosComunicacion.fields.nombre'), 'data' => 'nombre']),
+            'es_red_social' => new Column(['title' => __('models/mediosComunicacion.fields.es_red_social'), 'data' => 'es_red_social']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
@@ -97,6 +113,6 @@ class MedioComunicacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'medios_comunicacion_' .  date("Ymd_His");
+        return 'medios_comunicacion_' . time();
     }
 }

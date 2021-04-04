@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class MedioComunicacionRepository
  * @package App\Repositories\Parametros
- * @version November 19, 2020, 10:53 pm UTC
+ * @version April 4, 2021, 12:13 am -05
 */
 
 class MedioComunicacionRepository extends BaseRepository
@@ -17,7 +17,8 @@ class MedioComunicacionRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'nombre'
+        'nombre',
+        'es_red_social'
     ];
 
     /**
