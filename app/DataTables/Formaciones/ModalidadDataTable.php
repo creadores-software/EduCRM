@@ -96,6 +96,6 @@ class ModalidadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'modalidades_' . time();
+        return 'modalidades_' .date("Ymd_His");
     }
 }

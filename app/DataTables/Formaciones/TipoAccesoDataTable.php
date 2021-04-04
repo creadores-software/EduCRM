@@ -111,6 +111,6 @@ class TipoAccesoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'tipos_acceso_' . time();
+        return 'tipos_acceso_' .date("Ymd_His");
     }
 }

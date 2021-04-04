@@ -96,6 +96,6 @@ class FormacionBuyerPersonaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'formacion_buyer_personas_' . time();
+        return 'formacion_buyer_personas_' .date("Ymd_His");
     }
 }

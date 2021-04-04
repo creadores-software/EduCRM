@@ -116,6 +116,6 @@ class SegmentoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'segmentos_' . time();
+        return 'segmentos_' .date("Ymd_His");
     }
 }

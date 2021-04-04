@@ -113,6 +113,6 @@ class MedioComunicacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'medios_comunicacion_' . time();
+        return 'medios_comunicacion_' .date("Ymd_His");
     }
 }

@@ -96,6 +96,6 @@ class ReconocimientoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'reconocimientos_' . time();
+        return 'reconocimientos_' .date("Ymd_His");
     }
 }

@@ -113,6 +113,6 @@ class NivelAcademicoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'niveles_academicos_' . time();
+        return 'niveles_academicos_' .date("Ymd_His");
     }
 }

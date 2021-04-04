@@ -99,6 +99,6 @@ class BuyerPersonaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'buyer_personas_' . time();
+        return 'buyer_personas_' .date("Ymd_His");
     }
 }

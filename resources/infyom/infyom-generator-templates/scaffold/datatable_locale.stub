@@ -96,6 +96,6 @@ class $MODEL_NAME$DataTable extends DataTable
      */
     protected function filename()
     {
-        return '$MODEL_NAME_PLURAL_SNAKE$_' . time();
+        return '$MODEL_NAME_PLURAL_SNAKE$_' .date("Ymd_His");
     }
 }

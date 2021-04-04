@@ -96,6 +96,6 @@ class FacultadBuyerPersonaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'facultades_buyer_persona_' . time();
+        return 'facultades_buyer_persona_' .date("Ymd_His");
     }
 }

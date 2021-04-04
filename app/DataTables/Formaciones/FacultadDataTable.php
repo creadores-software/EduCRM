@@ -96,6 +96,6 @@ class FacultadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'facultades_' . time();
+        return 'facultades_' .date("Ymd_His");
     }
 }

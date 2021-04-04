@@ -96,6 +96,6 @@ class PeriodicidadDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'periodicidades_' . time();
+        return 'periodicidades_' .date("Ymd_His");
     }
 }

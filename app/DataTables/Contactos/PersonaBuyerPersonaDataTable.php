@@ -96,6 +96,6 @@ class PersonaBuyerPersonaDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'persona_buyer_personas_' . time();
+        return 'persona_buyer_personas_' .date("Ymd_His");
     }
 }

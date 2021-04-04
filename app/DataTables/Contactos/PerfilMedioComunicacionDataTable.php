@@ -96,6 +96,6 @@ class PerfilMedioComunicacionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'perfiles_medio_comunicacion_' . time();
+        return 'perfiles_medio_comunicacion_' .date("Ymd_His");
     }
 }
