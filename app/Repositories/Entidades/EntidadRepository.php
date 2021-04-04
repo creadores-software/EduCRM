@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class EntidadRepository
  * @package App\Repositories\Entidades
- * @version November 19, 2020, 10:52 pm UTC
+ * @version April 3, 2021, 9:36 pm -05
 */
 
 class EntidadRepository extends BaseRepository
@@ -18,11 +18,18 @@ class EntidadRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'nombre',
+        'nit',
         'lugar_id',
         'direccion',
+        'barrio',
+        'correo',
         'telefono',
+        'sitio_web',
         'sector_id',
         'actividad_economica_id',
+        'codigo_ies',
+        'acreditacion_ies',
+        'calendario',
         'mi_universidad'
     ];
 

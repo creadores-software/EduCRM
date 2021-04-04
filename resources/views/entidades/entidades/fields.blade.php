@@ -5,16 +5,39 @@
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Telefono Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('telefono', __('models/entidades.fields.telefono').':') !!}
+    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Direccion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('direccion', __('models/entidades.fields.direccion').':') !!}
     {!! Form::text('direccion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Telefono Field -->
+<!-- Barrio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/entidades.fields.telefono').':') !!}
-    {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
+    {!! Form::label('barrio', __('models/entidades.fields.barrio').':') !!}
+    {!! Form::text('barrio', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Correo Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('correo', __('models/entidades.fields.correo').':') !!}
+    {!! Form::text('correo', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Sitio Web Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('sitio_web', __('models/entidades.fields.sitio_web').':') !!}
+    {!! Form::text('sitio_web', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('nit', __('models/entidades.fields.nit').':') !!}
+    {!! Form::text('nit', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Sector Id Field -->
@@ -51,18 +74,47 @@
     <small>Seleccionar primero el pais, luego el departamento y por último la ciudad.<br/> Para el exterior solo es necesario el pais</small>
 </div>
 
+<br/><br/>
+
+<h2 class="page-header" style="padding-left: 20px">Información Especial</h2>
+<div class="form-group col-sm-12">
+    <p>La siguiente información solo debe ser diligenciada para Universidades y Colegios según corresponda</p>
+</div>
+
 <!-- Mi Universidad Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
     {!! Form::select('mi_universidad',[0=>'NO',1=>'SI'], old('mi_universidad'), ['class' => 'form-control']) !!}
 </div>
+
+<!-- Acreditacion Ies Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('acreditacion_ies', __('models/entidades.fields.acreditacion_ies').':') !!}
+    {!! Form::select('acreditacion_ies',[0=>'NO',1=>'SI'], old('acreditacion_ies'), ['class' => 'form-control']) !!}
+</div>
+
+
 @push('scripts')
     <script type="text/javascript">
          $(document).ready(function() { 
             $('#mi_universidad').select2(); 
+            $('#acreditacion_ies').select2(); 
         }); 
     </script>
 @endpush
+
+<!-- Calendario Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('calendario', __('models/entidades.fields.calendario').':') !!}
+    {!! Form::text('calendario', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Codigo Ies Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('codigo_ies', __('models/entidades.fields.codigo_ies').':') !!}
+    {!! Form::text('codigo_ies', null, ['class' => 'form-control']) !!}
+</div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

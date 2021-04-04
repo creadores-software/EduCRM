@@ -24,6 +24,9 @@ class EntidadDataTable extends DataTable
             ->editColumn('mi_universidad', function ($entidad){
                 return $entidad->mi_universidad? 'Si':'No';
             })
+            ->editColumn('acreditacion_ies', function ($entidad){
+                return $entidad->acreditacion_ies? 'Si':'No';
+            })
             ->filterColumn('mi_universidad', function ($query, $keyword) {
                 $validacion=null;
                 if(strpos(strtolower($keyword), 's')!==false){
@@ -34,6 +37,18 @@ class EntidadDataTable extends DataTable
                     $query->whereRaw("mi_universidad = ?", [$validacion]);    
                 }else{
                     $query->whereRaw("mi_universidad = 3"); //Ninguno    
+                }               
+            })
+            ->filterColumn('acreditacion_ies', function ($query, $keyword) {
+                $validacion=null;
+                if(strpos(strtolower($keyword), 's')!==false){
+                    $validacion=1; 
+                    $query->whereRaw("acreditacion_ies = ?", [$validacion]);   
+                }else if(strpos(strtolower($keyword), 'n')!==false){
+                    $validacion=0;
+                    $query->whereRaw("acreditacion_ies = ?", [$validacion]);    
+                }else{
+                    $query->whereRaw("acreditacion_ies = 3"); //Ninguno    
                 }               
             });
     }
@@ -106,10 +121,17 @@ class EntidadDataTable extends DataTable
             'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector.nombre', 'name'=>'sector.nombre']),
             'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
             'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad']),
+            'nit' => new Column(['title' => __('models/entidades.fields.nit'), 'data' => 'nit']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
-            //Campos no visibles que salen en exportación
+            //Campos no visibles que salen en exportación            
             'direccion' => new Column(['title' => __('models/entidades.fields.direccion'), 'data' => 'direccion','visible'=>false,'searchable'=>false]),
             'telefono' => new Column(['title' => __('models/entidades.fields.telefono'), 'data' => 'telefono','visible'=>false,'searchable'=>false]),
+            'barrio' => new Column(['title' => __('models/entidades.fields.barrio'), 'data' => 'barrio','visible'=>false,'searchable'=>false]),
+            'correo' => new Column(['title' => __('models/entidades.fields.correo'), 'data' => 'correo','visible'=>false,'searchable'=>false]),
+            'sitio_web' => new Column(['title' => __('models/entidades.fields.sitio_web'), 'data' => 'sitio_web','visible'=>false,'searchable'=>false]),
+            'codigo_ies' => new Column(['title' => __('models/entidades.fields.codigo_ies'), 'data' => 'codigo_ies','visible'=>false,'searchable'=>false]),
+            'acreditacion_ies' => new Column(['title' => __('models/entidades.fields.acreditacion_ies'), 'data' => 'acreditacion_ies','visible'=>false,'searchable'=>false]),
+            'calendario' => new Column(['title' => __('models/entidades.fields.calendario'), 'data' => 'calendario','visible'=>false,'searchable'=>false]),            
         ];
     }
 
