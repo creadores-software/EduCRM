@@ -10,7 +10,6 @@ use Altek\Accountant\Contracts\Recordable;
  * @package App\Models\Parametros
  * @version April 4, 2021, 12:13 am -05
  *
- * @property \Illuminate\Database\Eloquent\Collection $perfilMedioComunicacions
  * @property \Illuminate\Database\Eloquent\Collection $preferenciaMedioComunicacions
  * @property string $nombre
  * @property boolean $es_red_social
@@ -51,14 +50,6 @@ class MedioComunicacion extends Model implements Recordable
         'nombre' => 'required|string|max:45',
         'es_red_social' => 'nullable|boolean'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     **/
-    public function perfilMedioComunicacions()
-    {
-        return $this->hasMany(\App\Models\Contactos\PerfilMedioComunicacion::class, 'medio_comunicacion_id');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
