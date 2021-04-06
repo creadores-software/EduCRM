@@ -190,4 +190,12 @@ class Formacion extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Contactos\PreferenciaFormacion::class, 'formacion_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     **/
+    public function perfilesBuyersPersona()
+    {
+        return $this->belongsToMany(\App\Models\Parametros\BuyerPersona::class, 'formacion_buyer_persona');
+    }
 }

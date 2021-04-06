@@ -61,4 +61,12 @@ class Facultad extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Formaciones\Formacion::class, 'facultad_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     **/
+    public function perfilesBuyersPersona()
+    {
+        return $this->belongsToMany(\App\Models\Parametros\BuyerPersona::class, 'facultad_buyer_persona');
+    }
 }

@@ -110,6 +110,18 @@
     {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
     {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
 </div>
+
+<!-- Perfiles Buyers Persona -->
+<div class="form-group col-sm-12">
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple">
+        @if(!empty($formacion))
+            @foreach (old('perfilesBuyersPersona[]', $formacion->perfilesBuyersPersona??null) as $perfil)
+                <option value="{{ $perfil->id }}" selected="selected">{{ $perfil->nombre }}</option>
+            @endforeach
+        @endif
+    </select> 
+</div>
 @push('scripts')
     <script type="text/javascript">
          $(document).ready(function() { 
@@ -192,6 +204,18 @@
                 allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.facultades.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#perfilesBuyersPersona').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("parametros.buyerPersonas.dataAjax") }}',
                     dataType: 'json',
                 },
             });

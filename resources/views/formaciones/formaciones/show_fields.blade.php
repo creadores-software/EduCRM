@@ -70,9 +70,31 @@
     <p>{{ $formacion->costo_matricula }}</p>
 </div>
 
+<!-- Perfiles Buyer Persona -->
+<div class="form-group col-sm-12">
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('perfilesBuyersPersona[]', $formacion->perfilesBuyersPersona,null) as $perfil)
+            <option value="{{ $perfil->id }}" selected="selected">{{ $perfil->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
     <p>{{ $formacion->activo?'Si':'No' }}</p>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">       
+        $(document).ready(function() { 
+            $('#perfilesBuyersPersona').select2({
+                tags: true,
+                multiple: true,
+            });
+        });   
+    </script>
+@endpush
+
 
