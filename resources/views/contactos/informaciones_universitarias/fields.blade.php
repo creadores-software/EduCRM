@@ -24,6 +24,17 @@
     </select> 
 </div>
 
+<!-- Tipo Acceso Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id').':') !!}
+    <select name="tipo_acceso_id" id="tipo_acceso_id" class="form-control">
+        <option></option>
+        @if(!empty(old('tipo_acceso_id', $informacionUniversitaria->tipo_acceso_id ?? '' )))
+            <option value="{{ old('tipo_acceso_id', $informacionUniversitaria->tipo_acceso_id ?? '' ) }}" selected> {{ App\Models\Formaciones\TipoAcceso::find(old('tipo_acceso_id', $informacionUniversitaria->tipo_acceso_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
@@ -50,6 +61,18 @@
         </div>
         <input id="fecha_grado" name="fecha_grado" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado',$informacionUniversitaria->fecha_grado ?? '' ) }}" class="form-control pull-right">
     </div>
+</div>
+
+<!-- Promedio Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio').':') !!}
+    {!! Form::text('promedio', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Periodo Alcanzado Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado').':') !!}
+    {!! Form::text('periodo_alcanzado', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->
@@ -99,6 +122,14 @@
                             es_ies: 1,
                         };
                     },
+                },
+            });
+            $('#tipo_acceso_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.tiposAcceso.dataAjax") }}',
+                    dataType: 'json'
                 },
             });
             $('#formacion_id').select2({

@@ -11,5 +11,9 @@ return array (
     'finalizado' => 'Finalizado',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_grado' => 'Fecha Grado',
+    'tipo_acceso_id' => 'Tipo Acceso',
+    'finalizado' => 'Finalizado',
+    'promedio' => 'Promedio',
+    'periodo_alcanzado' => 'Periodo Alcanzado',
   ),
 );

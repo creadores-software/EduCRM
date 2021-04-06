@@ -1,6 +1,6 @@
 <!-- Entidad Id Field -->
 <div class="form-group">
-    {!! Form::label('entidad', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
+    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
     <p>{{ $informacionUniversitaria->entidad->nombre }}</p>
 </div>
 
@@ -10,10 +10,10 @@
     <p>{{ $informacionUniversitaria->formacion->nombre }}</p>
 </div>
 
-<!-- Finalizado Field -->
+<!-- Tipo Acceso Id Field -->
 <div class="form-group">
-    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
-    <p>{{ $informacionUniversitaria->finalizado?'Si':'No' }}</p>
+    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id').':') !!}
+    <p>{{ $informacionUniversitaria->tipoAcceso->nombre }}</p>
 </div>
 
 <!-- Fecha Inicio Field -->
@@ -25,6 +25,24 @@
 <!-- Fecha Grado Field -->
 <div class="form-group">
     {!! Form::label('fecha_grado', __('models/informacionesUniversitarias.fields.fecha_grado').':') !!}
-    <p>{{$informacionUniversitaria->fecha_grado?  Date('Y-m-d',strtotime($informacionUniversitaria->fecha_grado)):'' }}</p>
+    <p>{{ $informacionUniversitaria->fecha_grado? Date('Y-m-d',strtotime($informacionUniversitaria->fecha_grado)):'' }}</p>
+</div>
+
+<!-- Finalizado Field -->
+<div class="form-group">
+    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
+    <p>{{ $informacionUniversitaria->finalizado?'Si':'No' }}</p>
+</div>
+
+<!-- Promedio Field -->
+<div class="form-group">
+    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio').':') !!}
+    <p>{{ $informacionUniversitaria->promedio }}</p>
+</div>
+
+<!-- Periodo Alcanzado Field -->
+<div class="form-group">
+    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado').':') !!}
+    <p>{{ $informacionUniversitaria->periodo_alcanzado }}</p>
 </div>
 

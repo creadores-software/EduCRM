@@ -77,7 +77,7 @@ class InformacionUniversitariaDataTable extends DataTable
     public function query(InformacionUniversitaria $model)
     {
         return $model->newQuery()
-            ->with(['formacion','entidad'])->select('informacion_universitaria.*');
+            ->with(['formacion','entidad','tipoAcceso'])->select('informacion_universitaria.*');
     }
 
     /**
@@ -134,9 +134,12 @@ class InformacionUniversitariaDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),         
             'formacion_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.formacion_id'), 'data' => 'formacion.nombre','name' => 'formacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesUniversitarias.fields.finalizado'), 'data' => 'finalizado']),
-            'fecha_inicio' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
-            'fecha_grado' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_grado'), 'data' => 'fecha_grado']),
+            'promedio' => new Column(['title' => __('models/informacionesUniversitarias.fields.promedio'), 'data' => 'promedio']),
+            'periodo_alcanzado' => new Column(['title' => __('models/informacionesUniversitarias.fields.periodo_alcanzado'), 'data' => 'periodo_alcanzado']),
             //Campos no visibles que salen en exportación
+            'tipo_acceso_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.tipo_acceso_id'), 'data' => 'tipo_acceso.nombre','name' => 'tipoAcceso.nombre','visible'=>false]),
+            'fecha_inicio' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_inicio'), 'data' => 'fecha_inicio','visible'=>false]),
+            'fecha_grado' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_grado'), 'data' => 'fecha_grado','visible'=>false]),
             'contacto_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }
