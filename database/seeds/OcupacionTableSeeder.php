@@ -1654,7 +1654,7 @@ class OcupacionTableSeeder extends Seeder
             272 => 
             array (
                 'id' => 273,
-                'nombre' => 'Á_x0081_rbitros',
+                'nombre' => 'Árbitros',
                 'tipo_ocupacion_id' => 6,
             ),
             273 => 
