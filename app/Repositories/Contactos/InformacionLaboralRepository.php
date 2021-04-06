@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class InformacionLaboralRepository
  * @package App\Repositories\Contactos
- * @version November 19, 2020, 10:52 pm UTC
+ * @version April 5, 2021, 10:01 pm -05
 */
 
 class InformacionLaboralRepository extends BaseRepository
@@ -24,7 +24,8 @@ class InformacionLaboralRepository extends BaseRepository
         'funciones',
         'telefono',
         'fecha_inicio',
-        'fecha_fin'
+        'fecha_fin',
+        'vinculado_actualmente'
     ];
 
     /**

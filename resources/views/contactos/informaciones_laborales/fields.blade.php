@@ -23,8 +23,21 @@
     </select> 
 </div>
 
-<!-- Fecha Inicio Field -->
+<!-- Vinculado Actualmente Field -->
 <div class="form-group col-sm-6">
+    {!! Form::label('vinculado_actualmente', __('models/informacionesLaborales.fields.vinculado_actualmente').':') !!}
+    {!! Form::select('vinculado_actualmente',[1=>'SI', 0=>'NO'], old('vinculado_actualmente'), ['class' => 'form-control']) !!}
+</div>
+@push('scripts')
+    <script type="text/javascript">
+         $(document).ready(function() { 
+            $('#vinculado_actualmente').select2(); 
+        }); 
+    </script>
+@endpush
+
+<!-- Fecha Inicio Field -->
+<div id="div_fecha_inicio" class="form-group col-sm-6">
     {!! Form::label('fecha_inicio', __('models/informacionesLaborales.fields.fecha_inicio').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -35,7 +48,7 @@
 </div>
 
 <!-- Fecha Fin Field -->
-<div class="form-group col-sm-6">
+<div id="div_fecha_fin" class="form-group col-sm-6">
     {!! Form::label('fecha_fin', __('models/informacionesLaborales.fields.fecha_fin').':') !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -80,8 +93,12 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        });       
-        $(document).ready(function() {            
+        });   
+        $('#vinculado_actualmente').change(function(){
+            toggleFechaFin();
+        });     
+        $(document).ready(function() { 
+            toggleFechaFin();           
             $('#entidad_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
@@ -99,6 +116,14 @@
                 },
             });             
         }); 
+
+        function toggleFechaFin(){
+            if($('#vinculado_actualmente').val()==1){
+                $('#div_fecha_fin').hide();   
+            }else{ 
+                $('#div_fecha_fin').show();      
+            }    
+        }
     </script>
 @endpush
 

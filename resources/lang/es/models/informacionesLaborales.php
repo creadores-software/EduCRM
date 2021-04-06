@@ -14,5 +14,6 @@ return array (
     'telefono' => 'Teléfono',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_fin' => 'Fecha Fin',
+    'vinculado_actualmente' => 'Vinculado Actualmente',
   ),
 );

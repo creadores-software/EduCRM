@@ -21,6 +21,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string $telefono
  * @property string $fecha_inicio
  * @property string $fecha_fin
+ * @property boolean $vinculado_actualmente
  */
 class InformacionLaboral extends Model implements Recordable
 {
@@ -39,7 +40,8 @@ class InformacionLaboral extends Model implements Recordable
         'funciones',
         'telefono',
         'fecha_inicio',
-        'fecha_fin'
+        'fecha_fin',
+        'vinculado_actualmente'
     ];
 
     /**
@@ -56,7 +58,8 @@ class InformacionLaboral extends Model implements Recordable
         'funciones' => 'string',
         'telefono' => 'string',
         'fecha_inicio' => 'date',
-        'fecha_fin' => 'date'
+        'fecha_fin' => 'date',
+        'vinculado_actualmente' => 'boolean'
     ];
 
     /**
@@ -72,7 +75,8 @@ class InformacionLaboral extends Model implements Recordable
         'funciones' => 'nullable|string|max:255',
         'telefono' => 'nullable|string|max:15',
         'fecha_inicio' => 'required|before_or_equal:today',
-        'fecha_fin' => 'nullable|after:fecha_inicio|before_or_equal:today'
+        'fecha_fin' => 'nullable|after:fecha_inicio|before_or_equal:today',
+        'vinculado_actualmente' => 'nullable|boolean'
     ];
 
     /**

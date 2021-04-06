@@ -121,6 +121,7 @@ class InformacionLaboralDataTable extends DataTable
             'fecha_inicio' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
             'fecha_fin' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_fin'), 'data' => 'fecha_fin']),
             //Campos no visibles que salen en exportación
+            'vinculado_actualmente' => new Column(['title' => __('models/informacionesLaborales.fields.vinculado_actualmente'), 'data' => 'vinculado_actualmente','visible'=>false]),
             'area' => new Column(['title' => __('models/informacionesLaborales.fields.area'), 'data' => 'area', 'visible'=>false]),
             'funciones' => new Column(['title' => __('models/informacionesLaborales.fields.funciones'), 'data' => 'funciones', 'visible'=>false]),
             'telefono' => new Column(['title' => __('models/informacionesLaborales.fields.telefono'), 'data' => 'telefono', 'visible'=>false]),

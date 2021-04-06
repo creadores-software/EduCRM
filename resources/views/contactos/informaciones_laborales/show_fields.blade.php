@@ -28,6 +28,12 @@
     <p>{{ $informacionLaboral->area }}</p>
 </div>
 
+<!-- Vinculado Actualmente -->
+<div class="form-group col-sm-6">
+    {!! Form::label('vinculado_actualmente', __('models/informacionesLaborales.fields.vinculado_actualmente').':') !!}
+    <p>{{ $informacionLaboral->vinculado_actualmente?'Si':'No' }}</p>
+</div>
+
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('telefono', __('models/informacionesLaborales.fields.telefono').':') !!}
