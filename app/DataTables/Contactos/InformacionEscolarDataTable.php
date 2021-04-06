@@ -133,8 +133,9 @@ class InformacionEscolarDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
             'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
-            'fecha_inicio' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
-            'fecha_grado' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado'), 'data' => 'fecha_grado'])
+            'fecha_inicio' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_inicio'), 'data' => 'fecha_inicio','visible'=>false]),
+            'fecha_grado' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado'), 'data' => 'fecha_grado','visible'=>false]),
+            'grado' => new Column(['title' => __('models/informacionesEscolares.fields.grado'), 'data' => 'grado','visible'=>false]),
         ];
     }
 

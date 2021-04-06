@@ -28,3 +28,9 @@
     <p>{{ $informacionEscolar->fecha_grado?Date('Y-m-d',strtotime($informacionEscolar->fecha_grado)):'' }}</p>
 </div>
 
+<!-- Grado Field -->
+<div class="form-group">
+    {!! Form::label('grado', __('models/informacionesEscolares.fields.grado').':') !!}
+    <p>{{ $informacionEscolar->grado }}</p>
+</div>
+
