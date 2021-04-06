@@ -83,6 +83,12 @@ class InformacionRelacionalRepository extends BaseRepository
             $model->preferenciasCamposEducacion()->sync([]);
         } 
 
+        if(array_key_exists('perfilesBuyersPersona',$input)){            
+            $model->perfilesBuyersPersona()->sync((array)$input['perfilesBuyersPersona']);
+        }else{
+            $model->perfilesBuyersPersona()->sync([]);
+        } 
+
         if(array_key_exists('preferenciasActividadesOcio',$input)){            
             $model->preferenciasActividadesOcio()->sync((array)$input['preferenciasActividadesOcio']);
         }else{            

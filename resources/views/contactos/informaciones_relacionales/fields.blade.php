@@ -196,6 +196,16 @@
     </select> 
 </div>
 
+<!-- Perfiles Buyers Persona -->
+<div class="form-group col-sm-12">
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple">
+        @foreach (old('perfilesBuyersPersona[]', $informacionRelacional->perfilesBuyersPersona,null) as $perfil)
+            <option value="{{ $perfil->id }}" selected="selected">{{ $perfil->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
@@ -321,6 +331,18 @@
                     dataType: 'json',
                 },
             });  
+            $('#preferenciasFormaciones').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("formaciones.formaciones.dataAjax") }}',
+                    dataType: 'json',
+                },
+            }); 
             $('#preferenciasMediosComunicacion').select2({
                 tags: true,
                 multiple: true,
@@ -333,7 +355,7 @@
                     dataType: 'json',
                 },
             });  
-            $('#preferenciasCamposEducacion').select2({
+            $('#perfilesBuyersPersona').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
                 tags: true,
@@ -341,7 +363,7 @@
                 tokenSeparators: [','],
                 createTag: function(params) {return undefined;},
                 ajax: {
-                    url: '{{ route("formaciones.camposEducacion.dataAjax") }}',
+                    url: '{{ route("parametros.buyerPersonas.dataAjax") }}',
                     dataType: 'json',
                 },
             });
@@ -354,6 +376,18 @@
                 createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.actividadesOcio.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#preferenciasCamposEducacion').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("formaciones.camposEducacion.dataAjax") }}',
                     dataType: 'json',
                 },
             });

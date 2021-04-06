@@ -273,6 +273,15 @@ class InformacionRelacional extends Model implements Recordable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
+     **/
+    public function perfilesBuyersPersona()
+    {
+        return $this->belongsToMany(\App\Models\Parametros\BuyerPersona::class, 'persona_buyer_persona');
+    }
+
+
+    /**
      * Define los join que deben ir en el query del datatable
      */
     public static function joinDataTable($model){

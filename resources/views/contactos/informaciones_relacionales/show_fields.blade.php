@@ -122,6 +122,16 @@
     </select> 
 </div>
 
+<!-- Perfiles Buyer Persona -->
+<div class="form-group col-sm-12">
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('perfilesBuyersPersona[]', $informacionRelacional->perfilesBuyersPersona,null) as $perfil)
+            <option value="{{ $perfil->id }}" selected="selected">{{ $perfil->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 
 @push('scripts')
     <script type="text/javascript">       
@@ -139,6 +149,10 @@
                 multiple: true,
             });
             $('#preferenciasActividadesOcio').select2({
+                tags: true,
+                multiple: true,
+            });
+            $('#perfilesBuyersPersona').select2({
                 tags: true,
                 multiple: true,
             });
