@@ -59,3 +59,9 @@ test:
       # - ./tests/Browser/console
     expire_in: 7 days
     when: always
+
+deploy:
+  stage: deploy
+  script:
+  - gem install dpl
+  - dpl --provider=heroku --app=crmuam --api-key=$HEROKU_API_KEY
