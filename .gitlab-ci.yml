@@ -38,7 +38,7 @@ before_script:
   - php artisan config:clear
 
   # Run database migrations.
-  - php artisan migrate
+  - php artisan migrate --seed
   
   # Other configurations
   - start-nginx-ci-project
