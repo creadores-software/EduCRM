@@ -2,7 +2,7 @@
 
 namespace App\Models\Parametros;
 
-use Eloquent as Model;
+use \Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
 
 /**
