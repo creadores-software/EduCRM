@@ -76,7 +76,7 @@ class Contacto extends Model implements Recordable
         'lugar_residencia',
         'direccion_residencia',
         'barrio',
-        'estrato',use Illuminate\Database\Eloquent\Model;
+        'estrato',
         'activo',
         'observacion',
         'informacion_relacional_id',
