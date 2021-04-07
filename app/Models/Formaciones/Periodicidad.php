@@ -2,7 +2,7 @@
 
 namespace App\Models\Formaciones;
 
-use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
 
 /**
