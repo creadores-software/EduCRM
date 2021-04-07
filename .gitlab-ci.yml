@@ -63,7 +63,7 @@ test:
 deploy:
   stage: deploy
   script:
-    - apk add ruby ruby-dev ruby-irb ruby-rake ruby-io-console ruby-bigdecimal ruby-json ruby-bundler yarn ruby-rdoc >> /dev/null
-    - apk update
-    - gem install dpl >> /dev/null
+    - apt-get update
+    - apt-get install ruby ruby-dev ruby-irb ruby-rake ruby-io-console ruby-bigdecimal ruby-json ruby-bundler yarn ruby-rdoc >> /dev/null
+    - gem install dpl
     - dpl --provider=heroku --app=crmuam --api-key=$HEROKU_API_KEY
