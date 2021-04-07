@@ -8,7 +8,7 @@ services:
 variables:
   MYSQL_ROOT_PASSWORD: crmUAM
   MYSQL_DATABASE: crm
-  MYSQL_USER: root
+  MYSQL_USER: crm
   MYSQL_PASSWORD: crmUAM
 
 # This folder is cached between builds
