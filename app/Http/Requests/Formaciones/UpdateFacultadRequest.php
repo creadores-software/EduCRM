@@ -25,8 +25,13 @@ class UpdateFacultadRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Facultad::$rules;
-        
+        $rules= Facultad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:facultad,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

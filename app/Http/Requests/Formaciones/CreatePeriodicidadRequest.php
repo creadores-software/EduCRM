@@ -25,6 +25,13 @@ class CreatePeriodicidadRequest extends FormRequest
      */
     public function rules()
     {
-        return Periodicidad::$rules;
+        $rules= Periodicidad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:periodicidad,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

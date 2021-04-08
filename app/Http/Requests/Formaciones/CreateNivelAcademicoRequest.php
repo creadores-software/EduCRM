@@ -25,6 +25,13 @@ class CreateNivelAcademicoRequest extends FormRequest
      */
     public function rules()
     {
-        return NivelAcademico::$rules;
+        $rules= NivelAcademico::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:nivel_academico,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

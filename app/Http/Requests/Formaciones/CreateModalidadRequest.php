@@ -25,6 +25,13 @@ class CreateModalidadRequest extends FormRequest
      */
     public function rules()
     {
-        return Modalidad::$rules;
+        $rules= Modalidad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:modalidad,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

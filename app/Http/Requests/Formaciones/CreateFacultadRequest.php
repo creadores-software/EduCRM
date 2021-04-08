@@ -25,6 +25,13 @@ class CreateFacultadRequest extends FormRequest
      */
     public function rules()
     {
-        return Facultad::$rules;
+        $rules= Facultad::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:facultad,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

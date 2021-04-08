@@ -25,6 +25,13 @@ class CreateBuyerPersonaRequest extends FormRequest
      */
     public function rules()
     {
-        return BuyerPersona::$rules;
+        $rules= BuyerPersona::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:buyer_persona,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

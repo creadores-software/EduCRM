@@ -25,6 +25,13 @@ class CreateTipoAccesoRequest extends FormRequest
      */
     public function rules()
     {
-        return TipoAcceso::$rules;
+        $rules= TipoAcceso::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_acceso,nombre,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

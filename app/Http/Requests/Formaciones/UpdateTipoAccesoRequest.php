@@ -25,8 +25,13 @@ class UpdateTipoAccesoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = TipoAcceso::$rules;
-        
+        $rules= TipoAcceso::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:tipo_acceso,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

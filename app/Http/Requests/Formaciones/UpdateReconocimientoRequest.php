@@ -25,8 +25,13 @@ class UpdateReconocimientoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Reconocimiento::$rules;
-        
+        $rules= Reconocimiento::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:reconocimiento,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }
