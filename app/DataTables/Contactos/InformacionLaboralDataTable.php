@@ -32,6 +32,9 @@ class InformacionLaboralDataTable extends DataTable
             return view('contactos.informaciones_laborales.datatables_actions', 
             compact('id','idContacto'));
         }) 
+        ->editColumn('vinculado_actualmente', function ($informacion){
+            return $informacion->vinculado_actualmente? 'Si':'No';
+        })
         ->editColumn('fecha_inicio', function ($informacion){
             if(empty($informacion->fecha_inicio)){
                 return;
@@ -44,6 +47,18 @@ class InformacionLaboralDataTable extends DataTable
             }
             return date('Y-m-d', strtotime($informacion->fecha_fin));
         })  
+        ->filterColumn('vinculado_actualmente', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("vinculado_actualmente = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("vinculado_actualmente = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("vinculado_actualmente = 3"); //Ninguno    
+            }                
+        })
         ->filter(function ($query) use ($request) {
             if (!$request->has('idContacto')) {
                 return;
@@ -96,7 +111,7 @@ class InformacionLaboralDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(4)').every(function () {
+                    this.api().columns(':lt(5)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
