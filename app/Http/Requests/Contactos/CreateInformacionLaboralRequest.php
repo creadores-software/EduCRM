@@ -25,6 +25,11 @@ class CreateInformacionLaboralRequest extends FormRequest
      */
     public function rules()
     {
-        return InformacionLaboral::$rules;
+        $rules= InformacionLaboral::$rules;
+        $rules['fecha_fin'] = ['nullable'];
+        if($this->request->get('fecha_fin')){
+            $rules['fecha_fin'][] = 'after:fecha_inicio';                
+        }
+        return $rules;
     }
 }

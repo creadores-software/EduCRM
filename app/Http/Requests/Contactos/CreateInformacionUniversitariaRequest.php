@@ -33,6 +33,10 @@ class CreateInformacionUniversitariaRequest extends FormRequest
             Rule::unique('informacion_universitaria')
                 ->where('contacto_id', $this->contacto_id)
         ];
+        $rules['fecha_grado'] = ['nullable'];
+        if($this->request->get('fecha_grado')){
+            $rules['fecha_grado'][] = 'after:fecha_inicio';                
+        }
         return $rules;
     }
 }

@@ -75,7 +75,7 @@ class InformacionUniversitaria extends Model implements Recordable
         'entidad_id' => 'required|integer',
         'formacion_id' => 'required|integer',
         'tipo_acceso_id' => 'nullable|integer',
-        'fecha_inicio' => 'nullable',
+        'fecha_inicio' => 'nullable|before_or_equal:today',
         'fecha_grado' => 'nullable',
         'finalizado' => 'nullable|boolean',
         'promedio' => 'nullable|numeric',

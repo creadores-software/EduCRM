@@ -75,7 +75,7 @@ class InformacionLaboral extends Model implements Recordable
         'funciones' => 'nullable|string|max:255',
         'telefono' => 'nullable|string|max:15',
         'fecha_inicio' => 'required|before_or_equal:today',
-        'fecha_fin' => 'nullable|after:fecha_inicio|before_or_equal:today',
+        'fecha_fin' => 'nullable',
         'vinculado_actualmente' => 'nullable|boolean'
     ];
 
