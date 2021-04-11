@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/buyerPersonas.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $buyerPersona->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->

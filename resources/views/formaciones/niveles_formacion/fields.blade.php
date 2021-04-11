@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/nivelesFormacion.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $nivelFormacion->id ?? '')) !!}
 </div>
 
 <!-- Nivel Academico Id Field -->
