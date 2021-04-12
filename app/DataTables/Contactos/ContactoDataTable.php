@@ -109,28 +109,23 @@ class ContactoDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
-                    [
-                        'extend' => 'reset',
-                        'className' => 'btn btn-default btn-sm no-corner',
-                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
-                    ],
-                    [
-                       'extend' => 'export',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
-                    ],
+                'buttons'   => [   
                     [
                         'className' => 'btn btn-default btn-sm no-corner',
                         'text'=>'<i class="fa fa-upload"></i> Importar contactos',
                         'action'=> "function (e, node, config){
                                         window.location = window.location.href + '/subirImportacion';
                                     }"
+                    ],                
+                    [
+                       'extend' => 'export',
+                       'className' => 'btn btn-default btn-sm no-corner',
+                       'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
+                    ],                   
+                    [
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> Restablecer Filtros'
                     ],
                     [
                         'className' => 'btn btn-default btn-sm no-corner',

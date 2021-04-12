@@ -160,6 +160,7 @@ class LugarController extends AppBaseController
         $tipo=$request->input('tipo', '');
         $term=$request->input('q', '');
         $padre=$request->input('padre_id', '');
+        $todos=$request->input('todos', '');
         //Si el tipo de lugar a crear no está vacio y es diferente a pais
         if(!empty($tipo)){
             $busqueda='';            
@@ -178,10 +179,13 @@ class LugarController extends AppBaseController
         }else if(empty($padre)){
             //Por defecto trae pais primero
             $search=['tipo'=>'P'];    
-        }
-        
+        }        
         if(!empty($padre)){
             $search=['padre_id'=>$padre];      
+        }
+
+        if(!empty($todos)){
+            $search=[];      
         }
         return $this->lugarRepository->infoSelect2($term,$search);
     }

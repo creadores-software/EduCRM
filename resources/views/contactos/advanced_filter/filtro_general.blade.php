@@ -288,6 +288,12 @@
                 createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.lugares.dataAjax") }}',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            todos: 1,
+                        };
+                    },
                     dataType: 'json',
                 },                
             });
