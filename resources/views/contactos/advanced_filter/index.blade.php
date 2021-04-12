@@ -79,8 +79,7 @@
         $('#segmento_seleccionado').change(function() {
             var seleccionado = $('#segmento_seleccionado :selected').val();
             if (seleccionado == 'nuevo') {
-                restablecerCampos(true);
-                $("#form_filtros :input").prop("disabled", false);
+                restablecerCampos(true);                
                 $('#nuevo_segmento').show();
                 $('#boton-guardar').show();
             } else {
@@ -161,11 +160,11 @@
             return filtros;
         }   
         
-        function actualizarSegmentoEnFormulario(idSegmento) {   
-            $("#form_filtros :input").prop("disabled", true);
+        function actualizarSegmentoEnFormulario(idSegmento) {  
             $('#nuevo_segmento').hide();
             $('#boton-guardar').hide();
             restablecerCampos(true);
+            $("#form_filtros :input").prop("disabled", true);
             actualizarSegmento(idSegmento);            
         };
     </script>

@@ -128,7 +128,7 @@
             }else{
                 $(".select2-hidden-accessible").val(null).trigger("change");            
             }
-            
+            $("#form_filtros :input").prop("disabled", false);
         }
     </script>
 @endpush
