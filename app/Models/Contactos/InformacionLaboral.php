@@ -4,6 +4,7 @@ namespace App\Models\Contactos;
 
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class InformacionLaboral
@@ -104,4 +105,112 @@ class InformacionLaboral extends Model implements Recordable
         return $this->belongsTo(\App\Models\Entidades\Entidad::class, 'entidad_id')
             ->withDefault(['nombre' => '']);
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+            ->leftjoin('informacion_laboral as informacionLaboral', 'contacto.id', '=', 'informacionLaboral.contacto_id')
+
+            ->leftjoin('entidad as laboralEntidad', 'informacionLaboral.entidad_id', '=', 'laboralEntidad.id')
+            ->leftjoin('lugar as laboralUbicacionEntidad', 'laboralEntidad.lugar_id', '=', 'laboralUbicacionEntidad.id')
+            ->leftjoin('actividad_economica as laboralActividadEconomica', 'laboralEntidad.actividad_economica_id', '=', 'laboralActividadEconomica.id')
+            ->leftjoin('categoria_actividad_economica as laboralCategoriaActividadEconomica', 'laboralActividadEconomica.categoria_actividad_economica_id', '=', 'laboralCategoriaActividadEconomica.id')
+            ->leftjoin('ocupacion as laboralOcupacion', 'informacionLaboral.ocupacion_id', '=', 'laboralOcupacion.id')
+            ->leftjoin('tipo_ocupacion as tipoOcupacion', 'laboralOcupacion.tipo_ocupacion_id', '=', 'tipoOcupacion.id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable para exportaciones
+     */
+    public static function selectDataTable(){
+        return [];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){
+        $dt_atributos = [
+            'laboralEntidades',
+            'laboralUbicacionesEntidad',
+            'laboralTiposOcupacion',
+            'laboralOcupaciones',
+            'laboralCategoriasActividadEconomica',
+            'laboralActividadesEconomicas',
+            'laboralVinculado',
+            'laboralArea',
+            'laboralTelefono',
+            'laboralFunciones',
+            'laboralFechaInicialInicio',
+            'laboralFechaFinalInicio',
+            'laboralFechaInicialFin',
+            'laboralFechaFinalFin'
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){
+        $dt_atributos_in=[
+            'laboralEntidades'=>'laboralEntidad.id',
+            'laboralUbicacionesEntidad'=>'laboralUbicacionEntidad.id',
+            'laboralTiposOcupacion'=>'laboralTipoOcupacion.id',
+            'laboralOcupaciones'=>'laboralOcupacion.id',
+            'laboralCategoriasActividadEconomica'=>'laboralCategoriaActividadEconomica.id',
+            'laboralActividadesEconomicas'=>'laboralActividadEconomica.id',
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }
+
+        $dt_atributos_like=[
+            'laboralArea'=>'informacionLaboral.area',
+            'laboralTelefono'=>'informacionLaboral.telefono',
+            'laboralFunciones'=>'informacionLaboral.funciones',            
+        ];
+        foreach($dt_atributos_like as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $texto='%'.strtoupper($valores[$atributo]).'%';
+                $query->where(DB::raw("upper({$enTabla})"), 'LIKE', $texto);                        
+            }
+        }
+
+        $dt_atributos_menor_que=[
+            'laboralFechaInicialInicio'=>'inforacionLaboral.fecha_inicio',
+            'laboralFechaInicialFin'=>'inforacionLaboral.fecha_fin',
+        ];
+        foreach($dt_atributos_menor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} >= ?",[$valores[$atributo]]);
+            }
+        }
+
+        $dt_atributos_mayor_que=[
+            'laboralFechaFinalInicio'=>'inforacionLaboral.fecha_inicio',
+            'laboralFechaFinalFin'=>'inforacionLaboral.fecha_fin',
+        ];
+        foreach($dt_atributos_mayor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} <= ?",[$valores[$atributo]]);
+            }
+        }
+
+        //Otras validaciones específicas
+        if(array_key_exists('laboralVinculado', $valores) && $valores['laboralVinculado']!=''){
+            //No se revisa solo con empty pues el valor 0 en activo implica no
+            $query->where("informacionLaboral.vinculado_actualmente", $valores['laboralVinculado']);
+        }
+    }  
 }

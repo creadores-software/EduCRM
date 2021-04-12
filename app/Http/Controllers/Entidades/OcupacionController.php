@@ -156,7 +156,13 @@ class OcupacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->ocupacionRepository->infoSelect2($request->input('q', ''));
+        $search=null;
+        $categoria=$request->input('categoria', '');
+        $term=$request->input('q', '');
+        if(!empty($categoria)){            
+            $search=['tipo_ocupacion_id'=>$categoria];     
+        }
+        return $this->ocupacionRepository->infoSelect2($term,$search);
     }
 
 }
