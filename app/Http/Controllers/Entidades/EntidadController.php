@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Entidades;
 
 use App\DataTables\Entidades\EntidadDataTable;
+use App\Models\Entidades\Entidad;
 use App\Http\Requests\Entidades\CreateEntidadRequest;
 use App\Http\Requests\Entidades\UpdateEntidadRequest;
 use App\Repositories\Entidades\EntidadRepository;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
@@ -161,14 +163,25 @@ class EntidadController extends AppBaseController
         $join=[];
         $es_ies=$request->input('es_ies');
         $es_colegio=$request->input('es_colegio');
+
+        $model = new Entidad();        
+        $query = $model->newQuery();
+        $concat_alias= DB::raw("CONCAT(entidad.nombre, ' (', lugar.nombre, ')') as text");
+        $concat= DB::raw("CONCAT(entidad.nombre, ' (', lugar.nombre, ')')");
+        $query->join('actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'); 
+        $query->join('lugar','entidad.lugar_id','=','lugar.id'); 
+
         if($es_ies!=null){
-            $search=['actividad_economica.es_ies'=>$es_ies];    
-            $join=['actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'];
+            $search=['actividad_economica.es_ies'=>$es_ies]; 
         }else if($es_colegio!=null){
-            $search=['actividad_economica.es_colegio'=>$es_colegio];    
-            $join=['actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'];
+            $search=['actividad_economica.es_colegio'=>$es_colegio];  
         }
-        
-        return $this->entidadRepository->infoSelect2($term,$search, $join);
+        $query->select('entidad.id',$concat_alias);
+        $query->where($concat, 'LIKE', '%'.$term.'%');   
+
+        $query->orderBy('text', 'ASC');        
+        $coincidentes = $query->get();
+
+        return ['results' => $coincidentes];
     }
 }
