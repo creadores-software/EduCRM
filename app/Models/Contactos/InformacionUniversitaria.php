@@ -116,4 +116,105 @@ class InformacionUniversitaria extends Model implements Recordable
         return $this->belongsTo(\App\Models\Formaciones\TipoAcceso::class, 'tipo_acceso_id')
             ->withDefault(['nombre' => '']);
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+            ->leftjoin('informacion_universitaria as informacionUniversitaria', 'contacto.id', '=', 'informacionUniversitaria.contacto_id')
+
+            ->leftjoin('entidad as universidadEntidad', 'informacionUniversitaria.entidad_id', '=', 'universidadEntidad.id')
+            ->leftjoin('lugar as universidadUbicacionEntidad', 'universidadEntidad.lugar_id', '=', 'universidadUbicacionEntidad.id')
+            ->leftjoin('formacion as universidadFormacion', 'informacionUniversitaria.formacion_id', '=', 'universidadFormacion.id')
+            ->leftjoin('campo_educacion as universidadCampoEducacion', 'universidadFormacion.campo_educacion_id', '=', 'universidadCampoEducacion.id')
+            ->leftjoin('categoria_campo_educacion as universidadCategoriaCampoEducacion', 'universidadCampoEducacion.categoria_campo_educacion_id', '=', 'universidadCategoriaCampoEducacion.id')
+            ->leftjoin('tipo_acceso as tipoAccceso', 'informacionUniversitaria.tipo_acceso_id', '=', 'tipoAccceso.id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable para exportaciones
+     */
+    public static function selectDataTable(){
+        return [];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){
+        $dt_atributos = [
+           'universidadEntidades',
+           'universidadUbicacionesEntidad',
+           'universidadFormaciones',
+           'universidadCategoriasCampoEducacion',
+           'universidadCamposEducacion',
+           'universidadTiposAcceso',
+           'universidadPromedioMinimo',
+           'universidadPromedioMaximo',
+           'universidadPeriodoAlcanzadoMinimo',
+           'universidadPeriodoAlcanzadoMaximo',
+           'universidadFinalizado',
+           'universidadFechaInicialInicio',
+           'universidadFechaFinalInicio',
+           'universidadFechaInicialGrado',
+           'universidadFechaFinalGrado',
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){
+        $dt_atributos_in=[
+           'universidadEntidades'=>'universidadEntidad.id',
+           'universidadUbicacionesEntidad'=>'universidadUbicacionEntidad.id',
+           'universidadFormaciones'=>'universidadFormacion.id',
+           'universidadCategoriasCampoEducacion'=>'universidadCategoriaCampoEducacion.id',
+           'universidadCamposEducacion'=>'universidadCampoEducacion.id',
+           'universidadTiposAcceso'=>'universidadTipoAcceso.id'
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }
+
+        $dt_atributos_menor_que=[
+            'universidadPromedioMinimo'=>'informacionUniversitaria.promedio',
+            'universidadPeriodoAlcanzadoMinimo'=>'informacionUniversitaria.periodo_alcanzado',
+            'universidadFechaInicialInicio'=>'informacionUniversitaria.fecha_inicio',
+            'universidadFechaInicialGrado'=>'informacionUniversitaria.fecha_grado',
+        ];
+        foreach($dt_atributos_menor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} >= ?",[$valores[$atributo]]);
+            }
+        }
+
+        $dt_atributos_mayor_que=[
+            'universidadPromedioMaximo'=>'informacionUniversitaria.promedio',
+            'universidadPeriodoAlcanzadoMaximo'=>'informacionUniversitaria.periodo_alcanzado',
+            'universidadFechaFinalInicio'=>'informacionUniversitaria.fecha_inicio',
+            'universidadFechaFinalGrado'=>'informacionUniversitaria.fecha_grado',
+        ];
+        foreach($dt_atributos_mayor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} <= ?",[$valores[$atributo]]);
+            }
+        }
+
+        //Otras validaciones específicas
+        if(array_key_exists('universidadFinalizado', $valores) && $valores['universidadFinalizado']!=''){
+            //No se revisa solo con empty pues el valor 0 en activo implica no
+            $query->where("universidadFinalizado", $valores['universidadFinalizado']);
+        }
+    }  
 }

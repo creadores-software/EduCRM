@@ -76,7 +76,7 @@ class InformacionEscolarDataTable extends DataTable
     public function query(InformacionEscolar $model)
     {
         return $model->newQuery()
-            ->with(['entidad','nivelEducativo'])->select('informacion_escolar.*');
+            ->with(['entidad','nivelFormacion'])->select('informacion_escolar.*');
     }
 
     /**
@@ -131,7 +131,7 @@ class InformacionEscolarDataTable extends DataTable
     {
         return [
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
-            'nivel_educativo_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_educativo_id'), 'data' => 'nivel_educativo.nombre', 'name' => 'nivelEducativo.nombre']),
+            'nivel_formacion_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name' => 'nivelFormacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
             'grado' => new Column(['title' => __('models/informacionesEscolares.fields.grado'), 'data' => 'grado']),
             //Campos no visibles que salen en exportación            

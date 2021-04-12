@@ -19,7 +19,7 @@ class InformacionEscolarRepository extends BaseRepository
     protected $fieldSearchable = [
         'contacto_id',
         'entidad_id',
-        'nivel_educativo_id',
+        'nivel_formacion_id',
         'fecha_inicio',
         'fecha_grado',
         'finalizado',

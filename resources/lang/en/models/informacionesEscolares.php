@@ -8,7 +8,7 @@ return array (
     'id' => 'Id',
     'contacto_id' => 'Contacto',
     'entidad_id' => 'Entidad',
-    'nivel_educativo_id' => 'Nivel Educativo',
+    'nivel_formacion_id' => 'Nivel Formacion',
     'finalizado' => 'Finalizado',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_grado' => 'Fecha Grado',

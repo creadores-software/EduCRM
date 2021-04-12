@@ -76,7 +76,7 @@ class NivelFormacion extends Model implements Recordable
      **/
     public function informacionEscolars()
     {
-        return $this->hasMany(\App\Models\Formaciones\InformacionEscolar::class, 'nivel_educativo_id');
+        return $this->hasMany(\App\Models\Formaciones\InformacionEscolar::class, 'nivel_formacion_id');
     }
 
     /**

@@ -27,7 +27,7 @@ class UpdateInformacionEscolarRequest extends FormRequest
     public function rules()
     {
         $rules= InformacionEscolar::$rules;
-        $rules['nivel_educativo_id'] = [
+        $rules['nivel_formacion_id'] = [
             'required',
             'integer',
             Rule::unique('informacion_escolar')

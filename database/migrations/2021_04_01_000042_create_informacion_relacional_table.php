@@ -46,7 +46,7 @@ class CreateInformacionRelacionalTable extends Migration
 
             $table->index(["estatus_lealtad_id"], 'fk_informacion_relacional_estatus_lealtad_idx');
 
-            $table->index(["maximo_nivel_formacion_id"], 'fk_informacion_relacional_nivel_educativo_idx');
+            $table->index(["maximo_nivel_formacion_id"], 'fk_informacion_relacional_nivel_formacion_idx');
 
             $table->index(["beneficio_id"], 'fk_informacion_relacional_beneficio_idx');
 
@@ -105,7 +105,7 @@ class CreateInformacionRelacionalTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('maximo_nivel_formacion_id', 'fk_informacion_relacional_nivel_educativo_idx')
+            $table->foreign('maximo_nivel_formacion_id', 'fk_informacion_relacional_nivel_formacion_idx')
                 ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

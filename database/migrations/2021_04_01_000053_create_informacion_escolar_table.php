@@ -25,15 +25,15 @@ class CreateInformacionEscolarTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('contacto_id');
             $table->unsignedInteger('entidad_id');
-            $table->unsignedInteger('nivel_educativo_id');
+            $table->unsignedInteger('nivel_formacion_id');
             $table->date('fecha_inicio')->nullable()->default(null);
             $table->date('fecha_grado')->nullable()->default(null);
             $table->tinyInteger('finalizado')->nullable()->default(null);
-            $table->string('grado', 45)->nullable();
+            $table->integer('grado')->nullable();
 
             $table->index(["contacto_id"], 'fk_informacion_escolar_contacto_idx');
 
-            $table->index(["nivel_educativo_id"], 'fk_informacion_escolar_nivel_educativo_idx');
+            $table->index(["nivel_formacion_id"], 'fk_informacion_escolar_nivel_formacion_idx');
 
             $table->index(["entidad_id"], 'fk_informacion_escolar_entidad_idx');
 
@@ -48,7 +48,7 @@ class CreateInformacionEscolarTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('nivel_educativo_id', 'fk_informacion_escolar_nivel_educativo_idx')
+            $table->foreign('nivel_formacion_id', 'fk_informacion_escolar_nivel_formacion_idx')
                 ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

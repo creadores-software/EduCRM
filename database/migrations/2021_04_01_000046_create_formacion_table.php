@@ -41,7 +41,7 @@ class CreateFormacionTable extends Migration
 
             $table->index(["campo_educacion_id"], 'fk_programa_area_conocimiento');
 
-            $table->index(["nivel_formacion_id"], 'fk_programa_nivel_educativo');
+            $table->index(["nivel_formacion_id"], 'fk_programa_nivel_formacion');
 
             $table->index(["entidad_id"], 'fk_formacion_entidad');
 
@@ -62,7 +62,7 @@ class CreateFormacionTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('nivel_formacion_id', 'fk_programa_nivel_educativo')
+            $table->foreign('nivel_formacion_id', 'fk_programa_nivel_formacion')
                 ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

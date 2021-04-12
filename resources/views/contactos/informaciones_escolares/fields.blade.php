@@ -13,13 +13,13 @@
     </select> 
 </div>
 
-<!-- Nivel Educativo Id Field -->
+<!-- Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_educativo_id', __('models/informacionesEscolares.fields.nivel_educativo_id').':') !!}
-    <select name="nivel_educativo_id" id="nivel_educativo_id" class="form-control">
+    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id').':') !!}
+    <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
         <option></option>
-        @if(!empty(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' )))
-            <option value="{{ old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelFormacion::find(old('nivel_educativo_id', $informacionEscolar->nivel_educativo_id ?? '' ))->nombre }} </option>
+        @if(!empty(old('nivel_formacion_id', $informacionEscolar->nivel_formacion_id ?? '' )))
+            <option value="{{ old('nivel_formacion_id', $informacionEscolar->nivel_formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelFormacion::find(old('nivel_formacion_id', $informacionEscolar->nivel_formacion_id ?? '' ))->nombre }} </option>
         @endif
     </select> 
 </div>
@@ -104,7 +104,7 @@
                     },
                 },
             }); 
-            $('#nivel_educativo_id').select2({
+            $('#nivel_formacion_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
                 ajax: {

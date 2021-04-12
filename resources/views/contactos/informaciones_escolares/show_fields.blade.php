@@ -4,10 +4,10 @@
     <p>{{ $informacionEscolar->entidad->nombre }}</p>
 </div>
 
-<!-- Nivel Educativo Id Field -->
+<!-- Nivel Formacion Id Field -->
 <div class="form-group">
-    {!! Form::label('nivel_educativo_id', __('models/informacionesEscolares.fields.nivel_educativo_id').':') !!}
-    <p>{{ $informacionEscolar->nivelEducativo->nombre }}</p>
+    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id').':') !!}
+    <p>{{ $informacionEscolar->nivelFormacion->nombre }}</p>
 </div>
 
 <!-- Finalizado Field -->
