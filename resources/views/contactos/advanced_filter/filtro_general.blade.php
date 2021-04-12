@@ -31,6 +31,12 @@
     </select> 
 </div>
 
+<!-- Identificacion Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
+    {!! Form::text('identificacion', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}   
+</div>
+
 <!-- Referido Por Field -->
 <div class="form-group col-sm-6" id="div_referido">
     {!! Form::label('referidos', __('models/contactos.fields.referido_por').':') !!}
@@ -130,6 +136,12 @@
 <div class="form-group col-sm-6">
     {!! Form::label('direccion_residencia', __('models/contactos.fields.direccion_residencia').':') !!}
     {!! Form::text('direccion_residencia', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
+</div>
+
+<!-- Barrio Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('barrio', __('models/contactos.fields.barrio').':') !!}
+    {!! Form::text('barrio', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Estrato Field -->

@@ -349,10 +349,12 @@ class Contacto extends Model implements Recordable
             'apellidos',
             'correo_personal',
             'correo_institucional',
+            'identificacion',
             'celular',
             'telefono',
             'otro_origen',
             'direccion_residencia',
+            'barrio',
             'observacion',
             'origenes',
             'referidos',
@@ -389,7 +391,8 @@ class Contacto extends Model implements Recordable
             'telefono'=>'contacto.telefono',
             'otro_origen'=>'contacto.otro_origen',
             'direccion_residencia'=>'contacto.direccion_residencia',
-            'observacion'=>'contacto.observacion'            
+            'barrio'=>'contacto.barrio',
+            'identificacion'=>'contacto.identificacion'              
         ];
         foreach($dt_atributos_like as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
