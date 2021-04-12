@@ -214,7 +214,7 @@ class InformacionUniversitaria extends Model implements Recordable
         //Otras validaciones específicas
         if(array_key_exists('universidadFinalizado', $valores) && $valores['universidadFinalizado']!=''){
             //No se revisa solo con empty pues el valor 0 en activo implica no
-            $query->where("universidadFinalizado", $valores['universidadFinalizado']);
+            $query->where("informacionUniversitaria.finalizado", $valores['universidadFinalizado']);
         }
     }  
 }

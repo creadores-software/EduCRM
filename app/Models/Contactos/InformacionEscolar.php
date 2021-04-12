@@ -181,7 +181,7 @@ class InformacionEscolar extends Model implements Recordable
         //Otras validaciones específicas
         if(array_key_exists('colegioFinalizado', $valores) && $valores['colegioFinalizado']!=''){
             //No se revisa solo con empty pues el valor 0 en activo implica no
-            $query->where("colegioFinalizado", $valores['colegioFinalizado']);
+            $query->where("informacionEscolar.finalizado", $valores['colegioFinalizado']);
         }
     } 
 }

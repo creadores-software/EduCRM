@@ -167,8 +167,12 @@
                 },
             }); 
             $('#universidadTiposAcceso').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
                 placeholder: "Seleccionar",
                 allowClear: true,
+                createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("formaciones.tiposAcceso.dataAjax") }}',
                     dataType: 'json'
