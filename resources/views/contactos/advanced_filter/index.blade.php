@@ -89,6 +89,7 @@
         });
 
         $(document).ready(function() {
+            $('#boton-guardar').hide();
             let searchParams = new URLSearchParams(window.location.search);
             if(searchParams.has('vistaPrevia')){
                 actualizarCamposConFiltroTexto();
