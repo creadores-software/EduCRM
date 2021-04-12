@@ -125,6 +125,13 @@
     </select> 
 </div>
 
+<!-- Preferencias Actividades Ocio -->
+<div class="form-group col-sm-12">
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple">
+    </select> 
+</div>
+
 @push('scripts')
     <script type="text/javascript">       
         $(document).ready(function() { 
@@ -329,6 +336,18 @@
                 createTag: function(params) {return undefined;},
                 ajax: {
                     url: '{{ route("parametros.actividadesOcio.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#perfilesBuyersPersona').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("parametros.buyerPersonas.dataAjax") }}',
                     dataType: 'json',
                 },
             });

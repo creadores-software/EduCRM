@@ -305,7 +305,8 @@ class InformacionRelacional extends Model implements Recordable
         ->leftjoin('preferencia_actividad_ocio as preferenciaActividadOcio', 'preferenciaActividadOcio.informacion_relacional_id', '=', 'informacionRelacional.id')
         ->leftjoin('preferencia_campo_educacion as preferenciaCampoEducacion', 'preferenciaCampoEducacion.informacion_relacional_id', '=', 'informacionRelacional.id')
         ->leftjoin('preferencia_formacion as preferenciaFormacion', 'preferenciaFormacion.informacion_relacional_id', '=', 'informacionRelacional.id')
-        ->leftjoin('preferencia_medio_comunicacion as preferenciaMedioComunicacion', 'preferenciaMedioComunicacion.informacion_relacional_id', '=', 'informacionRelacional.id');
+        ->leftjoin('preferencia_medio_comunicacion as preferenciaMedioComunicacion', 'preferenciaMedioComunicacion.informacion_relacional_id', '=', 'informacionRelacional.id')
+        ->leftjoin('persona_buyer_persona as perfilBuyerPersona', 'perfilBuyerPersona.informacion_relacional_id', '=', 'informacionRelacional.id');
     }
 
     /**
@@ -342,7 +343,8 @@ class InformacionRelacional extends Model implements Recordable
             'preferenciasMediosComunicacion',
             'preferenciasFormaciones',
             'preferenciasCamposEducacion',
-            'preferenciasActividadesOcio'
+            'preferenciasActividadesOcio',
+            'perfilesBuyersPersona'
         ];
         $inputs="";
         foreach($dt_atributos as $atributo){
@@ -373,6 +375,7 @@ class InformacionRelacional extends Model implements Recordable
             'preferenciasFormaciones'=>'preferenciaFormacion.formacion_id',
             'preferenciasCamposEducacion'=>'preferenciaCampoEducacion.campo_educacion_id',
             'preferenciasActividadesOcio'=>'preferenciaActividadOcio.actividad_ocio_id',
+            'perfilesBuyersPersona'=>'perfilBuyerPersona.buyer_persona_id'
         ];
         foreach($dt_atributos_in as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) 
