@@ -87,7 +87,7 @@
 <!-- Vinculado Actualmente Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('vinculado_actualmente', __('models/informacionesLaborales.fields.vinculado_actualmente').':') !!}
-    {!! Form::select('laboralVinculado',[1=>'SI', 0=>'NO'], old('vinculado_actualmente'), ['class' => 'form-control','id'=>'laboralVinculado']) !!}
+    {!! Form::select('laboralVinculado',[''=>'TODOS',1=>'SI',0=>'NO'], old('vinculado_actualmente'), ['class' => 'form-control','id'=>'laboralVinculado']) !!}
 </div>
 
 @push('scripts')
