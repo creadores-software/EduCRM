@@ -124,10 +124,10 @@
     {!! Form::label('edad', 'Edad:') !!}
     <div class="row">
         <div class="col-sm-6">
-            {!! Form::text('edad_minima', null, ['class' => 'form-control','placeholder'=>'Mínimo']) !!}
+            {!! Form::text('edad_minima', null, ['class' => 'form-control','placeholder'=>'Mínimo','id'=>'edad_minima']) !!}
         </div>
         <div class="col-sm-6">
-            {!! Form::text('edad_maxima', null, ['class' => 'form-control','placeholder'=>'Máximo']) !!}
+            {!! Form::text('edad_maxima', null, ['class' => 'form-control','placeholder'=>'Máximo','id'=>'edad_maxima']) !!}
         </div>
     </div>
 </div>
