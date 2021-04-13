@@ -106,4 +106,97 @@ class Parentesco extends Model implements Recordable
             \Log::debug('Error al asociar el parentesco contrario'.$e->getMessage());   
         }
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+            ->leftjoin('parentesco', 'contacto.id', '=', 'parentesco.contacto_destino')
+            ->leftjoin('tipo_parentesco as parentescoTipo', 'parentesco.tipo_parentesco_id', '=', 'parentescoTipo.id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable para exportaciones
+     */
+    public static function selectDataTable(){
+        return [];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){
+        $dt_atributos = [
+            'parentescoTipos',
+            'parentescoAcudiente',
+            'cantidadHijosMinimo',
+            'cantidadHijosMaximo',
+            'edadMinimaHijos',
+            'edadMaximaHijos',
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){
+        $dt_atributos_in=[
+            'parentescoTipos'=>'parentescoTipo.id',
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }   
+
+        //Otras validaciones específicas
+        if(array_key_exists('parentescoAcudiente', $valores) && $valores['parentescoAcudiente']!=''){
+            //No se revisa solo con empty pues el valor 0 en activo implica no
+            $query->where("parentesco.acudiente", $valores['parentescoAcudiente']);
+        }
+
+        //Validación con hijos, el tipo parentesco debe ser dos
+        if((array_key_exists('cantidadHijosMinimo', $valores) && is_numeric($valores['cantidadHijosMinimo']))||
+            (array_key_exists('cantidadHijosMaximo', $valores) && is_numeric($valores['cantidadHijosMaximo']))){
+            $consulta= "contacto.id in (
+            SELECT contacto_origen 
+            FROM parentesco
+            WHERE tipo_parentesco_id=2 
+            GROUP BY contacto_origen having count(*)>0";
+            if(array_key_exists('cantidadHijosMinimo', $valores) && is_numeric($valores['cantidadHijosMinimo'])){
+                $consulta.=" and count(*)>=".$valores['cantidadHijosMinimo']." ";
+            }
+            if(array_key_exists('cantidadHijosMaximo', $valores) && is_numeric($valores['cantidadHijosMaximo'])){
+                $consulta.=" and count(*)<=".$valores['cantidadHijosMaximo']." ";
+            }
+            $consulta.=")";
+            $query->whereRaw($consulta);
+        }
+
+        //Validación con edad
+        if((array_key_exists('edadMinimaHijos', $valores) && is_numeric($valores['edadMinimaHijos']))||
+            (array_key_exists('edadMaximaHijos', $valores) && is_numeric($valores['edadMaximaHijos']))){
+            $consulta= "contacto.id in (
+                SELECT contacto_origen 
+                FROM parentesco
+                WHERE tipo_parentesco_id=2 
+                and contacto_destino in (select id from contacto where id is not null";
+            if(array_key_exists('edadMinimaHijos', $valores) && is_numeric($valores['edadMinimaHijos'])){
+                $consulta.=" and fecha_nacimiento is not null and  TIMESTAMPDIFF( YEAR, fecha_nacimiento, now()) >=".$valores['edadMinimaHijos']." ";
+            }
+            if(array_key_exists('edadMaximaHijos', $valores) && is_numeric($valores['edadMaximaHijos'])){
+                $consulta.=" and fecha_nacimiento is not null and  TIMESTAMPDIFF( YEAR, fecha_nacimiento, now()) <=".$valores['edadMaximaHijos']." ";
+            }
+            $consulta.="))";
+            $query->whereRaw($consulta);
+        }
+    }  
 }

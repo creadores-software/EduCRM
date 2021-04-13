@@ -24,6 +24,9 @@
     <div id="laboral" class="tab-pane fade">
         @include('contactos.advanced_filter.filtro_laboral')
     </div>    
+    <div id="familiar" class="tab-pane fade">
+        @include('contactos.advanced_filter.filtro_familiar')
+    </div>    
 </div>
 
 

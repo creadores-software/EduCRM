@@ -7,6 +7,7 @@ use App\Models\Contactos\InformacionRelacional;
 use App\Models\Contactos\InformacionUniversitaria;
 use App\Models\Contactos\InformacionEscolar;
 use App\Models\Contactos\InformacionLaboral;
+use App\Models\Contactos\Parentesco;
 
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -60,6 +61,7 @@ class ContactoDataTable extends DataTable
             InformacionUniversitaria::filtroDataTable($valores, $query);
             InformacionEscolar::filtroDataTable($valores, $query);
             InformacionLaboral::filtroDataTable($valores, $query);
+            Parentesco::filtroDataTable($valores, $query);
 
             $command=$query->toSql();
             $posicion_where=strpos($command,'where');
@@ -85,6 +87,7 @@ class ContactoDataTable extends DataTable
         $model=InformacionUniversitaria::joinDataTable($model);
         $model=InformacionEscolar::joinDataTable($model);
         $model=InformacionLaboral::joinDataTable($model);
+        $model=Parentesco::joinDataTable($model);
         
         return $model->distinct()->select(
             array_merge(
@@ -92,7 +95,8 @@ class ContactoDataTable extends DataTable
                 InformacionRelacional::selectDataTable(),
                 InformacionUniversitaria::selectDataTable(),
                 InformacionEscolar::selectDataTable(),
-                InformacionLaboral::selectDataTable()
+                InformacionLaboral::selectDataTable(),
+                Parentesco::selectDataTable()
             )
         )->newQuery();
     }
@@ -115,6 +119,7 @@ class ContactoDataTable extends DataTable
                     InformacionUniversitaria::inputsDataTable().
                     InformacionEscolar::inputsDataTable().
                     InformacionLaboral::inputsDataTable().
+                    Parentesco::inputsDataTable().
                 "}"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
