@@ -120,3 +120,10 @@ Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
     Route::get('segmentos/dataAjax', 'Contactos\SegmentoController@dataAjax')->name('contactos.segmentos.dataAjax');
     Route::resource('segmentos', 'Contactos\SegmentoController', ["as" => 'contactos']);    
 });
+
+
+Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
+    Route::resource('users', 'Admin\UserController', ["as" => 'admin']);
+    Route::resource('perimissions', 'Admin\PermissionController', ["as" => 'admin']);
+    Route::resource('roles', 'Admin\RoleController', ["as" => 'admin']);
+});

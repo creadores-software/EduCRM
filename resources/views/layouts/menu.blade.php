@@ -1,6 +1,15 @@
 <li id="administracion" class="treeview opcion-menu menu-padre">
     <a class="app-menu__item" href="#"><i class="fa fa-cog"></i><span>Administración</span></a>
-    <ul class="treeview-menu">                
+    <ul class="treeview-menu">  
+        <li id="users" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('admin.users.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/users.plural')</span></a>
+        </li>         
+        <li id="perimissions" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('admin.perimissions.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/perimissions.plural')</span></a>
+        </li>         
+        <li id="roles" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('admin.roles.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/roles.plural')</span></a>
+        </li>                       
     </ul> 
 </li>
 <li id="contactos" class="treeview opcion-menu menu-padre">
