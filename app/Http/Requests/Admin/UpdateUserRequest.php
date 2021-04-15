@@ -26,6 +26,13 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         $rules = User::$rules;
+        //No requerido en actualización
+        $rules['password'] = [
+            'nullable',
+            'string',
+            'max:191',
+            'iunique:users,email,'.$this->request->get('id'),
+        ];
         $rules['email'] = [
             'required',
             'string',

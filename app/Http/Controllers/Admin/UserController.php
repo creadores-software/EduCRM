@@ -118,7 +118,12 @@ class UserController extends AppBaseController
             return redirect(route('admin.users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        $inputs=$request->all();        
+        if(array_key_exists('password', $inputs) && empty($inputs['password'])){
+            unset($inputs['password']);
+        }
+
+        $user = $this->userRepository->update($inputs, $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/users.singular')]));
 

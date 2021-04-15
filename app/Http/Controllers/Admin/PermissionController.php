@@ -10,6 +10,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends AppBaseController
 {
@@ -153,7 +154,15 @@ class PermissionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->permissionRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', '');  
+        $model = new Permission();        
+        $query = $model->newQuery();
+        $query->select('id','name as text');
+        $query->where('name', 'LIKE', '%'.$term.'%');
+        $query->orderBy('text', 'ASC');        
+        $coincidentes = $query->get();
+
+        return ['results' => $coincidentes];
     }
 
 }

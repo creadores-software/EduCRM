@@ -54,6 +54,13 @@ class RoleRepository extends BaseRepository
         $model->created_at= $timestamp;
         $model->updated_at= $timestamp;
         $model->save();
+
+        if(array_key_exists('permissions',$input)){            
+            $model->syncPermissions((array)$input['permissions']);
+        }else{
+            $model->syncPermissions([]);
+        }
+       
         return $model;
     }
 
@@ -70,6 +77,13 @@ class RoleRepository extends BaseRepository
         $model->fill($input);
         $model->updated_at= new Carbon();
         $model->save();
+
+        if(array_key_exists('permissions',$input)){            
+            $model->syncPermissions((array)$input['permissions']);
+        }else{
+            $model->syncPermissions([]);
+        }
+
         return $model;
     }
 }

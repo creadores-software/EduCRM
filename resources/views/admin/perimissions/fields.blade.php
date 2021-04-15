@@ -3,6 +3,7 @@
     {!! Form::label('name', __('models/perimissions.fields.name').':') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('guard_name', 'web') !!}
+    {!! Form::hidden('id', old('id', $permission->id ?? '')) !!}
 </div>
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

@@ -5,6 +5,7 @@ namespace App\Repositories\Admin;
 use App\Models\Admin\User;
 use App\Repositories\BaseRepository;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserRepository
@@ -54,9 +55,17 @@ class UserRepository extends BaseRepository
     {
         $model = $this->model->newInstance($input);        
         $timestamp=new Carbon();
+        $model->password=Hash::make($input['password']);
         $model->created_at= $timestamp;
         $model->updated_at= $timestamp;
         $model->save();
+
+        if(array_key_exists('uroles',$input)){            
+            $model->syncRoles((array)$input['uroles']);
+        }else{
+            $model->syncRoles([]);
+        }
+
         return $model;
     }
 
@@ -71,8 +80,18 @@ class UserRepository extends BaseRepository
         $query = $this->model->newQuery();
         $model = $query->findOrFail($id);
         $model->fill($input);
+        if(array_key_exists('password',$input)){            
+            $model->password=Hash::make($input['password']);
+        }        
         $model->updated_at= new Carbon();
         $model->save();
+
+        if(array_key_exists('uroles',$input)){            
+            $model->syncRoles((array)$input['uroles']);
+        }else{
+            $model->syncRoles([]);
+        }
+
         return $model;
     }
 }
