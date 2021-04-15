@@ -198,6 +198,9 @@ return [
         'tipo_parentesco_id' => 'Tipo Parentesco',
         'today'=>'Hoy',
         'contacto_destino' => 'Pariente',
+        'name'=>'Nombre',
+        'email'=>'Correo',
+        'password'=>'Contraseña',
     ],
 
     /**

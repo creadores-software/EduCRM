@@ -25,6 +25,13 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::$rules;
+        $rules = User::$rules;
+        $rules['email'] = [
+            'required',
+            'string',
+            'max:191',
+            'iunique:users,email,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }

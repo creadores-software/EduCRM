@@ -24,12 +24,19 @@ class CreatePermissionRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
+    {   
+        $rules = [
             'name' => 'required|string|max:191',
             'guard_name' => 'required|string|max:191',
             'created_at' => 'nullable',
             'updated_at' => 'nullable'
         ];
+        $rules['name'] = [
+            'required',
+            'string',
+            'max:191',
+            'iunique:permissions,name,'.$this->request->get('id'),
+        ];
+        return $rules;
     }
 }
