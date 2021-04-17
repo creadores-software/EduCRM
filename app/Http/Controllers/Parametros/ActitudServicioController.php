@@ -18,6 +18,10 @@ class ActitudServicioController extends AppBaseController
     public function __construct(ActitudServicioRepository $actitudServicioRepo)
     {
         $this->actitudServicioRepository = $actitudServicioRepo;
+        $this->middleware('permission:parametros.actitudesServicio.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.actitudesServicio.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.actitudesServicio.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.actitudesServicio.eliminar', ['only' => ['destroy']]);
     }
 
     /**
