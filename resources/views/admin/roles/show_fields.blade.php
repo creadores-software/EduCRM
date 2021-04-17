@@ -16,3 +16,32 @@
     <p>{{ $role->updated_at }}</p>
 </div>
 
+<!-- Permisos -->
+<div class="form-group col-sm-12">
+    {!! Form::label('permissions', ' Permisos:') !!}
+    <select name="permissions[]" id="permissions" class="form-control"  multiple="multiple" disabled=true>
+        @foreach (old('permissions[]', $role->permissions,null) as $permiso)
+                <option value="{{ $permiso->id }}" selected="selected">{{ $permiso->name }}</option>
+        @endforeach
+    </select> 
+</div>
+
+@push('scripts')
+    <script type="text/javascript">            
+        $(document).ready(function() {             
+            $('#permissions').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("admin.permissions.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+        });
+    </script>
+@endpush
+

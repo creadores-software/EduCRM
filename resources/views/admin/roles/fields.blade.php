@@ -7,7 +7,7 @@
 </div>
 
 <!-- Permisos -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-12">
     {!! Form::label('permissions', ' Permisos:') !!}
     <select name="permissions[]" id="permissions" class="form-control"  multiple="multiple">
         @if(!empty($role))
