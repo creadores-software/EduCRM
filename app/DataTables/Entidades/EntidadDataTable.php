@@ -81,11 +81,7 @@ class EntidadDataTable extends DataTable
                 'stateSave' => false,               
                 'order'     => [[0, 'asc']],
                 'buttons'   => [                    
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
+                    
                     [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',

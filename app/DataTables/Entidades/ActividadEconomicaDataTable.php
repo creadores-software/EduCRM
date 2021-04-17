@@ -80,12 +80,7 @@ class ActividadEconomicaDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [
-                    [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
-                    ],
+                'buttons'   => [                    
                     [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',
