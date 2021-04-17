@@ -64,7 +64,7 @@ class PermissionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(2)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -85,7 +85,6 @@ class PermissionDataTable extends DataTable
     {
         return [
             'name' => new Column(['title' => __('models/perimissions.fields.name'), 'data' => 'name']),
-            'guard_name' => new Column(['title' => __('models/perimissions.fields.guard_name'), 'data' => 'guard_name']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
