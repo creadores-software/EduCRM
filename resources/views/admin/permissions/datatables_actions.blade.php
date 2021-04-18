@@ -1,14 +1,14 @@
-{!! Form::open(['route' => ['admin.perimissions.destroy', $id], 'method' => 'delete']) !!}
+{!! Form::open(['route' => ['admin.permissions.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
-    <a href="{{ route('admin.perimissions.show', $id) }}" class='btn btn-default btn-xs'>
+    <a href="{{ route('admin.permissions.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
-    @can('admin.perimissions.editar')
-    <a href="{{ route('admin.perimissions.edit', $id) }}" class='btn btn-default btn-xs'>
+    @can('admin.permissions.editar')
+    <a href="{{ route('admin.permissions.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
     @endcan
-    @can('admin.perimissions.eliminar')
+    @can('admin.permissions.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
         'type' => 'submit',
         'class' => 'btn btn-danger btn-xs',

@@ -19,7 +19,7 @@ class PermissionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'admin.perimissions.datatables_actions');
+        return $dataTable->addColumn('action', 'admin.permissions.datatables_actions');
     }
 
     /**
@@ -79,7 +79,7 @@ class PermissionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'name' => new Column(['title' => __('models/perimissions.fields.name'), 'data' => 'name']),
+            'name' => new Column(['title' => __('models/permissions.fields.name'), 'data' => 'name']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
@@ -91,6 +91,6 @@ class PermissionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'perimissions_' .date("Ymd_His");
+        return 'permissions_' .date("Ymd_His");
     }
 }

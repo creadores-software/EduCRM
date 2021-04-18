@@ -34,7 +34,7 @@ class PermissionController extends AppBaseController
      */
     public function index(PermissionDataTable $permissionDataTable)
     {
-        return $permissionDataTable->render('admin.perimissions.index');
+        return $permissionDataTable->render('admin.permissions.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class PermissionController extends AppBaseController
      */
     public function create()
     {
-        return view('admin.perimissions.create');
+        return view('admin.permissions.create');
     }
 
     /**
@@ -60,9 +60,9 @@ class PermissionController extends AppBaseController
 
         $permission = $this->permissionRepository->create($input);
 
-        Flash::success(__('messages.saved', ['model' => __('models/perimissions.singular')]));
+        Flash::success(__('messages.saved', ['model' => __('models/permissions.singular')]));
 
-        return redirect(route('admin.perimissions.index'));
+        return redirect(route('admin.permissions.index'));
     }
 
     /**
@@ -77,11 +77,11 @@ class PermissionController extends AppBaseController
         $permission = $this->permissionRepository->find($id);
 
         if (empty($permission)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/perimissions.singular')]));
+            Flash::error(__('messages.not_found', ['model' => __('models/permissions.singular')]));
 
-            return redirect(route('admin.perimissions.index'));
+            return redirect(route('admin.permissions.index'));
         }
-        return view('admin.perimissions.show')->with(['permission'=>$permission]);
+        return view('admin.permissions.show')->with(['permission'=>$permission]);
     }
 
     /**
@@ -96,12 +96,12 @@ class PermissionController extends AppBaseController
         $permission = $this->permissionRepository->find($id);
 
         if (empty($permission)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/perimissions.singular')]));
+            Flash::error(__('messages.not_found', ['model' => __('models/permissions.singular')]));
 
-            return redirect(route('admin.perimissions.index'));
+            return redirect(route('admin.permissions.index'));
         }
 
-        return view('admin.perimissions.edit')->with('permission', $permission);
+        return view('admin.permissions.edit')->with('permission', $permission);
     }
 
     /**
@@ -117,16 +117,16 @@ class PermissionController extends AppBaseController
         $permission = $this->permissionRepository->find($id);
 
         if (empty($permission)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/perimissions.singular')]));
+            Flash::error(__('messages.not_found', ['model' => __('models/permissions.singular')]));
 
-            return redirect(route('admin.perimissions.index'));
+            return redirect(route('admin.permissions.index'));
         }
 
         $permission = $this->permissionRepository->update($request->all(), $id);
 
-        Flash::success(__('messages.updated', ['model' => __('models/perimissions.singular')]));
+        Flash::success(__('messages.updated', ['model' => __('models/permissions.singular')]));
 
-        return redirect(route('admin.perimissions.index'));
+        return redirect(route('admin.permissions.index'));
     }
 
     /**
@@ -141,16 +141,16 @@ class PermissionController extends AppBaseController
         $permission = $this->permissionRepository->find($id);
 
         if (empty($permission)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/perimissions.singular')]));
+            Flash::error(__('messages.not_found', ['model' => __('models/permissions.singular')]));
 
-            return redirect(route('admin.perimissions.index'));
+            return redirect(route('admin.permissions.index'));
         }
 
         $this->permissionRepository->delete($id);
 
-        Flash::success(__('messages.deleted', ['model' => __('models/perimissions.singular')]));
+        Flash::success(__('messages.deleted', ['model' => __('models/permissions.singular')]));
 
-        return redirect(route('admin.perimissions.index'));
+        return redirect(route('admin.permissions.index'));
     }
 
     /**

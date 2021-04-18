@@ -7,9 +7,9 @@
             <a href="{{ route('admin.users.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/users.plural')</span></a>
         </li> 
         @endif       
-        @if(strpos(Session::get('textoPermisos'), 'admin.perimissions.')!==false) 
-        <li id="perimissions" class="treeview-item opcion-menu menu-hijo">
-            <a href="{{ route('admin.perimissions.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/perimissions.plural')</span></a>
+        @if(strpos(Session::get('textoPermisos'), 'admin.permissions.')!==false) 
+        <li id="permissions" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('admin.permissions.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/permissions.plural')</span></a>
         </li> 
         @endif 
         @if(strpos(Session::get('textoPermisos'), 'admin.roles.')!==false)        

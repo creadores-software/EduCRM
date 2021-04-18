@@ -22,7 +22,7 @@ class PermissionsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'name' => 'admin.perimissions.consultar',
+                'name' => 'admin.permissions.consultar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-16 23:47:16',
                 'updated_at' => '2021-04-16 23:47:16',
@@ -30,7 +30,7 @@ class PermissionsTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'admin.perimissions.crear',
+                'name' => 'admin.permissions.crear',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-16 23:47:16',
                 'updated_at' => '2021-04-16 23:47:16',
@@ -38,7 +38,7 @@ class PermissionsTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'name' => 'admin.perimissions.editar',
+                'name' => 'admin.permissions.editar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-16 23:47:16',
                 'updated_at' => '2021-04-16 23:47:16',
@@ -46,7 +46,7 @@ class PermissionsTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'name' => 'admin.perimissions.eliminar',
+                'name' => 'admin.permissions.eliminar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-16 23:47:16',
                 'updated_at' => '2021-04-16 23:47:16',

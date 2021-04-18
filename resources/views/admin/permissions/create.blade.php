@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/perimissions.singular')
+            @lang('models/permissions.singular')
         </h1>
     </section>
     <div class="content">
@@ -11,9 +11,9 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row">
-                    {!! Form::open(['route' => 'admin.perimissions.store']) !!}
+                    {!! Form::open(['route' => 'admin.permissions.store']) !!}
 
-                        @include('admin.perimissions.fields')
+                        @include('admin.permissions.fields')
 
                     {!! Form::close() !!}
                 </div>

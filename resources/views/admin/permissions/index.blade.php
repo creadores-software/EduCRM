@@ -3,11 +3,11 @@
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">
-            @lang('models/perimissions.plural')
+            @lang('models/permissions.plural')
         </h1>
         @can('admin.permissions.crear')
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.perimissions.create') }}">@lang('crud.add_new')</a>
+           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.permissions.create') }}">@lang('crud.add_new')</a>
         </h1>
         @endcan
     </section>
@@ -19,7 +19,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('admin.perimissions.table')
+                    @include('admin.permissions.table')
             </div>
         </div>
         <div class="text-center">
