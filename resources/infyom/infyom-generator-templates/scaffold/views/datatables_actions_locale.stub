@@ -1,0 +1,19 @@
+{!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.destroy', $$PRIMARY_KEY_NAME$], 'method' => 'delete']) !!}
+<div class='btn-group'>
+    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.show', $$PRIMARY_KEY_NAME$) }}" class='btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-eye-open"></i>
+    </a>
+    @can('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.editar')
+    <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.edit', $$PRIMARY_KEY_NAME$) }}" class='btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    @endcan
+    @can('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.eliminar')
+    {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
+        'type' => 'submit',
+        'class' => 'btn btn-danger btn-xs',
+        'onclick' => 'return confirm("'.__('crud.are_you_sure').'")'
+    ]) !!}
+    @endcan
+</div>
+{!! Form::close() !!}
