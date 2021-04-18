@@ -19,6 +19,10 @@ class OcupacionController extends AppBaseController
     public function __construct(OcupacionRepository $ocupacionRepo)
     {
         $this->ocupacionRepository = $ocupacionRepo;
+        $this->middleware('permission:entidades.ocupaciones.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:entidades.ocupaciones.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:entidades.ocupaciones.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:entidades.ocupaciones.eliminar', ['only' => ['destroy']]);
     }
 
     /**

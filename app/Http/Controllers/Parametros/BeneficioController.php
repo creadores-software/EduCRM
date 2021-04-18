@@ -19,6 +19,10 @@ class BeneficioController extends AppBaseController
     public function __construct(BeneficioRepository $beneficioRepo)
     {
         $this->beneficioRepository = $beneficioRepo;
+        $this->middleware('permission:parametros.beneficios.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.beneficios.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.beneficios.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.beneficios.eliminar', ['only' => ['destroy']]);
     }
 
     /**

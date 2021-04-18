@@ -19,6 +19,10 @@ class EstadoCivilController extends AppBaseController
     public function __construct(EstadoCivilRepository $estadoCivilRepo)
     {
         $this->estadoCivilRepository = $estadoCivilRepo;
+        $this->middleware('permission:parametros.estadosCiviles.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.estadosCiviles.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.estadosCiviles.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.estadosCiviles.eliminar', ['only' => ['destroy']]);
     }
 
     /**

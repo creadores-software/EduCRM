@@ -19,6 +19,10 @@ class GeneracionController extends AppBaseController
     public function __construct(GeneracionRepository $generacionRepo)
     {
         $this->generacionRepository = $generacionRepo;
+        $this->middleware('permission:parametros.generaciones.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.generaciones.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.generaciones.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.generaciones.eliminar', ['only' => ['destroy']]);
     }
 
     /**

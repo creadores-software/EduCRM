@@ -19,6 +19,10 @@ class TipoOcupacionController extends AppBaseController
     public function __construct(TipoOcupacionRepository $tipoOcupacionRepo)
     {
         $this->tipoOcupacionRepository = $tipoOcupacionRepo;
+        $this->middleware('permission:entidades.tiposOcupacion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:entidades.tiposOcupacion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:entidades.tiposOcupacion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:entidades.tiposOcupacion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

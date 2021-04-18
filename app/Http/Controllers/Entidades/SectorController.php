@@ -20,6 +20,10 @@ class SectorController extends AppBaseController
     public function __construct(SectorRepository $sectorRepo)
     {
         $this->sectorRepository = $sectorRepo;
+        $this->middleware('permission:entidades.sectores.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:entidades.sectores.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:entidades.sectores.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:entidades.sectores.eliminar', ['only' => ['destroy']]);
     }
 
     /**

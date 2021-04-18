@@ -21,6 +21,10 @@ class InformacionLaboralController extends AppBaseController
     public function __construct(InformacionLaboralRepository $informacionLaboralRepo)
     {
         $this->informacionLaboralRepository = $informacionLaboralRepo;
+        $this->middleware('permission:contactos.informacionesLaborales.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.informacionesLaborales.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.informacionesLaborales.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.informacionesLaborales.eliminar', ['only' => ['destroy']]);
     }
 
     /**

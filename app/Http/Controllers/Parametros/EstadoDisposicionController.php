@@ -19,6 +19,10 @@ class EstadoDisposicionController extends AppBaseController
     public function __construct(EstadoDisposicionRepository $estadoDisposicionRepo)
     {
         $this->estadoDisposicionRepository = $estadoDisposicionRepo;
+        $this->middleware('permission:parametros.estadosDisposicion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.estadosDisposicion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.estadosDisposicion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.estadosDisposicion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

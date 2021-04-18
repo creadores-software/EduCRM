@@ -19,6 +19,10 @@ class NivelFormacionController extends AppBaseController
     public function __construct(NivelFormacionRepository $nivelFormacionRepo)
     {
         $this->nivelFormacionRepository = $nivelFormacionRepo;
+        $this->middleware('permission:formaciones.nivelesFormacion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.nivelesFormacion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.nivelesFormacion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.nivelesFormacion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

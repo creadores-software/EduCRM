@@ -19,6 +19,10 @@ class ModalidadController extends AppBaseController
     public function __construct(ModalidadRepository $modalidadRepo)
     {
         $this->modalidadRepository = $modalidadRepo;
+        $this->middleware('permission:formaciones.modalidades.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.modalidades.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.modalidades.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.modalidades.eliminar', ['only' => ['destroy']]);
     }
 
     /**

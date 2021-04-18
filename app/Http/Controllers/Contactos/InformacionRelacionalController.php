@@ -18,6 +18,10 @@ class InformacionRelacionalController extends AppBaseController
     public function __construct(InformacionRelacionalRepository $informacionRelacionalRepo)
     {
         $this->informacionRelacionalRepository = $informacionRelacionalRepo;
+        $this->middleware('permission:contactos.informacionesRelacionales.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.informacionesRelacionales.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.informacionesRelacionales.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.informacionesRelacionales.eliminar', ['only' => ['destroy']]);
     }
 
     //Solo se deja métodos de vista y edición pues creación y eliminación se realizará directamente desde el modelo

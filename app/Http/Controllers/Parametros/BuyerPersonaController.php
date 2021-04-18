@@ -19,6 +19,10 @@ class BuyerPersonaController extends AppBaseController
     public function __construct(BuyerPersonaRepository $buyerPersonaRepo)
     {
         $this->buyerPersonaRepository = $buyerPersonaRepo;
+        $this->middleware('permission:parametros.buyerPersonas.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.buyerPersonas.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.buyerPersonas.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.buyerPersonas.eliminar', ['only' => ['destroy']]);
     }
 
     /**

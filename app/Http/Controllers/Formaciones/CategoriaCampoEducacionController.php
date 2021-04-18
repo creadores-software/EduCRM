@@ -19,6 +19,10 @@ class CategoriaCampoEducacionController extends AppBaseController
     public function __construct(CategoriaCampoEducacionRepository $categoriaCampoEducacionRepo)
     {
         $this->categoriaCampoEducacionRepository = $categoriaCampoEducacionRepo;
+        $this->middleware('permission:formaciones.caregoriasCampoEducacion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.caregoriasCampoEducacion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.caregoriasCampoEducacion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.caregoriasCampoEducacion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

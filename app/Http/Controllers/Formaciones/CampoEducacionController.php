@@ -19,6 +19,10 @@ class CampoEducacionController extends AppBaseController
     public function __construct(CampoEducacionRepository $campoEducacionRepo)
     {
         $this->campoEducacionRepository = $campoEducacionRepo;
+        $this->middleware('permission:formaciones.camposEducacion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.camposEducacion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.camposEducacion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.camposEducacion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

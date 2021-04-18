@@ -18,6 +18,10 @@ class RazaController extends AppBaseController
     public function __construct(RazaRepository $razaRepo)
     {
         $this->razaRepository = $razaRepo;
+        $this->middleware('permission:parametros.razas.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.razas.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.razas.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.razas.eliminar', ['only' => ['destroy']]);
     }
 
     /**

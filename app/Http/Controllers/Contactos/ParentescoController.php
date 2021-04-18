@@ -21,6 +21,10 @@ class ParentescoController extends AppBaseController
     public function __construct(ParentescoRepository $parentescoRepo)
     {
         $this->parentescoRepository = $parentescoRepo;
+        $this->middleware('permission:contactos.parentescos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.parentescos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.parentescos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.parentescos.eliminar', ['only' => ['destroy']]);
     }
 
     /**

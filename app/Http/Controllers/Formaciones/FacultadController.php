@@ -19,6 +19,10 @@ class FacultadController extends AppBaseController
     public function __construct(FacultadRepository $facultadRepo)
     {
         $this->facultadRepository = $facultadRepo;
+        $this->middleware('permission:formaciones.facultades.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.facultades.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.facultades.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.facultades.eliminar', ['only' => ['destroy']]);
     }
 
     /**

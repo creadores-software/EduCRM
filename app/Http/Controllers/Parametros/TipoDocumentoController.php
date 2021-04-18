@@ -19,6 +19,10 @@ class TipoDocumentoController extends AppBaseController
     public function __construct(TipoDocumentoRepository $tipoDocumentoRepo)
     {
         $this->tipoDocumentoRepository = $tipoDocumentoRepo;
+        $this->middleware('permission:parametros.tiposDocumento.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.tiposDocumento.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.tiposDocumento.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.tiposDocumento.eliminar', ['only' => ['destroy']]);
     }
 
     /**

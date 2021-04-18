@@ -19,6 +19,10 @@ class EstatusLealtadController extends AppBaseController
     public function __construct(EstatusLealtadRepository $estatusLealtadRepo)
     {
         $this->estatusLealtadRepository = $estatusLealtadRepo;
+        $this->middleware('permission:parametros.estatusLealtad.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.estatusLealtad.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.estatusLealtad.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.estatusLealtad.eliminar', ['only' => ['destroy']]);
     }
 
     /**

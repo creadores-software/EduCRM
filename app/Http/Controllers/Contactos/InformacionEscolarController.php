@@ -21,6 +21,10 @@ class InformacionEscolarController extends AppBaseController
     public function __construct(InformacionEscolarRepository $informacionEscolarRepo)
     {
         $this->informacionEscolarRepository = $informacionEscolarRepo;
+        $this->middleware('permission:contactos.informacionesEscolares.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.informacionesEscolares.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.informacionesEscolares.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.informacionesEscolares.eliminar', ['only' => ['destroy']]);
     }
 
     /**

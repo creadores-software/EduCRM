@@ -19,6 +19,11 @@ class EstiloVidaController extends AppBaseController
     public function __construct(EstiloVidaRepository $estiloVidaRepo)
     {
         $this->estiloVidaRepository = $estiloVidaRepo;
+        $this->middleware('permission:parametros.estilosVida.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.estilosVida.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.estilosVida.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.estilosVida.eliminar', ['only' => ['destroy']]);
+        
     }
 
     /**

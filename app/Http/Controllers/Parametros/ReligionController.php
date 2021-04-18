@@ -19,6 +19,10 @@ class ReligionController extends AppBaseController
     public function __construct(ReligionRepository $religionRepo)
     {
         $this->religionRepository = $religionRepo;
+        $this->middleware('permission:parametros.religiones.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.religiones.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.religiones.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.religiones.eliminar', ['only' => ['destroy']]);
     }
 
     /**

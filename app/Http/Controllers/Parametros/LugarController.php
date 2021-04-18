@@ -19,6 +19,10 @@ class LugarController extends AppBaseController
     public function __construct(LugarRepository $lugarRepo)
     {
         $this->lugarRepository = $lugarRepo;
+        $this->middleware('permission:parametros.lugares.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.lugares.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.lugares.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.lugares.eliminar', ['only' => ['destroy']]);
     }
 
     /**

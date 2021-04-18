@@ -19,6 +19,10 @@ class GeneroController extends AppBaseController
     public function __construct(GeneroRepository $generoRepo)
     {
         $this->generoRepository = $generoRepo;
+        $this->middleware('permission:parametros.generos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.generos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.generos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.generos.eliminar', ['only' => ['destroy']]);
     }
 
     /**

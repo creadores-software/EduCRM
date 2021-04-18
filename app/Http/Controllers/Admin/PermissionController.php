@@ -20,6 +20,10 @@ class PermissionController extends AppBaseController
     public function __construct(PermissionRepository $permissionRepo)
     {
         $this->permissionRepository = $permissionRepo;
+        $this->middleware('permission:admin.permissions.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:admin.permissions.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:admin.permissions.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:admin.permissions.eliminar', ['only' => ['destroy']]);
     }
 
     /**

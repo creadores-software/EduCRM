@@ -19,6 +19,10 @@ class TipoAccesoController extends AppBaseController
     public function __construct(TipoAccesoRepository $tipoAccesoRepo)
     {
         $this->tipoAccesoRepository = $tipoAccesoRepo;
+        $this->middleware('permission:formaciones.tiposAcceso.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.tiposAcceso.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.tiposAcceso.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.tiposAcceso.eliminar', ['only' => ['destroy']]);
     }
 
     /**

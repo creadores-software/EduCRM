@@ -20,6 +20,10 @@ class PrefijoController extends AppBaseController
     public function __construct(PrefijoRepository $prefijoRepo)
     {
         $this->prefijoRepository = $prefijoRepo;
+        $this->middleware('permission:parametros.prefijos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.prefijos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.prefijos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.prefijos.eliminar', ['only' => ['destroy']]);
     }
 
     /**

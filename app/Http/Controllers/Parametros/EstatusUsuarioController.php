@@ -19,6 +19,10 @@ class EstatusUsuarioController extends AppBaseController
     public function __construct(EstatusUsuarioRepository $estatusUsuarioRepo)
     {
         $this->estatusUsuarioRepository = $estatusUsuarioRepo;
+        $this->middleware('permission:parametros.estatusUsuario.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.estatusUsuario.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.estatusUsuario.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.estatusUsuario.eliminar', ['only' => ['destroy']]);
     }
 
     /**

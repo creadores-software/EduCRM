@@ -20,6 +20,10 @@ class RoleController extends AppBaseController
     public function __construct(RoleRepository $roleRepo)
     {
         $this->roleRepository = $roleRepo;
+        $this->middleware('permission:admin.roles.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:admin.roles.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:admin.roles.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:admin.roles.eliminar', ['only' => ['destroy']]);
     }
 
     /**

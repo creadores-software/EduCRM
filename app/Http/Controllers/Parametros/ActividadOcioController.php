@@ -19,6 +19,10 @@ class ActividadOcioController extends AppBaseController
     public function __construct(ActividadOcioRepository $actividadOcioRepo)
     {
         $this->actividadOcioRepository = $actividadOcioRepo;
+        $this->middleware('permission:parametros.actividadesOcio.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.actividadesOcio.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.actividadesOcio.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.actividadesOcio.eliminar', ['only' => ['destroy']]);
     }
 
     /**

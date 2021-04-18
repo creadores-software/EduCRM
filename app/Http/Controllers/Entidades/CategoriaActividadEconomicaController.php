@@ -19,6 +19,10 @@ class CategoriaActividadEconomicaController extends AppBaseController
     public function __construct(CategoriaActividadEconomicaRepository $categoriaActividadEconomicaRepo)
     {
         $this->categoriaActividadEconomicaRepository = $categoriaActividadEconomicaRepo;
+        $this->middleware('permission:entidades.categoriasActividadEconomica.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:entidades.categoriasActividadEconomica.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:entidades.categoriasActividadEconomica.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:entidades.categoriasActividadEconomica.eliminar', ['only' => ['destroy']]);
     }
 
     /**

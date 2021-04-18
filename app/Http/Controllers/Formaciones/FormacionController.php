@@ -19,6 +19,10 @@ class FormacionController extends AppBaseController
     public function __construct(FormacionRepository $formacionRepo)
     {
         $this->formacionRepository = $formacionRepo;
+        $this->middleware('permission:formaciones.formaciones.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.formaciones.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.formaciones.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.formaciones.eliminar', ['only' => ['destroy']]);
     }
 
     /**

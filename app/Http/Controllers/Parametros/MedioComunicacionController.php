@@ -19,6 +19,10 @@ class MedioComunicacionController extends AppBaseController
     public function __construct(MedioComunicacionRepository $medioComunicacionRepo)
     {
         $this->medioComunicacionRepository = $medioComunicacionRepo;
+        $this->middleware('permission:parametros.mediosComunicacion.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.mediosComunicacion.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.mediosComunicacion.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.mediosComunicacion.eliminar', ['only' => ['destroy']]);
     }
 
     /**

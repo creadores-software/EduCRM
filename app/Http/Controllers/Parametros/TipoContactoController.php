@@ -19,6 +19,10 @@ class TipoContactoController extends AppBaseController
     public function __construct(TipoContactoRepository $tipoContactoRepo)
     {
         $this->tipoContactoRepository = $tipoContactoRepo;
+        $this->middleware('permission:parametros.tiposContacto.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.tiposContacto.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.tiposContacto.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.tiposContacto.eliminar', ['only' => ['destroy']]);
     }
 
     /**

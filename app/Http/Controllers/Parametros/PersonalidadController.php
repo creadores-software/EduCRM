@@ -21,6 +21,10 @@ class PersonalidadController extends AppBaseController
     public function __construct(PersonalidadRepository $personalidadRepo)
     {
         $this->personalidadRepository = $personalidadRepo;
+        $this->middleware('permission:parametros.personalidades.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.personalidades.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.personalidades.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.personalidades.eliminar', ['only' => ['destroy']]);
     }
 
     /**

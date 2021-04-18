@@ -27,6 +27,11 @@ class ContactoController extends AppBaseController
     public function __construct(ContactoRepository $contactoRepo)
     {
         $this->contactoRepository = $contactoRepo;
+        $this->middleware('permission:contactos.contactos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.contactos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.contactos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.contactos.eliminar', ['only' => ['destroy']]);
+        $this->middleware('permission:contactos.contactos.importar', ['only' => ['archivoEjemplo','subirImportacion','cargarImportacion']]);
     }
 
     /**

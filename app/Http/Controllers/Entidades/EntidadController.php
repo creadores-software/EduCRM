@@ -21,6 +21,10 @@ class EntidadController extends AppBaseController
     public function __construct(EntidadRepository $entidadRepo)
     {
         $this->entidadRepository = $entidadRepo;
+        $this->middleware('permission:entidades.entidades.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:entidades.entidades.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:entidades.entidades.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:entidades.entidades.eliminar', ['only' => ['destroy']]);
     }
 
     /**

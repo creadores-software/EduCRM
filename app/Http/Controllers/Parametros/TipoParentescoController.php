@@ -19,6 +19,10 @@ class TipoParentescoController extends AppBaseController
     public function __construct(TipoParentescoRepository $tipoParentescoRepo)
     {
         $this->tipoParentescoRepository = $tipoParentescoRepo;
+        $this->middleware('permission:parametros.tiposParentesco.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.tiposParentesco.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.tiposParentesco.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.tiposParentesco.eliminar', ['only' => ['destroy']]);
     }
 
     /**

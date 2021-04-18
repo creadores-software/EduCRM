@@ -19,6 +19,10 @@ class FrecuenciaUsoController extends AppBaseController
     public function __construct(FrecuenciaUsoRepository $frecuenciaUsoRepo)
     {
         $this->frecuenciaUsoRepository = $frecuenciaUsoRepo;
+        $this->middleware('permission:parametros.frecuenciasUso.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:parametros.frecuenciasUso.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:parametros.frecuenciasUso.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:parametros.frecuenciasUso.eliminar', ['only' => ['destroy']]);
     }
 
     /**

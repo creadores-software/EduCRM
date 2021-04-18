@@ -19,6 +19,10 @@ class ReconocimientoController extends AppBaseController
     public function __construct(ReconocimientoRepository $reconocimientoRepo)
     {
         $this->reconocimientoRepository = $reconocimientoRepo;
+        $this->middleware('permission:formaciones.reconocimientos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.reconocimientos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.reconocimientos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.reconocimientos.eliminar', ['only' => ['destroy']]);
     }
 
     /**

@@ -21,6 +21,10 @@ class InformacionUniversitariaController extends AppBaseController
     public function __construct(InformacionUniversitariaRepository $informacionUniversitariaRepo)
     {
         $this->informacionUniversitariaRepository = $informacionUniversitariaRepo;
+        $this->middleware('permission:contactos.informacionesUniversitarias.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.informacionesUniversitarias.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:contactos.informacionesUniversitarias.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:contactos.informacionesUniversitarias.eliminar', ['only' => ['destroy']]);
     }
 
     /**

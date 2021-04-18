@@ -19,6 +19,10 @@ class PeriodicidadController extends AppBaseController
     public function __construct(PeriodicidadRepository $periodicidadRepo)
     {
         $this->periodicidadRepository = $periodicidadRepo;
+        $this->middleware('permission:formaciones.periodicidades.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.periodicidades.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.periodicidades.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.periodicidades.eliminar', ['only' => ['destroy']]);
     }
 
     /**

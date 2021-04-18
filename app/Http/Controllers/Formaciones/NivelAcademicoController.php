@@ -19,6 +19,10 @@ class NivelAcademicoController extends AppBaseController
     public function __construct(NivelAcademicoRepository $nivelAcademicoRepo)
     {
         $this->nivelAcademicoRepository = $nivelAcademicoRepo;
+        $this->middleware('permission:formaciones.nivelesAcademicos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:formaciones.nivelesAcademicos.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:formaciones.nivelesAcademicos.editar', ['only' => ['edit','update']]);
+        $this->middleware('permission:formaciones.nivelesAcademicos.eliminar', ['only' => ['destroy']]);
     }
 
     /**
