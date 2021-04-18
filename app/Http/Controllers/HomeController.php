@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $permisos = auth()->user()->getAllPermissions();
+        $textoPermisos = "";
+        foreach($permisos as $permiso){
+            $textoPermisos.=$permiso->name;
+        }
+        Session::put('textoPermisos', $textoPermisos);
         return view('home');
     }
 }
