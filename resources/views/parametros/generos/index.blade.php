@@ -5,9 +5,11 @@
         <h1 class="pull-left">
             @lang('models/generos.plural')
         </h1>
+        @can('parametros.generos.crear')
         <h1 class="pull-right">
            <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('parametros.generos.create') }}">@lang('crud.add_new')</a>
         </h1>
+        @endcan
     </section>
     <div class="content">
         <div class="clearfix"></div>
