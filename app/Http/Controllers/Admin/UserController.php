@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Altek\Accountant\Models\Ledger;
+use App\Models\Contactos\Segmento;
 use App\DataTables\Admin\UserDataTable;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
@@ -144,9 +146,16 @@ class UserController extends AppBaseController
     public function destroy($id)
     {
         $user = $this->userRepository->find($id);
-
+        $auditoriasUsuario = Ledger::where('user_id',$id)->get();
+        $segmentosUsuario = Segmento::where('usuario_id',$id)->get();
         if (empty($user)) {
             Flash::error(__('messages.not_found', ['model' => __('models/users.singular')]));
+
+            return redirect(route('admin.users.index'));
+        }
+
+        if ($auditoriasUsuario->count()>0 || $segmentosUsuario->count()>0) {
+            Flash::error("No es posible eliminar el usuario {$user->name} pues tiene auditorías o segmentos asociados. Si desea lo puede inactivar");
 
             return redirect(route('admin.users.index'));
         }
