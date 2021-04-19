@@ -15,9 +15,11 @@
                             @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                          
                             <div class="tab-content">
                                 <h2 class="pull-right">                                    
+                                    @can('contactos.informacionesEscolares.editar')
                                     <a href="{{ route('contactos.informacionesEscolares.edit',[$informacionEscolar->id,'idContacto'=>$contacto->id]) }}" class="btn btn-primary">
                                         @lang('crud.edit')
                                     </a>  
+                                    @endcan
                                     <a href="{{ route('contactos.informacionesEscolares.index',['idContacto'=>$contacto->id]) }}" class="btn btn-default">
                                         @lang('crud.back')
                                     </a> 
