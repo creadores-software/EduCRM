@@ -4,17 +4,17 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInformacionUniversitariaTable extends Migration
+class CreateInformacionEscolarTable extends Migration
 {
     /**
      * Schema table name to migrate
      * @var string
      */
-    public $tableName = 'informacion_universitaria';
+    public $tableName = 'informacion_escolar';
 
     /**
      * Run the migrations.
-     * @table informacion_universitaria
+     * @table informacion_escolar
      *
      * @return void
      */
@@ -25,40 +25,33 @@ class CreateInformacionUniversitariaTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('contacto_id');
             $table->unsignedInteger('entidad_id');
-            $table->unsignedInteger('formacion_id');
-            $table->unsignedInteger('tipo_acceso_id')->nullable();
+            $table->unsignedInteger('nivel_formacion_id');
             $table->date('fecha_inicio')->nullable()->default(null);
             $table->date('fecha_grado')->nullable()->default(null);
+            $table->date('fecha_icfes')->nullable();
+            $table->integer('puntaje_icfes')->nullable();
             $table->tinyInteger('finalizado')->nullable()->default(null);
-            $table->double('promedio')->nullable();
-            $table->integer('periodo_alcanzado')->nullable();
+            $table->integer('grado')->nullable();
 
-            $table->index(["entidad_id"], 'fk_informacion_universitaria_entidad_idx');
+            $table->index(["contacto_id"], 'fk_informacion_escolar_contacto_idx');
 
-            $table->index(["tipo_acceso_id"], 'fk_informacion_universitaria_tipo_acceso_idx');
+            $table->index(["nivel_formacion_id"], 'fk_informacion_escolar_nivel_educativo_idx');
 
-            $table->index(["formacion_id"], 'fk_informacion_universitaria_formacion_idx');
-
-            $table->index(["contacto_id"], 'fk_informacion_universitaria_contacto_idx');
+            $table->index(["entidad_id"], 'fk_informacion_escolar_entidad_idx');
 
 
-            $table->foreign('contacto_id', 'fk_informacion_universitaria_contacto_idx')
+            $table->foreign('contacto_id', 'fk_informacion_escolar_contacto_idx')
                 ->references('id')->on('contacto')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('entidad_id', 'fk_informacion_universitaria_entidad_idx')
+            $table->foreign('entidad_id', 'fk_informacion_escolar_entidad_idx')
                 ->references('id')->on('entidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('formacion_id', 'fk_informacion_universitaria_formacion_idx')
-                ->references('id')->on('formacion')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-
-            $table->foreign('tipo_acceso_id', 'fk_informacion_universitaria_tipo_acceso_idx')
-                ->references('id')->on('tipo_acceso')
+            $table->foreign('nivel_formacion_id', 'fk_informacion_escolar_nivel_educativo_idx')
+                ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

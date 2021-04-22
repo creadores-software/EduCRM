@@ -39,12 +39,15 @@ class CreateContactoTable extends Migration
             $table->string('direccion_residencia', 200)->nullable()->default(null);
             $table->string('barrio', 150)->nullable();
             $table->unsignedInteger('estrato')->nullable()->default(null);
-            $table->tinyInteger('activo')->nullable()->default('1');
+            $table->unsignedInteger('sisben_id')->nullable();
             $table->string('observacion')->nullable()->default(null);
             $table->unsignedInteger('referido_por')->nullable()->default(null)->comment(' Solo se debe diligenciar cuando el origen es referido.');
             $table->unsignedInteger('origen_id');
             $table->string('otro_origen', 45)->nullable()->default(null);
+            $table->tinyInteger('activo')->nullable()->default('1');
             $table->unsignedInteger('informacion_relacional_id')->nullable()->default(null);
+
+            $table->index(["sisben_id"], 'fk_contacto_sisben1_idx');
 
             $table->index(["prefijo_id"], 'fk_contacto_prefijo');
 
@@ -100,6 +103,11 @@ class CreateContactoTable extends Migration
 
             $table->foreign('tipo_documento_id', 'fk_contacto_tipo_documento')
                 ->references('id')->on('tipo_documento')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('sisben_id', 'fk_contacto_sisben1_idx')
+                ->references('id')->on('sisben')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

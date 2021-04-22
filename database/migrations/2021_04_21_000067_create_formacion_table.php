@@ -30,6 +30,7 @@ class CreateFormacionTable extends Migration
             $table->string('titulo_otorgado', 150)->nullable()->default(null);
             $table->unsignedInteger('campo_educacion_id')->nullable()->default(null);
             $table->unsignedInteger('modalidad_id')->nullable();
+            $table->unsignedInteger('jornada_id')->nullable();
             $table->unsignedInteger('periodicidad_id')->nullable();
             $table->integer('periodos_duracion')->nullable();
             $table->unsignedInteger('reconocimiento_id')->nullable();
@@ -39,9 +40,11 @@ class CreateFormacionTable extends Migration
 
             $table->index(["reconocimiento_id"], 'fk_formacion_reconocimiento_idx');
 
+            $table->index(["jornada_id"], 'fk_formacion_jornada_idx');
+
             $table->index(["campo_educacion_id"], 'fk_programa_area_conocimiento');
 
-            $table->index(["nivel_formacion_id"], 'fk_programa_nivel_formacion');
+            $table->index(["nivel_formacion_id"], 'fk_programa_nivel_educativo');
 
             $table->index(["entidad_id"], 'fk_formacion_entidad');
 
@@ -49,7 +52,7 @@ class CreateFormacionTable extends Migration
 
             $table->index(["modalidad_id"], 'fk_formacion_modalidad_idx');
 
-            $table->index(["facultad_id"], 'fk_formacion_facultad1_idx');
+            $table->index(["facultad_id"], 'fk_formacion_facultad_idx');
 
 
             $table->foreign('entidad_id', 'fk_formacion_entidad')
@@ -62,7 +65,7 @@ class CreateFormacionTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('nivel_formacion_id', 'fk_programa_nivel_formacion')
+            $table->foreign('nivel_formacion_id', 'fk_programa_nivel_educativo')
                 ->references('id')->on('nivel_formacion')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
@@ -82,10 +85,15 @@ class CreateFormacionTable extends Migration
                 ->onDelete('no action')
                 ->onUpdate('no action');
 
-            $table->foreign('facultad_id', 'fk_formacion_facultad1_idx')
+            $table->foreign('facultad_id', 'fk_formacion_facultad_idx')
                 ->references('id')->on('facultad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
+
+            $table->foreign('jornada_id', 'fk_formacion_jornada_idx')
+                ->references('id')->on('jornada')
+                ->onDelete('no action')
+                ->onUpdate('no action');
         });
     }
 
