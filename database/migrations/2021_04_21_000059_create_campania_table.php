@@ -34,7 +34,10 @@ class CreateCampaniaTable extends Migration
             $table->unsignedInteger('nivel_formacion_id')->nullable();
             $table->unsignedInteger('nivel_academico_id')->nullable();
             $table->unsignedInteger('facultad_id')->nullable();
+            $table->unsignedInteger('segmento_id')->nullable();
             $table->tinyInteger('activa')->default('1');
+
+            $table->index(["segmento_id"], 'fk_campania_segmento_idx');
 
             $table->index(["nivel_formacion_id"], 'fk_campania_nivel_formacion_idx');
 
@@ -76,6 +79,11 @@ class CreateCampaniaTable extends Migration
 
             $table->foreign('facultad_id', 'fk_campania_facultad_idx')
                 ->references('id')->on('facultad')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('segmento_id', 'fk_campania_segmento_idx')
+                ->references('id')->on('segmento')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });
