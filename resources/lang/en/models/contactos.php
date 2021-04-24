@@ -22,6 +22,7 @@ return array (
     'direccion_residencia' => 'Dirección Residencia',
     'barrio' => 'Barrio',
     'estrato' => 'Estrato',
+    'sisben_id' => 'Sisben',
     'activo' => 'Activo',
     'observacion' => 'Observación',
     'informacion_relacional_id' => 'Información Relacional',

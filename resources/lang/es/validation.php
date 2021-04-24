@@ -196,6 +196,7 @@ return [
         'tipo_documento_id' => 'Tipo Documento',
         'tipo_ocupacion_id' => 'Tipo Ocupación',
         'tipo_parentesco_id' => 'Tipo Parentesco',
+        'sisben_id' => 'Sisben',
         'today'=>'Hoy',
         'contacto_destino' => 'Pariente',
         'name'=>'Nombre',

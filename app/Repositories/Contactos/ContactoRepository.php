@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class ContactoRepository
  * @package App\Repositories\Contactos
- * @version December 1, 2020, 10:53 pm -05
+ * @version April 24, 2021, 1:30 pm -05
 */
 
 class ContactoRepository extends BaseRepository
@@ -33,12 +33,13 @@ class ContactoRepository extends BaseRepository
         'direccion_residencia',
         'barrio',
         'estrato',
-        'activo',
+        'sisben_id',
         'observacion',
-        'informacion_relacional_id',
-        'origen_id',
         'referido_por',
-        'otro_origen'
+        'origen_id',
+        'otro_origen',
+        'activo',
+        'informacion_relacional_id'
     ];
 
     /**
@@ -57,29 +58,5 @@ class ContactoRepository extends BaseRepository
     public function model()
     {
         return Contacto::class;
-    }
-
-    /**
-     * Update model record for given id
-     *
-     * @param array $input
-     * @param int $id
-     *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
-     */
-    public function update($input, $id)
-    {
-        $query = $this->model->newQuery();
-        $model = $query->findOrFail($id);
-        $model->fill($input);
-
-        if(array_key_exists('tiposContacto',$input)){            
-            $model->tiposContacto()->sync((array)$input['tiposContacto']);
-        }else{
-            $model->tiposContacto()->sync([]);
-        }
-
-        $model->save();
-        return $model;
     }
 }

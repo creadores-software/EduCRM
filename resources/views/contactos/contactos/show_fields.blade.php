@@ -94,6 +94,12 @@
     <p>{{ $contacto->estrato }}</p>
 </div>
 
+<!-- Sisben Field -->
+<div class="form-group col-sm-6" >
+    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
+    <p>{{ $contacto->sisben->nombre }}</p>
+</div>
+
 <!-- Origen Id Field -->
 <div class="form-group col-sm-6" >
     {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}

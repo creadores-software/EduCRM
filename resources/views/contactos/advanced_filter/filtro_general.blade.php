@@ -150,6 +150,14 @@
     {!! Form::select('estratos',[1=>1,2=>2,3=>3,4=>4,5=>5,6=>6], old('estratos'), ['class' => 'form-control']) !!}
 </div>
 
+<!-- Sisben Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
+    <select name="sisbenes[]" id="sisbenes" class="form-control">   
+    </select> 
+</div>
+
+
 <!-- Lugar Residencia Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lugares_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
@@ -215,6 +223,18 @@
                 placeholder: "Seleccionar",
                 allowClear: true,
                 createTag: function(params) {return undefined;},
+            });
+            $('#sisbenes').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("parametros.sisbenes.dataAjax") }}',
+                    dataType: 'json',                   
+                },
             });
             @if(empty(old('estratos')))
                 $("#estratos").val(null).trigger("change");

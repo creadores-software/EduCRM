@@ -200,6 +200,7 @@ class ContactoDataTable extends DataTable
             'direccion_residencia' => new Column(['title' => __('models/contactos.fields.direccion_residencia'), 'data' => 'direccion_residencia','visible'=>false]),
             'barrio' => new Column(['title' => __('models/contactos.fields.barrio'), 'data' => 'barrio','visible'=>false]),
             'estrato' => new Column(['title' => __('models/contactos.fields.estrato'), 'data' => 'estrato','visible'=>false]),            
+            'sisben_id' => new Column(['title' => __('models/contactos.fields.sisben_id'), 'nombre_sisben', 'name'=> 'sisben.nombre','visible'=>false]),
             'observacion' => new Column(['title' => __('models/contactos.fields.observacion'), 'data' => 'observacion','visible'=>false]),            
             'referido_por' => new Column(['title' => __('models/contactos.fields.referido_por'), 'data' => 'referido_por','visible'=>false]),            
             'otro_origen' => new Column(['title' => __('models/contactos.fields.otro_origen'), 'data' => 'otro_origen','visible'=>false]),            

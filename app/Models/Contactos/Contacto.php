@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\DB;
  * @property string $direccion_residencia
  * @property string $barrio
  * @property integer $estrato
+ * @property integer $sisben_id
  * @property boolean $activo
  * @property string $observacion
  * @property integer $informacion_relacional_id
@@ -77,6 +78,7 @@ class Contacto extends Model implements Recordable
         'direccion_residencia',
         'barrio',
         'estrato',
+        'sisben_id',
         'activo',
         'observacion',
         'informacion_relacional_id',
@@ -108,6 +110,7 @@ class Contacto extends Model implements Recordable
         'direccion_residencia' => 'string',
         'barrio' => 'string',
         'estrato' => 'integer',
+        'sisben_id' => 'integer',
         'activo' => 'boolean',
         'observacion' => 'string',
         'informacion_relacional_id' => 'integer',
@@ -138,6 +141,7 @@ class Contacto extends Model implements Recordable
         'direccion_residencia' => 'nullable|string|max:200',
         'barrio' => 'nullable|string|max:150',
         'estrato' => 'nullable|integer',
+        'sisben_id' => 'nullable|integer',
         'activo' => 'nullable|boolean',
         'observacion' => 'nullable|string|max:255',
         'informacion_relacional_id' => 'nullable|integer',
@@ -205,6 +209,15 @@ class Contacto extends Model implements Recordable
     public function tipoDocumento()
     {
         return $this->belongsTo(\App\Models\Parametros\TipoDocumento::class, 'tipo_documento_id')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function sisben()
+    {
+        return $this->belongsTo(\App\Models\Parametros\Sisben::class, 'sisben_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -323,6 +336,7 @@ class Contacto extends Model implements Recordable
             ->leftjoin('genero', 'contacto.genero_id', '=', 'genero.id')
             ->leftjoin('origen', 'contacto.origen_id', '=', 'origen.id')
             ->leftjoin('prefijo', 'contacto.prefijo_id', '=', 'prefijo.id')
+            ->leftjoin('sisben', 'sisben.sisben_id', '=', 'sisben.id')
             ->leftjoin('tipo_documento as tipoDocumento', 'contacto.tipo_documento_id', '=', 'tipoDocumento.id')
             ->leftjoin('contacto_tipo_contacto as tipoContacto', 'tipoContacto.contacto_id', '=', 'contacto.id');            
     }
@@ -337,7 +351,7 @@ class Contacto extends Model implements Recordable
         'genero.nombre as nombre_genero','estadoCivil.nombre as nombre_estado_civil','contacto.celular','contacto.telefono',
         'contacto.correo_personal','contacto.correo_institucional','lugarResidencia.nombre as nombre_lugar',
         'contacto.direccion_residencia','contacto.barrio','contacto.estrato','contacto.activo','contacto.observacion',
-        'origen.nombre as nombre_origen','contacto.referido_por','contacto.otro_origen'];
+        'origen.nombre as nombre_origen','contacto.referido_por','contacto.otro_origen','sisben.nombre as nombre_sisben'];
     }
 
     /**
@@ -359,6 +373,7 @@ class Contacto extends Model implements Recordable
             'origenes',
             'referidos',
             'estratos',
+            'sisbenes',
             'tipos_documento',
             'generos',
             'prefijos',
@@ -404,6 +419,7 @@ class Contacto extends Model implements Recordable
             'origenes'=>'origen.id',
             'referidos'=>'contacto.referido_por',
             'estratos'=>'contacto.estrato',
+            'sisbenes'=>'sisben.id',
             'tipos_documento'=>'tipoDocumento.id',
             'generos'=>'genero.id',
             'prefijos'=>'prefijo.id',

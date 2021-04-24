@@ -172,6 +172,17 @@
     {!! Form::select('estrato',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6], old('estrato'), ['class' => 'form-control']) !!}
 </div>
 
+<!-- Estrato Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
+    <select name="sisben_id" id="sisben_id" class="form-control">
+        <option></option>
+        @if(!empty(old('sisben_id', $contacto->sisben_id ?? '' )))
+            <option value="{{ old('sisben_id', $contacto->sisben_id ?? '' ) }}" selected> {{ App\Models\Parametros\Sisben::find(old('sisben_id', $contacto->sisben_id ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
 <!-- Lugar Residencia Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
@@ -300,6 +311,14 @@
                     dataType: 'json',
                 },
             }); 
+            $('#sisben_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("parametros.sisbenes.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
             $('#tiposContacto').select2({
                 tags: true,
                 multiple: true,
