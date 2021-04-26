@@ -24,7 +24,7 @@ class CreateTipoEstadoColorTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 45);
-            $table->string('color_exadecimal', 7);
+            $table->string('color_hexadecimal', 7);
         });
     }
 

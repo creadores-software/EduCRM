@@ -29,7 +29,7 @@ class CreateMatrizGestionTable extends Migration
             $table->integer('interes_maximo');
             $table->integer('probabilidad_minima');
             $table->integer('probabilidad_maxima');
-            $table->string('color_exadecimal', 7);
+            $table->string('color_hexadecimal', 7);
         });
     }
 

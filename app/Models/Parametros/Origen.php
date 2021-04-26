@@ -50,6 +50,6 @@ class Origen extends Model implements Recordable
      **/
     public function contactos()
     {
-        return $this->hasMany(\App\Models\Parametros\Contacto::class, 'origen_id');
+        return $this->hasMany(\App\Models\Contactos\Contacto::class, 'origen_id');
     }
 }

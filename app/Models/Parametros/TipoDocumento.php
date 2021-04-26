@@ -54,6 +54,6 @@ class TipoDocumento extends Model implements Recordable
      **/
     public function contactos()
     {
-        return $this->hasMany(\App\Models\Parametros\Contacto::class, 'tipo_documento_id');
+        return $this->hasMany(\App\Models\Contactos\Contacto::class, 'tipo_documento_id');
     }
 }

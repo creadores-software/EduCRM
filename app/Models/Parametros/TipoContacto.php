@@ -50,6 +50,6 @@ class TipoContacto extends Model implements Recordable
      **/
     public function contactoTipoContactos()
     {
-        return $this->hasMany(\App\Models\Parametros\ContactoTipoContacto::class, 'tipo_contacto_id');
+        return $this->hasMany(\App\Models\Contactos\ContactoTipoContacto::class, 'tipo_contacto_id');
     }
 }

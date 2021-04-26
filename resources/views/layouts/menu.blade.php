@@ -283,3 +283,93 @@
 <li id="cerrar-sesion" class="opcion-menu opcion-menu-padre treeview">
     <a href="#"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a>
 </li>
+@if(strpos(Session::get('textoPermisos'), 'campanias.campanias.')!==false)
+<li id="campanias" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.campanias.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/campanias.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.campaniasFormaciones.')!==false)
+<li id="campaniasFormaciones" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.campaniasFormaciones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/campaniasFormaciones.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'admin.equiposMercadeo.')!==false)
+<li id="equiposMercadeo" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('admin.equiposMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/equiposMercadeo.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.estadosCampania.')!==false)
+<li id="estadosCampania" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.estadosCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosCampania.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.estadosInteraccion.')!==false)
+<li id="estadosInteraccion" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.estadosInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosInteraccion.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.interacciones.')!==false)
+<li id="interacciones" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.interacciones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/interacciones.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'formaciones.jornadas.')!==false)
+<li id="jornadas" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('formaciones.jornadas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/jornadas.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.justificacionesEstadoCampania.')!==false)
+<li id="justificacionesEstadoCampania" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.justificacionesEstadoCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/justificacionesEstadoCampania.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.matricesGestion.')!==false)
+<li id="matricesGestion" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.matricesGestion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/matricesGestion.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.oportunidades.')!==false)
+<li id="oportunidades" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.oportunidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/oportunidades.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'formaciones.periodosAcademico.')!==false)
+<li id="periodosAcademico" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('formaciones.periodosAcademico.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/periodosAcademico.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'admin.pertenenciasEquipoMercadeo.')!==false)
+<li id="pertenenciasEquipoMercadeo" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('admin.pertenenciasEquipoMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/pertenenciasEquipoMercadeo.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'parametros.sisbenes.')!==false)
+<li id="sisbenes" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('parametros.sisbenes.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/sisbenes.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampania.')!==false)
+<li id="tiposCampania" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.tiposCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampania.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampaniaEstados.')!==false)
+<li id="tiposCampaniaEstados" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.tiposCampaniaEstados.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampaniaEstados.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
+<li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccion.')!==false)
+<li id="tiposInteraccion" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.tiposInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccion.plural')</span></a>
+</li> 
+@endif
+@if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccionEstados.')!==false)
+<li id="tiposInteraccionEstados" class="treeview-item opcion-menu menu-nieto">
+    <a href="{{ route('campanias.tiposInteraccionEstados.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccionEstados.plural')</span></a>
+</li> 
+@endif

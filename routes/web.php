@@ -130,3 +130,92 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
     Route::get('roles/dataAjax', 'Admin\RoleController@dataAjax')->name('admin.roles.dataAjax');
     Route::resource('roles', 'Admin\RoleController', ["as" => 'admin']);
 });
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('campanias', 'Campanias\CampaniaController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('campaniasFormaciones', 'Campanias\CampaniaFormacionesController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('equiposMercadeo', 'Admin\EquipoMercadeoController', ["as" => 'admin']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('estadosCampania', 'Campanias\EstadoCampaniaController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('estadosInteraccion', 'Campanias\EstadoInteraccionController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('interacciones', 'Campanias\InteraccionController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'formaciones'], function () {
+    Route::resource('jornadas', 'Formaciones\JornadaController', ["as" => 'formaciones']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('justificacionesEstadoCampania', 'Campanias\JustificacionEstadoCampaniaController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('matricesGestion', 'Campanias\MatrizGestionController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('oportunidades', 'Campanias\OportunidadController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'formaciones'], function () {
+    Route::resource('periodosAcademico', 'Formaciones\PeriodoAcademicoController', ["as" => 'formaciones']);
+});
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('pertenenciasEquipoMercadeo', 'Admin\PertenenciaEquipoMercadeoController', ["as" => 'admin']);
+});
+
+
+Route::group(['prefix' => 'parametros'], function () {
+    Route::resource('sisbenes', 'Parametros\SisbenController', ["as" => 'parametros']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('tiposCampania', 'Campanias\TipoCampaniaController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('tiposCampaniaEstados', 'Campanias\TipoCampaniaEstadosController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('tiposEstadoColor', 'Campanias\TipoEstadoColorController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('tiposInteraccion', 'Campanias\TipoInteraccionController', ["as" => 'campanias']);
+});
+
+
+Route::group(['prefix' => 'campanias'], function () {
+    Route::resource('tiposInteraccionEstados', 'Campanias\TipoInteraccionEstadosController', ["as" => 'campanias']);
+});

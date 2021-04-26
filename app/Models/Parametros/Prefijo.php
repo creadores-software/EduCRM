@@ -55,7 +55,8 @@ class Prefijo extends Model implements Recordable
      **/
     public function genero()
     {
-        return $this->belongsTo(\App\Models\Parametros\Genero::class, 'genero_id');
+        return $this->belongsTo(\App\Models\Parametros\Genero::class, 'genero_id')
+            ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -63,6 +64,6 @@ class Prefijo extends Model implements Recordable
      **/
     public function contactos()
     {
-        return $this->hasMany(\App\Models\Parametros\Contacto::class, 'prefijo_id');
+        return $this->hasMany(\App\Models\Contactos\Contacto::class, 'prefijo_id');
     }
 }

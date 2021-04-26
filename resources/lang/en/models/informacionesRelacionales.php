@@ -6,7 +6,7 @@ return array (
   'fields' => 
   array (
     'id' => 'Id',  
-    'maximo_nivel_formacion_id' => 'Máximo Nivel Formacion',
+    'maximo_nivel_formacion_id' => 'Máximo Nivel Formación',
     'ocupacion_actual_id' => 'Ocupación Actual',
     'estilo_vida_id' => 'Estilo Vida',
     'religion_id' => 'Religión',

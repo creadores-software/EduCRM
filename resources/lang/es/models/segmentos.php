@@ -7,7 +7,7 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'descripcion' => 'Descripcion',
+    'descripcion' => 'Descripción',
     'filtros' => 'Filtros',
     'global' => 'Visibilidad Pública',
     'usuario_id' => 'Usuario',

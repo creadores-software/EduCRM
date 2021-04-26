@@ -50,6 +50,6 @@ class EstadoCivil extends Model implements Recordable
      **/
     public function contactos()
     {
-        return $this->hasMany(\App\Models\Parametros\Contacto::class, 'estado_civil_id');
+        return $this->hasMany(\App\Models\Contactos\Contacto::class, 'estado_civil_id');
     }
 }
