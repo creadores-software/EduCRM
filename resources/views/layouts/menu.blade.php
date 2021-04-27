@@ -2,11 +2,11 @@
 <li id="administracion" class="treeview opcion-menu menu-padre">
     <a class="app-menu__item" href="#"><i class="fa fa-cog"></i><span>Administración</span></a>
     <ul class="treeview-menu">  
-        @if(strpos(Session::get('textoPermisos'), 'admin.users.')!==false)
-        <li id="users" class="treeview-item opcion-menu menu-hijo">
-            <a href="{{ route('admin.users.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/users.plural')</span></a>
+        @if(strpos(Session::get('textoPermisos'), 'admin.equiposMercadeo.')!==false)
+        <li id="equiposMercadeo" class="treeview-item opcion-menu menu-nieto">
+            <a href="{{ route('admin.equiposMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/equiposMercadeo.plural')</span></a>
         </li> 
-        @endif       
+        @endif               
         @if(strpos(Session::get('textoPermisos'), 'admin.permissions.')!==false) 
         <li id="permissions" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('admin.permissions.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/permissions.plural')</span></a>
@@ -16,7 +16,12 @@
         <li id="roles" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('admin.roles.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/roles.plural')</span></a>
         </li> 
-        @endif                      
+        @endif  
+        @if(strpos(Session::get('textoPermisos'), 'admin.users.')!==false)
+        <li id="users" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('admin.users.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/users.plural')</span></a>
+        </li> 
+        @endif                          
     </ul> 
 </li>
 @endif
@@ -144,7 +149,12 @@
                 <li id="parametros-religiones" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.religiones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/religiones.plural')</span></a>
                 </li> 
-                @endif               
+                @endif    
+                @if(strpos(Session::get('textoPermisos'), 'parametros.sisbenes.')!==false)
+                <li id="sisbenes" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.sisbenes.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/sisbenes.plural')</span></a>
+                </li> 
+                @endif           
             </ul> 
         </li>
         @endif
@@ -225,6 +235,11 @@
                     <a href="{{ route('formaciones.facultades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/facultades.plural')</span></a>
                 </li>
                 @endif
+                @if(strpos(Session::get('textoPermisos'), 'formaciones.jornadas.')!==false)
+                <li id="jornadas" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.jornadas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/jornadas.plural')</span></a>
+                </li> 
+                @endif
                 @if(strpos(Session::get('textoPermisos'), 'formaciones.modalidades.')!==false)   
                 <li id="formaciones-modalidades" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.modalidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/modalidades.plural')</span></a>
@@ -245,6 +260,11 @@
                     <a href="{{ route('formaciones.periodicidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/periodicidades.plural')</span></a>
                 </li>  
                 @endif
+                @if(strpos(Session::get('textoPermisos'), 'formaciones.periodosAcademico.')!==false)
+                <li id="periodosAcademico" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('formaciones.periodosAcademico.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/periodosAcademico.plural')</span></a>
+                </li> 
+                @endif
                 @if(strpos(Session::get('textoPermisos'), 'formaciones.reconocimientos.')!==false) 
                 <li id="formaciones-reconocimientos" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.reconocimientos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/reconocimientos.plural')</span></a>
@@ -254,7 +274,7 @@
                 <li id="formaciones-tipos-acceso" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('formaciones.tiposAcceso.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposAcceso.plural')</span></a>
                 </li>  
-                @endif
+                @endif   
             </ul> 
         </li>    
         @if(strpos(Session::get('textoPermisos'), 'formaciones.formaciones.')!==false)     
@@ -265,12 +285,53 @@
     </ul> 
 </li>
 @endif
-<li id="funnels" class="treeview opcion-menu menu-padre">
+@if(strpos(Session::get('textoPermisos'), 'campanias.')!==false)
+<li id="campanias" class="treeview opcion-menu menu-padre">
     <a class="app-menu__item" href="#"><i class="fa fa-filter"></i><span>Campañas</span></a>
     <ul class="treeview-menu">
-                  
+        <li id="campania-parametros" class="treeview opcion-menu opcion-menu-hijo">
+            <a href="#"><i class="fa fa-circle-o"></i><span>Parámetros</span></a>
+            <ul class="treeview-menu">
+                @if(strpos(Session::get('textoPermisos'), 'campanias.estadosCampania.')!==false)
+                <li id="estadosCampania" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.estadosCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosCampania.plural')</span></a>
+                </li> 
+                @endif
+                @if(strpos(Session::get('textoPermisos'), 'campanias.estadosInteraccion.')!==false)
+                <li id="estadosInteraccion" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.estadosInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosInteraccion.plural')</span></a>
+                </li> 
+                @endif    
+                @if(strpos(Session::get('textoPermisos'), 'campanias.matricesGestion.')!==false)
+                <li id="matricesGestion" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.matricesGestion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/matricesGestion.plural')</span></a>
+                </li> 
+                @endif               
+                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampania.')!==false)
+                <li id="tiposCampania" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.tiposCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampania.plural')</span></a>
+                </li> 
+                @endif                
+                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
+                <li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
+                </li> 
+                @endif
+                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccion.')!==false)
+                <li id="tiposInteraccion" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.tiposInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccion.plural')</span></a>
+                </li> 
+                @endif                 
+            </ul>
+        </li>
+        @if(strpos(Session::get('textoPermisos'), 'campanias.campanias.')!==false)
+        <li id="campanias" class="treeview-item opcion-menu menu-nieto">
+            <a href="{{ route('campanias.campanias.index') }}"><i class="fa fa-circle-o"></i><span>Gestión de Campañas</span></a>
+        </li> 
+        @endif
     </ul> 
 </li>
+@endif
 <li id="reportes" class="opcion-menu opcion-menu-padre treeview">
     <a class="app-menu__item" href="#"><i class="fa fa-bar-chart"></i><span>Reportes</span></a>
     <ul class="treeview-menu">
@@ -283,93 +344,3 @@
 <li id="cerrar-sesion" class="opcion-menu opcion-menu-padre treeview">
     <a href="#"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a>
 </li>
-@if(strpos(Session::get('textoPermisos'), 'campanias.campanias.')!==false)
-<li id="campanias" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.campanias.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/campanias.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.campaniasFormaciones.')!==false)
-<li id="campaniasFormaciones" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.campaniasFormaciones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/campaniasFormaciones.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'admin.equiposMercadeo.')!==false)
-<li id="equiposMercadeo" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('admin.equiposMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/equiposMercadeo.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.estadosCampania.')!==false)
-<li id="estadosCampania" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.estadosCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosCampania.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.estadosInteraccion.')!==false)
-<li id="estadosInteraccion" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.estadosInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosInteraccion.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.interacciones.')!==false)
-<li id="interacciones" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.interacciones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/interacciones.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'formaciones.jornadas.')!==false)
-<li id="jornadas" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('formaciones.jornadas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/jornadas.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.justificacionesEstadoCampania.')!==false)
-<li id="justificacionesEstadoCampania" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.justificacionesEstadoCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/justificacionesEstadoCampania.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.matricesGestion.')!==false)
-<li id="matricesGestion" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.matricesGestion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/matricesGestion.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.oportunidades.')!==false)
-<li id="oportunidades" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.oportunidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/oportunidades.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'formaciones.periodosAcademico.')!==false)
-<li id="periodosAcademico" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('formaciones.periodosAcademico.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/periodosAcademico.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'admin.pertenenciasEquipoMercadeo.')!==false)
-<li id="pertenenciasEquipoMercadeo" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('admin.pertenenciasEquipoMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/pertenenciasEquipoMercadeo.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'parametros.sisbenes.')!==false)
-<li id="sisbenes" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('parametros.sisbenes.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/sisbenes.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampania.')!==false)
-<li id="tiposCampania" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.tiposCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampania.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampaniaEstados.')!==false)
-<li id="tiposCampaniaEstados" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.tiposCampaniaEstados.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampaniaEstados.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
-<li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccion.')!==false)
-<li id="tiposInteraccion" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.tiposInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccion.plural')</span></a>
-</li> 
-@endif
-@if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccionEstados.')!==false)
-<li id="tiposInteraccionEstados" class="treeview-item opcion-menu menu-nieto">
-    <a href="{{ route('campanias.tiposInteraccionEstados.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccionEstados.plural')</span></a>
-</li> 
-@endif

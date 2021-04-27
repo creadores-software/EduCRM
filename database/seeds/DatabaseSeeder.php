@@ -46,6 +46,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ActitudServicioTableSeeder::class);
         $this->call(EstatusLealtadTableSeeder::class);
         $this->call(BuyerPersonaTableSeeder::class);
+        $this->call(JornadaTableSeeder::class);
+        $this->call(PeriodoAcademicoTableSeeder::class);
+        $this->call(SisbenTableSeeder::class);
         //Seeders con más campos
         $this->call(NivelAcademicoTableSeeder::class);
         $this->call(NivelFormacionTableSeeder::class);
@@ -59,7 +62,8 @@ class DatabaseSeeder extends Seeder
         $this->call(OcupacionTableSeeder::class);
         $this->call(LugarTableSeeder::class);
         $this->call(EntidadTableSeeder::class);
-        $this->call(FormacionTableSeeder::class);
+        $this->call(FormacionTableSeeder::class);       
+        
         Schema::enableForeignKeyConstraints(); 
     }
 }

@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
             ),
             1 => 
             array (
-                'id' => 6,
+                'id' => 2,
                 'name' => 'Administrador CRM',
                 'email' => 'admin@crm.com',
                 'email_verified_at' => NULL,
@@ -43,7 +43,7 @@ class UsersTableSeeder extends Seeder
             ),
             2 => 
             array (
-                'id' => 7,
+                'id' => 3,
                 'name' => 'Coordinador CRM',
                 'email' => 'coordinador@crm.com',
                 'email_verified_at' => NULL,
@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
             ),
             3 => 
             array (
-                'id' => 8,
+                'id' => 4,
                 'name' => 'Auxiliar CRM',
                 'email' => 'auxiliar@crm.com',
                 'email_verified_at' => NULL,

@@ -24,32 +24,32 @@ class RolesTableSeeder extends Seeder
                 'id' => 1,
                 'name' => 'Superadmin',
                 'guard_name' => 'web',
-                'created_at' => '2021-04-17 12:15:00',
-                'updated_at' => '2021-04-17 12:15:00',
+                'created_at' => '2021-04-26 22:55:42',
+                'updated_at' => '2021-04-26 22:55:42',
             ),
             1 => 
             array (
                 'id' => 2,
                 'name' => 'Administrador',
                 'guard_name' => 'web',
-                'created_at' => '2021-04-17 12:15:00',
-                'updated_at' => '2021-04-17 12:15:00',
+                'created_at' => '2021-04-26 22:55:42',
+                'updated_at' => '2021-04-26 22:55:42',
             ),
             2 => 
             array (
                 'id' => 3,
                 'name' => 'Coordinador',
                 'guard_name' => 'web',
-                'created_at' => '2021-04-17 12:15:00',
-                'updated_at' => '2021-04-17 12:15:00',
+                'created_at' => '2021-04-26 22:55:42',
+                'updated_at' => '2021-04-26 22:55:42',
             ),
             3 => 
             array (
                 'id' => 4,
                 'name' => 'Auxiliar',
                 'guard_name' => 'web',
-                'created_at' => '2021-04-17 12:15:00',
-                'updated_at' => '2021-04-17 12:15:00',
+                'created_at' => '2021-04-26 22:55:42',
+                'updated_at' => '2021-04-26 22:55:42',
             ),
         ));
         
