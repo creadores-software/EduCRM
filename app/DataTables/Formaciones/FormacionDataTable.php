@@ -46,7 +46,7 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion','modalidad','periodicidad','reconocimiento','facultad'])
+        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion','modalidad','periodicidad','reconocimiento','facultad','jornada'])
             ->select('formacion.*');
     }
 
@@ -76,7 +76,7 @@ class FormacionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(5)').every(function () {
+                    this.api().columns(':lt(6)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -100,7 +100,8 @@ class FormacionDataTable extends DataTable
             'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name' => 'entidad.nombre']),
             'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre','name' => 'nivelFormacion.nombre']),                        
             'modalidad_id' => new Column(['title' => __('models/formaciones.fields.modalidad_id'), 'data' => 'modalidad.nombre','name' => 'modalidad.nombre']),
-            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo']),
+            'jornada_id' => new Column(['title' => __('models/formaciones.fields.jornada_id'), 'data' => 'jornada.nombre', 'name' => 'jornada.nombre']),
+            'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             //Campos no visibles que salen en exportación
             'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre','name' => 'campoEducacion.nombre','visible'=>false]),

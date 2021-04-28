@@ -71,6 +71,17 @@
     </select>  
 </div>
 
+<!-- Jornada Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('jornada_id', __('models/formaciones.fields.jornada_id').':') !!}
+    <select name="jornada_id" id="jornada_id" class="form-control">
+        <option></option>
+        @if(!empty(old('jornada_id', $formacion->jornada_id ?? '' )))
+            <option value="{{ old('jornada_id', $formacion->jornada_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Jornada::find(old('jornada_id', $formacion->jornada_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
+</div>
+
 <!-- Periodicidad Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('periodicidad_id', __('models/formaciones.fields.periodicidad_id').':') !!}
@@ -180,6 +191,14 @@
                 allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.modalidades.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+            $('#jornada_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.jornadas.dataAjax") }}',
                     dataType: 'json',
                 },
             });

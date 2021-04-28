@@ -12,14 +12,17 @@ use Altek\Accountant\Contracts\Recordable;
  *
  * @property \App\Models\Formaciones\Entidad $entidad
  * @property \App\Models\Formaciones\Facultad $facultad
+ * @property \App\Models\Formaciones\Jornada $jornada
  * @property \App\Models\Formaciones\Modalidad $modalidad
  * @property \App\Models\Formaciones\Periodicidad $periodicidad
  * @property \App\Models\Formaciones\Reconocimiento $reconocimiento
  * @property \App\Models\Formaciones\CampoEducacion $campoEducacion
  * @property \App\Models\Formaciones\NivelFormacion $nivelFormacion
+ * @property \Illuminate\Database\Eloquent\Collection $campaniaFormaciones
  * @property \Illuminate\Database\Eloquent\Collection $formacionBuyerPersonas
  * @property \Illuminate\Database\Eloquent\Collection $informacionUniversitaria
- * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormacions
+ * @property \Illuminate\Database\Eloquent\Collection $oportunidades
+ * @property \Illuminate\Database\Eloquent\Collection $preferenciaFormaciones
  * @property string $nombre
  * @property integer $entidad_id
  * @property integer $nivel_formacion_id
@@ -27,6 +30,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string $titulo_otorgado
  * @property integer $campo_educacion_id
  * @property integer $modalidad_id
+ * @property integer $jornada_id
  * @property integer $periodicidad_id
  * @property integer $periodos_duracion
  * @property integer $reconocimiento_id
@@ -53,6 +57,7 @@ class Formacion extends Model implements Recordable
         'titulo_otorgado',
         'campo_educacion_id',
         'modalidad_id',
+        'jornada_id',
         'periodicidad_id',
         'periodos_duracion',
         'reconocimiento_id',
@@ -75,6 +80,7 @@ class Formacion extends Model implements Recordable
         'titulo_otorgado' => 'string',
         'campo_educacion_id' => 'integer',
         'modalidad_id' => 'integer',
+        'jornada_id' => 'integer',
         'periodicidad_id' => 'integer',
         'periodos_duracion' => 'integer',
         'reconocimiento_id' => 'integer',
@@ -96,6 +102,7 @@ class Formacion extends Model implements Recordable
         'titulo_otorgado' => 'nullable|string|max:150',
         'campo_educacion_id' => 'nullable|integer',
         'modalidad_id' => 'nullable|integer',
+        'jornada_id' => 'nullable|integer',
         'periodicidad_id' => 'nullable|integer',
         'periodos_duracion' => 'nullable|integer',
         'reconocimiento_id' => 'nullable|integer',
@@ -119,6 +126,15 @@ class Formacion extends Model implements Recordable
     public function facultad()
     {
         return $this->belongsTo(\App\Models\Formaciones\Facultad::class, 'facultad_id')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function jornada()
+    {
+        return $this->belongsTo(\App\Models\Formaciones\Jornada::class, 'jornada_id')
             ->withDefault(['nombre' => '']);
     }
 
@@ -173,6 +189,15 @@ class Formacion extends Model implements Recordable
     public function formacionBuyerPersonas()
     {
         return $this->hasMany(\App\Models\Formaciones\FormacionBuyerPersona::class, 'formacion_id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function campaniaFormaciones()
+    {
+        return $this->hasMany(\App\Models\Campanias\CampaniaFormaciones::class, 'formacion_id');
     }
 
     /**

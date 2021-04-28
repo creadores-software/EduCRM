@@ -46,6 +46,12 @@
     <p>{{ $formacion->modalidad->nombre }}</p>
 </div>
 
+<!-- Modalidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('jornada_id', __('models/formaciones.fields.jornada_id').':') !!}
+    <p>{{ $formacion->jornada->nombre }}</p>
+</div>
+
 <!-- Periodicidad Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('periodicidad_id', __('models/formaciones.fields.periodicidad_id').':') !!}

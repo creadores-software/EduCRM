@@ -17,7 +17,8 @@ return array (
     'periodos_duracion' => 'Periodos Duración',
     'reconocimiento_id' => 'Reconocimiento',
     'costo_matricula' => 'Costo Matrícula',
-    'activo' => 'Activo',
+    'activo' => 'Activa',
     'facultad_id' => 'Facultad',
+    'jornada_id' => 'Jornada',
   ),
 );

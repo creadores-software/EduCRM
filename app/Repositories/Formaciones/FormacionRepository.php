@@ -29,7 +29,8 @@ class FormacionRepository extends BaseRepository
         'reconocimiento_id',
         'costo_matricula',
         'activo',
-        'facultad_id'
+        'facultad_id',
+        'jornada_id',
     ];
 
     /**
