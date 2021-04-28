@@ -153,7 +153,7 @@
 <!-- Sisben Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
-    <select name="sisbenes[]" id="sisbenes" class="form-control">   
+    <select name="sisbenes_elegidos[]" id="sisbenes_elegidos" class="form-control">   
     </select> 
 </div>
 
@@ -224,7 +224,7 @@
                 allowClear: true,
                 createTag: function(params) {return undefined;},
             });
-            $('#sisbenes').select2({
+            $('#sisbenes_elegidos').select2({
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
