@@ -58,6 +58,32 @@
     </div>
 </div>
 
+<!-- Fecha Icfes -->
+<div class="form-group col-sm-6">
+    {!! Form::label('colegioFechaIcfes', 'Fecha Icfes:') !!}
+    <div class="row">
+        <div class="col-sm-6">
+            <input id="colegioFechaInicialIcfes" name="colegioFechaInicialIcfes" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialIcfes') }}" class="form-control pull-right">
+        </div>
+        <div class="col-sm-6">
+            <input id="colegioFechaFinalIcfes" name="colegioFechaFinalIcfes" type="text" placeholder="Hasta" value="{{ old('colegioFechaFinalIcfes') }}" class="form-control pull-right">
+        </div>
+    </div>
+</div>
+
+<!-- Grado Alcanzado Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes').':') !!}
+    <div class="row">
+        <div class="col-sm-6">
+            <input id="colegioIcfesMinimo" name="colegioIcfesMinimo" type="text" placeholder="Desde" value="{{ old('colegioIcfesMinimo') }}" class="form-control pull-right">
+        </div>
+        <div class="col-sm-6">
+            <input id="colegioIcfesMaximo" name="colegioIcfesMaximo" type="text" placeholder="Hasta" value="{{ old('colegioIcfesMaximo') }}" class="form-control pull-right">
+        </div>
+    </div>
+</div>
+
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
@@ -82,6 +108,16 @@
             locale: 'es',
         });
         $('#colegioFechaFinalInicio').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+            locale: 'es',
+        });
+        $('#colegioFechaInicialIcfes').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+            locale: 'es',
+        });
+        $('#colegioFechaFinalIcfes').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',

@@ -19,6 +19,8 @@ use Altek\Accountant\Contracts\Recordable;
  * @property boolean $finalizado
  * @property string $fecha_inicio
  * @property string $fecha_grado
+ * @property string $fecha_icfes
+ * @property integer $puntaje_icfes
  * @property integer $grado
  */
 class InformacionEscolar extends Model implements Recordable
@@ -37,6 +39,8 @@ class InformacionEscolar extends Model implements Recordable
         'finalizado',
         'fecha_inicio',
         'fecha_grado',
+        'fecha_icfes',
+        'puntaje_icfes',
         'grado'
     ];
 
@@ -53,6 +57,8 @@ class InformacionEscolar extends Model implements Recordable
         'finalizado' => 'boolean',
         'fecha_inicio' => 'date',
         'fecha_grado' => 'date',
+        'fecha_icfes' => 'date',
+        'puntaje_icfes' => 'integer',
         'grado' => 'integer'
     ];
 
@@ -68,6 +74,8 @@ class InformacionEscolar extends Model implements Recordable
         'finalizado' => 'nullable|boolean',
         'fecha_inicio' => 'nullable|before_or_equal:today',
         'fecha_grado' => 'nullable',
+        'fecha_icfes' => 'nullable',
+        'puntaje_icfes' => 'nullable|integer',
         'grado' => 'nullable|integer'
     ];
 
@@ -131,6 +139,10 @@ class InformacionEscolar extends Model implements Recordable
            'colegioFechaFinalInicio',
            'colegioFechaInicialGrado',
            'colegioFechaFinalGrado',
+           'colegioFechaInicialIcfes',
+           'colegioFechaFinalIcfes',
+           'colegioIcfesMinimo',
+           'colegioIcfesMaximo',
         ];
         $inputs="";
         foreach($dt_atributos as $atributo){
@@ -160,6 +172,8 @@ class InformacionEscolar extends Model implements Recordable
             'colegioGradoMinimo'=>'informacionEscolar.grado',
             'colegioFechaInicialInicio'=>'informacionEscolar.fecha_inicio',
             'colegioFechaInicialGrado'=>'informacionEscolar.fecha_grado',
+            'colegioFechaInicialIcfes'=>'informacionEscolar.fecha_icfes',
+            'colegioIcfesMinimo'=>'informacionEscolar.puntaje_icfes',
         ];
         foreach($dt_atributos_menor_que as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
@@ -171,6 +185,8 @@ class InformacionEscolar extends Model implements Recordable
             'colegioGradoMaximo'=>'informacionEscolar.grado',
             'colegioFechaFinalInicio'=>'informacionEscolar.fecha_inicio',
             'colegioFechaFinalGrado'=>'informacionEscolar.fecha_grado',
+            'colegioFechaFinalIcfes'=>'informacionEscolar.fecha_icfes',
+            'colegioIcfesMaximo'=>'informacionEscolar.puntaje_icfes',
         ];
         foreach($dt_atributos_mayor_que as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){

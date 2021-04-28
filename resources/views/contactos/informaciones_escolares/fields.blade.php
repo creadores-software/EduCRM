@@ -58,6 +58,23 @@
     {!! Form::text('grado', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Fecha Icfes Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('fecha_icfes', __('models/informacionesEscolares.fields.fecha_icfes').':') !!}
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+        </div>
+        <input id="fecha_icfes" name="fecha_icfes" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_icfes',$informacionEscolar->fecha_icfes ?? '' ) }}" class="form-control pull-right">
+    </div>
+</div>
+
+<!-- Puntaje Icfes Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes').':') !!}
+    {!! Form::text('puntaje_icfes', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
@@ -72,6 +89,11 @@
             locale: 'es',
         });
         $('#fecha_grado').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+            locale: 'es',
+        });
+        $('#fecha_icfes').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',

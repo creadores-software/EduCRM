@@ -40,6 +40,12 @@ class InformacionEscolarDataTable extends DataTable
             }
             return date('Y-m-d', strtotime($informacion->fecha_inicio));
         })
+        ->editColumn('fecha_icfes', function ($informacion){
+            if(empty($informacion->fecha_icfes)){
+                return;
+            }
+            return date('Y-m-d', strtotime($informacion->fecha_icfes));
+        })
         ->editColumn('fecha_grado', function ($informacion){
             if(empty($informacion->fecha_grado)){
                 return;
@@ -134,9 +140,11 @@ class InformacionEscolarDataTable extends DataTable
             'nivel_formacion_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name' => 'nivelFormacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
             'grado' => new Column(['title' => __('models/informacionesEscolares.fields.grado'), 'data' => 'grado']),
-            //Campos no visibles que salen en exportación            
+            'puntaje_icfes' => new Column(['title' => __('models/informacionesEscolares.fields.puntaje_icfes'), 'data' => 'puntaje_icfes']),
+            //Campos no visibles que salen en exportación                  
             'fecha_inicio' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_inicio'), 'data' => 'fecha_inicio','visible'=>false]),
             'fecha_grado' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado'), 'data' => 'fecha_grado','visible'=>false]),
+            'fecha_icfes' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_icfes'), 'data' => 'fecha_icfes','visible'=>false]),
             'contacto_id' => new Column(['title' => __('models/informacionesEscolares.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }

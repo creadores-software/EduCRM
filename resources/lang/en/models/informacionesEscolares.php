@@ -12,6 +12,8 @@ return array (
     'finalizado' => 'Finalizado',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_grado' => 'Fecha Grado',
-    'grado' => 'Grado',
+    'fecha_icfes' => 'Fecha Icfes',
+    'puntaje_icfes' => 'Puntaje Icfes',
+    'grado' => 'Grado Escolar',
   ),
 );

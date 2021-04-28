@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class InformacionEscolarRepository
  * @package App\Repositories\Contactos
- * @version April 5, 2021, 10:41 pm -05
+ * @version April 27, 2021, 11:44 pm -05
 */
 
 class InformacionEscolarRepository extends BaseRepository
@@ -22,6 +22,8 @@ class InformacionEscolarRepository extends BaseRepository
         'nivel_formacion_id',
         'fecha_inicio',
         'fecha_grado',
+        'fecha_icfes',
+        'puntaje_icfes',
         'finalizado',
         'grado'
     ];
