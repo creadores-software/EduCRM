@@ -9,9 +9,9 @@
 <!-- Permisos -->
 <div class="form-group col-sm-12">
     {!! Form::label('permissions', ' Permisos:') !!}
-    <select name="permissions[]" id="permissions" class="form-control"  multiple="multiple">
+    <select name="permissions_select[]" id="permissions_select" class="form-control"  multiple="multiple">
         @if(!empty($role))
-            @foreach (old('permissions[]', $role->permissions,null) as $permiso)
+            @foreach (old('permissions_select[]', $role->permissions,null) as $permiso)
                 <option value="{{ $permiso->id }}" selected="selected">{{ $permiso->name }}</option>
             @endforeach
         @endif
@@ -27,7 +27,7 @@
 @push('scripts')
     <script type="text/javascript">            
         $(document).ready(function() {             
-            $('#permissions').select2({
+            $('#permissions_select').select2({
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
