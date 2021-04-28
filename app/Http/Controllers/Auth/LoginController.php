@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,16 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        if (!$user->active) {
+            auth()->logout();
+            throw ValidationException::withMessages([
+                $this->username() => 'Tu cuenta no está activa. Si tienes dudas contacta al administrador.',
+            ]);
+        }
+        return redirect()->intended($this->redirectPath());
     }
 }

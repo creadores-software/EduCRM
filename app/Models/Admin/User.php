@@ -18,6 +18,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string|\Carbon\Carbon $email_verified_at
  * @property string $password
  * @property string $remember_token
+ * @property boolean $active
  * @property string|\Carbon\Carbon $created_at
  * @property string|\Carbon\Carbon $updated_at
  */
@@ -33,7 +34,7 @@ class User extends Authenticatable implements Identifiable, Recordable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'active'
     ];
 
     /**
@@ -57,6 +58,7 @@ class User extends Authenticatable implements Identifiable, Recordable
         'email_verified_at' => 'datetime',
         'password' => 'string',
         'remember_token' => 'string',
+        'active' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
@@ -72,6 +74,7 @@ class User extends Authenticatable implements Identifiable, Recordable
         'email_verified_at' => 'nullable',
         'password' => 'required|string|max:191',
         'remember_token' => 'nullable|string|max:100',
+        'active' => 'nullable|boolean',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];

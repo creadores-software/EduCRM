@@ -19,7 +19,23 @@ class UserDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'admin.users.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'admin.users.datatables_actions')
+        ->editColumn('active', function ($user){
+            return $user->active? 'Si':'No';
+        })
+        ->filterColumn('active', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("active = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("active = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("activo = 3"); //Ninguno    
+            }             
+        });;
     }
 
     /**
@@ -59,7 +75,7 @@ class UserDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(4)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -81,6 +97,7 @@ class UserDataTable extends DataTable
         return [
             'name' => new Column(['title' => __('models/users.fields.name'), 'data' => 'name']),
             'email' => new Column(['title' => __('models/users.fields.email'), 'data' => 'email']),
+            'active' => new Column(['title' => __('models/users.fields.active'), 'data' => 'active']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

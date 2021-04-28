@@ -29,6 +29,12 @@
     </select> 
 </div>
 
+<!-- Activo Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('active', __('models/users.fields.active').':') !!}
+    {!! Form::select('active',[1=>'SI', 0=>'NO'], old('active'), ['class' => 'form-control']) !!}
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
@@ -50,6 +56,7 @@
                     dataType: 'json',
                 },
             });
+            $('#active').select2(); 
         });
     </script>
 @endpush
