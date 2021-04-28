@@ -336,7 +336,7 @@ class Contacto extends Model implements Recordable
             ->leftjoin('genero', 'contacto.genero_id', '=', 'genero.id')
             ->leftjoin('origen', 'contacto.origen_id', '=', 'origen.id')
             ->leftjoin('prefijo', 'contacto.prefijo_id', '=', 'prefijo.id')
-            ->leftjoin('sisben', 'sisben.sisben_id', '=', 'sisben.id')
+            ->leftjoin('sisben', 'contacto.sisben_id', '=', 'sisben.id')
             ->leftjoin('tipo_documento as tipoDocumento', 'contacto.tipo_documento_id', '=', 'tipoDocumento.id')
             ->leftjoin('contacto_tipo_contacto as tipoContacto', 'tipoContacto.contacto_id', '=', 'contacto.id');            
     }
