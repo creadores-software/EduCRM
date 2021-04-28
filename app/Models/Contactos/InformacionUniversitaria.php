@@ -13,6 +13,8 @@ use Altek\Accountant\Contracts\Recordable;
  * @property \App\Models\Contactos\Contacto $contacto
  * @property \App\Models\Contactos\Entidad $entidad
  * @property \App\Models\Contactos\Formacion $formacion
+ * @property \App\Models\Contactos\PeriodoAcademico $periodoAcademicoFinal
+ * @property \App\Models\Contactos\PeriodoAcademico $periodoAcademicoInicial
  * @property \App\Models\Contactos\TipoAcceso $tipoAcceso
  * @property integer $contacto_id
  * @property integer $entidad_id
@@ -42,6 +44,8 @@ class InformacionUniversitaria extends Model implements Recordable
         'tipo_acceso_id',
         'fecha_inicio',
         'fecha_grado',
+        'periodo_academico_inicial',
+        'periodo_academico_final',
         'finalizado',
         'promedio',
         'periodo_alcanzado'
@@ -60,6 +64,8 @@ class InformacionUniversitaria extends Model implements Recordable
         'tipo_acceso_id' => 'integer',
         'fecha_inicio' => 'date',
         'fecha_grado' => 'date',
+        'periodo_academico_inicial' => 'integer',
+        'periodo_academico_final' => 'integer',
         'finalizado' => 'boolean',
         'promedio' => 'float',
         'periodo_alcanzado' => 'integer'
@@ -77,6 +83,8 @@ class InformacionUniversitaria extends Model implements Recordable
         'tipo_acceso_id' => 'nullable|integer',
         'fecha_inicio' => 'nullable|before_or_equal:today',
         'fecha_grado' => 'nullable',
+        'periodo_academico_inicial' => 'nullable|integer',
+        'periodo_academico_final' => 'nullable|integer',
         'finalizado' => 'nullable|boolean',
         'promedio' => 'nullable|numeric',
         'periodo_alcanzado' => 'nullable|integer'
@@ -111,6 +119,24 @@ class InformacionUniversitaria extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      **/
+    public function periodoAcademicoFinal()
+    {
+        return $this->belongsTo(\App\Models\Formaciones\PeriodoAcademico::class, 'periodo_academico_final')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function periodoAcademicoInicial()
+    {
+        return $this->belongsTo(\App\Models\Formaciones\PeriodoAcademico::class, 'periodo_academico_inicial')
+            ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
     public function tipoAcceso()
     {
         return $this->belongsTo(\App\Models\Formaciones\TipoAcceso::class, 'tipo_acceso_id')
@@ -129,7 +155,9 @@ class InformacionUniversitaria extends Model implements Recordable
             ->leftjoin('formacion as universidadFormacion', 'informacionUniversitaria.formacion_id', '=', 'universidadFormacion.id')
             ->leftjoin('campo_educacion as universidadCampoEducacion', 'universidadFormacion.campo_educacion_id', '=', 'universidadCampoEducacion.id')
             ->leftjoin('categoria_campo_educacion as universidadCategoriaCampoEducacion', 'universidadCampoEducacion.categoria_campo_educacion_id', '=', 'universidadCategoriaCampoEducacion.id')
-            ->leftjoin('tipo_acceso as tipoAccceso', 'informacionUniversitaria.tipo_acceso_id', '=', 'tipoAccceso.id');
+            ->leftjoin('tipo_acceso as tipoAccceso', 'informacionUniversitaria.tipo_acceso_id', '=', 'tipoAccceso.id')
+            ->leftjoin('periodo_academico as universidadPeriodoAcademicoInicial', 'informacionUniversitaria.periodo_academico_inicial', '=', 'universidadPeriodoAcademicoInicial.id')
+            ->leftjoin('periodo_academico as universidadPeriodoAcademicoFinal', 'informacionUniversitaria.periodo_academico_final', '=', 'universidadPeriodoAcademicoFinal.id');
     }
 
     /**
@@ -159,6 +187,8 @@ class InformacionUniversitaria extends Model implements Recordable
            'universidadFechaFinalInicio',
            'universidadFechaInicialGrado',
            'universidadFechaFinalGrado',
+           'universidadPeriodosAcademicosIniciales',
+           'universidadPeriodosAcademicosFinales',
         ];
         $inputs="";
         foreach($dt_atributos as $atributo){
@@ -177,7 +207,9 @@ class InformacionUniversitaria extends Model implements Recordable
            'universidadFormaciones'=>'universidadFormacion.id',
            'universidadCategoriasCampoEducacion'=>'universidadCategoriaCampoEducacion.id',
            'universidadCamposEducacion'=>'universidadCampoEducacion.id',
-           'universidadTiposAcceso'=>'universidadTipoAcceso.id'
+           'universidadTiposAcceso'=>'universidadTipoAcceso.id',
+           'universidadPeriodosAcademicosIniciales'=>'universidadPeriodoAcademicoInicial.id',
+           'universidadPeriodosAcademicosFinales'=>'universidadPeriodoAcademicoFinal.id'
         ];
         foreach($dt_atributos_in as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) 

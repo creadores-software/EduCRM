@@ -92,6 +92,19 @@
     </div>
 </div>
 
+<!-- Periodo Academico Inicial Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial').':') !!}
+    <select name="universidadPeriodosAcademicosIniciales[]" id="universidadPeriodosAcademicosIniciales" class="form-control" multiple="multiple">
+    </select> 
+</div>
+
+<!-- Periodo Academico Final Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final').':') !!}
+    <select name="universidadPeriodosAcademicosFinales[]" id="universidadPeriodosAcademicosFinales" class="form-control" multiple="multiple">
+    </select> 
+</div>
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
@@ -166,6 +179,42 @@
                     },
                 },
             }); 
+            $('#universidadTiposAcceso').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("formaciones.tiposAcceso.dataAjax") }}',
+                    dataType: 'json'
+                },
+            });
+            $('#universidadPeriodosAcademicosIniciales').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("formaciones.periodosAcademicos.dataAjax") }}',
+                    dataType: 'json'
+                },
+            });
+            $('#universidadPeriodosAcademicosFinales').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
+                placeholder: "Seleccionar",
+                allowClear: true,
+                createTag: function(params) {return undefined;},
+                ajax: {
+                    url: '{{ route("formaciones.periodosAcademicos.dataAjax") }}',
+                    dataType: 'json'
+                },
+            });
             $('#universidadTiposAcceso').select2({
                 tags: true,
                 multiple: true,

@@ -52,6 +52,17 @@
     </div>
 </div>
 
+<!-- Periodo Académico Inicial Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial').':') !!}
+    <select name="periodo_academico_inicial" id="periodo_academico_inicial" class="form-control">
+        <option></option>
+        @if(!empty(old('periodo_academico_inicial', $informacionUniversitaria->periodo_academico_inicial ?? '' )))
+            <option value="{{ old('periodo_academico_inicial', $informacionUniversitaria->periodo_academico_inicial ?? '' ) }}" selected> {{ App\Models\Formaciones\PeriodoAcademico::find(old('periodo_academico_inicial', $informacionUniversitaria->periodo_academico_inicial ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
+</div>
+
 <!-- Fecha Grado Field -->
 <div id="div_fecha_grado" class="form-group col-sm-6">
     {!! Form::label('fecha_grado', __('models/informacionesUniversitarias.fields.fecha_grado').':') !!}
@@ -61,6 +72,17 @@
         </div>
         <input id="fecha_grado" name="fecha_grado" type="text" placeholder="AAAA-MM-DD" value="{{ old('fecha_grado',$informacionUniversitaria->fecha_grado ?? '' ) }}" class="form-control pull-right">
     </div>
+</div>
+
+<!-- Periodo Académico Final Field -->
+<div id="div_periodo_academico_final" class="form-group col-sm-6">
+    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final').':') !!}
+    <select name="periodo_academico_final" id="periodo_academico_final" class="form-control">
+        <option></option>
+        @if(!empty(old('periodo_academico_final', $informacionUniversitaria->periodo_academico_final ?? '' )))
+            <option value="{{ old('periodo_academico_final', $informacionUniversitaria->periodo_academico_final ?? '' ) }}" selected> {{ App\Models\Formaciones\PeriodoAcademico::find(old('periodo_academico_final', $informacionUniversitaria->periodo_academico_final ?? '' ))->nombre }} </option>
+        @endif
+    </select> 
 </div>
 
 <!-- Promedio Field -->
@@ -96,8 +118,10 @@
         $('#finalizado').change(function(){
             if($('#finalizado').val()==1){
                 $('#div_fecha_grado').show();   
+                $('#div_periodo_academico_final').show();
            }else{ 
-                $('#div_fecha_grado').hide();      
+                $('#div_fecha_grado').hide();
+                $('#div_periodo_academico_final').hide();      
            }
         }); 
         $('#entidad_id').change(function(){
@@ -105,9 +129,11 @@
         }); 
         $(document).ready(function() { 
             if($('#finalizado').val()==1){
-                $('#div_fecha_grado').show();   
+                $('#div_fecha_grado').show(); 
+                $('#div_periodo_academico_final').show();  
            }else{ 
-                $('#div_fecha_grado').hide();      
+                $('#div_fecha_grado').hide(); 
+                $('#div_periodo_academico_final').hide();     
            }
             $('#finalizado').select2(); 
             $('#entidad_id').select2({
@@ -129,6 +155,22 @@
                 allowClear: true,
                 ajax: {
                     url: '{{ route("formaciones.tiposAcceso.dataAjax") }}',
+                    dataType: 'json'
+                },
+            });
+            $('#periodo_academico_inicial').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.periodosAcademicos.dataAjax") }}',
+                    dataType: 'json'
+                },
+            });
+            $('#periodo_academico_final').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.periodosAcademicos.dataAjax") }}',
                     dataType: 'json'
                 },
             });

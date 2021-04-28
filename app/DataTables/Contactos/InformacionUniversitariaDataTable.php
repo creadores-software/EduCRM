@@ -77,7 +77,7 @@ class InformacionUniversitariaDataTable extends DataTable
     public function query(InformacionUniversitaria $model)
     {
         return $model->newQuery()
-            ->with(['formacion','entidad','tipoAcceso'])->select('informacion_universitaria.*');
+            ->with(['formacion','entidad','tipoAcceso','periodoAcademicoInicial','periodoAcademicoFinal'])->select('informacion_universitaria.*');
     }
 
     /**
@@ -140,6 +140,8 @@ class InformacionUniversitariaDataTable extends DataTable
             'tipo_acceso_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.tipo_acceso_id'), 'data' => 'tipo_acceso.nombre','name' => 'tipoAcceso.nombre','visible'=>false]),
             'fecha_inicio' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_inicio'), 'data' => 'fecha_inicio','visible'=>false]),
             'fecha_grado' => new Column(['title' => __('models/informacionesUniversitarias.fields.fecha_grado'), 'data' => 'fecha_grado','visible'=>false]),
+            'periodo_academico_inicial' => new Column(['title' => __('models/informacionesUniversitarias.fields.periodo_academico_inicial'), 'data' => 'periodo_academico_inicial.nombre', 'name' => 'periodoAcademicoInicial.nombre','visible'=>false]),
+            'periodo_academico_final' => new Column(['title' => __('models/informacionesUniversitarias.fields.periodo_academico_final'), 'data' => 'periodo_academico_final.nombre','name' => 'periodoAcademicoFinal.nombre','visible'=>false]),
             'contacto_id' => new Column(['title' => __('models/informacionesUniversitarias.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),
         ];
     }

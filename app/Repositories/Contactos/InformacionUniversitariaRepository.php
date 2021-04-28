@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class InformacionUniversitariaRepository
  * @package App\Repositories\Contactos
- * @version April 5, 2021, 10:54 pm -05
+ * @version April 28, 2021, 9:26 am -05
 */
 
 class InformacionUniversitariaRepository extends BaseRepository
@@ -23,6 +23,8 @@ class InformacionUniversitariaRepository extends BaseRepository
         'tipo_acceso_id',
         'fecha_inicio',
         'fecha_grado',
+        'periodo_academico_inicial',
+        'periodo_academico_final',
         'finalizado',
         'promedio',
         'periodo_alcanzado'

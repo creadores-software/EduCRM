@@ -103,7 +103,7 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
     Route::resource('nivelesAcademicos', 'Formaciones\NivelAcademicoController', ["as" => 'formaciones']);
     Route::get('periodicidades/dataAjax', 'Formaciones\PeriodicidadController@dataAjax')->name('formaciones.periodicidades.dataAjax');
     Route::resource('periodicidades', 'Formaciones\PeriodicidadController', ["as" => 'formaciones']);
-    Route::get('periodosAcademico/dataAjax', 'Formaciones\PeriodoAcademicoController@dataAjax')->name('formaciones.periodosAcademico.dataAjax');
+    Route::get('periodosAcademico/dataAjax', 'Formaciones\PeriodoAcademicoController@dataAjax')->name('formaciones.periodosAcademicos.dataAjax');
     Route::resource('periodosAcademico', 'Formaciones\PeriodoAcademicoController', ["as" => 'formaciones']);
     Route::get('reconocimientos/dataAjax', 'Formaciones\ReconocimientoController@dataAjax')->name('formaciones.reconocimientos.dataAjax');
     Route::resource('reconocimientos', 'Formaciones\ReconocimientoController', ["as" => 'formaciones']);
