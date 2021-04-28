@@ -57,6 +57,8 @@ Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::resource('razas', 'Parametros\RazaController', ["as" => 'parametros']);
     Route::get('religiones/dataAjax', 'Parametros\ReligionController@dataAjax')->name('parametros.religiones.dataAjax');
     Route::resource('religiones', 'Parametros\ReligionController', ["as" => 'parametros']);
+    Route::get('sisbenes/dataAjax', 'Parametros\SisbenController@dataAjax')->name('parametros.sisbenes.dataAjax');
+    Route::resource('sisbenes', 'Parametros\SisbenController', ["as" => 'parametros']);
     Route::get('tiposContacto/dataAjax', 'Parametros\TipoContactoController@dataAjax')->name('parametros.tiposContacto.dataAjax');
     Route::resource('tiposContacto', 'Parametros\TipoContactoController', ["as" => 'parametros']);
     Route::get('tiposDocumento/dataAjax', 'Parametros\TipoDocumentoController@dataAjax')->name('parametros.tiposDocumento.dataAjax');
@@ -89,6 +91,8 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
     Route::resource('categoriasCampoEducacion', 'Formaciones\CategoriaCampoEducacionController', ["as" => 'formaciones']);
     Route::get('formaciones/dataAjax', 'Formaciones\FormacionController@dataAjax')->name('formaciones.formaciones.dataAjax');
     Route::resource('formaciones', 'Formaciones\FormacionController', ["as" => 'formaciones']);
+    Route::get('jornadas/dataAjax', 'Formaciones\JornadaController@dataAjax')->name('formaciones.jornadas.dataAjax');
+    Route::resource('jornadas', 'Formaciones\JornadaController', ["as" => 'formaciones']);
     Route::get('nivelesFormacion/dataAjax', 'Formaciones\NivelFormacionController@dataAjax')->name('formaciones.nivelesFormacion.dataAjax');
     Route::resource('nivelesFormacion', 'Formaciones\NivelFormacionController', ["as" => 'formaciones']);
     Route::get('facultades/dataAjax', 'Formaciones\FacultadController@dataAjax')->name('formaciones.facultades.dataAjax');
@@ -99,6 +103,8 @@ Route::group(['prefix' => 'formaciones','middleware'=>'auth'], function () {
     Route::resource('nivelesAcademicos', 'Formaciones\NivelAcademicoController', ["as" => 'formaciones']);
     Route::get('periodicidades/dataAjax', 'Formaciones\PeriodicidadController@dataAjax')->name('formaciones.periodicidades.dataAjax');
     Route::resource('periodicidades', 'Formaciones\PeriodicidadController', ["as" => 'formaciones']);
+    Route::get('periodosAcademico/dataAjax', 'Formaciones\PeriodoAcademicoController@dataAjax')->name('formaciones.periodosAcademico.dataAjax');
+    Route::resource('periodosAcademico', 'Formaciones\PeriodoAcademicoController', ["as" => 'formaciones']);
     Route::get('reconocimientos/dataAjax', 'Formaciones\ReconocimientoController@dataAjax')->name('formaciones.reconocimientos.dataAjax');
     Route::resource('reconocimientos', 'Formaciones\ReconocimientoController', ["as" => 'formaciones']);
     Route::get('tiposAcceso/dataAjax', 'Formaciones\TipoAccesoController@dataAjax')->name('formaciones.tiposAcceso.dataAjax');
@@ -129,36 +135,29 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
     Route::resource('permissions', 'Admin\PermissionController', ["as" => 'admin']);
     Route::get('roles/dataAjax', 'Admin\RoleController@dataAjax')->name('admin.roles.dataAjax');
     Route::resource('roles', 'Admin\RoleController', ["as" => 'admin']);
-});
-
-Route::group(['prefix' => 'campanias'], function () {
-    Route::resource('campanias', 'Campanias\CampaniaController', ["as" => 'campanias']);    
-    Route::resource('estadosCampania', 'Campanias\EstadoCampaniaController', ["as" => 'campanias']);
-    Route::resource('estadosInteraccion', 'Campanias\EstadoInteraccionController', ["as" => 'campanias']);
-    Route::resource('interacciones', 'Campanias\InteraccionController', ["as" => 'campanias']);
-    Route::resource('jornadas', 'Formaciones\JornadaController', ["as" => 'formaciones']);
-    Route::resource('justificacionesEstadoCampania', 'Campanias\JustificacionEstadoCampaniaController', ["as" => 'campanias']);
-    Route::resource('matricesGestion', 'Campanias\MatrizGestionController', ["as" => 'campanias']);
-    Route::resource('oportunidades', 'Campanias\OportunidadController', ["as" => 'campanias']);
-    Route::resource('tiposCampania', 'Campanias\TipoCampaniaController', ["as" => 'campanias']);
-    Route::resource('tiposCampaniaEstados', 'Campanias\TipoCampaniaEstadosController', ["as" => 'campanias']);
-    Route::resource('tiposEstadoColor', 'Campanias\TipoEstadoColorController', ["as" => 'campanias']);
-    Route::resource('tiposInteraccion', 'Campanias\TipoInteraccionController', ["as" => 'campanias']);    
-});
-
-Route::group(['prefix' => 'admin'], function () {
+    Route::get('equiposMercadeo/dataAjax', 'Admin\EquipoMercadeoController@dataAjax')->name('admin.equiposMercadeo.dataAjax');
     Route::resource('equiposMercadeo', 'Admin\EquipoMercadeoController', ["as" => 'admin']);
     Route::resource('pertenenciasEquipoMercadeo', 'Admin\PertenenciaEquipoMercadeoController', ["as" => 'admin']);
 });
 
-
-Route::group(['prefix' => 'parametros'], function () {
-    Route::resource('sisbenes', 'Parametros\SisbenController', ["as" => 'parametros']);
+Route::group(['prefix' => 'campanias'], function () {
+    Route::get('campanias/dataAjax', 'Campanias\CampaniaController@dataAjax')->name('campanias.campanias.dataAjax');
+    Route::resource('campanias', 'Campanias\CampaniaController', ["as" => 'campanias']);    
+    Route::get('estadosCampania/dataAjax', 'Campanias\EstadoCampaniaController@dataAjax')->name('campanias.estadosCampania.dataAjax');
+    Route::resource('estadosCampania', 'Campanias\EstadoCampaniaController', ["as" => 'campanias']);
+    Route::get('estadosInteraccion/dataAjax', 'Campanias\EstadoInteraccionController@dataAjax')->name('campanias.estadosInteraccion.dataAjax');
+    Route::resource('estadosInteraccion', 'Campanias\EstadoInteraccionController', ["as" => 'campanias']);
+    Route::resource('interacciones', 'Campanias\InteraccionController', ["as" => 'campanias']);    
+    Route::get('justificacionesEstadoCampania/dataAjax', 'Campanias\JustificacionEstadoCampaniaController@dataAjax')->name('campanias.justificacionesEstadoCampania.dataAjax');
+    Route::resource('justificacionesEstadoCampania', 'Campanias\JustificacionEstadoCampaniaController', ["as" => 'campanias']);
+    Route::resource('matricesGestion', 'Campanias\MatrizGestionController', ["as" => 'campanias']);
+    Route::resource('oportunidades', 'Campanias\OportunidadController', ["as" => 'campanias']);
+    Route::get('tiposCampania/dataAjax', 'Campanias\TipoCampaniaController@dataAjax')->name('campanias.tiposCampania.dataAjax');
+    Route::resource('tiposCampania', 'Campanias\TipoCampaniaController', ["as" => 'campanias']);
+    Route::resource('tiposCampaniaEstados', 'Campanias\TipoCampaniaEstadosController', ["as" => 'campanias']);
+    Route::get('tiposEstadoColor/dataAjax', 'Campanias\TipoEstadoColorController@dataAjax')->name('campanias.tiposEstadoColor.dataAjax');
+    Route::resource('tiposEstadoColor', 'Campanias\TipoEstadoColorController', ["as" => 'campanias']);
+    Route::get('tiposInteraccion/dataAjax', 'Campanias\TipoInteraccionController@dataAjax')->name('campanias.tiposInteraccion.dataAjax');
+    Route::resource('tiposInteraccion', 'Campanias\TipoInteraccionController', ["as" => 'campanias']);    
 });
-
-
-Route::group(['prefix' => 'formaciones'], function () {
-    Route::resource('periodosAcademico', 'Formaciones\PeriodoAcademicoController', ["as" => 'formaciones']);
-});
-
 
