@@ -3,9 +3,9 @@
 namespace App\Http\Requests\Campanias;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Campanias\MatrizGestion;
+use App\Models\Campanias\CategoriaOportunidad;
 
-class CreateMatrizGestionRequest extends FormRequest
+class CreateCategoriaOportunidadRequest extends FormRequest
 {
 
     /**
@@ -25,12 +25,12 @@ class CreateMatrizGestionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules= MatrizGestion::$rules;
+        $rules= CategoriaOportunidad::$rules;
         $rules['nombre'] = [
             'required',
             'string',
             'max:45',
-            'iunique:matriz_gestion,nombre,'.$this->request->get('id'),
+            'iunique:categoria_oportunidad,nombre,'.$this->request->get('id'),
         ];
         return $rules;
     }

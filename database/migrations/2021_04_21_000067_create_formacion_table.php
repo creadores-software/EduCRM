@@ -72,18 +72,18 @@ class CreateFormacionTable extends Migration
 
             $table->foreign('modalidad_id', 'fk_formacion_modalidad_idx')
                 ->references('id')->on('modalidad')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
 
             $table->foreign('reconocimiento_id', 'fk_formacion_reconocimiento_idx')
                 ->references('id')->on('reconocimiento')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
 
             $table->foreign('periodicidad_id', 'fk_formacion_periodicidad_idx')
                 ->references('id')->on('periodicidad')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
 
             $table->foreign('facultad_id', 'fk_formacion_facultad_idx')
                 ->references('id')->on('facultad')
@@ -92,8 +92,8 @@ class CreateFormacionTable extends Migration
 
             $table->foreign('jornada_id', 'fk_formacion_jornada_idx')
                 ->references('id')->on('jornada')
-                ->onDelete('no action')
-                ->onUpdate('no action');
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
         });
     }
 

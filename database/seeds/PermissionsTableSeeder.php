@@ -342,7 +342,7 @@ class PermissionsTableSeeder extends Seeder
             40 => 
             array (
                 'id' => 41,
-                'name' => 'campanias.matricesGestion.consultar',
+                'name' => 'campanias.categoriasOportunidad.consultar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-26 22:55:29',
                 'updated_at' => '2021-04-26 22:55:29',
@@ -350,7 +350,7 @@ class PermissionsTableSeeder extends Seeder
             41 => 
             array (
                 'id' => 42,
-                'name' => 'campanias.matricesGestion.crear',
+                'name' => 'campanias.categoriasOportunidad.crear',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-26 22:55:29',
                 'updated_at' => '2021-04-26 22:55:29',
@@ -358,7 +358,7 @@ class PermissionsTableSeeder extends Seeder
             42 => 
             array (
                 'id' => 43,
-                'name' => 'campanias.matricesGestion.editar',
+                'name' => 'campanias.categoriasOportunidad.editar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-26 22:55:29',
                 'updated_at' => '2021-04-26 22:55:29',
@@ -366,7 +366,7 @@ class PermissionsTableSeeder extends Seeder
             43 => 
             array (
                 'id' => 44,
-                'name' => 'campanias.matricesGestion.eliminar',
+                'name' => 'campanias.categoriasOportunidad.eliminar',
                 'guard_name' => 'web',
                 'created_at' => '2021-04-26 22:55:29',
                 'updated_at' => '2021-04-26 22:55:29',

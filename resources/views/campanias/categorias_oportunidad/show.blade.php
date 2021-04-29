@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/matricesGestion.singular')
+            @lang('models/categoriasOportunidad.singular')
         </h1>
     </section>
     <div class="content">
@@ -11,9 +11,9 @@
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
                     <h2 class="page-header">Datos</h2>
-                    @include('campanias.matrices_gestion.show_fields')
+                    @include('campanias.categorias_oportunidad.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('campanias.matricesGestion.index') }}" class="btn btn-default">
+                    <a href="{{ route('campanias.categoriasOportunidad.index') }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>
                 </div>

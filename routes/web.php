@@ -143,6 +143,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
 Route::group(['prefix' => 'campanias'], function () {
     Route::get('campanias/dataAjax', 'Campanias\CampaniaController@dataAjax')->name('campanias.campanias.dataAjax');
     Route::resource('campanias', 'Campanias\CampaniaController', ["as" => 'campanias']);    
+    Route::resource('categoriasOportunidad', 'Campanias\CategoriaOportunidadController', ["as" => 'campanias']);
     Route::get('estadosCampania/dataAjax', 'Campanias\EstadoCampaniaController@dataAjax')->name('campanias.estadosCampania.dataAjax');
     Route::resource('estadosCampania', 'Campanias\EstadoCampaniaController', ["as" => 'campanias']);
     Route::get('estadosInteraccion/dataAjax', 'Campanias\EstadoInteraccionController@dataAjax')->name('campanias.estadosInteraccion.dataAjax');
@@ -150,7 +151,6 @@ Route::group(['prefix' => 'campanias'], function () {
     Route::resource('interacciones', 'Campanias\InteraccionController', ["as" => 'campanias']);    
     Route::get('justificacionesEstadoCampania/dataAjax', 'Campanias\JustificacionEstadoCampaniaController@dataAjax')->name('campanias.justificacionesEstadoCampania.dataAjax');
     Route::resource('justificacionesEstadoCampania', 'Campanias\JustificacionEstadoCampaniaController', ["as" => 'campanias']);
-    Route::resource('matricesGestion', 'Campanias\MatrizGestionController', ["as" => 'campanias']);
     Route::resource('oportunidades', 'Campanias\OportunidadController', ["as" => 'campanias']);
     Route::get('tiposCampania/dataAjax', 'Campanias\TipoCampaniaController@dataAjax')->name('campanias.tiposCampania.dataAjax');
     Route::resource('tiposCampania', 'Campanias\TipoCampaniaController', ["as" => 'campanias']);
@@ -160,4 +160,3 @@ Route::group(['prefix' => 'campanias'], function () {
     Route::get('tiposInteraccion/dataAjax', 'Campanias\TipoInteraccionController@dataAjax')->name('campanias.tiposInteraccion.dataAjax');
     Route::resource('tiposInteraccion', 'Campanias\TipoInteraccionController', ["as" => 'campanias']);    
 });
-

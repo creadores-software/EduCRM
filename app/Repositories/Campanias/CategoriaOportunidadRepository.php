@@ -2,22 +2,22 @@
 
 namespace App\Repositories\Campanias;
 
-use App\Models\Campanias\MatrizGestion;
+use App\Models\Campanias\CategoriaOportunidad;
 use App\Repositories\BaseRepository;
 
 /**
- * Class MatrizGestionRepository
+ * Class CategoriaOportunidadRepository
  * @package App\Repositories\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version April 28, 2021, 10:01 pm -05
 */
 
-class MatrizGestionRepository extends BaseRepository
+class CategoriaOportunidadRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'accion',
+        'nombre',
         'descripcion',
         'interes_minimo',
         'interes_maximo',
@@ -41,6 +41,6 @@ class MatrizGestionRepository extends BaseRepository
      **/
     public function model()
     {
-        return MatrizGestion::class;
+        return CategoriaOportunidad::class;
     }
 }

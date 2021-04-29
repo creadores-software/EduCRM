@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
 
 /**
- * Class MatrizGestion
+ * Class CategoriaOportunidad
  * @package App\Models\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version April 28, 2021, 10:01 pm -05
  *
- * @property string $accion
+ * @property \Illuminate\Database\Eloquent\Collection $oportunidades
+ * @property string $nombre
  * @property string $descripcion
  * @property integer $interes_minimo
  * @property integer $interes_maximo
@@ -18,10 +19,10 @@ use Altek\Accountant\Contracts\Recordable;
  * @property integer $probabilidad_maxima
  * @property string $color_hexadecimal
  */
-class MatrizGestion extends Model implements Recordable
+class CategoriaOportunidad extends Model implements Recordable
 {
 
-    public $table = 'matriz_gestion';
+    public $table = 'categoria_oportunidad';
     use \Altek\Accountant\Recordable;
     
     public $timestamps = false;
@@ -30,7 +31,7 @@ class MatrizGestion extends Model implements Recordable
 
 
     public $fillable = [
-        'accion',
+        'nombre',
         'descripcion',
         'interes_minimo',
         'interes_maximo',
@@ -46,7 +47,7 @@ class MatrizGestion extends Model implements Recordable
      */
     protected $casts = [
         'id' => 'integer',
-        'accion' => 'string',
+        'nombre' => 'string',
         'descripcion' => 'string',
         'interes_minimo' => 'integer',
         'interes_maximo' => 'integer',
@@ -61,7 +62,7 @@ class MatrizGestion extends Model implements Recordable
      * @var array
      */
     public static $rules = [
-        'accion' => 'required|string|max:45',
+        'nombre' => 'required|string|max:45',
         'descripcion' => 'nullable|string|max:191',
         'interes_minimo' => 'required|integer',
         'interes_maximo' => 'required|integer',
@@ -70,5 +71,11 @@ class MatrizGestion extends Model implements Recordable
         'color_hexadecimal' => 'required|string|max:7'
     ];
 
-    
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     **/
+    public function oportunidades()
+    {
+        return $this->hasMany(\App\Models\Campanias\Oportunidad::class, 'categoria_oportunidad_id');
+    }
 }

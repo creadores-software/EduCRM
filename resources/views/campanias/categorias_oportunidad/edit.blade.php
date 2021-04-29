@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/matricesGestion.singular')
+            @lang('models/categoriasOportunidad.singular')
         </h1>
    </section>
    <div class="content">
@@ -11,9 +11,9 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($matrizGestion, ['route' => ['campanias.matricesGestion.update', $matrizGestion->id], 'method' => 'patch']) !!}
+                   {!! Form::model($categoriaOportunidad, ['route' => ['campanias.categoriasOportunidad.update', $categoriaOportunidad->id], 'method' => 'patch']) !!}
 
-                        @include('campanias.matrices_gestion.fields')
+                        @include('campanias.categorias_oportunidad.fields')
 
                    {!! Form::close() !!}
                </div>

@@ -3,11 +3,11 @@
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">
-            @lang('models/matricesGestion.plural')
+            @lang('models/categoriasOportunidad.plural')
         </h1>
-        @can('campanias.matricesGestion.crear')
+        @can('campanias.categoriasOportunidad.crear')
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('campanias.matricesGestion.create') }}">@lang('crud.add_new')</a>
+           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('campanias.categoriasOportunidad.create') }}">@lang('crud.add_new')</a>
         </h1>
         @endcan
     </section>
@@ -19,7 +19,7 @@
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
-                    @include('campanias.matrices_gestion.table')
+                    @include('campanias.categorias_oportunidad.table')
             </div>
         </div>
         <div class="text-center">

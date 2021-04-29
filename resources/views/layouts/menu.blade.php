@@ -292,6 +292,11 @@
         <li id="campania-parametros" class="treeview opcion-menu opcion-menu-hijo">
             <a href="#"><i class="fa fa-circle-o"></i><span>Parámetros</span></a>
             <ul class="treeview-menu">
+                @if(strpos(Session::get('textoPermisos'), 'campanias.categoriasOportunidad.')!==false)
+                <li id="categoriasOportunidad" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.categoriasOportunidad.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/categoriasOportunidad.plural')</span></a>
+                </li> 
+                @endif
                 @if(strpos(Session::get('textoPermisos'), 'campanias.estadosCampania.')!==false)
                 <li id="estadosCampania" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.estadosCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosCampania.plural')</span></a>

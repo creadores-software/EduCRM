@@ -2,12 +2,12 @@
 
 namespace App\DataTables\Campanias;
 
-use App\Models\Campanias\MatrizGestion;
+use App\Models\Campanias\CategoriaOportunidad;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
 
-class MatrizGestionDataTable extends DataTable
+class CategoriaOportunidadDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,16 +19,16 @@ class MatrizGestionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'campanias.matrices_gestion.datatables_actions');
+        return $dataTable->addColumn('action', 'campanias.categorias_oportunidad.datatables_actions');
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\MatrizGestion $model
+     * @param \App\Models\CategoriaOportunidad $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(MatrizGestion $model)
+    public function query(CategoriaOportunidad $model)
     {
         return $model->newQuery();
     }
@@ -79,15 +79,15 @@ class MatrizGestionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'accion' => new Column(['title' => __('models/matricesGestion.fields.accion'), 'data' => 'accion']),            
-            'interes_minimo' => new Column(['title' => __('models/matricesGestion.fields.interes_minimo'), 'data' => 'interes_minimo']),
-            'interes_maximo' => new Column(['title' => __('models/matricesGestion.fields.interes_maximo'), 'data' => 'interes_maximo']),
-            'probabilidad_minima' => new Column(['title' => __('models/matricesGestion.fields.probabilidad_minima'), 'data' => 'probabilidad_minima']),
-            'probabilidad_maxima' => new Column(['title' => __('models/matricesGestion.fields.probabilidad_maxima'), 'data' => 'probabilidad_maxima']),
-            'color_hexadecimal' => new Column(['title' => __('models/matricesGestion.fields.color_hexadecimal'), 'data' => 'color_hexadecimal']),
-            //No visibles            
-            'descripcion' => new Column(['title' => __('models/matricesGestion.fields.descripcion'), 'data' => 'descripcion','visible'=>false]),
-            'id' => new Column(['title' => 'ID', 'data' => 'id','visible'=>false]),
+            'nombre' => new Column(['title' => __('models/categoriasOportunidad.fields.nombre'), 'data' => 'nombre']),            
+            'interes_minimo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_minimo'), 'data' => 'interes_minimo']),
+            'interes_maximo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_maximo'), 'data' => 'interes_maximo']),
+            'probabilidad_minima' => new Column(['title' => __('models/categoriasOportunidad.fields.probabilidad_minima'), 'data' => 'probabilidad_minima']),
+            'probabilidad_maxima' => new Column(['title' => __('models/categoriasOportunidad.fields.probabilidad_maxima'), 'data' => 'probabilidad_maxima']),
+            'color_hexadecimal' => new Column(['title' => __('models/categoriasOportunidad.fields.color_hexadecimal'), 'data' => 'color_hexadecimal']),
+            //Campos no visibles
+            'descripcion' => new Column(['title' => __('models/categoriasOportunidad.fields.descripcion'), 'data' => 'descripcion', 'visible'=>false]),
+            'id' => new Column(['title' => 'ID', 'data' => 'id', 'visible'=>false]),
         ];
     }
 
@@ -98,6 +98,6 @@ class MatrizGestionDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'matrices_gestion_' .date("Ymd_His");
+        return 'categorias_oportunidad_' .date("Ymd_His");
     }
 }
