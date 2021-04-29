@@ -46,6 +46,12 @@
     {!! Form::number('probabilidad', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Categoria Oportunidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    {!! Form::number('categoria_oportunidad_id', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Ingreso Recibido Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido').':') !!}

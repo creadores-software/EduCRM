@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class OportunidadRepository
  * @package App\Repositories\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version April 28, 2021, 10:08 pm -05
 */
 
 class OportunidadRepository extends BaseRepository
@@ -25,6 +25,7 @@ class OportunidadRepository extends BaseRepository
         'justificacion_estado_campania_id',
         'interes',
         'probabilidad',
+        'categoria_oportunidad_id',
         'ingreso_recibido',
         'ingreso_proyectado',
         'adicion_manual'

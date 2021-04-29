@@ -14,6 +14,7 @@ return array (
     'justificacion_estado_campania_id' => 'Justificación Estado Campaña',
     'interes' => 'Interes',
     'probabilidad' => 'Probabilidad',
+    'categoria_oportunidad_id' => 'Categoría Oportunidad',
     'ingreso_recibido' => 'Ingreso Recibido',
     'ingreso_proyectado' => 'Ingreso Proyectado',
     'adicion_manual' => 'Adición Manual',

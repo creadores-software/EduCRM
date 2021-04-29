@@ -24,6 +24,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property integer $justificacion_estado_campania_id
  * @property integer $interes
  * @property integer $probabilidad
+ * @property integer $categoria_oportunidad_id
  * @property number $ingreso_recibido
  * @property number $ingreso_proyectado
  * @property boolean $adicion_manual
@@ -48,6 +49,7 @@ class Oportunidad extends Model implements Recordable
         'justificacion_estado_campania_id',
         'interes',
         'probabilidad',
+        'categoria_oportunidad_id',
         'ingreso_recibido',
         'ingreso_proyectado',
         'adicion_manual'
@@ -68,6 +70,7 @@ class Oportunidad extends Model implements Recordable
         'justificacion_estado_campania_id' => 'integer',
         'interes' => 'integer',
         'probabilidad' => 'integer',
+        'categoria_oportunidad_id' => 'integer',
         'ingreso_recibido' => 'float',
         'ingreso_proyectado' => 'float',
         'adicion_manual' => 'boolean'
@@ -87,10 +90,20 @@ class Oportunidad extends Model implements Recordable
         'justificacion_estado_campania_id' => 'required|integer',
         'interes' => 'nullable|integer',
         'probabilidad' => 'nullable|integer',
+        'categoria_oportunidad_id' => 'required|integer',
         'ingreso_recibido' => 'nullable|numeric',
         'ingreso_proyectado' => 'nullable|numeric',
         'adicion_manual' => 'nullable|boolean'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function categoriaOportunidad()
+    {
+        return $this->belongsTo(\App\Models\Campanias\CategoriaOportunidad::class, 'categoria_oportunidad_id')
+            ->withDefault(['nombre' => '']);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

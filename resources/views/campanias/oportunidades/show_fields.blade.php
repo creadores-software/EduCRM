@@ -46,6 +46,12 @@
     <p>{{ $oportunidad->probabilidad }}</p>
 </div>
 
+<!-- Categoria Oportunidad Id Field -->
+<div class="form-group">
+    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    <p>{{ $oportunidad->categoria_oportunidad_id }}</p>
+</div>
+
 <!-- Ingreso Recibido Field -->
 <div class="form-group">
     {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido').':') !!}

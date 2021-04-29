@@ -88,6 +88,7 @@ class OportunidadDataTable extends DataTable
             //Campos no visibles
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false]),
             'probabilidad' => new Column(['title' => __('models/oportunidades.fields.probabilidad'), 'data' => 'probabilidad','visible'=>false]),
+            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id','visible'=>false]),
             'ingreso_recibido' => new Column(['title' => __('models/oportunidades.fields.ingreso_recibido'), 'data' => 'ingreso_recibido','visible'=>false]),
             'ingreso_proyectado' => new Column(['title' => __('models/oportunidades.fields.ingreso_proyectado'), 'data' => 'ingreso_proyectado','visible'=>false]),
             'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false]),

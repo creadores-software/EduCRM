@@ -161,6 +161,7 @@ return [
         'campo_educacion_id' => 'Campo Educación',
         'categoria_actividad_economica_id' => 'Categoría',
         'categoria_campo_educacion_id' => 'Categoría',
+        'categoria_oportunidad_id' => 'Categoría Oportunidad',
         'contacto_destino' => 'Pariente',
         'contacto_id' => 'Contacto',
         'email'=>'Correo',
