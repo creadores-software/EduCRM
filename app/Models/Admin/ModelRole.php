@@ -47,7 +47,7 @@ class ModelRole extends Model implements Recordable
      * @var array
      */
     public static $rules = [
-        'model_type' => 'required|string|max:191',
+        'model_type' => 'required|string|max:255',
         'model_id' => 'required'
     ];
 

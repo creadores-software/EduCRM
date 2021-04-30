@@ -26,15 +26,15 @@ class UpdateRoleRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'name' => 'required|string|max:191',
-            'guard_name' => 'required|string|max:191',
+            'name' => 'required|string|max:255',
+            'guard_name' => 'required|string|max:255',
             'created_at' => 'nullable',
             'updated_at' => 'nullable'
         ];
         $rules['name'] = [
             'required',
             'string',
-            'max:191',
+            'max:255',
             'iunique:roles,name,'.$this->request->get('id'),
         ];
         return $rules;

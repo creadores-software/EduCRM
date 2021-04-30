@@ -49,7 +49,7 @@ class TipoCampania extends Model implements Recordable
      */
     public static $rules = [
         'nombre' => 'required|string|max:45',
-        'descripcion' => 'nullable|string|max:191'
+        'descripcion' => 'nullable|string|max:255'
     ];
 
     /**

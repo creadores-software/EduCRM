@@ -69,7 +69,7 @@ class Interaccion extends Model implements Recordable
         'fecha_fin' => 'required',
         'tipo_interaccion_id' => 'required|integer',
         'estado_interaccion_id' => 'required|integer',
-        'observacion' => 'nullable|string|max:191',
+        'observacion' => 'nullable|string|max:255',
         'oportunidad_id' => 'nullable|integer',
         'contacto_id' => 'nullable|integer'
     ];

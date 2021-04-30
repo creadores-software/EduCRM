@@ -53,7 +53,7 @@ class JustificacionEstadoCampania extends Model implements Recordable
     public static $rules = [
         'estado_campania_id' => 'required|integer',
         'nombre' => 'required|string|max:45',
-        'descripcion' => 'nullable|string|max:191'
+        'descripcion' => 'nullable|string|max:255'
     ];
 
     /**

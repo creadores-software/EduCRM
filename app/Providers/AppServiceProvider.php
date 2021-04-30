@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
         if (env('REDIRECT_HTTPS')) {
             $url->formatScheme('https://');
         }
-        Schema::defaultStringLength(191);
+        Schema::defaultStringLength(255);
         Validator::extend('iunique', function ($attribute, $value, $parameters, $validator) {
             $query = DB::table($parameters[0]);
             $column = $query->getGrammar()->wrap($parameters[1]);

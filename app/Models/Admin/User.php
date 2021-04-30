@@ -69,10 +69,10 @@ class User extends Authenticatable implements Identifiable, Recordable
      * @var array
      */
     public static $rules = [
-        'name' => 'required|string|max:191',
-        'email' => 'required|string|max:191',
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|max:255',
         'email_verified_at' => 'nullable',
-        'password' => 'required|string|max:191',
+        'password' => 'required|string|max:255',
         'remember_token' => 'nullable|string|max:100',
         'active' => 'nullable|boolean',
         'created_at' => 'nullable',

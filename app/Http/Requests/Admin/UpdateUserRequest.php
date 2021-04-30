@@ -30,13 +30,13 @@ class UpdateUserRequest extends FormRequest
         $rules['password'] = [
             'nullable',
             'string',
-            'max:191',
+            'max:255',
             'iunique:users,email,'.$this->request->get('id'),
         ];
         $rules['email'] = [
             'required',
             'string',
-            'max:191',
+            'max:255',
             'iunique:users,email,'.$this->request->get('id'),
         ];
         return $rules;
