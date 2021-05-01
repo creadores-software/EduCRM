@@ -15,6 +15,18 @@
     {!! Form::text('color_hexadecimal', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Capacidad Minima Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('capacidad_minima', __('models/categoriasOportunidad.fields.capacidad_minima').':') !!}
+    {!! Form::number('capacidad_minima', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Capacidad Maxima Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('capacidad_maxima', __('models/categoriasOportunidad.fields.capacidad_maxima').':') !!}
+    {!! Form::number('capacidad_maxima', null, ['class' => 'form-control']) !!}
+</div>
+
 <!-- Interes Minimo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes_minimo', __('models/categoriasOportunidad.fields.interes_minimo').':') !!}
@@ -25,18 +37,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('interes_maximo', __('models/categoriasOportunidad.fields.interes_maximo').':') !!}
     {!! Form::number('interes_maximo', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Probabilidad Minima Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('probabilidad_minima', __('models/categoriasOportunidad.fields.probabilidad_minima').':') !!}
-    {!! Form::number('probabilidad_minima', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Probabilidad Maxima Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('probabilidad_maxima', __('models/categoriasOportunidad.fields.probabilidad_maxima').':') !!}
-    {!! Form::number('probabilidad_maxima', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Descripcion Field -->

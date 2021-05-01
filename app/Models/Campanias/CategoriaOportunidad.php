@@ -15,8 +15,8 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string $descripcion
  * @property integer $interes_minimo
  * @property integer $interes_maximo
- * @property integer $probabilidad_minima
- * @property integer $probabilidad_maxima
+ * @property integer $capacidad_minima
+ * @property integer $capacidad_maxima
  * @property string $color_hexadecimal
  */
 class CategoriaOportunidad extends Model implements Recordable
@@ -35,8 +35,8 @@ class CategoriaOportunidad extends Model implements Recordable
         'descripcion',
         'interes_minimo',
         'interes_maximo',
-        'probabilidad_minima',
-        'probabilidad_maxima',
+        'capacidad_minima',
+        'capacidad_maxima',
         'color_hexadecimal'
     ];
 
@@ -51,8 +51,8 @@ class CategoriaOportunidad extends Model implements Recordable
         'descripcion' => 'string',
         'interes_minimo' => 'integer',
         'interes_maximo' => 'integer',
-        'probabilidad_minima' => 'integer',
-        'probabilidad_maxima' => 'integer',
+        'capacidad_minima' => 'integer',
+        'capacidad_maxima' => 'integer',
         'color_hexadecimal' => 'string'
     ];
 
@@ -66,8 +66,8 @@ class CategoriaOportunidad extends Model implements Recordable
         'descripcion' => 'nullable|string|max:255',
         'interes_minimo' => 'required|integer',
         'interes_maximo' => 'required|integer',
-        'probabilidad_minima' => 'required|integer',
-        'probabilidad_maxima' => 'required|integer',
+        'capacidad_minima' => 'required|integer',
+        'capacidad_maxima' => 'required|integer',
         'color_hexadecimal' => 'required|string|max:7'
     ];
 

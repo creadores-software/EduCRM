@@ -21,8 +21,8 @@ class CategoriaOportunidadRepository extends BaseRepository
         'descripcion',
         'interes_minimo',
         'interes_maximo',
-        'probabilidad_minima',
-        'probabilidad_maxima',
+        'capacidad_minima',
+        'capacidad_maxima',
         'color_hexadecimal'
     ];
 

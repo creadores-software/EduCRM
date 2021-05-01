@@ -27,8 +27,8 @@ class CreateCategoriaOportunidadTable extends Migration
             $table->string('descripcion')->nullable();
             $table->integer('interes_minimo');
             $table->integer('interes_maximo');
-            $table->integer('probabilidad_minima');
-            $table->integer('probabilidad_maxima');
+            $table->integer('capacidad_minima');
+            $table->integer('capacidad_maxima');
             $table->string('color_hexadecimal', 7);
         });
     }

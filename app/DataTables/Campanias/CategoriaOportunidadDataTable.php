@@ -53,7 +53,7 @@ class CategoriaOportunidadDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc']],
+                'order'     => [[2, 'desc'],[4, 'desc']],
                 'buttons'   => [                    
                     [
                        'extend' => 'export',
@@ -86,11 +86,11 @@ class CategoriaOportunidadDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/categoriasOportunidad.fields.nombre'), 'data' => 'nombre']),            
-            'interes_minimo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_minimo'), 'data' => 'interes_minimo']),
-            'interes_maximo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_maximo'), 'data' => 'interes_maximo']),
-            'probabilidad_minima' => new Column(['title' => __('models/categoriasOportunidad.fields.probabilidad_minima'), 'data' => 'probabilidad_minima']),
-            'probabilidad_maxima' => new Column(['title' => __('models/categoriasOportunidad.fields.probabilidad_maxima'), 'data' => 'probabilidad_maxima']),
             'color_hexadecimal' => new Column(['title' => __('models/categoriasOportunidad.fields.color_hexadecimal'), 'data' => 'color_hexadecimal']),
+            'capacidad_minima' => new Column(['title' => __('models/categoriasOportunidad.fields.capacidad_minima'), 'data' => 'capacidad_minima']),
+            'capacidad_maxima' => new Column(['title' => __('models/categoriasOportunidad.fields.capacidad_maxima'), 'data' => 'capacidad_maxima']),            
+            'interes_minimo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_minimo'), 'data' => 'interes_minimo']),
+            'interes_maximo' => new Column(['title' => __('models/categoriasOportunidad.fields.interes_maximo'), 'data' => 'interes_maximo']),            
             //Campos no visibles
             'descripcion' => new Column(['title' => __('models/categoriasOportunidad.fields.descripcion'), 'data' => 'descripcion', 'visible'=>false]),
             'id' => new Column(['title' => 'ID', 'data' => 'id', 'visible'=>false]),
