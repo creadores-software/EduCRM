@@ -143,6 +143,7 @@ Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
 Route::group(['prefix' => 'campanias'], function () {
     Route::get('campanias/dataAjax', 'Campanias\CampaniaController@dataAjax')->name('campanias.campanias.dataAjax');
     Route::resource('campanias', 'Campanias\CampaniaController', ["as" => 'campanias']);    
+    Route::get('categoriasOportunidad/dataAjax', 'Campanias\CategoriaOportunidadController@dataAjax')->name('categoriasOportunidad.campanias.dataAjax');
     Route::resource('categoriasOportunidad', 'Campanias\CategoriaOportunidadController', ["as" => 'campanias']);
     Route::get('estadosCampania/dataAjax', 'Campanias\EstadoCampaniaController@dataAjax')->name('campanias.estadosCampania.dataAjax');
     Route::resource('estadosCampania', 'Campanias\EstadoCampaniaController', ["as" => 'campanias']);

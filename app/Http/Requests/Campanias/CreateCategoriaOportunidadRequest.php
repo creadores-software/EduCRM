@@ -4,6 +4,7 @@ namespace App\Http\Requests\Campanias;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Campanias\CategoriaOportunidad;
+use App\Rules\UnicoIntervaloCategoria;
 
 class CreateCategoriaOportunidadRequest extends FormRequest
 {
@@ -31,6 +32,7 @@ class CreateCategoriaOportunidadRequest extends FormRequest
             'string',
             'max:45',
             'iunique:categoria_oportunidad,nombre,'.$this->request->get('id'),
+            new UnicoIntervaloCategoria($this->request),
         ];
         return $rules;
     }

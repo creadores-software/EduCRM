@@ -18,25 +18,25 @@
 <!-- Capacidad Minima Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('capacidad_minima', __('models/categoriasOportunidad.fields.capacidad_minima').':') !!}
-    {!! Form::number('capacidad_minima', null, ['class' => 'form-control']) !!}
+    {!! Form::select('capacidad_minima',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('capacidad_minima'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Capacidad Maxima Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('capacidad_maxima', __('models/categoriasOportunidad.fields.capacidad_maxima').':') !!}
-    {!! Form::number('capacidad_maxima', null, ['class' => 'form-control']) !!}
+    {!! Form::select('capacidad_maxima',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('capacidad_maxima'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Interes Minimo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes_minimo', __('models/categoriasOportunidad.fields.interes_minimo').':') !!}
-    {!! Form::number('interes_minimo', null, ['class' => 'form-control']) !!}
+    {!! Form::select('interes_minimo',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('interes_minimo'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Interes Maximo Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes_maximo', __('models/categoriasOportunidad.fields.interes_maximo').':') !!}
-    {!! Form::number('interes_maximo', null, ['class' => 'form-control']) !!}
+    {!! Form::select('interes_maximo',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('interes_maximo'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Descripcion Field -->
@@ -58,5 +58,11 @@
     var hueb = new Huebee( elem, {
     // options
     });
+    $(document).ready(function() { 
+        $('#capacidad_minima').select2(); 
+        $('#capacidad_maxima').select2(); 
+        $('#interes_minimo').select2(); 
+        $('#interes_maximo').select2(); 
+    }); 
 </script>  
 @endpush
