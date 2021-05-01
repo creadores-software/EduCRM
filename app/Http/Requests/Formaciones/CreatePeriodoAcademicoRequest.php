@@ -32,6 +32,10 @@ class CreatePeriodoAcademicoRequest extends FormRequest
             'max:45',
             'iunique:periodo_academico,nombre,'.$this->request->get('id'),
         ];
+        $rules['fecha_fin'] = ['nullable'];
+        if($this->request->get('fecha_fin') && $this->request->get('fecha_inicio')){
+            $rules['fecha_fin'][] = 'after:fecha_inicio';                
+        }
         return $rules;
     }
 }

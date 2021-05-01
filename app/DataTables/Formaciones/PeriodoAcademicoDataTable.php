@@ -19,7 +19,20 @@ class PeriodoAcademicoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.periodos_academico.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'formaciones.periodos_academico.datatables_actions')
+        ->editColumn('fecha_inicio', function ($periodo){
+            if(empty($periodo->fecha_inicio)){
+                return;
+            }
+            return date('Y-m-d', strtotime($periodo->fecha_inicio));
+        })
+        ->editColumn('fecha_fin', function ($periodo){
+            if(empty($periodo->fecha_fin)){
+                return;
+            }
+            return date('Y-m-d', strtotime($periodo->fecha_fin));
+        });
     }
 
     /**
