@@ -30,7 +30,7 @@ class CreateTipoEstadoColorRequest extends FormRequest
             'required',
             'string',
             'max:45',
-            'iunique:tipos_estado_color,nombre,'.$this->request->get('id'),
+            'iunique:tipo_estado_color,nombre,'.$this->request->get('id'),
         ];
         return $rules;
     }

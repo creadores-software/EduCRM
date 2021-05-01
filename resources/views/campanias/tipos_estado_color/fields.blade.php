@@ -1,7 +1,12 @@
+@push('css')
+    <link rel="stylesheet" href="https://unpkg.com/huebee@2/dist/huebee.min.css">
+@endpush
+
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/tiposEstadoColor.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $tipoEstadoColor->id ?? '')) !!}
 </div>
 
 <!-- Color Hexadecimal Field -->
@@ -15,3 +20,13 @@
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('campanias.tiposEstadoColor.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+<script src="https://unpkg.com/huebee@2/dist/huebee.pkgd.min.js"></script>
+<script type="text/javascript">
+    var elem = $('#color_hexadecimal')[0];
+    var hueb = new Huebee( elem, {
+    // options
+    });
+</script>  
+@endpush
