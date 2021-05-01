@@ -83,12 +83,12 @@ class FormacionRepository extends BaseRepository
     public function create($input)
     {
         $model = $this->model->newInstance($input);
+        $model->save();
         if(array_key_exists('perfilesBuyersPersona',$input)){            
             $model->perfilesBuyersPersona()->sync((array)$input['perfilesBuyersPersona']);
         }else{
             $model->perfilesBuyersPersona()->sync([]);
-        } 
-        $model->save();
+        }         
         return $model;
     }
 }

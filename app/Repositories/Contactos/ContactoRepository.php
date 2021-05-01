@@ -59,4 +59,45 @@ class ContactoRepository extends BaseRepository
     {
         return Contacto::class;
     }
+
+    /**
+     * Create model record
+     * @param array $input
+     * @return Model
+     */
+    public function create($input)
+    {
+        $model = $this->model->newInstance($input);        
+        $model->save();
+        if(array_key_exists('tiposContacto',$input)){            
+            $model->tiposContacto()->sync((array)$input['tiposContacto']);
+        }else{
+            $model->tiposContacto()->sync([]);
+        } 
+        return $model;
+    }
+
+    /**
+     * Update model record for given id
+     *
+     * @param array $input
+     * @param int $id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
+     */
+    public function update($input, $id)
+    {
+        $query = $this->model->newQuery();
+        $model = $query->findOrFail($id);
+        $model->fill($input);
+
+        if(array_key_exists('tiposContacto',$input)){            
+            $model->tiposContacto()->sync((array)$input['tiposContacto']);
+        }else{
+            $model->tiposContacto()->sync([]);
+        }
+
+        $model->save();
+        return $model;
+    }
 }
