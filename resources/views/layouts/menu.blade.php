@@ -53,6 +53,21 @@
                     <a href="{{ route('parametros.prefijos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/prefijos.plural')</span></a>
                 </li> 
                 @endif
+                @if(strpos(Session::get('textoPermisos'), 'parametros.razas.')!==false)                           
+                <li id="parametros-razas" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.razas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/razas.plural')</span></a>
+                </li>
+                @endif
+                @if(strpos(Session::get('textoPermisos'), 'parametros.religiones.')!==false)                           
+                <li id="parametros-religiones" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.religiones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/religiones.plural')</span></a>
+                </li> 
+                @endif    
+                @if(strpos(Session::get('textoPermisos'), 'parametros.sisbenes.')!==false)
+                <li id="sisbenes" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.sisbenes.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/sisbenes.plural')</span></a>
+                </li> 
+                @endif           
                 @if(strpos(Session::get('textoPermisos'), 'parametros.tiposContacto.')!==false)               
                 <li id="parametros-tipos-contacto" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.tiposContacto.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposContacto.plural')</span></a>
@@ -67,7 +82,7 @@
                 <li id="parametros-tipos-parentesco" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.tiposParentesco.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposParentesco.plural')</span></a>
                 </li>
-                @endif
+                @endif                
             </ul> 
         </li>  
         @endif
@@ -139,22 +154,7 @@
                 <li id="parametros-personalidades" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.personalidades.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/personalidades.plural')</span></a>
                 </li>  
-                @endif     
-                @if(strpos(Session::get('textoPermisos'), 'parametros.razas.')!==false)                           
-                <li id="parametros-razas" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('parametros.razas.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/razas.plural')</span></a>
-                </li>
-                @endif
-                @if(strpos(Session::get('textoPermisos'), 'parametros.religiones.')!==false)                           
-                <li id="parametros-religiones" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('parametros.religiones.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/religiones.plural')</span></a>
-                </li> 
-                @endif    
-                @if(strpos(Session::get('textoPermisos'), 'parametros.sisbenes.')!==false)
-                <li id="sisbenes" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('parametros.sisbenes.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/sisbenes.plural')</span></a>
-                </li> 
-                @endif           
+                @endif 
             </ul> 
         </li>
         @endif
