@@ -55,7 +55,12 @@ class DatabaseSeeder extends Seeder
         $this->call(PrefijoTableSeeder::class);
         $this->call(TipoDocumentoTableSeeder::class);
         $this->call(MedioComunicacionTableSeeder::class);
-        $this->call(TipoParentescoTableSeeder::class);        
+        $this->call(TipoParentescoTableSeeder::class);
+        $this->call(CategoriaOportunidadTableSeeder::class);
+        $this->call(TipoEstadoColorTableSeeder::class);
+        $this->call(TipoInteraccionTableSeeder::class);
+        $this->call(EstadoInteraccionTableSeeder::class);
+        $this->call(TipoInteraccionEstadosTableSeeder::class);        
         //Información más completa
         $this->call(ActividadEconomicaTableSeeder::class);
         $this->call(CampoEducacionTableSeeder::class);
