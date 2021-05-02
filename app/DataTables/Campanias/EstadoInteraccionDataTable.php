@@ -56,7 +56,7 @@ class EstadoInteraccionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc'],[1, 'asc']],
+                'order'     => [[0, 'desc'],[1, 'asc']],
                 'buttons'   => [                    
                     [
                        'extend' => 'export',
