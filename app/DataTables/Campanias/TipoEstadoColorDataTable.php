@@ -23,7 +23,7 @@ class TipoEstadoColorDataTable extends DataTable
         ->addColumn('action', 'campanias.tipos_estado_color.datatables_actions')
         ->editColumn('color_hexadecimal', function ($tipo){
             $color=$tipo->color_hexadecimal;            
-            return "$color <span style='color:$color'><i class='fa fa-circle'></i><span>";
+            return "$color <span style='color:$color'><i class='fa fa-circle'></i></span>";
         })
         ->rawColumns(['color_hexadecimal','action']);
     }

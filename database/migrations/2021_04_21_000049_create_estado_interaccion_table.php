@@ -25,7 +25,6 @@ class CreateEstadoInteraccionTable extends Migration
             $table->increments('id');
             $table->string('nombre', 45);
             $table->string('descripcion')->nullable();
-            $table->tinyInteger('por_defecto')->nullable()->comment('Un estado por defecto para todos los tipos de interacción en un solo tipo_estado.');
             $table->unsignedInteger('tipo_estado_color_id');
 
             $table->index(["tipo_estado_color_id"], 'fk_estado_interaccion_tipo_estado_color_idx');

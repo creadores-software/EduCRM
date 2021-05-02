@@ -19,7 +19,23 @@ class TipoInteraccionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'campanias.tipos_interaccion.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.tipos_interaccion.datatables_actions')
+        ->editColumn('con_fecha_fin', function ($tipo){
+            return $tipo->con_fecha_fin? 'Si':'No';
+        })
+        ->filterColumn('con_fecha_fin', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("con_fecha_fin = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("con_fecha_fin = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("con_fecha_fin = 3"); //Ninguno    
+            }               
+        });
     }
 
     /**

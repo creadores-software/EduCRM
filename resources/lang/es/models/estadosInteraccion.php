@@ -8,7 +8,6 @@ return array (
     'id' => 'Id',
     'nombre' => 'Nombre',
     'descripcion' => 'Descripción',
-    'por_defecto' => 'Por Defecto',
     'tipo_estado_color_id' => 'Tipo Estado',
   ),
 );

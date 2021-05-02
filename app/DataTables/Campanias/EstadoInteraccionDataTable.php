@@ -18,8 +18,16 @@ class EstadoInteraccionDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $colores = EstadoInteraccion::arrayColores();
 
-        return $dataTable->addColumn('action', 'campanias.estados_interaccion.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.estados_interaccion.datatables_actions')
+        ->editColumn('nombre', function ($estado) use($colores){
+            $id=$estado->id;      
+            $color = $colores[$id]['color'];      
+            return "<span style='color:$color'><i class='fa fa-circle'></i></span> $estado->nombre";
+        })
+        ->rawColumns(['nombre','action']);;
     }
 
     /**
@@ -30,7 +38,8 @@ class EstadoInteraccionDataTable extends DataTable
      */
     public function query(EstadoInteraccion $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['tipoEstadoColor'])
+            ->select('estado_interaccion.*');
     }
 
     /**
@@ -47,7 +56,7 @@ class EstadoInteraccionDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc']],
+                'order'     => [[0, 'asc'],[1, 'asc']],
                 'buttons'   => [                    
                     [
                        'extend' => 'export',
@@ -59,7 +68,7 @@ class EstadoInteraccionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(5)').every(function () {
+                    this.api().columns(':lt(4)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -79,10 +88,9 @@ class EstadoInteraccionDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado_color.nombre','name' => 'tipoEstadoColor.nombre']),
             'nombre' => new Column(['title' => __('models/estadosInteraccion.fields.nombre'), 'data' => 'nombre']),
-            'descripcion' => new Column(['title' => __('models/estadosInteraccion.fields.descripcion'), 'data' => 'descripcion']),
-            'por_defecto' => new Column(['title' => __('models/estadosInteraccion.fields.por_defecto'), 'data' => 'por_defecto']),
-            'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado_color_id']),
+            'descripcion' => new Column(['title' => __('models/estadosInteraccion.fields.descripcion'), 'data' => 'descripcion']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

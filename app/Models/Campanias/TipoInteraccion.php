@@ -65,6 +65,6 @@ class TipoInteraccion extends Model implements Recordable
      **/
     public function tipoInteraccionEstados()
     {
-        return $this->hasMany(\App\Models\Campanias\TipoInteraccionEstados::class, 'tipo_interaccion_id');
+        return $this->belongsToMany(\App\Models\Campanias\EstadoInteraccion::class, 'tipo_interaccion_estados');
     }
 }

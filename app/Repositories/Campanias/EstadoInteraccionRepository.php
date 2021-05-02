@@ -19,7 +19,6 @@ class EstadoInteraccionRepository extends BaseRepository
     protected $fieldSearchable = [
         'nombre',
         'descripcion',
-        'por_defecto',
         'tipo_estado_color_id'
     ];
 

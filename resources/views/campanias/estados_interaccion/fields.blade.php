@@ -1,3 +1,16 @@
+
+<!-- Tipo Estado Color Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('tipo_estado_color_id', __('models/estadosInteraccion.fields.tipo_estado_color_id').':') !!}
+    <select name="tipo_estado_color_id" id="tipo_estado_color_id" class="form-control">
+        <option></option>
+        @if(!empty(old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' )))
+            <option value="{{ old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' ) }}" selected> {{ App\Models\Campanias\TipoEstadoColor::find(old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>  
+</div>
+
+
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/estadosInteraccion.fields.nombre').':') !!}
@@ -10,27 +23,23 @@
     {!! Form::text('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Por Defecto Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('por_defecto', __('models/estadosInteraccion.fields.por_defecto').':') !!}
-    {!! Form::select('por_defecto',[1=>'SI', 0=>'NO'], old('por_defecto'), ['class' => 'form-control']) !!}
-</div>
-@push('scripts')
-    <script type="text/javascript">
-         $(document).ready(function() { 
-            $('#por_defecto').select2(); 
-        }); 
-    </script>
-@endpush
-
-<!-- Tipo Estado Color Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_estado_color_id', __('models/estadosInteraccion.fields.tipo_estado_color_id').':') !!}
-    {!! Form::number('tipo_estado_color_id', null, ['class' => 'form-control']) !!}
-</div>
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('campanias.estadosInteraccion.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#tipo_estado_color_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("campanias.tiposEstadoColor.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+        });
+    </script>
+@endpush

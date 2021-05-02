@@ -6,6 +6,7 @@ use App\DataTables\Campanias\TipoInteraccionDataTable;
 use App\Http\Requests\Campanias\CreateTipoInteraccionRequest;
 use App\Http\Requests\Campanias\UpdateTipoInteraccionRequest;
 use App\Repositories\Campanias\TipoInteraccionRepository;
+use App\Models\Campanias\EstadoInteraccion;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Response;
@@ -43,7 +44,10 @@ class TipoInteraccionController extends AppBaseController
      */
     public function create()
     {
-        return view('campanias.tipos_interaccion.create');
+        $estados = EstadoInteraccion::all();
+        $colores = EstadoInteraccion::arrayColores();
+        return view('campanias.tipos_interaccion.create')
+            ->with(['estados'=>$estados,'colores'=>$colores]);
     }
 
     /**
@@ -74,6 +78,8 @@ class TipoInteraccionController extends AppBaseController
     public function show($id)
     {
         $tipoInteraccion = $this->tipoInteraccionRepository->find($id);
+        $estados = EstadoInteraccion::all();
+        $colores = EstadoInteraccion::arrayColores();
 
         if (empty($tipoInteraccion)) {
             Flash::error(__('messages.not_found', ['model' => __('models/tiposInteraccion.singular')]));
@@ -81,7 +87,8 @@ class TipoInteraccionController extends AppBaseController
             return redirect(route('campanias.tiposInteraccion.index'));
         }
         $audits = $tipoInteraccion->ledgers()->with('user')->get()->sortByDesc('created_at');
-        return view('campanias.tipos_interaccion.show')->with(['tipoInteraccion'=>$tipoInteraccion,'audits'=>$audits]);
+        return view('campanias.tipos_interaccion.show')
+        ->with(['tipoInteraccion'=>$tipoInteraccion,'audits'=>$audits,'estados'=>$estados,'colores'=>$colores]);
     }
 
     /**
@@ -94,6 +101,8 @@ class TipoInteraccionController extends AppBaseController
     public function edit($id)
     {
         $tipoInteraccion = $this->tipoInteraccionRepository->find($id);
+        $estados = EstadoInteraccion::all();
+        $colores = EstadoInteraccion::arrayColores();
 
         if (empty($tipoInteraccion)) {
             Flash::error(__('messages.not_found', ['model' => __('models/tiposInteraccion.singular')]));
@@ -101,7 +110,8 @@ class TipoInteraccionController extends AppBaseController
             return redirect(route('campanias.tiposInteraccion.index'));
         }
 
-        return view('campanias.tipos_interaccion.edit')->with('tipoInteraccion', $tipoInteraccion);
+        return view('campanias.tipos_interaccion.edit')
+            ->with(['tipoInteraccion'=>$tipoInteraccion,'estados'=>$estados,'colores'=>$colores]);
     }
 
     /**
