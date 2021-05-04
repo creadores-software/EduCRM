@@ -1,5 +1,5 @@
 @push('css')
-    <link rel="stylesheet" href="https://unpkg.com/huebee@2/dist/huebee.min.css">
+    <link rel="stylesheet" href=/css/huebee.min.css">
 @endpush
 
 <!-- Nombre Field -->
@@ -22,7 +22,7 @@
 </div>
 
 @push('scripts')
-<script src="https://unpkg.com/huebee@2/dist/huebee.pkgd.min.js"></script>
+<script src="/js/huebee.pkgd.min.js"></script>
 <script type="text/javascript">
     var elem = $('#color_hexadecimal')[0];
     var hueb = new Huebee( elem, {

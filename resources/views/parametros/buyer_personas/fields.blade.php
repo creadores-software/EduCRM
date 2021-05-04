@@ -18,7 +18,8 @@
 </div>
 
 @push('scripts')
-    <script type="text/javascript">     
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script type="text/javascript">  
         CKEDITOR.replace( 'descripcion' );     
     </script>
 @endpush
