@@ -25,7 +25,7 @@ class CreateSegmentoTable extends Migration
             $table->increments('id');
             $table->string('nombre', 100);
             $table->string('descripcion');
-            $table->json('filtros');
+            $table->text('filtros');
             $table->tinyInteger('global')->nullable()->default('0');
             $table->unsignedBigInteger('usuario_id')->nullable()->default(null);
 

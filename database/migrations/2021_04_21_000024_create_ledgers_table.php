@@ -29,10 +29,10 @@ class CreateLedgersTable extends Migration
             $table->unsignedBigInteger('recordable_id');
             $table->unsignedTinyInteger('context');
             $table->string('event');
-            $table->json('properties');
-            $table->json('modified');
-            $table->json('pivot');
-            $table->json('extra');
+            $table->text('properties');
+            $table->text('modified');
+            $table->text('pivot');
+            $table->text('extra');
             $table->text('url')->nullable()->default(null);
             $table->string('ip_address', 45)->nullable()->default(null);
             $table->string('user_agent')->nullable()->default(null);
