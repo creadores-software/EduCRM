@@ -67,4 +67,9 @@ class TipoEstadoColor extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Campanias\EstadoInteraccion::class, 'tipo_estado_color_id');
     }
+
+    public static function arrayColores(){
+        return TipoEstadoColor::get(['id','color_hexadecimal as color'])
+        ->keyBy('id')->toArray();
+    }
 }

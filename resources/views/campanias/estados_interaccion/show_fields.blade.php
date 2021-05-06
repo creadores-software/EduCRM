@@ -13,6 +13,6 @@
 <!-- Tipo Estado Color Id Field -->
 <div class="form-group">
     {!! Form::label('tipo_estado_color_id', __('models/estadosInteraccion.fields.tipo_estado_color_id').':') !!}
-    <p>{{ $estadoInteraccion->tipoEstadoColor->nombre }}</p>
+    <p>{!! "{$estadoInteraccion->tipoEstadoColor->nombre} <span style='color:{$estadoInteraccion->tipoEstadoColor->color_hexadecimal}'><i class='fa fa-circle'></i><span>" !!}</p>
 </div>
 

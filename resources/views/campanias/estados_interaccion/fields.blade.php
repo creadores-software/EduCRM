@@ -31,15 +31,24 @@
 
 @push('scripts')
     <script type="text/javascript">
+    var colores = @json($colores);
         $(document).ready(function() {
             $('#tipo_estado_color_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
+                templateSelection: formatState,
+                templateResult: formatState,
                 ajax: {
                     url: '{{ route("campanias.tiposEstadoColor.dataAjax") }}',
                     dataType: 'json',
                 },
             });
         });
+
+        function formatState(state) {
+            if (!state.id) return state.text;
+            var color = colores[state.id]['color'];
+            return $(`<span style="color: ${color}"><i class='fa fa-circle'></i></span><span> ${state.text}</span>`);
+        };
     </script>
 @endpush

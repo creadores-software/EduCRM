@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\EstadoInteraccionDataTable;
+use App\Models\Campanias\TipoEstadoColor;
 use App\Http\Requests\Campanias\CreateEstadoInteraccionRequest;
 use App\Http\Requests\Campanias\UpdateEstadoInteraccionRequest;
 use App\Repositories\Campanias\EstadoInteraccionRepository;
@@ -43,7 +44,9 @@ class EstadoInteraccionController extends AppBaseController
      */
     public function create()
     {
-        return view('campanias.estados_interaccion.create');
+        $colores = TipoEstadoColor::arrayColores();
+        return view('campanias.estados_interaccion.create')
+        ->with(['colores'=>$colores]);
     }
 
     /**
@@ -94,14 +97,15 @@ class EstadoInteraccionController extends AppBaseController
     public function edit($id)
     {
         $estadoInteraccion = $this->estadoInteraccionRepository->find($id);
-
+        $colores = TipoEstadoColor::arrayColores();
         if (empty($estadoInteraccion)) {
             Flash::error(__('messages.not_found', ['model' => __('models/estadosInteraccion.singular')]));
 
             return redirect(route('campanias.estadosInteraccion.index'));
         }
 
-        return view('campanias.estados_interaccion.edit')->with('estadoInteraccion', $estadoInteraccion);
+        return view('campanias.estados_interaccion.edit')
+            ->with(['estadoInteraccion'=>$estadoInteraccion,'colores'=>$colores]);
     }
 
     /**
