@@ -25,8 +25,13 @@ class UpdateEstadoCampaniaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = EstadoCampania::$rules;
-        
+        $rules= EstadoCampania::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estado_campania,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }

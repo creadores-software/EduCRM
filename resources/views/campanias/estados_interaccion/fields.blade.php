@@ -15,6 +15,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/estadosInteraccion.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $estadoInteraccion->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->

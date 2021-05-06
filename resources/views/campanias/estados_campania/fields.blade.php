@@ -2,6 +2,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/estadosCampania.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $estadoCampania->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->

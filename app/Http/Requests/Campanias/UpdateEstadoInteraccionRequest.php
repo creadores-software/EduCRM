@@ -25,8 +25,13 @@ class UpdateEstadoInteraccionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = EstadoInteraccion::$rules;
-        
+        $rules= EstadoInteraccion::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            'iunique:estado_interaccion,nombre,'.$this->request->get('id'),
+        ];
         return $rules;
     }
 }
