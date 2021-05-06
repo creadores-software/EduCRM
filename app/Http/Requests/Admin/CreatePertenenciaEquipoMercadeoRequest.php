@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Admin\PertenenciaEquipoMercadeo;
+use Illuminate\Validation\Rule;
 
 class CreatePertenenciaEquipoMercadeoRequest extends FormRequest
 {
@@ -25,6 +26,13 @@ class CreatePertenenciaEquipoMercadeoRequest extends FormRequest
      */
     public function rules()
     {
-        return PertenenciaEquipoMercadeo::$rules;
+        $rules= PertenenciaEquipoMercadeo::$rules;
+        $rules['users_id'] = [
+            'required',
+            Rule::unique('pertenencia_equipo_mercadeo')
+                ->ignore($this->id)
+                ->where('equipo_mercadeo_id', $this->equipo_mercadeo_id)
+        ];
+        return $rules;
     }
 }

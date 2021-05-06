@@ -32,9 +32,19 @@
     </select> 
 </div>
 
+<!-- Equipos -->
+<div class="form-group col-sm-6">
+    {!! Form::label('equipos', ' Equipos de Mercadeo:') !!}
+    <select name="uEquipo[]" id="uEquipo" class="form-control"  multiple="multiple" disabled=true>
+        @foreach ($user->equiposMercadeo() as $pertenencia)
+            <option value="{{ $pertenencia->id }}" selected="selected">{{ $pertenencia->equipoMercadeo->nombre }}</option>
+        @endforeach
+    </select> 
+</div>
+
 
 <!-- Activo Field -->
-<div class="form-group col-sm-6" >
+<div class="form-group col-sm-12" >
     {!! Form::label('active', __('models/users.fields.active').':') !!}
     <p>{{ $user->active? 'Si' : 'No' }}</p>
 </div>
@@ -46,13 +56,11 @@
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
-                placeholder: "Seleccionar",
-                allowClear: true,
-                createTag: function(params) {return undefined;},
-                ajax: {
-                    url: '{{ route("admin.roles.dataAjax") }}',
-                    dataType: 'json',
-                },
+            });
+            $('#uEquipo').select2({
+                tags: true,
+                multiple: true,
+                tokenSeparators: [','],
             });
         });
     </script>

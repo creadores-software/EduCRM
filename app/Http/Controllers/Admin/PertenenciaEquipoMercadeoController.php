@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\PertenenciaEquipoMercadeoDataTable;
+use App\Models\Admin\EquipoMercadeo;
 use App\Http\Requests\Admin\CreatePertenenciaEquipoMercadeoRequest;
 use App\Http\Requests\Admin\UpdatePertenenciaEquipoMercadeoRequest;
 use App\Repositories\Admin\PertenenciaEquipoMercadeoRepository;
@@ -33,7 +34,13 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
      */
     public function index(PertenenciaEquipoMercadeoDataTable $pertenenciaEquipoMercadeoDataTable)
     {
-        return $pertenenciaEquipoMercadeoDataTable->render('admin.pertenencias_equipo_mercadeo.index');
+        if ($pertenenciaEquipoMercadeoDataTable->request()->has('idEquipo')) {
+            $equipo = EquipoMercadeo::find($pertenenciaEquipoMercadeoDataTable->request()->get('idEquipo'));
+            return $pertenenciaEquipoMercadeoDataTable->render('admin.pertenencias_equipo_mercadeo.index',
+                ['idEquipo'=>$equipo->id,'nombreEquipo'=>$equipo->nombre]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un equipo seleccionado'], 500);     
+        } 
     }
 
     /**
@@ -41,9 +48,15 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.pertenencias_equipo_mercadeo.create');
+        if ($request->has('idEquipo')) {
+            $equipo = EquipoMercadeo::find($request->get('idEquipo'));
+            return view('admin.pertenencias_equipo_mercadeo.create')
+            ->with(['idEquipo'=>$equipo->id,'nombreEquipo'=>$equipo->nombre]);
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un equipo seleccionado'], 500);     
+        }         
     }
 
     /**
@@ -55,13 +68,13 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
      */
     public function store(CreatePertenenciaEquipoMercadeoRequest $request)
     {
-        $input = $request->all();
+        $input = $request->all();      
 
         $pertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepository->create($input);
 
         Flash::success(__('messages.saved', ['model' => __('models/pertenenciasEquipoMercadeo.singular')]));
 
-        return redirect(route('admin.pertenenciasEquipoMercadeo.index'));
+        return redirect(route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$pertenenciaEquipoMercadeo->equipo_mercadeo_id]));
     }
 
     /**
@@ -101,7 +114,9 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
             return redirect(route('admin.pertenenciasEquipoMercadeo.index'));
         }
 
-        return view('admin.pertenencias_equipo_mercadeo.edit')->with('pertenenciaEquipoMercadeo', $pertenenciaEquipoMercadeo);
+        return view('admin.pertenencias_equipo_mercadeo.edit')
+            ->with(['pertenenciaEquipoMercadeo'=> $pertenenciaEquipoMercadeo,
+            'idEquipo'=>$pertenenciaEquipoMercadeo->equipoMercadeo->id,'nombreEquipo'=>$pertenenciaEquipoMercadeo->equipoMercadeo->nombre]);
     }
 
     /**
@@ -126,7 +141,7 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/pertenenciasEquipoMercadeo.singular')]));
 
-        return redirect(route('admin.pertenenciasEquipoMercadeo.index'));
+        return redirect(route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$pertenenciaEquipoMercadeo->equipo_mercadeo_id]));
     }
 
     /**
@@ -150,7 +165,7 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
 
         Flash::success(__('messages.deleted', ['model' => __('models/pertenenciasEquipoMercadeo.singular')]));
 
-        return redirect(route('admin.pertenenciasEquipoMercadeo.index'));
+        return redirect(route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$pertenenciaEquipoMercadeo->equipo_mercadeo_id]));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Admin\PertenenciaEquipoMercadeo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Altek\Accountant\Contracts\Identifiable;
@@ -82,5 +83,10 @@ class User extends Authenticatable implements Identifiable, Recordable
     public function getIdentifier()
     {
         return $this->getKey();
+    }
+
+    public function equiposMercadeo()
+    {
+        return PertenenciaEquipoMercadeo::where('users_id',$this->id)->get();
     }
 }

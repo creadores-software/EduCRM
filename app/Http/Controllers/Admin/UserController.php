@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Altek\Accountant\Models\Ledger;
 use App\Models\Contactos\Segmento;
+use App\Models\Admin\User;
 use App\DataTables\Admin\UserDataTable;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
@@ -172,7 +173,15 @@ class UserController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->userRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', '');  
+        $model = new User();        
+        $query = $model->newQuery();
+        $query->select('id','name as text');
+        $query->where('name', 'LIKE', '%'.$term.'%');
+        $query->orderBy('text', 'ASC');        
+        $coincidentes = $query->get();
+
+        return ['results' => $coincidentes];
     }
 
 }

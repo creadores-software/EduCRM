@@ -18,8 +18,32 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $request=$this->request();  
 
-        return $dataTable->addColumn('action', 'admin.pertenencias_equipo_mercadeo.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'admin.pertenencias_equipo_mercadeo.datatables_actions')
+        ->editColumn('es_lider', function ($pertenencia){
+            return $pertenencia->es_lider? 'Si':'No';
+        })
+        ->filterColumn('es_lider', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("es_lider = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("es_lider = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("es_lider = 3"); //Ninguno    
+            }               
+        })
+        ->filter(function ($query) use ($request) {
+            if (!$request->has('idEquipo')) {
+                return;
+            }else{
+                $query->whereRaw("equipo_mercadeo_id = ?", [$request->get('idEquipo')]);   
+            }            
+        });
     }
 
     /**
@@ -30,6 +54,7 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
      */
     public function query(PertenenciaEquipoMercadeo $model)
     {
+        return $model->newQuery()->with(['user'])->select('pertenencia_equipo_mercadeo.*');
         return $model->newQuery();
     }
 
@@ -40,8 +65,14 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
      */
     public function html()
     {
+        $idEquipo=null;
+        if ($this->request()->has("idEquipo")) {
+            $idEquipo = $this->request()->get("idEquipo");
+        }
+
         return $this->builder()
             ->columns($this->getColumns())
+            ->minifiedAjax(route('admin.pertenenciasEquipoMercadeo.index', ['idEquipo' => $idEquipo]))
             ->minifiedAjax()
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
@@ -59,7 +90,7 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(2)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -79,9 +110,8 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'users_id' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.users_id'), 'data' => 'users_id']),
+            'users_id' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.users_id'), 'data' => 'user.name','name' => 'user.name']),
             'es_lider' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.es_lider'), 'data' => 'es_lider']),
-            'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
 

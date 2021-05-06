@@ -130,6 +130,7 @@ Route::group(['prefix' => 'contactos','middleware'=>'auth'], function () {
 
 
 Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
+    Route::get('users/dataAjax', 'Admin\UserController@dataAjax')->name('admin.users.dataAjax');
     Route::resource('users', 'Admin\UserController', ["as" => 'admin']);
     Route::get('permissions/dataAjax', 'Admin\PermissionController@dataAjax')->name('admin.permissions.dataAjax');
     Route::resource('permissions', 'Admin\PermissionController', ["as" => 'admin']);

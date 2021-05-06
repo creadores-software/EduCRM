@@ -7,6 +7,9 @@
     <a href="{{ route('admin.equiposMercadeo.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
+    <a href="{{ route('admin.pertenenciasEquipoMercadeo.index', ['idEquipo'=>$id]) }}" class='btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-user"></i>
+    </a>
     @endcan
     @can('admin.equiposMercadeo.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
