@@ -8,6 +8,7 @@
         @can('admin.pertenenciasEquipoMercadeo.crear')
         <h1 class="pull-right">
            <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.pertenenciasEquipoMercadeo.create',['idEquipo'=>$idEquipo]) }}">@lang('crud.add_new')</a>
+           <a class="btn btn-default pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.equiposMercadeo.index') }}">@lang('crud.back')</a>
         </h1>
         @endcan
     </section>

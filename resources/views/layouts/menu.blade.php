@@ -3,7 +3,7 @@
     <a class="app-menu__item" href="#"><i class="fa fa-cog"></i><span>Administración</span></a>
     <ul class="treeview-menu">  
         @if(strpos(Session::get('textoPermisos'), 'admin.equiposMercadeo.')!==false)
-        <li id="equiposMercadeo" class="treeview-item opcion-menu menu-nieto">
+        <li id="equiposMercadeo" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('admin.equiposMercadeo.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/equiposMercadeo.plural')</span></a>
         </li> 
         @endif               
