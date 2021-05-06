@@ -44,10 +44,9 @@ class TipoInteraccionController extends AppBaseController
      */
     public function create()
     {
-        $estados = EstadoInteraccion::all();
         $colores = EstadoInteraccion::arrayColores();
         return view('campanias.tipos_interaccion.create')
-            ->with(['estados'=>$estados,'colores'=>$colores]);
+            ->with(['colores'=>$colores]);
     }
 
     /**
@@ -78,7 +77,6 @@ class TipoInteraccionController extends AppBaseController
     public function show($id)
     {
         $tipoInteraccion = $this->tipoInteraccionRepository->find($id);
-        $estados = EstadoInteraccion::all();
         $colores = EstadoInteraccion::arrayColores();
 
         if (empty($tipoInteraccion)) {
@@ -88,7 +86,7 @@ class TipoInteraccionController extends AppBaseController
         }
         $audits = $tipoInteraccion->ledgers()->with('user')->get()->sortByDesc('created_at');
         return view('campanias.tipos_interaccion.show')
-        ->with(['tipoInteraccion'=>$tipoInteraccion,'audits'=>$audits,'estados'=>$estados,'colores'=>$colores]);
+        ->with(['tipoInteraccion'=>$tipoInteraccion,'audits'=>$audits,'colores'=>$colores]);
     }
 
     /**
@@ -101,7 +99,6 @@ class TipoInteraccionController extends AppBaseController
     public function edit($id)
     {
         $tipoInteraccion = $this->tipoInteraccionRepository->find($id);
-        $estados = EstadoInteraccion::all();
         $colores = EstadoInteraccion::arrayColores();
 
         if (empty($tipoInteraccion)) {
@@ -111,7 +108,7 @@ class TipoInteraccionController extends AppBaseController
         }
 
         return view('campanias.tipos_interaccion.edit')
-            ->with(['tipoInteraccion'=>$tipoInteraccion,'estados'=>$estados,'colores'=>$colores]);
+            ->with(['tipoInteraccion'=>$tipoInteraccion,'colores'=>$colores]);
     }
 
     /**
