@@ -19,7 +19,23 @@ class CampaniaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'campanias.campanias.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.campanias.datatables_actions')
+        ->editColumn('activa', function ($campania){
+            return $campania->activa? 'Si':'No';
+        })
+        ->filterColumn('activa', function ($query, $keyword) {
+            $validacion=null;
+            if(strpos(strtolower($keyword), 's')!==false){
+                $validacion=1; 
+                $query->whereRaw("activa = ?", [$validacion]);   
+            }else if(strpos(strtolower($keyword), 'n')!==false){
+                $validacion=0;
+                $query->whereRaw("activa = ?", [$validacion]);    
+            }else{
+                $query->whereRaw("activa = 3"); //Ninguno    
+            }               
+        });
     }
 
     /**
@@ -30,7 +46,9 @@ class CampaniaDataTable extends DataTable
      */
     public function query(Campania $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()
+            ->with(['equipoMercadeo','facultad','nivelAcademico','nivelFormacion','periodoAcademico','segmento','tipoCampania'])
+            ->select('campania.*');
     }
 
     /**
@@ -81,8 +99,8 @@ class CampaniaDataTable extends DataTable
         return [
             'tipo_campania_id' => new Column(['title' => __('models/campanias.fields.tipo_campania_id'), 'data' => 'tipo_campania_id']),
             'nombre' => new Column(['title' => __('models/campanias.fields.nombre'), 'data' => 'nombre']),
-            'periodo_academico_id' => new Column(['title' => __('models/campanias.fields.periodo_academico_id'), 'data' => 'periodo_academico_id']),
-            'equipo_mercadeo_id' => new Column(['title' => __('models/campanias.fields.equipo_mercadeo_id'), 'data' => 'equipo_mercadeo_id']),
+            'periodo_academico_id' => new Column(['title' => __('models/campanias.fields.periodo_academico_id'), 'data' => 'periodo_academico.nombre','name' => 'periodoAcademico.nombre']),
+            'equipo_mercadeo_id' => new Column(['title' => __('models/campanias.fields.equipo_mercadeo_id'), 'data' => 'equipo_mercadeo.nombre','name' => 'equipoMercadeo.nombre']),
             'activa' => new Column(['title' => __('models/campanias.fields.activa'), 'data' => 'activa']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             //Campos no visibles
@@ -90,10 +108,10 @@ class CampaniaDataTable extends DataTable
             'fecha_final' => new Column(['title' => __('models/campanias.fields.fecha_final'), 'data' => 'fecha_final','visible'=>false]),
             'descripcion' => new Column(['title' => __('models/campanias.fields.descripcion'), 'data' => 'descripcion','visible'=>false]),
             'inversion' => new Column(['title' => __('models/campanias.fields.inversion'), 'data' => 'inversion','visible'=>false]),
-            'nivel_formacion_id' => new Column(['title' => __('models/campanias.fields.nivel_formacion_id'), 'data' => 'nivel_formacion_id','visible'=>false]),
-            'nivel_academico_id' => new Column(['title' => __('models/campanias.fields.nivel_academico_id'), 'data' => 'nivel_academico_id','visible'=>false]),
-            'facultad_id' => new Column(['title' => __('models/campanias.fields.facultad_id'), 'data' => 'facultad_id','visible'=>false]),
-            'segmento_id' => new Column(['title' => __('models/campanias.fields.segmento_id'), 'data' => 'segmento_id','visible'=>false]),            
+            'nivel_formacion_id' => new Column(['title' => __('models/campanias.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre','name' => 'nivelFormacion.nombre','visible'=>false]),
+            'nivel_academico_id' => new Column(['title' => __('models/campanias.fields.nivel_academico_id'), 'data' => 'nivel_academico.nombre','name' => 'nivelAcademico.nombre','visible'=>false]),
+            'facultad_id' => new Column(['title' => __('models/campanias.fields.facultad_id'), 'data' => 'facultad.nombre','name' => 'facultad.nombre','visible'=>false]),
+            'segmento_id' => new Column(['title' => __('models/campanias.fields.segmento_id'), 'data' => 'segmento.nombre','name' => 'segmento.nombre','visible'=>false]),            
         ];
     }
 

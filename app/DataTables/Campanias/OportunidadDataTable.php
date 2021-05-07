@@ -59,7 +59,7 @@ class OportunidadDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(5)').every(function () {
+                    this.api().columns(':lt(7)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -84,7 +84,8 @@ class OportunidadDataTable extends DataTable
             'responsable_id' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable_id']),
             'estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado_campania_id']),            
             'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id']),
-            'fecha_actualizacion' => new Column(['title' => 'Última actualización', 'data' => 'id']),
+            'actualizacion_estado' => new Column(['title' => 'Actualización estado', 'data' => 'id']),
+            'actualizacion_interaccion' => new Column(['title' => 'Actualización interacción', 'data' => 'id']),
             //Campos no visibles
             'justificacion_estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'justificacion_estado_campania_id','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false]),
