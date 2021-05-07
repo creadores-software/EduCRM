@@ -154,18 +154,18 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
     public function destroy($id)
     {
         $pertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepository->find($id);
-
+       
         if (empty($pertenenciaEquipoMercadeo)) {
             Flash::error(__('messages.not_found', ['model' => __('models/pertenenciasEquipoMercadeo.singular')]));
 
             return redirect(route('admin.pertenenciasEquipoMercadeo.index'));
         }
-
+        $idEquipo =$pertenenciaEquipoMercadeo->equipo_mercadeo_id;
         $this->pertenenciaEquipoMercadeoRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/pertenenciasEquipoMercadeo.singular')]));
 
-        return redirect(route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$pertenenciaEquipoMercadeo->equipo_mercadeo_id]));
+        return redirect(route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$idEquipo]));
     }
 
     /**

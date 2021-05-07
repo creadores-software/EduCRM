@@ -13,7 +13,7 @@
                     <h2 class="page-header">Datos</h2>
                     @include('admin.pertenencias_equipo_mercadeo.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('admin.pertenenciasEquipoMercadeo.index') }}" class="btn btn-default">
+                    <a href="{{ route('admin.pertenenciasEquipoMercadeo.index',['idEquipo'=>$pertenenciaEquipoMercadeo->equipo_mercadeo_id]) }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>
                 </div>

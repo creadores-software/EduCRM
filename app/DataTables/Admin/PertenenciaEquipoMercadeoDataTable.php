@@ -55,7 +55,6 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
     public function query(PertenenciaEquipoMercadeo $model)
     {
         return $model->newQuery()->with(['user'])->select('pertenencia_equipo_mercadeo.*');
-        return $model->newQuery();
     }
 
     /**
@@ -73,7 +72,6 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax(route('admin.pertenenciasEquipoMercadeo.index', ['idEquipo' => $idEquipo]))
-            ->minifiedAjax()
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
