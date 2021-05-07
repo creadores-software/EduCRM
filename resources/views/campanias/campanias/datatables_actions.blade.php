@@ -7,6 +7,9 @@
     <a href="{{ route('campanias.campanias.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-pencil"></i>
     </a>
+    <a gloss="Oportunidades" href="{{ route('campanias.oportunidades.index', ['idCampania'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-user"></i>
+    </a>
     @endcan
     @can('campanias.campanias.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [

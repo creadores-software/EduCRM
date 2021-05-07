@@ -25,8 +25,11 @@ class UpdateCampaniaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Campania::$rules;
-        
+        $rules= Campania::$rules;
+        $rules['fecha_final'] = ['nullable'];
+        if($this->request->get('fecha_final')){
+            $rules['fecha_final'][] = 'after:fecha_inicio';                
+        }
         return $rules;
     }
 }

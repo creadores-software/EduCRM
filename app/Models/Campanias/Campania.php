@@ -95,7 +95,7 @@ class Campania extends Model implements Recordable
         'fecha_inicio' => 'nullable',
         'fecha_final' => 'nullable',
         'descripcion' => 'nullable|string',
-        'inversion' => 'nullable|numeric',
+        'inversion' => 'nullable|numeric|min:0',
         'nivel_formacion_id' => 'nullable|integer',
         'nivel_academico_id' => 'nullable|integer',
         'facultad_id' => 'nullable|integer',
@@ -171,7 +171,7 @@ class Campania extends Model implements Recordable
      **/
     public function campaniaFormaciones()
     {
-        return $this->hasMany(\App\Models\Campanias\CampaniaFormaciones::class, 'campania_id');
+        return $this->belongsToMany(\App\Models\Formaciones\Formacion::class, 'campania_formaciones');
     }
 
     /**

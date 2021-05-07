@@ -181,7 +181,7 @@ return [
         'genero_id' => 'Genero',
         'informacion_relacional_id' => 'Información Relacional',
         'jornada_id' => 'Jornada',
-        'justificacion_estado_campania_id' => 'Justificación Estado Campaña',
+        'justificacion_estado_campania_id' => 'Razón Estado Campaña',
         'lugar_id' => 'Ubicación',
         'maximo_nivel_formacion_id' => 'Máximo Nivel Formación',
         'medio_comunicacion_id' => 'Medio Comunicación',

@@ -59,7 +59,7 @@ class OportunidadDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(6)').every(function () {
+                    this.api().columns(':lt(5)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -79,16 +79,16 @@ class OportunidadDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'campania_id' => new Column(['title' => __('models/oportunidades.fields.campania_id'), 'data' => 'campania_id']),
             'contacto_id' => new Column(['title' => __('models/oportunidades.fields.contacto_id'), 'data' => 'contacto_id']),
             'formacion_id' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'formacion_id']),
             'responsable_id' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable_id']),
-            'estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado_campania_id']),
-            'justificacion_estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'justificacion_estado_campania_id']),
+            'estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado_campania_id']),            
+            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id']),
+            'fecha_actualizacion' => new Column(['title' => 'Última actualización', 'data' => 'id']),
             //Campos no visibles
+            'justificacion_estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'justificacion_estado_campania_id','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false]),
-            'probabilidad' => new Column(['title' => __('models/oportunidades.fields.probabilidad'), 'data' => 'probabilidad','visible'=>false]),
-            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id','visible'=>false]),
+            'probabilidad' => new Column(['title' => __('models/oportunidades.fields.probabilidad'), 'data' => 'probabilidad','visible'=>false]),            
             'ingreso_recibido' => new Column(['title' => __('models/oportunidades.fields.ingreso_recibido'), 'data' => 'ingreso_recibido','visible'=>false]),
             'ingreso_proyectado' => new Column(['title' => __('models/oportunidades.fields.ingreso_proyectado'), 'data' => 'ingreso_proyectado','visible'=>false]),
             'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false]),

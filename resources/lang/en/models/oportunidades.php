@@ -11,7 +11,7 @@ return array (
     'formacion_id' => 'Formación',
     'responsable_id' => 'Responsable',
     'estado_campania_id' => 'Estado Campaña',
-    'justificacion_estado_campania_id' => 'Justificación Estado Campaña',
+    'justificacion_estado_campania_id' => 'Razon Estado Campaña',
     'interes' => 'Interes',
     'probabilidad' => 'Probabilidad',
     'categoria_oportunidad_id' => 'Categoría Oportunidad',
