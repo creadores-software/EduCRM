@@ -5,7 +5,7 @@
     </a>
     @can('formaciones.categoriasCampoEducacion.editar')
     <a href="{{ route('formaciones.categoriasCampoEducacion.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('formaciones.categoriasCampoEducacion.eliminar')

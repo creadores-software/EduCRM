@@ -5,7 +5,7 @@
     </a>
     @can('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.editar')
     <a href="{{ route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.edit', $$PRIMARY_KEY_NAME$) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.eliminar')

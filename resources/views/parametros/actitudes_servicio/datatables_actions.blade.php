@@ -5,7 +5,7 @@
     </a>
     @can('parametros.actitudesServicio.editar')
     <a href="{{ route('parametros.actitudesServicio.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('parametros.actitudesServicio.eliminar')

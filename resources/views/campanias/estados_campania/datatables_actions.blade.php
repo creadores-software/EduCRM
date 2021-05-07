@@ -5,10 +5,10 @@
     </a>
     @can('campanias.estadosCampania.editar')
     <a href="{{ route('campanias.estadosCampania.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     <a gloss="Razones" href="{{ route('campanias.justificacionesEstadoCampania.index', ['idEstado'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-th-list"></i>
+        <i class="glyphicon glyphicon-list"></i>
     </a>
     @endcan
     @can('campanias.estadosCampania.eliminar')

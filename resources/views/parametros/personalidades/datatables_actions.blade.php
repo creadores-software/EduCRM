@@ -5,7 +5,7 @@
     </a>
     @can('parametros.personalidades.editar')
     <a href="{{ route('parametros.personalidades.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('parametros.personalidades.eliminar')

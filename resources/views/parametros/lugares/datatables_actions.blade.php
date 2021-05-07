@@ -5,7 +5,7 @@
     </a>
     @can('parametros.lugares.editar')
     <a href="{{ route('parametros.lugares.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('parametros.lugares.eliminar')

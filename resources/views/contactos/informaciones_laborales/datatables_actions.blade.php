@@ -6,7 +6,7 @@
     </a>
     @can('contactos.informacionesLaborales.editar')
     <a href="{{ route('contactos.informacionesLaborales.edit', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('contactos.informacionesLaborales.eliminar')

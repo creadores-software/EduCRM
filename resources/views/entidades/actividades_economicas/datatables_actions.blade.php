@@ -5,7 +5,7 @@
     </a>
     @can('entidades.actividadesEconomicas.editar')
     <a href="{{ route('entidades.actividadesEconomicas.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('entidades.actividadesEconomicas.eliminar')

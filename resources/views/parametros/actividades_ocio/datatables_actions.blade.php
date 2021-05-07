@@ -5,7 +5,7 @@
     </a>
     @can('parametros.actividadesOcio.editar')
     <a href="{{ route('parametros.actividadesOcio.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('parametros.actividadesOcio.eliminar')

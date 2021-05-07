@@ -5,7 +5,7 @@
     </a>
     @can('formaciones.periodicidades.editar')
     <a href="{{ route('formaciones.periodicidades.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endif
     @can('formaciones.periodicidades.eliminar')

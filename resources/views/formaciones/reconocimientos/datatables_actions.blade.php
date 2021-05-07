@@ -5,7 +5,7 @@
     </a>
     @can('formaciones.reconocimientos.editar')
     <a href="{{ route('formaciones.reconocimientos.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('formaciones.reconocimientos.eliminar')

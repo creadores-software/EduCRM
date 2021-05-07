@@ -5,7 +5,7 @@
     </a>
     @can('campanias.justificacionesEstadoCampania.editar')
     <a href="{{ route('campanias.justificacionesEstadoCampania.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('campanias.justificacionesEstadoCampania.eliminar')

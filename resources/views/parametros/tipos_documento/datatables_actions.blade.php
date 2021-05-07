@@ -5,7 +5,7 @@
     </a>
     @can('parametros.tiposDocumento.editar')
     <a href="{{ route('parametros.tiposDocumento.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('parametros.tiposDocumento.eliminar')

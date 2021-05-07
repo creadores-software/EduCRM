@@ -5,7 +5,7 @@
     </a>
     @can('admin.roles.editar')
     <a href="{{ route('admin.roles.edit', $id) }}" class='btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-edit"></i>
+        <i class="glyphicon glyphicon-pencil"></i>
     </a>
     @endcan
     @can('admin.roles.eliminar')
