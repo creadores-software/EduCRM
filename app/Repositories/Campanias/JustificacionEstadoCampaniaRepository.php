@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class JustificacionEstadoCampaniaRepository
  * @package App\Repositories\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version May 6, 2021, 11:29 pm -05
 */
 
 class JustificacionEstadoCampaniaRepository extends BaseRepository
@@ -18,8 +18,7 @@ class JustificacionEstadoCampaniaRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'estado_campania_id',
-        'nombre',
-        'descripcion'
+        'nombre'
     ];
 
     /**

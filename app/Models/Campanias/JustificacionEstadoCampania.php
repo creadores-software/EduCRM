@@ -8,13 +8,12 @@ use Altek\Accountant\Contracts\Recordable;
 /**
  * Class JustificacionEstadoCampania
  * @package App\Models\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version May 6, 2021, 11:29 pm -05
  *
- * @property \App\Models\Campanias\EstadoCampania $estadoCampania
- * @property \Illuminate\Database\Eloquent\Collection $oportunidads
+ * @property \App\Models\Campanias\EstadoCampanium $estadoCampania
+ * @property \Illuminate\Database\Eloquent\Collection $oportunidades
  * @property integer $estado_campania_id
  * @property string $nombre
- * @property string $descripcion
  */
 class JustificacionEstadoCampania extends Model implements Recordable
 {
@@ -29,8 +28,7 @@ class JustificacionEstadoCampania extends Model implements Recordable
 
     public $fillable = [
         'estado_campania_id',
-        'nombre',
-        'descripcion'
+        'nombre'
     ];
 
     /**
@@ -41,8 +39,7 @@ class JustificacionEstadoCampania extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'estado_campania_id' => 'integer',
-        'nombre' => 'string',
-        'descripcion' => 'string'
+        'nombre' => 'string'
     ];
 
     /**
@@ -52,8 +49,7 @@ class JustificacionEstadoCampania extends Model implements Recordable
      */
     public static $rules = [
         'estado_campania_id' => 'required|integer',
-        'nombre' => 'required|string|max:45',
-        'descripcion' => 'nullable|string|max:255'
+        'nombre' => 'required|string|max:45'
     ];
 
     /**
@@ -62,7 +58,7 @@ class JustificacionEstadoCampania extends Model implements Recordable
     public function estadoCampania()
     {
         return $this->belongsTo(\App\Models\Campanias\EstadoCampania::class, 'estado_campania_id')
-            ->withDefault(['nombre' => '']);
+        ->withDefault(['nombre' => '']);    
     }
 
     /**

@@ -25,7 +25,6 @@ class CreateJustificacionEstadoCampaniaTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('estado_campania_id');
             $table->string('nombre', 45);
-            $table->string('descripcion')->nullable();
 
             $table->index(["estado_campania_id"], 'fk_justificacion_estado_campania_estado_campania_idx');
 

@@ -59,7 +59,7 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(4)').every(function () {
+                    this.api().columns(':lt(3)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -81,7 +81,6 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
         return [
             'estado_campania_id' => new Column(['title' => __('models/justificacionesEstadoCampania.fields.estado_campania_id'), 'data' => 'estado_campania_id']),
             'nombre' => new Column(['title' => __('models/justificacionesEstadoCampania.fields.nombre'), 'data' => 'nombre']),
-            'descripcion' => new Column(['title' => __('models/justificacionesEstadoCampania.fields.descripcion'), 'data' => 'descripcion']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }
