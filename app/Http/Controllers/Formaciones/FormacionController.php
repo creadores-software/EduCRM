@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\FormacionDataTable;
+use App\Models\Entidades\Entidad;
 use App\Http\Requests\Formaciones\CreateFormacionRequest;
 use App\Http\Requests\Formaciones\UpdateFormacionRequest;
 use App\Repositories\Formaciones\FormacionRepository;
@@ -162,9 +163,17 @@ class FormacionController extends AppBaseController
     {
         $search=null;
         $entidad=$request->input('entidad', '');
-        $term=$request->input('q', '');
-        if(!empty($entidad)){            
-            $search=['entidad_id'=>$entidad];     
+        $activa=$request->input('activa', '');
+        $term=$request->input('q', '');        
+        if(!empty($entidad)){         
+            if($entidad=='miu'){
+                $miu = Entidad::where('mi_universidad',1)->first();
+                $entidad = $miu->id;
+            }  
+            $search=['entidad_id'=>$entidad];    
+            if(!empty($activa)){            
+                $search=['entidad_id'=>$entidad,'activo'=>$activa];     
+            } 
         }
         return $this->formacionRepository->infoSelect2($term,$search);
     }
