@@ -90,4 +90,11 @@ class EstadoCampania extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Campanias\TipoCampaniaEstados::class, 'estado_campania_id');
     }
+
+    public static function arrayColores(){
+        return EstadoCampania::
+        join('tipo_estado_color as tipoEstado', 'estado_campania.tipo_estado_color_id', '=', 'tipoEstado.id')
+        ->get(['estado_campania.id as id_estado','tipoEstado.color_hexadecimal as color'])
+        ->keyBy('id_estado')->toArray();
+    }
 }

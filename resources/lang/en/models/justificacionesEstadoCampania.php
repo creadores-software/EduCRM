@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Justificación Estado Campaña',
-  'plural' => 'Justificaciónes Estado Campaña',
+  'singular' => 'Razón Estado Campaña',
+  'plural' => 'Razones Estado Campaña',
   'fields' => 
   array (
     'id' => 'Id',

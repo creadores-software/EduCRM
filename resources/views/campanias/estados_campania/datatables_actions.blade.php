@@ -7,6 +7,9 @@
     <a href="{{ route('campanias.estadosCampania.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-edit"></i>
     </a>
+    <a gloss="Razones" href="{{ route('campanias.justificacionesEstadoCampania.index', ['idEstado'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-th-list"></i>
+    </a>
     @endcan
     @can('campanias.estadosCampania.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [

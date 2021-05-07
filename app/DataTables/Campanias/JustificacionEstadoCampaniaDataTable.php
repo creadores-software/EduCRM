@@ -18,8 +18,17 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $request=$this->request();  
 
-        return $dataTable->addColumn('action', 'campanias.justificaciones_estado_campania.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.justificaciones_estado_campania.datatables_actions')
+        ->filter(function ($query) use ($request) {
+            if (!$request->has('idEstado')) {
+                return;
+            }else{
+                $query->whereRaw("estado_campania_id = ?", [$request->get('idEstado')]);   
+            }            
+        });
     }
 
     /**
@@ -40,9 +49,13 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
      */
     public function html()
     {
+        $idEstado=null;
+        if ($this->request()->has("idEstado")) {
+            $idEstado = $this->request()->get("idEstado");
+        }
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('campanias.justificacionesEstadoCampania.index', ['idEstado' => $idEstado]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -59,7 +72,7 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(2)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -79,7 +92,6 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'estado_campania_id' => new Column(['title' => __('models/justificacionesEstadoCampania.fields.estado_campania_id'), 'data' => 'estado_campania_id']),
             'nombre' => new Column(['title' => __('models/justificacionesEstadoCampania.fields.nombre'), 'data' => 'nombre']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];

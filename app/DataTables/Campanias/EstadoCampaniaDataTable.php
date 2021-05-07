@@ -18,8 +18,16 @@ class EstadoCampaniaDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $colores = EstadoCampania::arrayColores();
 
-        return $dataTable->addColumn('action', 'campanias.estados_campania.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.estados_campania.datatables_actions')
+        ->editColumn('nombre', function ($estado) use($colores){
+            $id=$estado->id;      
+            $color = $colores[$id]['color'];      
+            return "<span style='color:$color'><i class='fa fa-circle'></i></span> $estado->nombre";
+        })
+        ->rawColumns(['nombre','action']);
     }
 
     /**
@@ -30,7 +38,8 @@ class EstadoCampaniaDataTable extends DataTable
      */
     public function query(EstadoCampania $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['tipoEstadoColor'])
+            ->select('estado_campania.*');
     }
 
     /**
@@ -79,9 +88,9 @@ class EstadoCampaniaDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado_color.nombre','name' => 'tipoEstadoColor.nombre']),
             'nombre' => new Column(['title' => __('models/estadosCampania.fields.nombre'), 'data' => 'nombre']),
-            'descripcion' => new Column(['title' => __('models/estadosCampania.fields.descripcion'), 'data' => 'descripcion']),
-            'tipo_estado_color_id' => new Column(['title' => __('models/estadosCampania.fields.tipo_estado_color_id'), 'data' => 'tipo_estado_color_id']),
+            'descripcion' => new Column(['title' => __('models/estadosCampania.fields.descripcion'), 'data' => 'descripcion']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

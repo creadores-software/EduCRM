@@ -27,7 +27,7 @@ class EstadoInteraccionDataTable extends DataTable
             $color = $colores[$id]['color'];      
             return "<span style='color:$color'><i class='fa fa-circle'></i></span> $estado->nombre";
         })
-        ->rawColumns(['nombre','action']);;
+        ->rawColumns(['nombre','action']);
     }
 
     /**

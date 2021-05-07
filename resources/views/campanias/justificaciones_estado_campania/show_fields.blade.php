@@ -1,7 +1,7 @@
 <!-- Estado Campania Id Field -->
 <div class="form-group">
     {!! Form::label('estado_campania_id', __('models/justificacionesEstadoCampania.fields.estado_campania_id').':') !!}
-    <p>{{ $justificacionEstadoCampania->estado_campania_id }}</p>
+    <p>{{ $justificacionEstadoCampania->estadoCampania->nombre }}</p>
 </div>
 
 <!-- Nombre Field -->

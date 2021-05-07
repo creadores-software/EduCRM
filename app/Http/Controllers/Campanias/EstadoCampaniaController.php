@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\EstadoCampaniaDataTable;
+use App\Models\Campanias\TipoEstadoColor;
 use App\Http\Requests\Campanias\CreateEstadoCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateEstadoCampaniaRequest;
 use App\Repositories\Campanias\EstadoCampaniaRepository;
@@ -43,7 +44,9 @@ class EstadoCampaniaController extends AppBaseController
      */
     public function create()
     {
-        return view('campanias.estados_campania.create');
+        $colores = TipoEstadoColor::arrayColores();
+        return view('campanias.estados_campania.create')
+        ->with(['colores'=>$colores]);
     }
 
     /**
@@ -93,6 +96,7 @@ class EstadoCampaniaController extends AppBaseController
      */
     public function edit($id)
     {
+        $colores = TipoEstadoColor::arrayColores();
         $estadoCampania = $this->estadoCampaniaRepository->find($id);
 
         if (empty($estadoCampania)) {
@@ -101,7 +105,8 @@ class EstadoCampaniaController extends AppBaseController
             return redirect(route('campanias.estadosCampania.index'));
         }
 
-        return view('campanias.estados_campania.edit')->with('estadoCampania', $estadoCampania);
+        return view('campanias.estados_campania.edit')
+        ->with(['estadoCampania'=> $estadoCampania,'colores'=>$colores]);
     }
 
     /**

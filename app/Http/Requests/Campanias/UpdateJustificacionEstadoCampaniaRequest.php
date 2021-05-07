@@ -4,6 +4,7 @@ namespace App\Http\Requests\Campanias;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Campanias\JustificacionEstadoCampania;
+use Illuminate\Validation\Rule;
 
 class UpdateJustificacionEstadoCampaniaRequest extends FormRequest
 {
@@ -25,8 +26,13 @@ class UpdateJustificacionEstadoCampaniaRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = JustificacionEstadoCampania::$rules;
-        
+        $rules= JustificacionEstadoCampania::$rules;
+        $rules['nombre'] = [
+            'required',
+            Rule::unique('justificacion_estado_campania')
+                ->ignore($this->id)
+                ->where('estado_campania_id', $this->estado_campania_id)
+        ];
         return $rules;
     }
 }

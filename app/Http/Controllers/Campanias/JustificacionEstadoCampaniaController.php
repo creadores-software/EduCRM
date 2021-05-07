@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\JustificacionEstadoCampaniaDataTable;
+use App\Models\Campanias\EstadoCampania;
 use App\Http\Requests\Campanias\CreateJustificacionEstadoCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateJustificacionEstadoCampaniaRequest;
 use App\Repositories\Campanias\JustificacionEstadoCampaniaRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Campanias\EstadoCampania as CampaniasEstadoCampania;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
@@ -33,7 +35,13 @@ class JustificacionEstadoCampaniaController extends AppBaseController
      */
     public function index(JustificacionEstadoCampaniaDataTable $justificacionEstadoCampaniaDataTable)
     {
-        return $justificacionEstadoCampaniaDataTable->render('campanias.justificaciones_estado_campania.index');
+        if ($justificacionEstadoCampaniaDataTable->request()->has('idEstado')) {
+            $estado = EstadoCampania::find($justificacionEstadoCampaniaDataTable->request()->get('idEstado'));
+            return $justificacionEstadoCampaniaDataTable->render('campanias.justificaciones_estado_campania.index',
+                ['idEstado'=>$estado->id,'nombreEstado'=>$estado->nombre]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un estado seleccionado'], 500);     
+        } 
     }
 
     /**
@@ -41,9 +49,15 @@ class JustificacionEstadoCampaniaController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('campanias.justificaciones_estado_campania.create');
+        if ($request->has('idEstado')) {
+            $estado = EstadoCampania::find($request->get('idEstado'));
+            return view('campanias.justificaciones_estado_campania.create')
+            ->with(['idEstado'=>$estado->id,'nombreEstado'=>$estado->nombre]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un estado seleccionado'], 500);     
+        }        
     }
 
     /**
@@ -61,7 +75,7 @@ class JustificacionEstadoCampaniaController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/justificacionesEstadoCampania.singular')]));
 
-        return redirect(route('campanias.justificacionesEstadoCampania.index'));
+        return redirect(route('campanias.justificacionesEstadoCampania.index',['idEstado'=>$justificacionEstadoCampania->estado_campania_id]));
     }
 
     /**
@@ -91,7 +105,7 @@ class JustificacionEstadoCampaniaController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         $justificacionEstadoCampania = $this->justificacionEstadoCampaniaRepository->find($id);
 
@@ -101,7 +115,9 @@ class JustificacionEstadoCampaniaController extends AppBaseController
             return redirect(route('campanias.justificacionesEstadoCampania.index'));
         }
 
-        return view('campanias.justificaciones_estado_campania.edit')->with('justificacionEstadoCampania', $justificacionEstadoCampania);
+        return view('campanias.justificaciones_estado_campania.edit')
+            ->with(['justificacionEstadoCampania'=>$justificacionEstadoCampania,
+            'idEstado'=>$justificacionEstadoCampania->estadoCampania->id,'nombreEstado'=>$justificacionEstadoCampania->estadoCampania->nombre]);     
     }
 
     /**
@@ -126,7 +142,7 @@ class JustificacionEstadoCampaniaController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/justificacionesEstadoCampania.singular')]));
 
-        return redirect(route('campanias.justificacionesEstadoCampania.index'));
+        return redirect(route('campanias.justificacionesEstadoCampania.index',['idEstado'=>$justificacionEstadoCampania->estado_campania_id]));
     }
 
     /**
@@ -145,12 +161,12 @@ class JustificacionEstadoCampaniaController extends AppBaseController
 
             return redirect(route('campanias.justificacionesEstadoCampania.index'));
         }
-
+        $idEstado = $justificacionEstadoCampania->estado_campania_id;
         $this->justificacionEstadoCampaniaRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/justificacionesEstadoCampania.singular')]));
 
-        return redirect(route('campanias.justificacionesEstadoCampania.index'));
+        return redirect(route('campanias.justificacionesEstadoCampania.index',['idEstado'=>$idEstado]));
     }
 
     /**
