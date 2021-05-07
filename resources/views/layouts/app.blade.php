@@ -95,6 +95,7 @@
         }
 
         .mytooltip:hover:after {
+            font-size: 1rem;
             background: #333;
             background: rgba(0, 0, 0, .8);
             border-radius: 5px;
