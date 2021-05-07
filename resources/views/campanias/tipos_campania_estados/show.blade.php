@@ -13,7 +13,7 @@
                     <h2 class="page-header">Datos</h2>
                     @include('campanias.tipos_campania_estados.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('campanias.tiposCampaniaEstados.index') }}" class="btn btn-default">
+                    <a href="{{ route('campanias.tiposCampaniaEstados.index',['idTipo'=>$tipoCampaniaEstados->tipo_campania_id]) }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>
                 </div>

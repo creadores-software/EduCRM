@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\TipoCampaniaEstadosDataTable;
+use App\Models\Campanias\TipoCampania;
 use App\Http\Requests\Campanias\CreateTipoCampaniaEstadosRequest;
 use App\Http\Requests\Campanias\UpdateTipoCampaniaEstadosRequest;
 use App\Repositories\Campanias\TipoCampaniaEstadosRepository;
@@ -33,7 +34,13 @@ class TipoCampaniaEstadosController extends AppBaseController
      */
     public function index(TipoCampaniaEstadosDataTable $tipoCampaniaEstadosDataTable)
     {
-        return $tipoCampaniaEstadosDataTable->render('campanias.tipos_campania_estados.index');
+        if ($tipoCampaniaEstadosDataTable->request()->has('idTipo')) {
+            $tipo = TipoCampania::find($tipoCampaniaEstadosDataTable->request()->get('idTipo'));
+            return $tipoCampaniaEstadosDataTable->render('campanias.tipos_campania_estados.index',
+                ['idTipo'=>$tipo->id,'nombreTipo'=>$tipo->nombre]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un estado seleccionado'], 500);     
+        }
     }
 
     /**
@@ -41,9 +48,15 @@ class TipoCampaniaEstadosController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('campanias.tipos_campania_estados.create');
+        if ($request->has('idTipo')) {
+            $tipo = TipoCampania::find($request->get('idTipo'));
+            return view('campanias.tipos_campania_estados.create')
+            ->with(['idTipo'=>$tipo->id,'nombreTipo'=>$tipo->nombre]); 
+        }else{
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un estado seleccionado'], 500);     
+        } 
     }
 
     /**
@@ -61,7 +74,7 @@ class TipoCampaniaEstadosController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/tiposCampaniaEstados.singular')]));
 
-        return redirect(route('campanias.tiposCampaniaEstados.index'));
+        return redirect(route('campanias.tiposCampaniaEstados.index',['idTipo'=>$tipoCampaniaEstados->tipo_campania_id]));
     }
 
     /**
@@ -101,7 +114,9 @@ class TipoCampaniaEstadosController extends AppBaseController
             return redirect(route('campanias.tiposCampaniaEstados.index'));
         }
 
-        return view('campanias.tipos_campania_estados.edit')->with('tipoCampaniaEstados', $tipoCampaniaEstados);
+        return view('campanias.tipos_campania_estados.edit')
+            ->with(['tipoCampaniaEstados'=>$tipoCampaniaEstados,
+            'idTipo'=>$tipoCampaniaEstados->tipoCampania->id,'nombreTipo'=>$tipoCampaniaEstados->tipoCampania->nombre]);     
     }
 
     /**
@@ -126,7 +141,7 @@ class TipoCampaniaEstadosController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/tiposCampaniaEstados.singular')]));
 
-        return redirect(route('campanias.tiposCampaniaEstados.index'));
+        return redirect(route('campanias.tiposCampaniaEstados.index',['idTipo'=>$tipoCampaniaEstados->tipo_campania_id]));
     }
 
     /**
@@ -145,12 +160,12 @@ class TipoCampaniaEstadosController extends AppBaseController
 
             return redirect(route('campanias.tiposCampaniaEstados.index'));
         }
-
+        $idTipo = $tipoCampaniaEstados->tipo_campania_id;
         $this->tipoCampaniaEstadosRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/tiposCampaniaEstados.singular')]));
 
-        return redirect(route('campanias.tiposCampaniaEstados.index'));
+        return redirect(route('campanias.tiposCampaniaEstados.index',['idTipo'=>$idTipo]));
     }
 
     /**

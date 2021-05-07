@@ -1,13 +1,13 @@
 <!-- Tipo Campania Id Field -->
 <div class="form-group">
     {!! Form::label('tipo_campania_id', __('models/tiposCampaniaEstados.fields.tipo_campania_id').':') !!}
-    <p>{{ $tipoCampaniaEstados->tipo_campania_id }}</p>
+    <p>{{ $tipoCampaniaEstados->tipoCampania->nombre }}</p>
 </div>
 
 <!-- Estado Campania Id Field -->
 <div class="form-group">
     {!! Form::label('estado_campania_id', __('models/tiposCampaniaEstados.fields.estado_campania_id').':') !!}
-    <p>{{ $tipoCampaniaEstados->estado_campania_id }}</p>
+    <p>{{ $tipoCampaniaEstados->estadoCampania->nombre }}</p>
 </div>
 
 <!-- Orden Field -->

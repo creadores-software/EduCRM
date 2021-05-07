@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/tiposCampaniaEstados.singular')
+            @lang('models/tiposCampaniaEstados.singular'): {{ $nombreTipo}}
         </h1>
    </section>
    <div class="content">

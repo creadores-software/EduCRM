@@ -18,8 +18,17 @@ class TipoCampaniaEstadosDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $request=$this->request(); 
 
-        return $dataTable->addColumn('action', 'campanias.tipos_campania_estados.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.tipos_campania_estados.datatables_actions')
+        ->filter(function ($query) use ($request) {
+            if (!$request->has('idTipo')) {
+                return;
+            }else{
+                $query->whereRaw("tipo_campania_id = ?", [$request->get('idTipo')]);   
+            }            
+        });
     }
 
     /**
@@ -30,7 +39,8 @@ class TipoCampaniaEstadosDataTable extends DataTable
      */
     public function query(TipoCampaniaEstados $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with(['estadoCampania'])
+            ->select('tipo_campania_estados.*');
     }
 
     /**
@@ -40,9 +50,13 @@ class TipoCampaniaEstadosDataTable extends DataTable
      */
     public function html()
     {
+        $idTipo=null;
+        if ($this->request()->has("idTipo")) {
+            $idTipo = $this->request()->get("idTipo");
+        }
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('campanias.tiposCampaniaEstados.index', ['idTipo' => $idTipo]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -79,8 +93,8 @@ class TipoCampaniaEstadosDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'estado_campania_id' => new Column(['title' => __('models/tiposCampaniaEstados.fields.estado_campania_id'), 'data' => 'estado_campania_id']),
             'orden' => new Column(['title' => __('models/tiposCampaniaEstados.fields.orden'), 'data' => 'orden']),
+            'estado_campania_id' => new Column(['title' => __('models/tiposCampaniaEstados.fields.estado_campania_id'), 'data' => 'estado_campania.nombre','name' => 'estadoCampania.nombre']),
             'dias_cambio' => new Column(['title' => __('models/tiposCampaniaEstados.fields.dias_cambio'), 'data' => 'dias_cambio']),
         ];
     }

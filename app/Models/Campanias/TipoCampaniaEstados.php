@@ -56,8 +56,8 @@ class TipoCampaniaEstados extends Model implements Recordable
     public static $rules = [
         'tipo_campania_id' => 'required|integer',
         'estado_campania_id' => 'required|integer',
-        'orden' => 'required|integer',
-        'dias_cambio' => 'required|integer'
+        'orden' => 'required|integer|min:1',
+        'dias_cambio' => 'required|integer|min:1'
     ];
 
     /**
