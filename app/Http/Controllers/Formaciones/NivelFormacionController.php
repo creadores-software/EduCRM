@@ -163,6 +163,7 @@ class NivelFormacionController extends AppBaseController
         $search=null;
         $es_ies=$request->input('es_ies');
         $term=$request->input('q', '');
+        $join = null;
         if($es_ies!=null){
             $search=['nivel_academico.es_ies'=>$es_ies];    
             $join=['nivel_academico','nivel_formacion.nivel_academico_id','=','nivel_academico.id'];
