@@ -7,7 +7,7 @@
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id').':') !!}
-    <p>{{ $informacionUniversitaria->formacion->nombre }}</p>
+    <p>{{ $informacionUniversitaria->formacion->getNombreModalidadJornada() }}</p>
 </div>
 
 <!-- Tipo Acceso Id Field -->

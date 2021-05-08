@@ -169,9 +169,9 @@ class Campania extends Model implements Recordable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function campaniaFormaciones()
+    public function campaniaFormacionesAsociadas()
     {
-        return $this->belongsToMany(\App\Models\Formaciones\Formacion::class, 'campania_formaciones');
+        return $this->belongsToMany(\App\Models\Formaciones\Formacion::class, 'campania_formaciones','campania_id','formacion_id',);
     }
 
     /**

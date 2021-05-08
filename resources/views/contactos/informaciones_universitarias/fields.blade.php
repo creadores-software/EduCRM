@@ -19,7 +19,7 @@
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' )))
-            <option value="{{ old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ))->nombre }} </option>
+            <option value="{{ old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Formacion::find(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' ))->getNombreModalidadJornada() }} </option>
         @endif
     </select> 
 </div>

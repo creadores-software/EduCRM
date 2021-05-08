@@ -223,4 +223,15 @@ class Formacion extends Model implements Recordable
     {
         return $this->belongsToMany(\App\Models\Parametros\BuyerPersona::class, 'formacion_buyer_persona');
     }
+
+    public function getNombreModalidadJornada(){
+        $nombre = $this->nombre;
+        if(!empty($this->modalidad_id)){
+            $nombre .= ' / '.$this->modalidad->nombre;
+        }
+        if(!empty($this->jornada_id)){
+            $nombre .= ' / '.$this->jornada->nombre;
+        }
+        return $nombre;
+    }
 }

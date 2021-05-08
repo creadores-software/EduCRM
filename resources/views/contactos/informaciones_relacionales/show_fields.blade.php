@@ -97,7 +97,7 @@
     {!! Form::label('preferenciasFormaciones', ' Preferencias Formaciones:') !!}
     <select name="preferenciasFormaciones[]" id="preferenciasFormaciones" class="form-control"  multiple="multiple" disabled=true>
         @foreach (old('preferenciasFormaciones[]', $informacionRelacional->preferenciasFormaciones,null) as $formacion)
-            <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->nombre }}</option>
+            <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->getNombreModalidadJornada() }}</option>
         @endforeach
     </select> 
 </div>

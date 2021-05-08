@@ -59,10 +59,10 @@ class CampaniaRepository extends BaseRepository
     {
         $model = $this->model->newInstance($input);        
         $model->save();
-        if(array_key_exists('campaniaFormaciones',$input)){            
-            $model->campaniaFormaciones()->sync((array)$input['campaniaFormaciones']);
+        if(array_key_exists('campaniaFormacionesAsociadas',$input)){            
+            $model->campaniaFormacionesAsociadas()->sync((array)$input['campaniaFormacionesAsociadas']);
         }else{
-            $model->campaniaFormaciones()->sync([]);
+            $model->campaniaFormacionesAsociadas()->sync([]);
         } 
         return $model;
     }
@@ -81,10 +81,10 @@ class CampaniaRepository extends BaseRepository
         $model = $query->findOrFail($id);
         $model->fill($input);
 
-        if(array_key_exists('campaniaFormaciones',$input)){            
-            $model->campaniaFormaciones()->sync((array)$input['campaniaFormaciones']);
+        if(array_key_exists('campaniaFormacionesAsociadas',$input)){ 
+            $model->campaniaFormacionesAsociadas()->sync((array)$input['campaniaFormacionesAsociadas']);
         }else{
-            $model->campaniaFormaciones()->sync([]);
+            $model->campaniaFormacionesAsociadas()->sync([]);
         }
 
         $model->save();

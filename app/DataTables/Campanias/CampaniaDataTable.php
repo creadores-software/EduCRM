@@ -97,7 +97,7 @@ class CampaniaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'tipo_campania_id' => new Column(['title' => __('models/campanias.fields.tipo_campania_id'), 'data' => 'tipo_campania_id']),
+            'tipo_campania_id' => new Column(['title' => __('models/campanias.fields.tipo_campania_id'), 'data' => 'tipo_campania.nombre','name' => 'tipoCampania.nombre']),
             'nombre' => new Column(['title' => __('models/campanias.fields.nombre'), 'data' => 'nombre']),
             'periodo_academico_id' => new Column(['title' => __('models/campanias.fields.periodo_academico_id'), 'data' => 'periodo_academico.nombre','name' => 'periodoAcademico.nombre']),
             'equipo_mercadeo_id' => new Column(['title' => __('models/campanias.fields.equipo_mercadeo_id'), 'data' => 'equipo_mercadeo.nombre','name' => 'equipoMercadeo.nombre']),

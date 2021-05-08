@@ -90,15 +90,15 @@
     {!! Form::text('inversion', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Nivel Formacion Id Field -->
+<!-- Facultad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_formacion_id', __('models/campanias.fields.nivel_formacion_id').':') !!}
-    <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
+    {!! Form::label('facultad_id', __('models/campanias.fields.facultad_id').':') !!}
+    <select name="facultad_id" id="facultad_id" class="form-control">
         <option></option>
-        @if(!empty(old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' )))
-            <option value="{{ old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelFormacion::find(old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' ))->nombre }} </option>
+        @if(!empty(old('facultad_id', $campania->facultad_id ?? '' )))
+            <option value="{{ old('facultad_id', $campania->facultad_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Facultad::find(old('facultad_id', $campania->facultad_id ?? '' ))->nombre }} </option>
         @endif
-    </select>  
+    </select>
 </div>
 
 <!-- Nivel Academico Id Field -->
@@ -112,24 +112,25 @@
     </select>
 </div>
 
-<!-- Facultad Id Field -->
+<!-- Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('facultad_id', __('models/campanias.fields.facultad_id').':') !!}
-    <select name="facultad_id" id="facultad_id" class="form-control">
+    {!! Form::label('nivel_formacion_id', __('models/campanias.fields.nivel_formacion_id').':') !!}
+    <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
         <option></option>
-        @if(!empty(old('facultad_id', $campania->facultad_id ?? '' )))
-            <option value="{{ old('facultad_id', $campania->facultad_id ?? '' ) }}" selected> {{ App\Models\Formaciones\Facultad::find(old('facultad_id', $campania->facultad_id ?? '' ))->nombre }} </option>
+        @if(!empty(old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' )))
+            <option value="{{ old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' ) }}" selected> {{ App\Models\Formaciones\NivelFormacion::find(old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' ))->nombre }} </option>
         @endif
-    </select>
+    </select>  
 </div>
+
 
 <!-- Tipos de Contacto -->
 <div class="form-group col-sm-12">
-    {!! Form::label('campaniaFormaciones', ' Formaciones:') !!}
-    <select name="campaniaFormaciones[]" id="campaniaFormaciones" class="form-control"  multiple="multiple">
-        @if(!empty($contacto))
-            @foreach (old('campaniaFormaciones[]', $campania->campaniaFormaciones,null) as $formacion)
-                <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->nombre }}</option>
+    {!! Form::label('campaniaFormacionesAsociadas', ' Formaciones:') !!}
+    <select name="campaniaFormacionesAsociadas[]" id="campaniaFormacionesAsociadas" class="form-control"  multiple="multiple">
+        @if(!empty($campania))
+            @foreach (old('campaniaFormacionesAsociadas[]', $campania->campaniaFormacionesAsociadas,null) as $formacion)
+                <option value="{{ $formacion->id }}" selected="selected">{{ $formacion->getNombreModalidadJornada() }}</option>
             @endforeach
         @endif
     </select> 
@@ -220,7 +221,7 @@
                     dataType: 'json',
                 },
             });
-            $('#campaniaFormaciones').select2({
+            $('#campaniaFormacionesAsociadas').select2({
                 tags: true,
                 multiple: true,
                 tokenSeparators: [','],
