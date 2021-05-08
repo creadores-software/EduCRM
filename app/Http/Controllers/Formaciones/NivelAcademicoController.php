@@ -158,6 +158,11 @@ class NivelAcademicoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->nivelAcademicoRepository->infoSelect2($request->input('q', ''));
+        $es_ies=$request->input('es_ies');
+        $term=$request->input('q', '');
+        if($es_ies!=null){
+            $search=['es_ies'=>$es_ies];  
+        }
+        return $this->nivelAcademicoRepository->infoSelect2($term,$search);
     }
 }

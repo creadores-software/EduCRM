@@ -161,11 +161,11 @@ class FormacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        $search=null;
+        $search=[];
         $entidad=$request->input('entidad', '');
         $activa=$request->input('activa', '');
-        $nivel_formacion=$request->input('nivel_formacion', '');
-        $nivel_academico=$request->input('nivel_academico', '');
+        $nivelFormacion=$request->input('nivelFormacion', '');
+        $nivelAcademico=$request->input('nivelAcademico', '');
         $facultad=$request->input('facultad', '');
         $term=$request->input('q', ''); 
         $page=$request->input('page', ''); 
@@ -175,8 +175,17 @@ class FormacionController extends AppBaseController
                 $entidad = $miu->id;
             }  
             $search=['entidad_id'=>$entidad];    
-            if(!empty($activa)){            
-                $search=['entidad_id'=>$entidad,'activo'=>$activa];     
+            if(!empty($activa)){   
+                $search['activo']=$activa;        
+            }
+            if(!empty($nivelFormacion)){   
+                $search['nivel_formacion_id']=$nivelFormacion;        
+            } 
+            if(!empty($nivelAcademico)){   
+                $search['nivel_academico_id']=$nivelAcademico;        
+            } 
+            if(!empty($facultad)){   
+                $search['facultad_id']=$facultad;        
             } 
         }
         $join=[

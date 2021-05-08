@@ -188,6 +188,21 @@
                     url: '{{ route("admin.equiposMercadeo.dataAjax") }}',
                     dataType: 'json',
                 },
+            });            
+            $('#nivel_academico_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("formaciones.nivelesAcademicos.dataAjax") }}',
+                    dataType: 'json',
+                    data: function (params) {  
+                        nivelAcademico = $('#nivel_academico_id').val();
+                        return {
+                            q: params.term, 
+                            es_ies:1,
+                        };
+                    },
+                },
             });
             $('#nivel_formacion_id').select2({
                 placeholder: "Seleccionar",
@@ -195,14 +210,14 @@
                 ajax: {
                     url: '{{ route("formaciones.nivelesFormacion.dataAjax") }}',
                     dataType: 'json',
-                },
-            });
-            $('#nivel_academico_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("formaciones.nivelesAcademicos.dataAjax") }}',
-                    dataType: 'json',
+                    data: function (params) {  
+                        nivelAcademico = $('#nivel_academico_id').val();
+                        return {
+                            q: params.term, 
+                            nivelAcademico: nivelAcademico,
+                            es_ies:1,
+                        };
+                    },
                 },
             });
             $('#facultad_id').select2({
@@ -232,11 +247,17 @@
                     url: '{{ route("formaciones.formaciones.dataAjax") }}',
                     dataType: 'json',
                     data: function (params) {  
+                       nivelAcademico = $('#nivel_academico_id').val();
+                       nivelFormacion = $('#nivel_formacion_id').val();
+                       facultad = $('#facultad_id').val();
                        return {
                             q: params.term, 
                             entidad: 'miu',
                             activa: 1,
                             page: params.page || 1,
+                            nivelAcademico: nivelAcademico,
+                            nivelFormacion: nivelFormacion,
+                            facultad: facultad
                         };
                     },
                     processResults: function (data) {
