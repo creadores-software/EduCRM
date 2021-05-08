@@ -12,7 +12,7 @@ return array (
     'equipo_mercadeo_id' => 'Equipo Mercadeo',
     'fecha_inicio' => 'Fecha Inicio',
     'fecha_final' => 'Fecha Final',
-    'descripcion' => 'Descripción',
+    'descripcion' => 'Descripción (Brief)',
     'inversion' => 'Inversión',
     'nivel_formacion_id' => 'Nivel Formación',
     'nivel_academico_id' => 'Nivel Académico',
