@@ -173,15 +173,9 @@ class UserController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        $term=$request->input('q', '');  
-        $model = new User();        
-        $query = $model->newQuery();
-        $query->select('id','name as text');
-        $query->where('name', 'LIKE', '%'.$term.'%');
-        $query->orderBy('text', 'ASC');        
-        $coincidentes = $query->get();
-
-        return ['results' => $coincidentes];
+        $term=$request->input('q', ''); 
+        $name="name";
+        return $this->userRepository->infoSelect2($term,null,null,null,['text','DESC'],$name);
     }
 
 }
