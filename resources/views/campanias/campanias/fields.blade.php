@@ -29,7 +29,7 @@
 <!-- Equipo Mercadeo Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('equipo_mercadeo_id', __('models/campanias.fields.equipo_mercadeo_id').':') !!}
-    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Solo sus miembros podrán gestionar las oportunidades."></i>
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Sus miembros podrán gestionar las oportunidades y ser asignados como responsables."></i>
     <select name="equipo_mercadeo_id" id="equipo_mercadeo_id" class="form-control">
         <option></option>
         @if(!empty(old('equipo_mercadeo_id', $campania->equipo_mercadeo_id ?? '' )))
@@ -235,8 +235,17 @@
                             q: params.term, 
                             entidad: 'miu',
                             activa: 1,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             });
         });

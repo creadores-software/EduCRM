@@ -329,20 +329,24 @@
                 ajax: {
                     url: '{{ route("formaciones.formaciones.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                       return {
+                            q: params.term, 
+                            entidad: 'miu',
+                            activa: 1,
+                            page: params.page || 1,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }                    
                 },
-            });  
-            $('#preferenciasFormaciones').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                tags: true,
-                multiple: true,
-                tokenSeparators: [','],
-                createTag: function(params) {return undefined;},
-                ajax: {
-                    url: '{{ route("formaciones.formaciones.dataAjax") }}',
-                    dataType: 'json',
-                },
-            }); 
+            });   
             $('#preferenciasMediosComunicacion').select2({
                 tags: true,
                 multiple: true,

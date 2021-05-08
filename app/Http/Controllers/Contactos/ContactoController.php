@@ -181,26 +181,17 @@ class ContactoController extends AppBaseController
     public function dataAjax(Request $request)
     {   
         $term=$request->input('q', '');   
-        $contacto_excluir=$request->input('contacto_excluir', '');       
+        $contacto_excluir=$request->input('contacto_excluir', '');  
+        $where_text = "identificacion is not null";
+        $where_params=[];
+        $page=$request->input('page', ''); 
 
-        $model = new Contacto();        
-        $query = $model->newQuery();
-
-        $concat_alias= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', identificacion) as text");
-        $concat= DB::raw("CONCAT(nombres, ' ', apellidos, ' - ', identificacion)");
-
-        $query->select('id',$concat_alias);
-        $query->where($concat, 'LIKE', '%'.$term.'%');
-        //Solo se muestran contactos con identificación 
-        $query->whereNotNull('identificacion');
-
-        if(!empty($contacto_excluir)){
-            $query->where('id', '<>', $contacto_excluir);    
+        if(!empty($contacto_excluir) && is_int($contacto_excluir)){
+            $where_text.="and id <> :id'";
+            $where_params=['id'=>$contacto_excluir];
         }
-        $query->orderBy('text', 'ASC');        
-        $coincidentes = $query->get();
-
-        return ['results' => $coincidentes];
+        $name="CONCAT(nombres, ' ', apellidos, ' - ', identificacion)";
+        return $this->contactoRepository->infoSelect2($term,null,null,null,['text','DESC'],$name,$page,[$where_text,$where_params]);
     }
 
     public function archivoEjemplo(){

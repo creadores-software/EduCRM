@@ -264,8 +264,17 @@
                         return {
                             q: params.term, 
                             contacto_excluir: id_actual,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             });          
             $('#estrato').select2({

@@ -122,8 +122,17 @@
                         return {
                             q: params.term, 
                             es_colegio: 1,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             }); 
             $('#nivel_formacion_id').select2({

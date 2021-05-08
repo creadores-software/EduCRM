@@ -124,6 +124,20 @@
                 ajax: {
                     url: '{{ route("entidades.entidades.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        return {
+                            q: params.term, 
+                            page: params.page || 1,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             }); 
             $('#laboralOcupaciones').select2({

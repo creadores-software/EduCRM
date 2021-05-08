@@ -146,8 +146,17 @@
                         return {
                             q: params.term, 
                             es_ies: 1,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             });
             $('#tipo_acceso_id').select2({
@@ -188,8 +197,17 @@
                         return {
                             q: params.term, 
                             entidad: entidad_seleccionada,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }   
                 },
             });             
         }); 

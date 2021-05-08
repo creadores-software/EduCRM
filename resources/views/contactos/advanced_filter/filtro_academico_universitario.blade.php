@@ -153,8 +153,17 @@
                         return {
                             q: params.term, 
                             es_ies: 1,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             });
             $('#universidadFormaciones').select2({
@@ -175,8 +184,17 @@
                         return {
                             q: params.term, 
                             entidad: entidades_seleccionadas,
+                            page: params.page || 1,
                         };
                     },
+                    processResults: function (data) {
+                        return {
+                            results: data.results,
+                            pagination: {
+                                more: data.more
+                            }
+                        };
+                    }
                 },
             }); 
             $('#universidadTiposAcceso').select2({

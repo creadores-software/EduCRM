@@ -164,7 +164,11 @@ class FormacionController extends AppBaseController
         $search=null;
         $entidad=$request->input('entidad', '');
         $activa=$request->input('activa', '');
-        $term=$request->input('q', '');        
+        $nivel_formacion=$request->input('nivel_formacion', '');
+        $nivel_academico=$request->input('nivel_academico', '');
+        $facultad=$request->input('facultad', '');
+        $term=$request->input('q', ''); 
+        $page=$request->input('page', ''); 
         if(!empty($entidad)){         
             if($entidad=='miu'){
                 $miu = Entidad::where('mi_universidad',1)->first();
@@ -175,6 +179,14 @@ class FormacionController extends AppBaseController
                 $search=['entidad_id'=>$entidad,'activo'=>$activa];     
             } 
         }
-        return $this->formacionRepository->infoSelect2($term,$search);
+        $join=[
+            ['jornada','jornada.id','=','formacion.jornada_id'],
+            ['modalidad','modalidad.id','=','formacion.modalidad_id'],
+            ['nivel_formacion','nivel_formacion.id','=','formacion.nivel_formacion_id'],
+            ['nivel_academico','nivel_academico.id','=','nivel_formacion.nivel_academico_id'],
+            ['facultad','facultad.id','=','formacion.facultad_id']
+        ];
+        $name="CONCAT(formacion.nombre, COALESCE(concat(' / ',modalidad.nombre),''),COALESCE(concat(' / ',jornada.nombre),''))";
+        return $this->formacionRepository->infoSelect2($term,$search,$join,null,null,$name,$page);
     }
 }

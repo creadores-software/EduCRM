@@ -330,7 +330,7 @@
             </ul>
         </li>
         @if(strpos(Session::get('textoPermisos'), 'campanias.campanias.')!==false)
-        <li id="campanias" class="treeview-item opcion-menu menu-nieto">
+        <li id="campanias-campanias" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('campanias.campanias.index') }}"><i class="fa fa-circle-o"></i><span>Gestión de Campañas</span></a>
         </li> 
         @endif
@@ -344,7 +344,7 @@
     </ul> 
 </li>
 <li id="manuales" class="opcion-menu opcion-menu-padre treeview">
-    <a href="#"><i class="fa fa-book"></i><span>Manuales</span></a>
+    <a href="#"><i class="fa fa-book"></i><span>Manual</span></a>
 </li>
 <li id="cerrar-sesion" class="opcion-menu opcion-menu-padre treeview">
     <a href="#"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a>

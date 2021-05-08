@@ -158,7 +158,7 @@ class PeriodoAcademicoController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->periodoAcademicoRepository->infoSelect2($request->input('q', ''));
+        return $this->periodoAcademicoRepository->infoSelect2($request->input('q', ''),null,[],null,['nombre','DESC']);
     }
 
 }

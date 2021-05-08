@@ -208,16 +208,22 @@ abstract class BaseRepository
      * Información para select2 con términos de búsqueda 
      * @throws \Exception
      */
-    public function infoSelect2($term,$search=null,$join=[],$orSearch=null)
+    public function infoSelect2($term,$search=null,$join=[],$orSearch=null,$order=[],$name=null,$page=null,$customWhere=null)
     {
-        //DB::enableQueryLog();
-        $query = $this->model->newQuery();
+       // DB::enableQueryLog();
+        $query = $this->model->newQuery();  
 
-        if(!empty($join)){
-            $query->join($join[0],$join[1],$join[2],$join[3]);    
+        if(!empty($join) && is_array($join)){
+            if(is_array($join[0])){
+                foreach($join as $jo) {
+                    $query->leftjoin($jo[0],$jo[1],$jo[2],$jo[3]);                   
+                }
+            }else{
+                $query->leftjoin($join[0],$join[1],$join[2],$join[3]);    
+            }            
         }
 
-        if ($search!=null) {
+        if (!empty($search)) {
             foreach($search as $key => $value) {
                 if(is_array($value)){
                     $query->whereIn($key, $value);
@@ -227,7 +233,7 @@ abstract class BaseRepository
             }
         }
 
-        if ($orSearch!=null) {
+        if (!empty($orSearch)) {
             foreach($orSearch as $key => $value) {
                 if(is_array($value)){
                     $query->whereIn($key, $value, 'or');
@@ -237,11 +243,47 @@ abstract class BaseRepository
             }
         }
 
-        $query->where($this->model->table.'.nombre', 'LIKE', '%'.$term.'%');
-        $query->orderBy($this->model->table.'.nombre', 'ASC');
-        $coincidentes = $query->get([$this->model->table.'.id', $this->model->table.'.nombre as text']);
+        if (!empty($customWhere)) {        
+            $query->whereRaw($customWhere[0],$customWhere[1]);
+        }
+        
+
+        if(empty($name)){
+            $name = $this->model->table.'.nombre';
+        }
+        $name_alias= DB::raw($name." as text");
+        $name_select= DB::raw($name);
+
+        $query->where($name_select, 'LIKE', '%'.$term.'%');
+        if(empty($order)){
+            $query->orderBy($this->model->table.'.nombre', 'ASC');
+        }else{
+            $query->orderBy($order[0], $order[1]);    
+        }     
+
+
+        if(!empty($page)){
+            $coincidentes = $query->get([$this->model->table.'.id', $name_alias]);
+            $resultCount = 10;
+            $offset = ($page - 1) * $resultCount;
+            $query->take($resultCount);
+            $query->skip($offset); 
+            $count = Count($coincidentes);            
+            $endCount = $offset + $resultCount;
+            $morePages = $count > $endCount;
+        }
+        
+        $resultado = $query->get([$this->model->table.'.id', $name_alias]);
         //dd(DB::getQueryLog()); 
-        return ['results' => $coincidentes];
+
+        if(!empty($page)){            
+            return [
+                'results' => $resultado,
+                "more" => $morePages
+            ];
+        }else{
+            return ['results' => $resultado];
+        }
     }
 
     /**

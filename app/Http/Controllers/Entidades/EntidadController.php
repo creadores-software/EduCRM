@@ -162,30 +162,21 @@ class EntidadController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        $search=null;
         $term=$request->input('q', '');
-        $join=[];
         $es_ies=$request->input('es_ies');
         $es_colegio=$request->input('es_colegio');
-
-        $model = new Entidad();        
-        $query = $model->newQuery();
-        $concat_alias= DB::raw("CONCAT(entidad.nombre, ' (', lugar.nombre, ')') as text");
-        $concat= DB::raw("CONCAT(entidad.nombre, ' (', lugar.nombre, ')')");
-        $query->join('actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'); 
-        $query->join('lugar','entidad.lugar_id','=','lugar.id'); 
-
+        $page=$request->input('page', ''); 
+        $join=[
+            ['actividad_economica','entidad.actividad_economica_id','=','actividad_economica.id'],
+            ['lugar','entidad.lugar_id','=','lugar.id'],
+        ];
+        $search=null;
         if($es_ies!=null){
             $search=['actividad_economica.es_ies'=>$es_ies]; 
         }else if($es_colegio!=null){
             $search=['actividad_economica.es_colegio'=>$es_colegio];  
         }
-        $query->select('entidad.id',$concat_alias);
-        $query->where($concat, 'LIKE', '%'.$term.'%');   
-
-        $query->orderBy('text', 'ASC');        
-        $coincidentes = $query->get();
-
-        return ['results' => $coincidentes];
+        $name="CONCAT(entidad.nombre, ' (', lugar.nombre, ')')";
+        return $this->entidadRepository->infoSelect2($term,$search,$join,null,null,$name,$page);
     }
 }
