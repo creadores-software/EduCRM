@@ -80,20 +80,26 @@
             });
         }
 
-        function actualizarCamposConFiltroTexto() { 
+        function actualizarCamposConFiltroTexto(idSegmento) { 
             /**
             Se pone de nuevo en document ready para que se ejecute después
             que estén instanciados los select2
             */
-            jQuery(document).ready(function(){
-                var filtros_texto = sessionStorage.getItem('filtros_texto'); 
-                var filtros = filtros_texto.split(';'); 
-                $.each(filtros, function(index, filtro) {                
-                    if(filtro){
-                        var valores = filtro.split(':');
-                        actualizarCampo(valores[0], valores[1]); 
-                    }                          
-                });
+            jQuery(document).ready(function(){                
+                if(idSegmento!=null){                    
+                    actualizarSegmento(idSegmento);     
+                }else{
+                    var filtros_texto = sessionStorage.getItem('filtros_texto'); 
+                    if(filtros_texto!=null){
+                        var filtros = filtros_texto.split(';'); 
+                        $.each(filtros, function(index, filtro) {                
+                            if(filtro){
+                                var valores = filtro.split(':');
+                                actualizarCampo(valores[0], valores[1]); 
+                            }                          
+                        });
+                    }                    
+                }                
                 filtrarDataTable();
             });           
         }

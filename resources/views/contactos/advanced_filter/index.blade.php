@@ -91,8 +91,12 @@
             $('#boton-guardar').hide();
             let searchParams = new URLSearchParams(window.location.search);
             if(searchParams.has('vistaPrevia')){
-                actualizarCamposConFiltroTexto();
-            }
+                idSegmento=null;
+                if(searchParams.has('idSegmento')){
+                    idSegmento=searchParams.get('idSegmento');
+                }
+                actualizarCamposConFiltroTexto(idSegmento);
+            }            
             $('#nuevo_segmento').hide();
             $('#global').select2(); 
             $('#segmento_seleccionado').select2({
