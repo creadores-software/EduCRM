@@ -35,7 +35,8 @@ class CampaniaDataTable extends DataTable
             }else{
                 $query->whereRaw("activa = 3"); //Ninguno    
             }               
-        });
+        })
+        ->rawColumns(['descripcion','action']);;
     }
 
     /**
