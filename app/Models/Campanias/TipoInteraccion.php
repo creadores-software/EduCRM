@@ -20,6 +20,8 @@ class TipoInteraccion extends Model implements Recordable
 
     public $table = 'tipo_interaccion';
     use \Altek\Accountant\Recordable;
+     //Para los eventos de BelongsToMany
+     use \Altek\Eventually\Eventually;
     
     public $timestamps = false;
 

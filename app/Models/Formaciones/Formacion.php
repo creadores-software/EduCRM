@@ -43,6 +43,8 @@ class Formacion extends Model implements Recordable
 
     public $table = 'formacion';
     use \Altek\Accountant\Recordable;
+     //Para los eventos de BelongsToMany
+     use \Altek\Eventually\Eventually;
     
     public $timestamps = false;
 

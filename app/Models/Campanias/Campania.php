@@ -38,6 +38,8 @@ class Campania extends Model implements Recordable
 
     public $table = 'campania';
     use \Altek\Accountant\Recordable;
+     //Para los eventos de BelongsToMany
+     use \Altek\Eventually\Eventually;
     
     public $timestamps = false;
 

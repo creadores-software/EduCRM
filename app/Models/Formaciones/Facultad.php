@@ -22,6 +22,8 @@ class Facultad extends Model implements Recordable
     public $timestamps = false;
 
     use \Altek\Accountant\Recordable;
+     //Para los eventos de BelongsToMany
+     use \Altek\Eventually\Eventually;
 
     public $fillable = [
         'nombre'
