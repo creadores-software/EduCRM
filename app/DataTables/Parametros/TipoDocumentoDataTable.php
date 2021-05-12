@@ -19,7 +19,12 @@ class TipoDocumentoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.tipos_documento.datatables_actions');
+        return $dataTable
+        ->addColumn('action', function($row){
+            $id=$row->id;
+            if($this->request()->has('action') && $this->request()->get('action')=="excel"){return;}
+            return view('parametros.tipos_documento.datatables_actions',compact('id'));
+        });
     }
 
     /**
