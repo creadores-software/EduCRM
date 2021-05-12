@@ -141,6 +141,10 @@
             return '<i class="fa fa-download"></i> ' + dt.i18n('buttons.export', 'Export') + '&nbsp;<span class="caret"/>';
         },
 
+        exportOptions:{
+            columns: 'th:not(:last-child)'
+        },
+
         action: function (e, dt, button, config) {
             var url = _buildUrl(dt, 'excel');
             window.location = url;
