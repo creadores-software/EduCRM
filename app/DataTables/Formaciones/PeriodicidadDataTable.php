@@ -19,7 +19,12 @@ class PeriodicidadDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.periodicidades.datatables_actions');
+        $dataTable->addColumn('action', 'formaciones.periodicidades.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

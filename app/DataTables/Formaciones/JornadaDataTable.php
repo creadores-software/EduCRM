@@ -19,7 +19,12 @@ class JornadaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.jornadas.datatables_actions');
+        $dataTable->addColumn('action', 'formaciones.jornadas.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

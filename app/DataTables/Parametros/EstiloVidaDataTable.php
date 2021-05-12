@@ -19,7 +19,12 @@ class EstiloVidaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.estilos_vida.datatables_actions');
+        $dataTable->addColumn('action', 'parametros.estilos_vida.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

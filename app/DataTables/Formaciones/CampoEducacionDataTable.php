@@ -19,7 +19,12 @@ class CampoEducacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'formaciones.campos_educacion.datatables_actions');
+        $dataTable->addColumn('action', 'formaciones.campos_educacion.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

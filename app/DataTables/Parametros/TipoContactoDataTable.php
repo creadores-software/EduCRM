@@ -19,7 +19,12 @@ class TipoContactoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'parametros.tipos_contacto.datatables_actions');
+        $dataTable->addColumn('action', 'parametros.tipos_contacto.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

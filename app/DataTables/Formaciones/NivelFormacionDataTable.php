@@ -21,6 +21,11 @@ class NivelFormacionDataTable extends DataTable
 
         return $dataTable
             ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions');
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+             $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**
