@@ -70,7 +70,7 @@
 <!-- Segmento Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('segmento_id', __('models/campanias.fields.segmento_id').':') !!}
-    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Al seleccionar un segmento se asociarán de manera automática los contactos como oportunidades"></i>
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Este segmento servirá para importaciones automáticas de los contactos como oportunidades"></i>
     <div class="input-group">
         <select name="segmento_id" id="segmento_id" class="form-control">
             <option></option>
@@ -79,7 +79,7 @@
             @endif
         </select>
         <div class="btn btn-default input-group-addon">
-            <a target="_blank" href="{{ route('contactos.contactos.index',['vistaPrevia'=>1]) }}">Vista previa</a>
+            <a href="#vistaPrevia">Vista previa</a>
         </div> 
     </div>      
 </div>
@@ -269,6 +269,15 @@
                         };
                     }
                 },
+            });
+
+            $('a[href="#vistaPrevia"]').click(function(){
+                idSegmento=$("#segmento_id").val();
+                if(idSegmento!=null && idSegmento!=""){
+                    window.open("{{ route('contactos.contactos.index') }}?vistaPrevia=1&idSegmento=_idSegmento_".replace("_idSegmento_",idSegmento), '_blank');
+                }else{
+                    alert('Es necesario elegir un segmento para ver la vista previa.');    
+                }     
             });
         });
     </script>
