@@ -9,10 +9,10 @@
         <a href="{{ route('contactos.informacionesLaborales.index',['idContacto'=>$idContacto]) }}"><i class="fa fa-briefcase"></i> Laboral</a></li>
     <li class="{{ (request()->is('contactos/parentescos*')) ? 'active' : '' }}">
         <a href="{{ route('contactos.parentescos.index',['idContacto'=>$idContacto]) }}"><i class="fa fa-users"></i> Familiar</a></li>
-    <li class="">
-        <a href="#"><i class="fa fa-comment"></i> Interacciones</a></li>
-    <li class="">
-        <a href="#"><i class="fa fa-filter"></i> Campañas</a></li>
+    <li class="{{ (request()->is('campanias/oportunidades*')) ? 'active' : '' }}">
+        <a href="{{ route('campanias.oportunidades.index',['idContacto'=>$idContacto]) }}"><i class="fa fa-filter"></i> Oportunidades</a></li>
+    <li class="{{ (request()->is('campanias/interacciones*')) ? 'active' : '' }}">
+        <a href="{{ route('campanias.interacciones.index',['idContacto'=>$idContacto]) }}"><i class="fa fa-comment"></i> Interacciones</a></li>
 </ul>
 
 @if(request()->is('contactos/informacionesUniversitarias*') || request()->is('contactos/informacionesEscolares*'))

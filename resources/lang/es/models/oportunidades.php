@@ -10,13 +10,15 @@ return array (
     'contacto_id' => 'Contacto',
     'formacion_id' => 'Formación',
     'responsable_id' => 'Responsable',
-    'estado_campania_id' => 'Estado Campaña',
-    'justificacion_estado_campania_id' => 'Razón Estado Campaña',
+    'estado_campania_id' => 'Estado',
+    'justificacion_estado_campania_id' => 'Razon Estado',
     'interes' => 'Interes',
     'probabilidad' => 'Probabilidad',
-    'categoria_oportunidad_id' => 'Categoría Oportunidad',
+    'categoria_oportunidad_id' => 'Categoría',
     'ingreso_recibido' => 'Ingreso Recibido',
     'ingreso_proyectado' => 'Ingreso Proyectado',
     'adicion_manual' => 'Adición Manual',
+    'ultima_actualizacion' => 'Última Actualización',
+    'ultima_interaccion' => 'Última Interacción'
   ),
 );

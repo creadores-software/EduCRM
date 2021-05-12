@@ -28,6 +28,8 @@ use Altek\Accountant\Contracts\Recordable;
  * @property number $ingreso_recibido
  * @property number $ingreso_proyectado
  * @property boolean $adicion_manual
+ * @property string|\Carbon\Carbon $ultima_actualizacion
+ * @property string|\Carbon\Carbon $ultima_interaccion
  */
 class Oportunidad extends Model implements Recordable
 {
@@ -52,7 +54,9 @@ class Oportunidad extends Model implements Recordable
         'categoria_oportunidad_id',
         'ingreso_recibido',
         'ingreso_proyectado',
-        'adicion_manual'
+        'adicion_manual',
+        'ultima_actualizacion',
+        'ultima_interaccion'
     ];
 
     /**
@@ -73,7 +77,9 @@ class Oportunidad extends Model implements Recordable
         'categoria_oportunidad_id' => 'integer',
         'ingreso_recibido' => 'float',
         'ingreso_proyectado' => 'float',
-        'adicion_manual' => 'boolean'
+        'adicion_manual' => 'boolean',
+        'ultima_actualizacion' => 'datetime',
+        'ultima_interaccion' => 'datetime'
     ];
 
     /**
@@ -93,7 +99,9 @@ class Oportunidad extends Model implements Recordable
         'categoria_oportunidad_id' => 'required|integer',
         'ingreso_recibido' => 'nullable|numeric',
         'ingreso_proyectado' => 'nullable|numeric',
-        'adicion_manual' => 'nullable|boolean'
+        'adicion_manual' => 'nullable|boolean',
+        'ultima_actualizacion' => 'nullable',
+        'ultima_interaccion' => 'nullable'
     ];
 
     /**

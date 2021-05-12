@@ -18,8 +18,19 @@ class OportunidadDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $request=$this->request();  
 
-        return $dataTable->addColumn('action', 'campanias.oportunidades.datatables_actions');
+        return $dataTable
+        ->addColumn('action', 'campanias.oportunidades.datatables_actions')
+        ->filter(function ($query) use ($request) {
+            if ($request->has('idCampania')) {
+                $query->whereRaw("campania_id = ?", [$request->get('idCampania')]);   
+            } 
+            if ($request->has('idContacto')) {
+                $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
+            }  
+            return;          
+        });
     }
 
     /**
@@ -40,9 +51,18 @@ class OportunidadDataTable extends DataTable
      */
     public function html()
     {
+        $idCampania=null;
+        if ($this->request()->has("idCampania")) {
+            $idCampania = $this->request()->get("idCampania");
+        }
+        $idContacto=null;
+        if ($this->request()->has("idContacto")) {
+            $idContacto = $this->request()->get("idContacto");
+        }
+
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('campanias.oportunidades.index', ['idCampania' => $idCampania,'idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'dom'       => 'Bfrtip',
@@ -79,21 +99,22 @@ class OportunidadDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'campania_id' => new Column(['title' => __('models/oportunidades.fields.campania_id'), 'data' => 'campania_id']),
             'contacto_id' => new Column(['title' => __('models/oportunidades.fields.contacto_id'), 'data' => 'contacto_id']),
             'formacion_id' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'formacion_id']),
             'responsable_id' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable_id']),
             'estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado_campania_id']),            
-            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id']),
-            'actualizacion_estado' => new Column(['title' => 'Actualización estado', 'data' => 'id']),
-            'actualizacion_interaccion' => new Column(['title' => 'Actualización interacción', 'data' => 'id']),
+            'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion']),
+            'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion']),
             //Campos no visibles
+            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria_oportunidad_id','visible'=>false]),            
             'justificacion_estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'justificacion_estado_campania_id','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false]),
             'probabilidad' => new Column(['title' => __('models/oportunidades.fields.probabilidad'), 'data' => 'probabilidad','visible'=>false]),            
             'ingreso_recibido' => new Column(['title' => __('models/oportunidades.fields.ingreso_recibido'), 'data' => 'ingreso_recibido','visible'=>false]),
             'ingreso_proyectado' => new Column(['title' => __('models/oportunidades.fields.ingreso_proyectado'), 'data' => 'ingreso_proyectado','visible'=>false]),
             'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false]),
-            'id' => new Column(['title' => 'ID', 'data' => 'id','visible'=>false]),
+            'id' => new Column(['title' => 'ID', 'data' => 'id','visible'=>false]),            
         ];
     }
 

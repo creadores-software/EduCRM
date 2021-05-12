@@ -55,26 +55,14 @@
 <!-- Ingreso Recibido Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido').':') !!}
-    {!! Form::number('ingreso_recibido', null, ['class' => 'form-control']) !!}
+    {!! Form::text('ingreso_recibido', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Ingreso Proyectado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado').':') !!}
-    {!! Form::number('ingreso_proyectado', null, ['class' => 'form-control']) !!}
+    {!! Form::text('ingreso_proyectado', null, ['class' => 'form-control']) !!}
 </div>
-
-<!-- Adicion Manual Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('adicion_manual', __('models/oportunidades.fields.adicion_manual').':') !!}
-    {!! Form::select('adicion_manual',[1=>'SI', 0=>'NO'], old('adicion_manual'), ['class' => 'form-control']) !!}
-</div>
-@push('scripts')
-    <script type="text/javascript">
-         $(document).ready(function() { 
-            $('#adicion_manual').select2(); 
-        }); 
-    </script>
 @endpush
 
 <!-- Submit Field -->
@@ -82,3 +70,18 @@
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('campanias.oportunidades.index') }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            $('#tipo_campania_id').select2({
+                placeholder: "Seleccionar",
+                allowClear: true,
+                ajax: {
+                    url: '{{ route("campanias.tiposCampania.dataAjax") }}',
+                    dataType: 'json',
+                },
+            });
+        });
+    </script>
+@endpush

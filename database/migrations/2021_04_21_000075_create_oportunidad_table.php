@@ -35,18 +35,21 @@ class CreateOportunidadTable extends Migration
             $table->double('ingreso_recibido')->nullable();
             $table->double('ingreso_proyectado')->nullable();
             $table->tinyInteger('adicion_manual')->nullable()->default('0');
-
-            $table->index(["formacion_id"], 'fk_oportunidad_formacion_idx');
+            $table->dateTime('ultima_actualizacion')->nullable();
+            $table->dateTime('ultima_interaccion')->nullable();
 
             $table->index(["estado_campania_id"], 'fk_oportunidad_estado_campania_idx');
 
             $table->index(["campania_id"], 'fk_oportunidad_campania_idx');
 
+            $table->index(["categoria_oportunidad_id"], 'fk_oportunidad_categoria_oportunidad_idx');
+
+            $table->index(["formacion_id"], 'fk_oportunidad_formacion_idx');
+
             $table->index(["contacto_id"], 'fk_oportunidad_contacto_idx');
 
             $table->index(["justificacion_estado_campania_id"], 'fk_oportunidad_justificacion_estado_campania_idx');
 
-            $table->index(["categoria_oportunidad_id"], 'fk_categoria_oportunidad_idx');
 
             $table->foreign('campania_id', 'fk_oportunidad_campania_idx')
                 ->references('id')->on('campania')
@@ -73,7 +76,7 @@ class CreateOportunidadTable extends Migration
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('categoria_oportunidad_id', 'fk_categoria_oportunidad_idx')
+            $table->foreign('categoria_oportunidad_id', 'fk_oportunidad_categoria_oportunidad_idx')
                 ->references('id')->on('categoria_oportunidad')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

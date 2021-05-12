@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\OportunidadDataTable;
+use App\Models\Campanias\Campania;
+use App\Models\Contactos\Contacto;
 use App\Http\Requests\Campanias\CreateOportunidadRequest;
 use App\Http\Requests\Campanias\UpdateOportunidadRequest;
 use App\Repositories\Campanias\OportunidadRepository;
@@ -33,7 +35,19 @@ class OportunidadController extends AppBaseController
      */
     public function index(OportunidadDataTable $oportunidadDataTable)
     {
-        return $oportunidadDataTable->render('campanias.oportunidades.index');
+        $contacto=null;
+        $campania=null;
+        if ($oportunidadDataTable->request()->has('idCampania')) {
+            $campania = Campania::find($oportunidadDataTable->request()->get('idCampania'));            
+        }
+        if ($oportunidadDataTable->request()->has('idContacto')) {
+            $contacto = Contacto::find($oportunidadDataTable->request()->get('idContacto'));            
+        }
+        if(empty($contacto) && empty($campania)) {
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
+        } 
+        return $oportunidadDataTable->render('campanias.oportunidades.index',
+                ['campania'=>$campania,'contacto'=>$contacto]); 
     }
 
     /**
@@ -41,9 +55,17 @@ class OportunidadController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('campanias.oportunidades.create');
+        if ($request->has('idCampania')) {
+            $campania = Campania::find($request->get('idCampania'));
+            return view('campanias.oportunidades.create')->with(['idCampania'=>$campania->id,'nombreCampania'=>$campania->nombre]); 
+        }else if ($request->has('idContacto')) {
+            $contacto = Contacto::find($request->get('idContacto'));
+            return view('campanias.oportunidades.create')->with(['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
+        }else {
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
+        }
     }
 
     /**
@@ -61,7 +83,11 @@ class OportunidadController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/oportunidades.singular')]));
 
-        return redirect(route('campanias.oportunidades.index'));
+        if ($request->has('idCampania')) {
+            return redirect(route('campanias.oportunidades.index'))->with(['idCampania'=>$request->get('idCampania')]); 
+        }else if ($request->has('idContacto')) {
+            return redirect(route('campanias.oportunidades.index'))->with(['idContacto'=>$request->get('idContacto')]); 
+        }
     }
 
     /**
@@ -91,7 +117,7 @@ class OportunidadController extends AppBaseController
      *
      * @return Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
         $oportunidad = $this->oportunidadRepository->find($id);
 
@@ -101,7 +127,11 @@ class OportunidadController extends AppBaseController
             return redirect(route('campanias.oportunidades.index'));
         }
 
-        return view('campanias.oportunidades.edit')->with('oportunidad', $oportunidad);
+        if ($request->has('idCampania')) {
+            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idCampania'=>$request->get('idCampania')]); 
+        }else if ($request->has('idContacto')) {
+            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$request->get('idContacto')]); 
+        }
     }
 
     /**
@@ -126,7 +156,11 @@ class OportunidadController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/oportunidades.singular')]));
 
-        return redirect(route('campanias.oportunidades.index'));
+        if ($request->has('idCampania')) {
+            return redirect(route('campanias.oportunidades.index'))->with(['idCampania'=>$request->get('idCampania')]); 
+        }else if ($request->has('idContacto')) {
+            return redirect(route('campanias.oportunidades.index'))->with(['idContacto'=>$request->get('idContacto')]); 
+        }
     }
 
     /**
@@ -145,12 +179,13 @@ class OportunidadController extends AppBaseController
 
             return redirect(route('campanias.oportunidades.index'));
         }
-
+        //Solo se permite la eliminación desde la campaña
+        $idCampania = $oportunidad->campania_id;
         $this->oportunidadRepository->delete($id);
 
         Flash::success(__('messages.deleted', ['model' => __('models/oportunidades.singular')]));
 
-        return redirect(route('campanias.oportunidades.index'));
+        return redirect(route('campanias.oportunidades.index',['idCampania'=>$idCampania]));
     }
 
     /**
