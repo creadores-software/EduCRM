@@ -24,7 +24,7 @@ class OportunidadRepository extends BaseRepository
         'estado_campania_id',
         'justificacion_estado_campania_id',
         'interes',
-        'probabilidad',
+        'capacidad',
         'categoria_oportunidad_id',
         'ingreso_recibido',
         'ingreso_proyectado',

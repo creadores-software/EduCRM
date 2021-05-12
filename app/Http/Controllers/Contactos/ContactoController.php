@@ -191,7 +191,7 @@ class ContactoController extends AppBaseController
             $where_params=['id'=>$contacto_excluir];
         }
         $name="CONCAT(nombres, ' ', apellidos, ' - ', identificacion)";
-        return $this->contactoRepository->infoSelect2($term,null,null,null,['text','DESC'],$name,$page,[$where_text,$where_params]);
+        return $this->contactoRepository->infoSelect2($term,null,null,null,['text','ASC'],$name,$page,[$where_text,$where_params]);
     }
 
     public function archivoEjemplo(){

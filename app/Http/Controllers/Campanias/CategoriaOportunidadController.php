@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\CategoriaOportunidadDataTable;
+use App\Models\Campanias\CategoriaOportunidad;
 use App\Http\Requests\Campanias\CreateCategoriaOportunidadRequest;
 use App\Http\Requests\Campanias\UpdateCategoriaOportunidadRequest;
 use App\Repositories\Campanias\CategoriaOportunidadRepository;
@@ -159,6 +160,28 @@ class CategoriaOportunidadController extends AppBaseController
     public function dataAjax(Request $request)
     {
         return $this->categoriaOportunidadRepository->infoSelect2($request->input('q', ''));
+    }
+
+    /**
+     * Obtiene la lista de filtros
+     */
+    public function categoriaPorDatos(Request $request)
+    {
+        $capacidad=$request->input('capacidad', '');
+        $interes=$request->input('interes', '');
+        $resultado=[];
+        if(!empty($capacidad) && !empty($interes)){
+            $categoria = CategoriaOportunidad::
+                 where('interes_minimo','<=',intval($interes))
+                ->where('interes_maximo','>=',intval($interes))
+                ->where('capacidad_minima','<=',intval($capacidad))
+                ->where('capacidad_maxima','>=',intval($capacidad))
+                ->first();
+            if(!empty($categoria)){
+                $resultado=['id'=>$categoria->id,'nombre'=>$categoria->nombre];
+            }
+        }
+        return $resultado;
     }
 
 }

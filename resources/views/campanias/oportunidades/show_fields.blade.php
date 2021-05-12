@@ -25,31 +25,13 @@
 <!-- Estado Campania Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estado_campania_id', __('models/oportunidades.fields.estado_campania_id').':') !!}
-    <p>{{ $oportunidad->estado_campania->nombre }}</p>
+    <p>{{ $oportunidad->estadoCampania->nombre }}</p>
 </div>
 
 <!-- Justificacion Estado Campania Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('justificacion_estado_campania_id', __('models/oportunidades.fields.justificacion_estado_campania_id').':') !!}
-    <p>{{ $oportunidad->justificacion_estado_campania->nombre }}</p>
-</div>
-
-<!-- Interes Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
-    <p>{{ $oportunidad->interes }}</p>
-</div>
-
-<!-- Probabilidad Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('probabilidad', __('models/oportunidades.fields.probabilidad').':') !!}
-    <p>{{ $oportunidad->probabilidad }}</p>
-</div>
-
-<!-- Categoria Oportunidad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
-    <p>{{ $oportunidad->categoria_oportunidad->nombre }}</p>
+    <p>{{ $oportunidad->justificacionEstadoCampania->nombre }}</p>
 </div>
 
 <!-- Ingreso Recibido Field -->
@@ -62,6 +44,24 @@
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado').':') !!}
     <p>{{ $oportunidad->ingreso_proyectado }}</p>
+</div>
+
+<!-- Interes Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
+    <p>{{ $oportunidad->interes }}</p>
+</div>
+
+<!-- Capacidad Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
+    <p>{{ $oportunidad->capacidad }}</p>
+</div>
+
+<!-- Categoria Oportunidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    <p>{{ $oportunidad->categoriaOportunidad->nombre }}</p>
 </div>
 
 <!-- Adicion Manual Field -->

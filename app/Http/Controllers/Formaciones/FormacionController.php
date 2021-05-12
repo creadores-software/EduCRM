@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Formaciones;
 
 use App\DataTables\Formaciones\FormacionDataTable;
 use App\Models\Entidades\Entidad;
+use App\Models\Campanias\Campania;
 use App\Http\Requests\Formaciones\CreateFormacionRequest;
 use App\Http\Requests\Formaciones\UpdateFormacionRequest;
 use App\Repositories\Formaciones\FormacionRepository;
@@ -161,40 +162,69 @@ class FormacionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        $search=[];
+        $term=$request->input('q', ''); 
+        $page=$request->input('page', ''); 
+        
         $entidad=$request->input('entidad', '');
         $activa=$request->input('activa', '');
         $nivelFormacion=$request->input('nivelFormacion', '');
         $nivelAcademico=$request->input('nivelAcademico', '');
         $facultad=$request->input('facultad', '');
-        $term=$request->input('q', ''); 
-        $page=$request->input('page', ''); 
+        $campania=$request->input('campania', '');
+
+        $search=[];
         if(!empty($entidad)){         
             if($entidad=='miu'){
                 $miu = Entidad::where('mi_universidad',1)->first();
-                $entidad = $miu->id;
+                if(!empty($miu)){
+                    $entidad = $miu->id;
+                }                
             }  
-            $search=['entidad_id'=>$entidad];    
-            if(!empty($activa)){   
-                $search['activo']=$activa;        
-            }
-            if(!empty($nivelFormacion)){   
-                $search['nivel_formacion_id']=$nivelFormacion;        
-            } 
-            if(!empty($nivelAcademico)){   
-                $search['nivel_academico_id']=$nivelAcademico;        
-            } 
-            if(!empty($facultad)){   
-                $search['facultad_id']=$facultad;        
-            } 
+            $search=['entidad_id'=>$entidad];
         }
+        if(!empty($activa)){   
+            $search['activo']=$activa;        
+        }
+        if(!empty($nivelFormacion)){   
+            $search['nivel_formacion_id']=$nivelFormacion;        
+        } 
+        if(!empty($nivelAcademico)){   
+            $search['nivel_academico_id']=$nivelAcademico;        
+        } 
+        if(!empty($facultad)){   
+            $search['facultad_id']=$facultad;        
+        }   
+        
+        if(!empty($campania)){         
+            $datosCampania = Campania::where('id',$campania)->first();
+            if(!empty($datosCampania)){
+                if(!empty($datosCampania->facultad_id)){
+                    $search['facultad_id']=$datosCampania->facultad_id;   
+                }
+                if(!empty($datosCampania->nivel_academico_id)){
+                    $search['nivel_academico_id']=$datosCampania->nivel_academico_id;   
+                }
+                if(!empty($datosCampania->nivel_formacion_id)){
+                    $search['nivel_formacion_id']=$datosCampania->nivel_formacion_id;   
+                }
+                $formaciones=[];
+                foreach($datosCampania->campaniaFormacionesAsociadas as $formacion){
+                    $formaciones[]=$formacion->id;
+                }
+                if(!empty($formaciones)){
+                    $search['formacion.id']=$formaciones; 
+                }
+            }
+        }
+
         $join=[
             ['jornada','jornada.id','=','formacion.jornada_id'],
             ['modalidad','modalidad.id','=','formacion.modalidad_id'],
             ['nivel_formacion','nivel_formacion.id','=','formacion.nivel_formacion_id'],
             ['nivel_academico','nivel_academico.id','=','nivel_formacion.nivel_academico_id'],
-            ['facultad','facultad.id','=','formacion.facultad_id']
+            ['facultad','facultad.id','=','formacion.facultad_id'],
         ];
+         
         $name="CONCAT(formacion.nombre, COALESCE(concat(' / ',modalidad.nombre),''),COALESCE(concat(' / ',jornada.nombre),''))";
         return $this->formacionRepository->infoSelect2($term,$search,$join,null,null,$name,$page);
     }

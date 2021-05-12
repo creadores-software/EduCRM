@@ -27,6 +27,7 @@ use Altek\Accountant\Contracts\Recordable;
 class User extends Authenticatable implements Identifiable, Recordable
 {
     use Notifiable,HasRoles;
+    public $table = 'users';
     use \Altek\Accountant\Recordable;
 
     /**

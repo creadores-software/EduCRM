@@ -174,7 +174,22 @@ class JustificacionEstadoCampaniaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->justificacionEstadoCampaniaRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', ''); 
+        $estado=$request->input('estado', '');
+        $search=[];
+        if(!empty($estado)){         
+            $estadoDatos = EstadoCampania::where('id',$estado)->first();
+            if(!empty($estadoDatos)){               
+                $razones=[];
+                foreach($estadoDatos->justificacionEstadoCampania as $razon){
+                    $razones[]=$razon->id;
+                }
+                if(!empty($razones)){
+                    $search['justificacion_estado_campania.id']=$razones; 
+                }
+            } 
+        }
+        return $this->justificacionEstadoCampaniaRepository->infoSelect2($term,$search);
     }
 
 }

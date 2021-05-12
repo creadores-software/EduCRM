@@ -23,7 +23,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property integer $estado_campania_id
  * @property integer $justificacion_estado_campania_id
  * @property integer $interes
- * @property integer $probabilidad
+ * @property integer $capacidad
  * @property integer $categoria_oportunidad_id
  * @property number $ingreso_recibido
  * @property number $ingreso_proyectado
@@ -50,7 +50,7 @@ class Oportunidad extends Model implements Recordable
         'estado_campania_id',
         'justificacion_estado_campania_id',
         'interes',
-        'probabilidad',
+        'capacidad',
         'categoria_oportunidad_id',
         'ingreso_recibido',
         'ingreso_proyectado',
@@ -73,7 +73,7 @@ class Oportunidad extends Model implements Recordable
         'estado_campania_id' => 'integer',
         'justificacion_estado_campania_id' => 'integer',
         'interes' => 'integer',
-        'probabilidad' => 'integer',
+        'capacidad' => 'integer',
         'categoria_oportunidad_id' => 'integer',
         'ingreso_recibido' => 'float',
         'ingreso_proyectado' => 'float',
@@ -91,14 +91,14 @@ class Oportunidad extends Model implements Recordable
         'campania_id' => 'required|integer',
         'contacto_id' => 'required|integer',
         'formacion_id' => 'required|integer',
-        'responsable_id' => 'required',
+        'responsable_id' => 'nullable|integer',
         'estado_campania_id' => 'required|integer',
         'justificacion_estado_campania_id' => 'required|integer',
         'interes' => 'nullable|integer',
-        'probabilidad' => 'nullable|integer',
-        'categoria_oportunidad_id' => 'required|integer',
-        'ingreso_recibido' => 'nullable|numeric',
-        'ingreso_proyectado' => 'nullable|numeric',
+        'capacidad' => 'nullable|integer',
+        'categoria_oportunidad_id' => 'nullable|integer',
+        'ingreso_recibido' => 'nullable|numeric|min:0',
+        'ingreso_proyectado' => 'nullable|numeric|min:0',
         'adicion_manual' => 'nullable|boolean',
         'ultima_actualizacion' => 'nullable',
         'ultima_interaccion' => 'nullable'
@@ -155,6 +155,15 @@ class Oportunidad extends Model implements Recordable
     {
         return $this->belongsTo(\App\Models\Campanias\JustificacionEstadoCampania::class, 'justificacion_estado_campania_id')
             ->withDefault(['nombre' => '']);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function responsable()
+    {
+        return $this->belongsTo(\App\Models\Admin\User::class, 'responsable_id')
+            ->withDefault(['name' => '']);
     }
 
     /**

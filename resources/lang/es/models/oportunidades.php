@@ -13,7 +13,7 @@ return array (
     'estado_campania_id' => 'Estado',
     'justificacion_estado_campania_id' => 'Razon Estado',
     'interes' => 'Interes',
-    'probabilidad' => 'Probabilidad',
+    'capacidad' => 'Capacidad',
     'categoria_oportunidad_id' => 'Categoría',
     'ingreso_recibido' => 'Ingreso Recibido',
     'ingreso_proyectado' => 'Ingreso Proyectado',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\EstadoCampaniaDataTable;
 use App\Models\Campanias\TipoEstadoColor;
+use App\Models\Campanias\Campania;
 use App\Http\Requests\Campanias\CreateEstadoCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateEstadoCampaniaRequest;
 use App\Repositories\Campanias\EstadoCampaniaRepository;
@@ -163,7 +164,22 @@ class EstadoCampaniaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estadoCampaniaRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', ''); 
+        $campania=$request->input('campania', '');
+        $search=[];
+        if(!empty($campania)){         
+            $datosCampania = Campania::where('id',$campania)->first();
+            if(!empty($datosCampania)){               
+                $estados=[];
+                foreach($datosCampania->tipoCampania->tipoCampaniaEstados as $estado){
+                    $estados[]=$estado->id;
+                }
+                if(!empty($formaciones)){
+                    $search['estado_campania.id']=$estados; 
+                }
+            } 
+        }
+        return $this->estadoCampaniaRepository->infoSelect2($term,$search);
     }
 
 }

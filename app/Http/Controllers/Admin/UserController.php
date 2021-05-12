@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Altek\Accountant\Models\Ledger;
 use App\Models\Contactos\Segmento;
-use App\Models\Admin\User;
+use App\Models\Campanias\Campania;
 use App\DataTables\Admin\UserDataTable;
 use App\Http\Requests\Admin\CreateUserRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
@@ -175,7 +175,22 @@ class UserController extends AppBaseController
     {
         $term=$request->input('q', ''); 
         $name="name";
-        return $this->userRepository->infoSelect2($term,null,null,null,['text','DESC'],$name);
+        $page=$request->input('page', ''); 
+        $campania=$request->input('campania', '');
+        $search=[];
+        if(!empty($campania)){         
+            $datosCampania = Campania::where('id',$campania)->first();
+            if(!empty($datosCampania)){
+                $search['equipo_mercadeo_id']=$datosCampania->equipo_mercadeo_id;
+            }
+        }
+        $join=[
+            ['pertenencia_equipo_mercadeo','pertenencia_equipo_mercadeo.users_id','=','users.id'],
+            ['equipo_mercadeo','equipo_mercadeo.id','=','pertenencia_equipo_mercadeo.equipo_mercadeo_id'],
+        ];
+         
+
+        return $this->userRepository->infoSelect2($term,$search,$join,null,['text','ASC'],$name,$page);
     }
 
 }

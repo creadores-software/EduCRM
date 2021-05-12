@@ -78,7 +78,9 @@ class OportunidadController extends AppBaseController
     public function store(CreateOportunidadRequest $request)
     {
         $input = $request->all();
-
+        $input['ingreso_recibido'] = intval(str_replace(".","",$input['ingreso_recibido']));
+        $input['ingreso_proyectado'] = intval(str_replace(".","",$input['ingreso_proyectado']));
+        
         $oportunidad = $this->oportunidadRepository->create($input);
 
         Flash::success(__('messages.saved', ['model' => __('models/oportunidades.singular')]));
@@ -126,11 +128,18 @@ class OportunidadController extends AppBaseController
 
             return redirect(route('campanias.oportunidades.index'));
         }
-
+        $idCampania=null;
+        $idContacto=null;
         if ($request->has('idCampania')) {
-            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idCampania'=>$request->get('idCampania')]); 
-        }else if ($request->has('idContacto')) {
-            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$request->get('idContacto')]); 
+            $idCampania=$request->get('idCampania'); 
+        }
+        if ($request->has('idContacto')) {
+            $idContacto=$request->get('idContacto');            
+        }
+        if(empty($idCampania)&&empty($idContacto)){
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
+        }else{
+            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$idContacto,'idCampania'=>$idCampania]); 
         }
     }
 
@@ -157,9 +166,9 @@ class OportunidadController extends AppBaseController
         Flash::success(__('messages.updated', ['model' => __('models/oportunidades.singular')]));
 
         if ($request->has('idCampania')) {
-            return redirect(route('campanias.oportunidades.index'))->with(['idCampania'=>$request->get('idCampania')]); 
+            return redirect(route('campanias.oportunidades.index',['idCampania'=>$request->get('idCampania')])); 
         }else if ($request->has('idContacto')) {
-            return redirect(route('campanias.oportunidades.index'))->with(['idContacto'=>$request->get('idContacto')]); 
+            return redirect(route('campanias.oportunidades.index',['idContacto'=>$request->get('idContacto')])); 
         }
     }
 

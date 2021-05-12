@@ -160,7 +160,8 @@ class PermissionController extends AppBaseController
     {
         $term=$request->input('q', ''); 
         $name="name";
-        return $this->permissionRepository->infoSelect2($term,null,null,null,['text','DESC'],$name);
+        $page=$request->input('page', ''); 
+        return $this->permissionRepository->infoSelect2($term,null,null,null,['text','ASC'],$name,$page);
     }
 
 }
