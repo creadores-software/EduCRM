@@ -19,7 +19,7 @@ class NivelFormacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'formaciones.niveles_formacion.datatables_actions');
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
@@ -36,7 +36,13 @@ class NivelFormacionDataTable extends DataTable
      */
     public function query(NivelFormacion $model)
     {
-        return $model->newQuery()->with(['nivelAcademico'])->select('nivel_formacion.*');;
+        return $model::
+            leftjoin('nivel_academico as nivelAcademico', 'nivelAcademico.id', '=', 'nivel_formacion.nivel_academico_id')
+            ->select([
+                'nivel_formacion.id',
+                'nivel_formacion.nombre',
+                'nivelAcademico.nombre as nivel_academico',
+            ])->newQuery();
     }
 
     /**
@@ -85,7 +91,7 @@ class NivelFormacionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'nivel_academico_id' => new Column(['title' => __('models/nivelesFormacion.fields.nivel_academico_id'), 'data' => 'nivel_academico.nombre', 'name'=>'nivelAcademico.nombre']), 
+            'nivel_academico_id' => new Column(['title' => __('models/nivelesFormacion.fields.nivel_academico_id'), 'data' => 'nivel_academico', 'name'=>'nivelAcademico.nombre']), 
             'nombre' => new Column(['title' => __('models/nivelesFormacion.fields.nombre'), 'data' => 'nombre']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];

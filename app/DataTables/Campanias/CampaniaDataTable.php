@@ -52,9 +52,30 @@ class CampaniaDataTable extends DataTable
      */
     public function query(Campania $model)
     {
-        return $model->newQuery()
-            ->with(['equipoMercadeo','facultad','nivelAcademico','nivelFormacion','periodoAcademico','segmento','tipoCampania'])
-            ->select('campania.*');
+        return $model::
+            leftjoin('equipo_mercadeo as equipoMercadeo', 'equipoMercadeo.id', '=', 'campania.equipo_mercadeo_id')
+            ->leftjoin('facultad', 'facultad.id', '=', 'campania.facultad_id')
+            ->leftjoin('nivel_academico as nivelAcademico', 'nivelAcademico.id', '=', 'campania.nivel_academico_id')
+            ->leftjoin('nivel_formacion as nivelFormacion', 'nivelFormacion.id', '=', 'campania.nivel_formacion_id')
+            ->leftjoin('periodo_academico as periodoAcademico', 'periodoAcademico.id', '=', 'campania.periodo_academico_id')
+            ->leftjoin('segmento', 'segmento.id', '=', 'campania.segmento_id')
+            ->leftjoin('tipo_campania as tipoCampania', 'tipoCampania.id', '=', 'campania.tipo_campania_id')
+            ->select([
+                'campania.id',
+                'campania.nombre as nombre',                
+                'campania.fecha_inicio as fecha_inicio',
+                'campania.fecha_final as fecha_final',
+                'campania.descripcion as descripcion',
+                'campania.inversion as inversion',
+                'tipoCampania.nombre as tipo_campania',
+                'equipoMercadeo.nombre as equipo', 
+                'facultad.nombre as facultad',
+                'nivelAcademico.nombre as nivel_academico',
+                'nivelFormacion.nombre as nivel_formacion',
+                'periodoAcademico.nombre as periodo_academico',
+                'segmento.nombre as segmento',
+                'campania.activa as activa',
+            ])->newQuery();
     }
 
     /**
@@ -103,10 +124,10 @@ class CampaniaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'tipo_campania_id' => new Column(['title' => __('models/campanias.fields.tipo_campania_id'), 'data' => 'tipo_campania.nombre','name' => 'tipoCampania.nombre']),
+            'tipo_campania_id' => new Column(['title' => __('models/campanias.fields.tipo_campania_id'), 'data' => 'tipo_campania','name' => 'tipoCampania.nombre']),
             'nombre' => new Column(['title' => __('models/campanias.fields.nombre'), 'data' => 'nombre']),
-            'periodo_academico_id' => new Column(['title' => __('models/campanias.fields.periodo_academico_id'), 'data' => 'periodo_academico.nombre','name' => 'periodoAcademico.nombre']),
-            'equipo_mercadeo_id' => new Column(['title' => __('models/campanias.fields.equipo_mercadeo_id'), 'data' => 'equipo_mercadeo.nombre','name' => 'equipoMercadeo.nombre']),
+            'periodo_academico_id' => new Column(['title' => __('models/campanias.fields.periodo_academico_id'), 'data' => 'periodo_academico','name' => 'periodoAcademico.nombre']),
+            'equipo_mercadeo_id' => new Column(['title' => __('models/campanias.fields.equipo_mercadeo_id'), 'data' => 'equipo','name' => 'equipoMercadeo.nombre']),
             'activa' => new Column(['title' => __('models/campanias.fields.activa'), 'data' => 'activa']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             //Campos no visibles
@@ -114,10 +135,10 @@ class CampaniaDataTable extends DataTable
             'fecha_final' => new Column(['title' => __('models/campanias.fields.fecha_final'), 'data' => 'fecha_final','visible'=>false]),
             'descripcion' => new Column(['title' => __('models/campanias.fields.descripcion'), 'data' => 'descripcion','visible'=>false]),
             'inversion' => new Column(['title' => __('models/campanias.fields.inversion'), 'data' => 'inversion','visible'=>false]),
-            'nivel_formacion_id' => new Column(['title' => __('models/campanias.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre','name' => 'nivelFormacion.nombre','visible'=>false]),
-            'nivel_academico_id' => new Column(['title' => __('models/campanias.fields.nivel_academico_id'), 'data' => 'nivel_academico.nombre','name' => 'nivelAcademico.nombre','visible'=>false]),
-            'facultad_id' => new Column(['title' => __('models/campanias.fields.facultad_id'), 'data' => 'facultad.nombre','name' => 'facultad.nombre','visible'=>false]),
-            'segmento_id' => new Column(['title' => __('models/campanias.fields.segmento_id'), 'data' => 'segmento.nombre','name' => 'segmento.nombre','visible'=>false]),            
+            'nivel_formacion_id' => new Column(['title' => __('models/campanias.fields.nivel_formacion_id'), 'data' => 'nivel_formacion','name' => 'nivelFormacion.nombre','visible'=>false]),
+            'nivel_academico_id' => new Column(['title' => __('models/campanias.fields.nivel_academico_id'), 'data' => 'nivel_academico','name' => 'nivelAcademico.nombre','visible'=>false]),
+            'facultad_id' => new Column(['title' => __('models/campanias.fields.facultad_id'), 'data' => 'facultad','name' => 'facultad.nombre','visible'=>false]),
+            'segmento_id' => new Column(['title' => __('models/campanias.fields.segmento_id'), 'data' => 'segmento','name' => 'segmento.nombre','visible'=>false]),            
         ];
     }
 

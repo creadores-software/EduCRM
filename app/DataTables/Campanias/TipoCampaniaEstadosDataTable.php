@@ -44,8 +44,16 @@ class TipoCampaniaEstadosDataTable extends DataTable
      */
     public function query(TipoCampaniaEstados $model)
     {
-        return $model->newQuery()->with(['estadoCampania'])
-            ->select('tipo_campania_estados.*');
+        return $model::
+            leftjoin('estado_campania as estadoCampania', 'estadoCampania.id', '=', 'tipo_campania_estados.estado_campania_id')
+            ->leftjoin('tipo_campania as tipoCampania', 'tipoCampania.id', '=', 'tipo_campania_estados.tipo_campania_id')
+            ->select([
+                'tipoCampania.nombre as tipo_campania',
+                'estadoCampania.nombre as estado',
+                'tipo_campania_estados.id',
+                'tipo_campania_estados.orden',
+                'tipo_campania_estados.dias_cambio',                
+            ])->newQuery();
     }
 
     /**
@@ -99,7 +107,7 @@ class TipoCampaniaEstadosDataTable extends DataTable
     {
         return [
             'orden' => new Column(['title' => __('models/tiposCampaniaEstados.fields.orden'), 'data' => 'orden']),
-            'estado_campania_id' => new Column(['title' => __('models/tiposCampaniaEstados.fields.estado_campania_id'), 'data' => 'estado_campania.nombre','name' => 'estadoCampania.nombre']),
+            'estado_campania_id' => new Column(['title' => __('models/tiposCampaniaEstados.fields.estado_campania_id'), 'data' => 'estado','name' => 'estadoCampania.nombre']),
             'dias_cambio' => new Column(['title' => __('models/tiposCampaniaEstados.fields.dias_cambio'), 'data' => 'dias_cambio']),
         ];
     }

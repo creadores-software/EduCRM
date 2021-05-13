@@ -35,7 +35,13 @@ class PrefijoDataTable extends DataTable
      */
     public function query(Prefijo $model)
     {
-       return $model->newQuery()->with(['genero'])->select('prefijo.*');
+        return $model::
+            leftjoin('genero', 'genero.id', '=', 'prefijo.genero_id')
+            ->select([
+                'prefijo.id',
+                'prefijo.nombre',
+                'genero.nombre as genero',
+            ])->newQuery();
     }
 
     /**
@@ -85,7 +91,7 @@ class PrefijoDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/prefijos.fields.nombre'), 'data' => 'nombre']),
-            'genero_id' => new Column(['title' => 'Género', 'data' => 'genero.nombre']) ,
+            'genero_id' => new Column(['title' => 'Género', 'data' => 'genero','name' => 'genero.nombre']) ,
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
         ];
     }

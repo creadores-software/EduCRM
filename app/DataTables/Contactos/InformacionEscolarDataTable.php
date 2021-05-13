@@ -86,8 +86,22 @@ class InformacionEscolarDataTable extends DataTable
      */
     public function query(InformacionEscolar $model)
     {
-        return $model->newQuery()
-            ->with(['entidad','nivelFormacion'])->select('informacion_escolar.*');
+        return $model::
+            leftjoin('entidad', 'entidad.id', '=', 'informacion_escolar.entidad_id')
+            ->leftjoin('nivel_formacion as nivelFormacion', 'nivelFormacion.id', '=', 'informacion_escolar.nivel_formacion_id')
+            ->select([
+                'informacion_escolar.id',
+                'entidad.nombre as entidad',
+                'nivelFormacion.nombre as nivel_formacion',
+                'informacion_escolar.finalizado',
+                'informacion_escolar.grado',
+                'informacion_escolar.puntaje_icfes',
+                'informacion_escolar.fecha_inicio',
+                'informacion_escolar.fecha_grado',
+                'informacion_escolar.fecha_icfes',
+                'informacion_escolar.contacto_id',
+
+            ])->newQuery();
     }
 
     /**
@@ -141,8 +155,8 @@ class InformacionEscolarDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad.nombre','name' => 'entidad.nombre']),
-            'nivel_formacion_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre', 'name' => 'nivelFormacion.nombre']),
+            'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad','name' => 'entidad.nombre']),
+            'nivel_formacion_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_formacion_id'), 'data' => 'nivel_formacion', 'name' => 'nivelFormacion.nombre']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
             'grado' => new Column(['title' => __('models/informacionesEscolares.fields.grado'), 'data' => 'grado']),
             'puntaje_icfes' => new Column(['title' => __('models/informacionesEscolares.fields.puntaje_icfes'), 'data' => 'puntaje_icfes']),

@@ -59,7 +59,15 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
      */
     public function query(PertenenciaEquipoMercadeo $model)
     {
-        return $model->newQuery()->with(['user'])->select('pertenencia_equipo_mercadeo.*');
+        return $model::
+            leftjoin('users as usuario', 'usuario.id', '=', 'pertenencia_equipo_mercadeo.users_id')
+            ->leftjoin('equipo_mercadeo as equipoMercadeo', 'equipoMercadeo.id', '=', 'pertenencia_equipo_mercadeo.equipo_mercadeo_id')            
+            ->select([
+                'pertenencia_equipo_mercadeo.id',
+                'equipoMercadeo.nombre as equipo',                
+                'usuario.name as usuario',                
+                'es_lider',
+            ])->newQuery();
     }
 
     /**
@@ -113,7 +121,7 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'users_id' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.users_id'), 'data' => 'user.name','name' => 'user.name']),
+            'users_id' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.users_id'), 'data' => 'usuario','name' => 'usuario.name']),
             'es_lider' => new Column(['title' => __('models/pertenenciasEquipoMercadeo.fields.es_lider'), 'data' => 'es_lider']),
         ];
     }

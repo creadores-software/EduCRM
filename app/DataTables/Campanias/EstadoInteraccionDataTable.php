@@ -31,6 +31,9 @@ class EstadoInteraccionDataTable extends DataTable
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->editColumn('nombre', function ($estado){
+                return $estado->nombre;
+            });
         }
         return $dataTable;
     }
@@ -43,8 +46,14 @@ class EstadoInteraccionDataTable extends DataTable
      */
     public function query(EstadoInteraccion $model)
     {
-        return $model->newQuery()->with(['tipoEstadoColor'])
-            ->select('estado_interaccion.*');
+        return $model::
+            leftjoin('tipo_estado_color as tipoEstadoColor', 'tipoEstadoColor.id', '=', 'estado_interaccion.tipo_estado_color_id')
+            ->select([
+                'estado_interaccion.id',
+                'estado_interaccion.nombre',
+                'estado_interaccion.descripcion',
+                'tipoEstadoColor.nombre as tipo_estado',
+            ])->newQuery();
     }
 
     /**
@@ -93,7 +102,7 @@ class EstadoInteraccionDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado_color.nombre','name' => 'tipoEstadoColor.nombre']),
+            'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado','name' => 'tipoEstadoColor.nombre']),
             'nombre' => new Column(['title' => __('models/estadosInteraccion.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/estadosInteraccion.fields.descripcion'), 'data' => 'descripcion']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),

@@ -81,8 +81,22 @@ class InformacionLaboralDataTable extends DataTable
      */
     public function query(InformacionLaboral $model)
     {
-        return $model->newQuery()
-            ->with(['entidad','ocupacion'])->select('informacion_laboral.*');
+        return $model::
+        leftjoin('entidad', 'entidad.id', '=', 'informacion_laboral.entidad_id')
+        ->leftjoin('ocupacion', 'ocupacion.id', '=', 'informacion_laboral.ocupacion_id')
+        ->select([
+            'informacion_laboral.id',
+            'entidad.nombre as entidad',
+            'ocupacion.nombre as ocupacion',
+            'informacion_laboral.fecha_inicio',
+            'informacion_laboral.fecha_fin',
+            'informacion_laboral.vinculado_actualmente',
+            'informacion_laboral.area',
+            'informacion_laboral.funciones',
+            'informacion_laboral.telefono',
+            'informacion_laboral.contacto_id',
+
+        ])->newQuery();
     }
 
     /**
@@ -136,8 +150,8 @@ class InformacionLaboralDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'entidad_id' => new Column(['title' => __('models/informacionesLaborales.fields.entidad_id'), 'data' => 'entidad.nombre','name'=>'entidad.nombre']),
-            'ocupacion_id' => new Column(['title' => __('models/informacionesLaborales.fields.ocupacion_id'), 'data' => 'ocupacion.nombre','name'=>'ocupacion.nombre']),            
+            'entidad_id' => new Column(['title' => __('models/informacionesLaborales.fields.entidad_id'), 'data' => 'entidad.','name'=>'entidad.nombre']),
+            'ocupacion_id' => new Column(['title' => __('models/informacionesLaborales.fields.ocupacion_id'), 'data' => 'ocupacion','name'=>'ocupacion.nombre']),            
             'fecha_inicio' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
             'fecha_fin' => new Column(['title' => __('models/informacionesLaborales.fields.fecha_fin'), 'data' => 'fecha_fin']),
             'vinculado_actualmente' => new Column(['title' => __('models/informacionesLaborales.fields.vinculado_actualmente'), 'data' => 'vinculado_actualmente']),

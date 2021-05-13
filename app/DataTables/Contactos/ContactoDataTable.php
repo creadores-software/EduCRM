@@ -27,7 +27,7 @@ class ContactoDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $request=$this->request();          
 
-        return $dataTable        
+        $dataTable        
         ->addColumn('action', 'contactos.contactos.datatables_actions')
         ->editColumn('fecha_nacimiento', function ($contacto){
             if(empty($contacto->fecha_nacimiento)){
@@ -71,7 +71,12 @@ class ContactoDataTable extends DataTable
             }  
             $parametros=$query->getBindings();           
             Log::debug('El query where es '. $where . ' con parametros ' .print_r($parametros,true));
-        });            
+        }); 
+        
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }    
 
     /**

@@ -19,7 +19,7 @@ class ActividadEconomicaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'entidades.actividades_economicas.datatables_actions')
             ->editColumn('es_ies', function ($actividad){
                 return $actividad->es_ies? 'Si':'No';
@@ -51,7 +51,11 @@ class ActividadEconomicaDataTable extends DataTable
                     $query->whereRaw("es_colegio = 3"); //Ninguno    
                 }                
             });
-            
+           
+            if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+                $dataTable->removeColumn('action');
+            }
+            return $dataTable;
     }
 
     /**
@@ -62,7 +66,15 @@ class ActividadEconomicaDataTable extends DataTable
      */
     public function query(ActividadEconomica $model)
     {
-        return $model->newQuery()->with(['categoriaActividadEconomica'])->select('actividad_economica.*');
+        return $model::
+        leftjoin('categoria_actividad_economica as categoriaActividadEconomica', 'categoriaActividadEconomica.id', '=', 'actividad_economica.categoria_actividad_economica_id')
+        ->select([
+            'actividad_economica.id',
+            'actividad_economica.nombre',
+            'categoriaActividadEconomica.nombre as categoria',
+            'actividad_economica.es_ies',
+            'actividad_economica.es_colegio',
+        ])->newQuery();
     }
 
     /**
@@ -112,7 +124,7 @@ class ActividadEconomicaDataTable extends DataTable
     {
         return [            
             'nombre' => new Column(['title' => __('models/actividadesEconomicas.fields.nombre'), 'data' => 'nombre']),
-            'categoria_actividad_economica_id' => new Column(['title' => 'Categoría', 'data' => 'categoria_actividad_economica.nombre','name' => 'categoriaActividadEconomica.nombre']),
+            'categoria_actividad_economica_id' => new Column(['title' => 'Categoría', 'data' => 'categoria','name' => 'categoriaActividadEconomica.nombre']),
             'es_ies' => new Column(['title' => __('models/actividadesEconomicas.fields.es_ies'), 'data' => 'es_ies', ]),
             'es_colegio' => new Column(['title' => __('models/actividadesEconomicas.fields.es_colegio'), 'data' => 'es_colegio', ]),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),

@@ -19,7 +19,7 @@ class FormacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'formaciones.formaciones.datatables_actions')
             ->editColumn('activo', function ($formacion){
                 return $formacion->activo? 'Si':'No';
@@ -36,6 +36,11 @@ class FormacionDataTable extends DataTable
                     $query->whereRaw("activo = 3"); //Ninguno    
                 }             
             });
+            
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**
@@ -46,8 +51,32 @@ class FormacionDataTable extends DataTable
      */
     public function query(Formacion $model)
     {
-        return $model->newQuery()->with(['entidad','nivelFormacion','campoEducacion','modalidad','periodicidad','reconocimiento','facultad','jornada'])
-            ->select('formacion.*');
+        return $model::
+            leftjoin('entidad', 'entidad.id', '=', 'formacion.entidad_id')
+            ->leftjoin('nivel_formacion as nivelFormacion', 'nivelFormacion.id', '=', 'formacion.nivel_formacion_id')
+            ->leftjoin('campo_educacion as campoEducacion', 'campoEducacion.id', '=', 'formacion.campo_educacion_id')
+            ->leftjoin('modalidad', 'modalidad.id', '=', 'formacion.modalidad_id')
+            ->leftjoin('periodicidad', 'periodicidad.id', '=', 'formacion.periodicidad_id')
+            ->leftjoin('reconocimiento', 'reconocimiento.id', '=', 'formacion.reconocimiento_id')
+            ->leftjoin('facultad', 'nivelFormacion.id', '=', 'formacion.facultad_id')
+            ->leftjoin('jornada', 'nivelFormacion.id', '=', 'formacion.jornada_id')
+            ->select([
+                'formacion.id',
+                'formacion.nombre',
+                'entidad.nombre as entidad',
+                'nivelFormacion.nombre as nivel_formacion',
+                'campoEducacion.nombre as campo_educacion',
+                'modalidad.nombre as modalidad',
+                'periodicidad.nombre as periodicidad',
+                'reconocimiento.nombre as reconocimiento',
+                'facultad.nombre as facultad',
+                'jornada.nombre as jornada',                
+                'formacion.codigo_snies',
+                'formacion.titulo_otorgado',
+                'formacion.periodos_duracion',
+                'formacion.costo_matricula',
+                'formacion.activo',
+            ])->newQuery();
     }
 
     /**
@@ -97,21 +126,21 @@ class FormacionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/formaciones.fields.nombre'), 'data' => 'nombre']),
-            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad.nombre', 'name' => 'entidad.nombre']),
-            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion.nombre','name' => 'nivelFormacion.nombre']),                        
-            'modalidad_id' => new Column(['title' => __('models/formaciones.fields.modalidad_id'), 'data' => 'modalidad.nombre','name' => 'modalidad.nombre']),
-            'jornada_id' => new Column(['title' => __('models/formaciones.fields.jornada_id'), 'data' => 'jornada.nombre', 'name' => 'jornada.nombre']),
+            'entidad_id' => new Column(['title' => __('models/formaciones.fields.entidad_id'), 'data' => 'entidad', 'name' => 'entidad.nombre']),
+            'nivel_formacion_id' => new Column(['title' => __('models/formaciones.fields.nivel_formacion_id'), 'data' => 'nivel_formacion','name' => 'nivelFormacion.nombre']),                        
+            'modalidad_id' => new Column(['title' => __('models/formaciones.fields.modalidad_id'), 'data' => 'modalidad','name' => 'modalidad.nombre']),
+            'jornada_id' => new Column(['title' => __('models/formaciones.fields.jornada_id'), 'data' => 'jornada', 'name' => 'jornada.nombre']),
             'activo' => new Column(['title' => __('models/formaciones.fields.activo'), 'data' => 'activo']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             //Campos no visibles que salen en exportación
-            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion.nombre','name' => 'campoEducacion.nombre','visible'=>false]),
+            'campo_educacion_id' => new Column(['title' => __('models/formaciones.fields.campo_educacion_id'), 'data' => 'campo_educacion','name' => 'campoEducacion.nombre','visible'=>false]),
             'codigo_snies' => new Column(['title' => __('models/formaciones.fields.codigo_snies'), 'data' => 'codigo_snies','visible'=>false]),
             'titulo_otorgado' => new Column(['title' => __('models/formaciones.fields.titulo_otorgado'), 'data' => 'titulo_otorgado','visible'=>false]),
-            'periodicidad_id' => new Column(['title' => __('models/formaciones.fields.periodicidad_id'), 'data' => 'periodicidad.nombre','name' => 'periodicidad.nombre','visible'=>false]),
+            'periodicidad_id' => new Column(['title' => __('models/formaciones.fields.periodicidad_id'), 'data' => 'periodicidad','name' => 'periodicidad.nombre','visible'=>false]),
             'periodos_duracion' => new Column(['title' => __('models/formaciones.fields.periodos_duracion'), 'data' => 'periodos_duracion','visible'=>false]),
-            'reconocimiento_id' => new Column(['title' => __('models/formaciones.fields.reconocimiento_id'), 'data' => 'reconocimiento.nombre','data' => 'reconocimiento.nombre','visible'=>false]),
+            'reconocimiento_id' => new Column(['title' => __('models/formaciones.fields.reconocimiento_id'), 'data' => 'reconocimiento','data' => 'reconocimiento','visible'=>false]),
             'costo_matricula' => new Column(['title' => __('models/formaciones.fields.costo_matricula'), 'data' => 'costo_matricula','visible'=>false]),
-            'facultad_id' => new Column(['title' => __('models/formaciones.fields.facultad_id'), 'data' => 'facultad.nombre','name' => 'facultad.nombre','visible'=>false]),            
+            'facultad_id' => new Column(['title' => __('models/formaciones.fields.facultad_id'), 'data' => 'facultad','name' => 'facultad.nombre','visible'=>false]),            
         ];
     }
 

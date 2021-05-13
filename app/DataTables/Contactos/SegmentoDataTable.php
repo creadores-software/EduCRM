@@ -51,7 +51,16 @@ class SegmentoDataTable extends DataTable
      */
     public function query(Segmento $model)
     {
-        return $model->newQuery()->with(['usuario'])->select('segmento.*');;
+        return $model::
+            leftjoin('users as usuario', 'usuario.id', '=', 'segmento.usuario_id')
+            ->select([
+                'segmento.id',
+                'segmento.nombre',
+                'segmento.descripcion',
+                'segmento.global',
+                'segmento.filtros',
+                'usuario.name as usuario',
+            ])->newQuery();
     }
 
     /**
@@ -108,7 +117,7 @@ class SegmentoDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/segmentos.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/segmentos.fields.descripcion'), 'data' => 'descripcion']),            
             'global' => new Column(['title' => __('models/segmentos.fields.global'), 'data' => 'global']),
-            'usuario_id' => new Column(['title' => __('models/segmentos.fields.usuario_id'), 'data' => 'usuario.name','name'=>'usuario.name']),
+            'usuario_id' => new Column(['title' => __('models/segmentos.fields.usuario_id'), 'data' => 'usuario','name'=>'usuario.name']),
             //Campos no visibles que salen en exportación
             'filtros' => new Column(['title' => __('models/segmentos.fields.filtros'), 'data' => 'filtros','visible'=>false]),
         ];

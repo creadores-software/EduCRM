@@ -19,7 +19,7 @@ class EntidadDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'entidades.entidades.datatables_actions')
             ->editColumn('mi_universidad', function ($entidad){
                 return $entidad->mi_universidad? 'Si':'No';
@@ -51,6 +51,10 @@ class EntidadDataTable extends DataTable
                     $query->whereRaw("acreditacion_ies = 3"); //Ninguno    
                 }               
             });
+            if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+                $dataTable->removeColumn('action');
+            }
+            return $dataTable;
     }
 
     /**
@@ -61,8 +65,27 @@ class EntidadDataTable extends DataTable
      */
     public function query(Entidad $model)
     {
-        return $model->newQuery()->with(['lugar','sector','actividadEconomica'])
-            ->select('entidad.*');
+        return $model::
+            leftjoin('lugar', 'lugar.id', '=', 'entidad.lugar_id')
+            ->leftjoin('sector', 'sector.id', '=', 'entidad.sector_id')
+            ->leftjoin('actividad_economica as actividadEconomica', 'actividadEconomica.id', '=', 'entidad.actividad_economica_id')
+            ->select([
+                'entidad.id',
+                'entidad.nombre',
+                'lugar.nombre as lugar',
+                'sector.nombre as sector',
+                'actividadEconomica.nombre as actividad_economica',
+                'entidad.mi_universidad',
+                'entidad.nit',
+                'entidad.direccion',
+                'entidad.telefono',
+                'entidad.barrio',
+                'entidad.correo',
+                'entidad.sitio_web',
+                'entidad.codigo_ies',
+                'entidad.acreditacion_ies',
+                'entidad.calendario',
+            ])->newQuery();
     }
 
     /**
@@ -113,9 +136,9 @@ class EntidadDataTable extends DataTable
     {
         return [            
             'nombre' => new Column(['title' => __('models/entidades.fields.nombre'), 'data' => 'nombre']),
-            'lugar_id' => new Column(['title' => __('models/entidades.fields.lugar_id'), 'data' => 'lugar.nombre', 'name'=>'lugar.nombre']),
-            'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector.nombre', 'name'=>'sector.nombre']),
-            'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica.nombre', 'name'=>'actividadEconomica.nombre']),
+            'lugar_id' => new Column(['title' => __('models/entidades.fields.lugar_id'), 'data' => 'lugar', 'name'=>'lugar.nombre']),
+            'sector_id' => new Column(['title' => __('models/entidades.fields.sector_id'), 'data' => 'sector', 'name'=>'sector.nombre']),
+            'actividad_economica_id' => new Column(['title' => __('models/entidades.fields.actividad_economica_id'), 'data' => 'actividad_economica', 'name'=>'actividadEconomica.nombre']),
             'mi_universidad' => new Column(['title' => __('models/entidades.fields.mi_universidad'), 'data' => 'mi_universidad']),
             'nit' => new Column(['title' => __('models/entidades.fields.nit'), 'data' => 'nit']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
