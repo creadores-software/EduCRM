@@ -25,7 +25,7 @@
 <!-- Estado Campania Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('estado_campania_id', __('models/oportunidades.fields.estado_campania_id').':') !!}
-    <p>{{ $oportunidad->estadoCampania->nombre }}</p>
+    <p>{!! "<span style='color:{$oportunidad->estadoCampania->tipoEstadoColor->color_hexadecimal}'><i class='fa fa-circle'></i></span> {$oportunidad->estadoCampania->nombre}" !!}</p>
 </div>
 
 <!-- Justificacion Estado Campania Id Field -->
@@ -33,6 +33,31 @@
     {!! Form::label('justificacion_estado_campania_id', __('models/oportunidades.fields.justificacion_estado_campania_id').':') !!}
     <p>{{ $oportunidad->justificacionEstadoCampania->nombre }}</p>
 </div>
+
+<!-- Categoria Oportunidad Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    <p>{!! "<span style='color:{$oportunidad->categoriaOportunidad->color_hexadecimal}'><i class='fa fa-circle'></i></span> {$oportunidad->categoriaOportunidad->nombre}" !!}</p>
+</div>
+
+<!-- Adicion Manual Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('adicion_manual', __('models/oportunidades.fields.adicion_manual').':') !!}
+    <p>{{ $oportunidad->adicion_manual?"Si":"No" }}</p>
+</div>
+
+<!-- Capacidad Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
+    <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->capacidad) !!}</p>
+</div>
+
+<!-- Interes Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
+    <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->interes) !!}</p>
+</div>
+
 
 <!-- Ingreso Recibido Field -->
 <div class="form-group col-sm-6">
@@ -44,30 +69,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado').':') !!}
     <p>${{ number_format($oportunidad->ingreso_proyectado,0,",",'.') }}</p>
-</div>
-
-<!-- Interes Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
-    <p>{{ $oportunidad->interes }}</p>
-</div>
-
-<!-- Capacidad Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
-    <p>{{ $oportunidad->capacidad }}</p>
-</div>
-
-<!-- Categoria Oportunidad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
-    <p>{{ $oportunidad->categoriaOportunidad->nombre }}</p>
-</div>
-
-<!-- Adicion Manual Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('adicion_manual', __('models/oportunidades.fields.adicion_manual').':') !!}
-    <p>{{ $oportunidad->adicion_manual?"Si":"No" }}</p>
 </div>
 
 <!-- Ultima Actualizacion Field -->

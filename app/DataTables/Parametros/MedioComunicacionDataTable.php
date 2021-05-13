@@ -19,7 +19,7 @@ class MedioComunicacionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'parametros.medios_comunicacion.datatables_actions')
             ->editColumn('es_red_social', function ($medioComunicacion){
                 return $medioComunicacion->es_red_social? 'Si':'No';
@@ -36,6 +36,11 @@ class MedioComunicacionDataTable extends DataTable
                     $query->whereRaw("es_red_social = 3"); //Ninguno    
                 }                
             });
+            
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

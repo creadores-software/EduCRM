@@ -19,7 +19,7 @@ class NivelAcademicoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'formaciones.niveles_academicos.datatables_actions')
             ->editColumn('es_ies', function ($nivel){
                 return $nivel->es_ies? 'Si':'No';
@@ -36,6 +36,10 @@ class NivelAcademicoDataTable extends DataTable
                     $query->whereRaw("es_ies = 3"); //Ninguno    
                 }                
             });
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

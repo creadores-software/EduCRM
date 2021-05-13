@@ -12,7 +12,7 @@ return array (
     'responsable_id' => 'Responsable',
     'estado_campania_id' => 'Estado',
     'justificacion_estado_campania_id' => 'Razon Estado',
-    'interes' => 'Interes',
+    'interes' => 'Interés',
     'capacidad' => 'Capacidad',
     'categoria_oportunidad_id' => 'Categoría',
     'ingreso_recibido' => 'Ingreso Recibido',

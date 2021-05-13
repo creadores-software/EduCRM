@@ -17,18 +17,49 @@ class CategoriaOportunidadDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query);
+        $dataTable = new EloquentDataTable($query);        
 
         $dataTable
         ->addColumn('action', 'campanias.categorias_oportunidad.datatables_actions')
+        ->editColumn('capacidad_minima', function ($categoria){
+            $stars=CategoriaOportunidad::stars($categoria->capacidad_minima);      
+            return "<span>{$stars}</span>";
+        })
+        ->editColumn('capacidad_maxima', function ($categoria){
+            $stars=CategoriaOportunidad::stars($categoria->capacidad_maxima);      
+            return "<span>{$stars}</span>";
+        })
+        ->editColumn('interes_minimo', function ($categoria){
+            $stars=CategoriaOportunidad::stars($categoria->interes_minimo);      
+            return "<span>{$stars}</span>";
+        })
+        ->editColumn('interes_maximo', function ($categoria){
+            $stars=CategoriaOportunidad::stars($categoria->interes_maximo);      
+            return "<span>{$stars}</span>";
+        })
         ->editColumn('color_hexadecimal', function ($categoria){
             $color=$categoria->color_hexadecimal;            
-            return "$color <span style='color:$color'><i class='fa fa-circle'></i><span>";
+            return "$color <span style='color:$color'><i class='fa fa-circle'></i></span>";
         })
-        ->rawColumns(['color_hexadecimal','action']);
+        ->rawColumns(['color_hexadecimal','action','capacidad_minima','capacidad_maxima','interes_minimo','interes_maximo']);
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
                 $dataTable->removeColumn('action');
+                $dataTable->editColumn('capacidad_minima', function ($categoria){
+                    return $categoria->capacidad_minima;
+                });
+                $dataTable->editColumn('capacidad_maxima', function ($categoria){
+                    return $categoria->capacidad_minima;
+                });
+                $dataTable->editColumn('interes_minimo', function ($categoria){
+                    return $categoria->capacidad_minima;
+                });
+                $dataTable->editColumn('interes_maximo', function ($categoria){
+                    return $categoria->capacidad_minima;
+                });
+                $dataTable->editColumn('color_hexadecimal', function ($categoria){
+                    return $categoria->color_hexadecimal;
+                });
         }
         return $dataTable;
     }

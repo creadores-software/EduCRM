@@ -40,6 +40,9 @@ class CampaniaDataTable extends DataTable
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
                 $dataTable->removeColumn('action');
+                $dataTable->editColumn('descripcion', function ($campania){
+                    return html_entity_decode(strip_tags($campania->descripcion));
+                });
         }
         return $dataTable;
     }

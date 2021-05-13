@@ -29,6 +29,9 @@ class TipoEstadoColorDataTable extends DataTable
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->editColumn('color_hexadecimal', function ($tipo){
+                return $tipo->color_hexadecimal;
+            });
         }
         return $dataTable;
     }

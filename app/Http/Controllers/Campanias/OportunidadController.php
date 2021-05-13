@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Campanias;
 use App\DataTables\Campanias\OportunidadDataTable;
 use App\Models\Campanias\Campania;
 use App\Models\Contactos\Contacto;
+use App\Models\Campanias\EstadoCampania;
+use App\Models\Campanias\CategoriaOportunidad;
 use App\Http\Requests\Campanias\CreateOportunidadRequest;
 use App\Http\Requests\Campanias\UpdateOportunidadRequest;
 use App\Repositories\Campanias\OportunidadRepository;
@@ -57,12 +59,14 @@ class OportunidadController extends AppBaseController
      */
     public function create(Request $request)
     {
+        $coloresEstados = EstadoCampania::arrayColores();
+        $coloresCategorias = CategoriaOportunidad::arrayColores();
         if ($request->has('idCampania')) {
             $campania = Campania::find($request->get('idCampania'));
-            return view('campanias.oportunidades.create')->with(['idCampania'=>$campania->id,'nombreCampania'=>$campania->nombre]); 
+            return view('campanias.oportunidades.create')->with(['idCampania'=>$campania->id,'nombreCampania'=>$campania->nombre,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias]); 
         }else if ($request->has('idContacto')) {
             $contacto = Contacto::find($request->get('idContacto'));
-            return view('campanias.oportunidades.create')->with(['idContacto'=>$contacto->id,'contacto'=>$contacto]); 
+            return view('campanias.oportunidades.create')->with(['idContacto'=>$contacto->id,'contacto'=>$contacto,'coloresEstado'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias]); 
         }else {
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
         }
@@ -78,9 +82,7 @@ class OportunidadController extends AppBaseController
     public function store(CreateOportunidadRequest $request)
     {
         $input = $request->all();
-        $input['ingreso_recibido'] = intval(str_replace(".","",$input['ingreso_recibido']));
-        $input['ingreso_proyectado'] = intval(str_replace(".","",$input['ingreso_proyectado']));
-        
+        $input['adicion_manual']=1;
         $oportunidad = $this->oportunidadRepository->create($input);
 
         Flash::success(__('messages.saved', ['model' => __('models/oportunidades.singular')]));
@@ -121,6 +123,8 @@ class OportunidadController extends AppBaseController
      */
     public function edit($id, Request $request)
     {
+        $coloresEstados = EstadoCampania::arrayColores();
+        $coloresCategorias = CategoriaOportunidad::arrayColores();
         $oportunidad = $this->oportunidadRepository->find($id);
 
         if (empty($oportunidad)) {
@@ -139,7 +143,7 @@ class OportunidadController extends AppBaseController
         if(empty($idCampania)&&empty($idContacto)){
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
         }else{
-            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$idContacto,'idCampania'=>$idCampania]); 
+            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$idContacto,'idCampania'=>$idCampania,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias]); 
         }
     }
 

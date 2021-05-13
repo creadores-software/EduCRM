@@ -19,9 +19,17 @@ class BuyerPersonaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
             ->addColumn('action', 'parametros.buyer_personas.datatables_actions')
             ->rawColumns(['descripcion','action']);
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+            $dataTable->editColumn('descripcion', function ($buyer){
+                return html_entity_decode(strip_tags($buyer->descripcion));
+            });
+        }
+        return $dataTable;
     }
 
     /**

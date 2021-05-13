@@ -3,6 +3,8 @@
 namespace App\DataTables\Campanias;
 
 use App\Models\Campanias\Oportunidad;
+use App\Models\Campanias\EstadoCampania;
+use App\Models\Campanias\CategoriaOportunidad;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -20,7 +22,8 @@ class OportunidadDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $colores = Oportunidad::arrayColores();
+        $coloresEstados = EstadoCampania::arrayColores();
+        $coloresCategorias = CategoriaOportunidad::arrayColores();
 
         $request=$this->request(); 
         $idContacto=false;
@@ -39,10 +42,19 @@ class OportunidadDataTable extends DataTable
             return view('campanias.oportunidades.datatables_actions', 
             compact('id','idContacto','idCampania'));
         })
-        ->editColumn('estado', function ($oportunidad) use($colores){
-            $id=$oportunidad->id;      
-            $color = $colores[$id]['color'];      
+        ->editColumn('estado', function ($oportunidad) use($coloresEstados){
+            $id=$oportunidad->id_estado;      
+            $color = $coloresEstados[$id]['color']; 
             return "<span style='color:$color'><i class='fa fa-circle'></i></span> $oportunidad->estado";
+        })
+        ->editColumn('categoria', function ($oportunidad) use($coloresCategorias){
+            $id=$oportunidad->id_categoria;
+            $texto=$oportunidad->categoria;
+            if(!empty($id)){
+                $color = $coloresCategorias[$id]['color']; 
+                $texto="<span style='color:$color'><i class='fa fa-circle'></i></span> $oportunidad->categoria";
+            }    
+            return $texto;
         })
         ->editColumn('adicion_manual', function ($row){
             return $row->adicion_manual? 'Si':'No';
@@ -71,12 +83,15 @@ class OportunidadDataTable extends DataTable
             }  
             return;          
         })
-        ->rawColumns(['estado','action']);
+        ->rawColumns(['estado','action','categoria']);
 
         if($request->has('action') && $request->get('action')=="excel"){
             $dataTable->removeColumn('action');
             $dataTable->editColumn('estado', function ($oportunidad){
                 return $oportunidad->estado;
+            });
+            $dataTable->editColumn('categoria', function ($oportunidad){
+                return $oportunidad->categoria;
             });
         }
 
@@ -99,10 +114,12 @@ class OportunidadDataTable extends DataTable
             ->leftjoin('formacion', 'oportunidad.formacion_id', '=', 'formacion.id')
             ->leftjoin('justificacion_estado_campania as justificacionEstadoCampania', 'oportunidad.justificacion_estado_campania_id', '=', 'justificacionEstadoCampania.id')
             ->leftjoin('users as responsable', 'oportunidad.responsable_id', '=', 'responsable.id')
-            ->select(['oportunidad.id',                
+            ->select(['oportunidad.id',    
+                'categoriaOportunidad.id as id_categoria',            
                 'categoriaOportunidad.nombre as categoria',
                 'campania.nombre as campania',
                 DB::raw('CONCAT(contacto.nombres," ",contacto.apellidos) as contacto'),
+                'estadoCampania.id as id_estado',
                 'estadoCampania.nombre as estado',
                 'formacion.nombre as formacion',
                 'justificacionEstadoCampania.nombre as razon',
@@ -145,7 +162,7 @@ class OportunidadDataTable extends DataTable
                 'columnDefs' => $columnDefs,
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc']],
+                'order'     => [[6, 'asc']],
                 'buttons'   => [                    
                     [
                        'extend' => 'export',
@@ -183,12 +200,12 @@ class OportunidadDataTable extends DataTable
         return [
             'campania' => new Column(['title' => __('models/oportunidades.fields.campania_id'), 'data' => 'campania', 'name' => 'campania.nombre']),
             'contacto' => new Column(['title' => __('models/oportunidades.fields.contacto_id'), 'data' => 'contacto']),
-            'categoria' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria','name' => 'categoriaOportunidad.nombre']),            
+            'categoria' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria','name' => 'categoriaOportunidad.nombre','width' => '100px']),            
             'formacion' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'formacion', 'name' => 'formacion.nombre']),
-            'responsable' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable','name' => 'responsable.name']),
-            'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre']),            
-            'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion']),
-            'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion']),
+            'responsable' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable','name' => 'responsable.name','width' => '30px']),
+            'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre','width' => '100px']),            
+            'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion','width' => '60px']),
+            'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion','width' => '60px']),
             //Campos no visibles            
             'razon' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'razon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false,'exportable' => false]),

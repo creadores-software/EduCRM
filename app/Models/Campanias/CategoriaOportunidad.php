@@ -78,4 +78,19 @@ class CategoriaOportunidad extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Campanias\Oportunidad::class, 'categoria_oportunidad_id');
     }
+
+
+    public static function arrayColores(){
+        return CategoriaOportunidad::
+        get(['categoria_oportunidad.id','color_hexadecimal as color'])
+        ->keyBy('id')->toArray();
+    }
+
+    public static function stars($cantidad){
+        $stars="";
+        for($i=0;$i<$cantidad;$i++){
+            $stars.="<i class='fa fa-star'></i>";    
+        }
+        return $stars;
+    }
 }

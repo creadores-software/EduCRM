@@ -90,18 +90,19 @@
 <!-- Capacidad Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
-    {!! Form::select('capacidad',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('interes'), ['class' => 'form-control']) !!}
+    {!! Form::select('capacidad',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5], old('interes'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Interes Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
-    {!! Form::select('interes',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6,7=>7,8=>8,9=>9,10=>10], old('interes'), ['class' => 'form-control']) !!}
+    {!! Form::select('interes',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5], old('interes'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Categoria Oportunidad Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    <span id="categoria_icono"></span>
     {!! Form::text('categoria_oportunidad_nombre', null, ['class' => 'form-control','disabled'=>true]) !!}
     {!! Form::hidden('categoria_oportunidad_id', old('categoria_oportunidad_id', $oportunidad->categoria_oportunidad_id ?? '')) !!}
 </div>
@@ -148,6 +149,9 @@
 
         ingreso_proyectado=$("#ingreso_proyectado").val();
         $("[name='ingreso_proyectado_formato'").val(ingreso_proyectado);
+
+        var coloresEstados = @json($coloresEstados);
+        var coloresCategorias = @json($coloresCategorias);
 
         $(document).ready(function() {
             $("[name='ingreso_recibido_formato'").on('keyup', function () {
@@ -253,6 +257,8 @@
             $('#estado_campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
+                templateSelection: formatEstado,
+                templateResult: formatEstado,
                 ajax: {
                     url: '{{ route("campanias.estadosCampania.dataAjax") }}',
                     dataType: 'json',
@@ -283,8 +289,14 @@
                 },
             });
 
-            $('#interes').select2();
-            $('#capacidad').select2();
+            $('#interes').select2({
+                templateSelection: formatStar,
+                templateResult: formatStar
+            }); 
+            $('#capacidad').select2({
+                templateSelection: formatStar,
+                templateResult: formatStar
+            }); 
 
             $(document).on('change', '#interes, #capacidad', function(e){
                 actualizarCategoriaOportunidad()    
@@ -300,15 +312,38 @@
                 $.ajax({
                     url:'{{ route("campanias.categoriasOportunidad.categoriaPorDatos") }}?interes=_interes_&capacidad=_capacidad_'.replace("_interes_",interes).replace("_capacidad_",capacidad),
                     dataType: 'json',               
-                    success: function(data) {;
-                        if(data!=null){
-                            $("[name='categoria_oportunidad_id']").val(data['id']);
-                            $("[name='categoria_oportunidad_nombre']").val(data['nombre']);
+                    success: function(data) {                        
+                        if(data!=null && data['id']!=null){
+                            $("[name='categoria_oportunidad_id']").val(data['id']);                                             
+                            $("[name='categoria_oportunidad_nombre']").val(data['nombre']);                            
+                            var color = coloresCategorias[data['id']]['color'];
+                            $texto= `<span id="categoria_icono" style="color: ${color}"><i class='fa fa-circle'></i></span>`;
+                                      
+                        }else{
+                            $texto= `<span id="categoria_icono"></span>`;
+                            $("[name='categoria_oportunidad_id']").val(null);                                             
+                            $("[name='categoria_oportunidad_nombre']").val(null);
                         }
-                        
+                        $("#categoria_icono").html($texto);                         
                     }
                 });
-            }
+            }            
+
+            function formatEstado(estado) {
+                if (!estado.id) return estado.text;
+                var color = coloresEstados[estado.id]['color'];
+                return $(`<span style="color: ${color}"><i class='fa fa-circle'></i></span><span> ${estado.text}</span>`);
+            };
+
+            function formatStar(star) {
+                if (!star.id) return star.text;
+                cantidad=star.id;
+                stars="";
+                for(var i=0;i<cantidad;i++){
+                    stars=stars+"<i class='fa fa-star'></i>";
+                }
+                return $("<span>"+stars+"</span>");
+            };
         });
     </script>
 @endpush
