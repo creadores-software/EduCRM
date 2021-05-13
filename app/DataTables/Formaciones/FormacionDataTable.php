@@ -105,7 +105,7 @@ class FormacionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(6)').every(function () {
+                    this.api().columns(':lt(7)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -138,7 +138,7 @@ class FormacionDataTable extends DataTable
             'titulo_otorgado' => new Column(['title' => __('models/formaciones.fields.titulo_otorgado'), 'data' => 'titulo_otorgado','visible'=>false]),
             'periodicidad_id' => new Column(['title' => __('models/formaciones.fields.periodicidad_id'), 'data' => 'periodicidad','name' => 'periodicidad.nombre','visible'=>false]),
             'periodos_duracion' => new Column(['title' => __('models/formaciones.fields.periodos_duracion'), 'data' => 'periodos_duracion','visible'=>false]),
-            'reconocimiento_id' => new Column(['title' => __('models/formaciones.fields.reconocimiento_id'), 'data' => 'reconocimiento','data' => 'reconocimiento','visible'=>false]),
+            'reconocimiento_id' => new Column(['title' => __('models/formaciones.fields.reconocimiento_id'), 'data' => 'reconocimiento','name' => 'reconocimiento.nombre','visible'=>false]),
             'costo_matricula' => new Column(['title' => __('models/formaciones.fields.costo_matricula'), 'data' => 'costo_matricula','visible'=>false]),
             'facultad_id' => new Column(['title' => __('models/formaciones.fields.facultad_id'), 'data' => 'facultad','name' => 'facultad.nombre','visible'=>false]),            
         ];
