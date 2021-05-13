@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@push('css')
+<style> 
+div.dataTables_wrapper div.dataTables_filter {
+    float: right;
+    text-align: right;
+    visibility: hidden;
+}
+</style> 
+@endpush
+
 @section('content')
     <section class="content-header">
         @if(!empty($contacto))
