@@ -10,6 +10,8 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Log;
+
 class OportunidadDataTable extends DataTable
 {
     protected $exportColumns = "nombreCategoria";
@@ -21,11 +23,14 @@ class OportunidadDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query);
-        $coloresEstados = EstadoCampania::arrayColores();
-        $coloresCategorias = CategoriaOportunidad::arrayColores();
+        $dataTable = new EloquentDataTable($query);        
 
         $request=$this->request(); 
+
+        $coloresEstados = EstadoCampania::arrayColores();
+        $coloresCategorias = CategoriaOportunidad::arrayColores();
+        $autorizadas=Oportunidad::oportunidadesAutorizadas($request->get('idCampania'));
+
         $idContacto=false;
         if ($request->has('idContacto')) {
             $idContacto=$request->get('idContacto');
@@ -38,9 +43,8 @@ class OportunidadDataTable extends DataTable
         $dataTable
         ->addColumn('action', function($row) use ($idContacto,$idCampania){
             $id=$row->id;
-            if($this->request()->has('action') && $this->request()->get('action')=="excel"){return;}
-            return view('campanias.oportunidades.datatables_actions', 
-            compact('id','idContacto','idCampania'));
+            $autorizada=Oportunidad::tieneAutorizacion($id);
+            return view('campanias.oportunidades.datatables_actions', compact('id','idContacto','idCampania','autorizada'));
         })
         ->editColumn('estado', function ($oportunidad) use($coloresEstados){
             $id=$oportunidad->id_estado;      
@@ -74,13 +78,20 @@ class OportunidadDataTable extends DataTable
         ->filterColumn('contacto', function($query, $keyword) {
             $query->whereRaw('CONCAT(contacto.nombres, " ", contacto.apellidos) like ?', ["%{$keyword}%"]);
         })
-        ->filter(function ($query) use ($request) {
+        ->filter(function ($query) use ($request,$autorizadas) {
             if ($request->has('idCampania')) {
-                $query->whereRaw("campania_id = ?", [$request->get('idCampania')]);   
+                $query->where("campania_id",$request->get('idCampania'));
+                if(empty($autorizadas)){
+                    $query->where("oportunidad.id","ninguno");      
+                } else if($autorizadas[0]=='todo'){
+                    return;      
+                }else{                  
+                    $query->whereIn("oportunidad.id",$autorizadas);     
+                }                  
             } 
             if ($request->has('idContacto')) {
                 $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
-            }  
+            }            
             return;          
         })
         ->rawColumns(['estado','action','categoria']);
@@ -93,7 +104,7 @@ class OportunidadDataTable extends DataTable
             $dataTable->editColumn('categoria', function ($oportunidad){
                 return $oportunidad->categoria;
             });
-        }
+        }   
 
         return $dataTable;
     }
@@ -118,6 +129,7 @@ class OportunidadDataTable extends DataTable
                 'categoriaOportunidad.id as id_categoria',            
                 'categoriaOportunidad.nombre as categoria',
                 'campania.nombre as campania',
+                'campania.id as id_campania',
                 DB::raw('CONCAT(contacto.nombres," ",contacto.apellidos) as contacto'),
                 'estadoCampania.id as id_estado',
                 'estadoCampania.nombre as estado',
@@ -177,7 +189,7 @@ class OportunidadDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(7)').every(function () {
+                    this.api().columns(':lt(8)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())

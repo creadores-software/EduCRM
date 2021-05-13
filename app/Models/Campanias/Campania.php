@@ -4,6 +4,8 @@ namespace App\Models\Campanias;
 
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
+use App\Models\Admin\PertenenciaEquipoMercadeo;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Campania
@@ -182,5 +184,21 @@ class Campania extends Model implements Recordable
     public function oportunidades()
     {
         return $this->hasMany(\App\Models\Campanias\Oportunidad::class, 'campania_id');
+    }
+
+    public static function tieneAutorizacionGeneral($idCampania){
+        $usuario=Auth::user();
+        $campania=Campania::where('id',$idCampania)->first();
+        if(!empty($campania)){
+            $esLider=PertenenciaEquipoMercadeo::
+                where('es_lider',1)
+                ->where('users_id',$usuario->id)
+                ->where('equipo_mercadeo_id',$campania->equipo_mercadeo_id)->first();
+
+            if($usuario->hasRole(['Superadmin']) || $esLider){                
+                return true;
+            }   
+        }       
+        return false;
     }
 }

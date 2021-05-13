@@ -4,12 +4,13 @@
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>    
     @can('campanias.oportunidades.editar')
-        @if(!empty($idContacto))
-            <a href="{{ route('campanias.oportunidades.edit', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
+        @if(!empty($idCampania))
+            <a href="{{ route('campanias.oportunidades.edit', [$id,'idCampania'=>$idCampania]) }}" class='btn btn-default btn-xs'>
                 <i class="glyphicon glyphicon-pencil"></i>
             </a>
-        @else
-        <a href="{{ route('campanias.oportunidades.edit', [$id,'idCampania'=>$idCampania]) }}" class='btn btn-default btn-xs'>
+        @endif
+        @if(!empty($idContacto) && $autorizada)
+        <a href="{{ route('campanias.oportunidades.edit', [$id,'idContacto'=>$idContacto]) }}" class='btn btn-default btn-xs'>
             <i class="glyphicon glyphicon-pencil"></i>
         </a>
         @endif

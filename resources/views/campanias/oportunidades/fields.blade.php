@@ -107,7 +107,7 @@
     {!! Form::hidden('categoria_oportunidad_id', old('categoria_oportunidad_id', $oportunidad->categoria_oportunidad_id ?? '')) !!}
 </div>
 
-
+@if($autorizacionGeneral)
 <!-- Responsable Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id').':') !!}
@@ -118,6 +118,7 @@
         @endif
     </select>
 </div>
+@endif
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

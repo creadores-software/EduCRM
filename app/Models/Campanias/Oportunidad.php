@@ -4,6 +4,7 @@ namespace App\Models\Campanias;
 
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class Oportunidad
@@ -172,5 +173,39 @@ class Oportunidad extends Model implements Recordable
     public function interacciones()
     {
         return $this->hasMany(\App\Models\Campanias\Interaccion::class, 'oportunidad_id');
+    }
+
+    public static function oportunidadesAutorizadas($campania_id){
+        $ids=[];
+        $campania=Campania::where('id',$campania_id)->first();
+        $usuario=Auth::user();
+        if(!empty($campania)){
+            if(Campania::tieneAutorizacionGeneral($campania->id)){                
+                $ids=['todo'];
+            }else{
+                $misOportunidades=Oportunidad::
+                    where('responsable_id',$usuario->id)
+                    ->where('campania_id',$campania->id)->get();
+                foreach($misOportunidades as $oportunidad){
+                    $ids[]=$oportunidad->id;    
+                }
+            }
+        }        
+        return $ids;
+    }
+
+    public static function tieneAutorizacion($oportunidad_id){
+        $usuario=Auth::user();
+        $oportunidad=Oportunidad::where('id',$oportunidad_id)->first();
+        if(!empty($oportunidad)){            
+            if(Campania::tieneAutorizacionGeneral($oportunidad->campania->id)){                
+                return true;
+            }else{
+                if($oportunidad->responsable_id==$usuario->id){
+                    return true;
+                }
+            }
+        }        
+        return false;
     }
 }

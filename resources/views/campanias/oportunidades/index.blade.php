@@ -18,14 +18,18 @@ div.dataTables_wrapper div.dataTables_filter {
             <h1 class="pull-left">
                 @lang('models/oportunidades.plural'): {{$campania->nombre}}    
             </h1>
-            @can('campanias.oportunidades.crear')
-                <h1 class="pull-right">
-                    <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.create',['idCampania'=>$campania->id]) }}">@lang('crud.add_new')</a>
+            @if($autorizacionGeneral)  
+                @can('campanias.oportunidades.crear')
+                    <h1 class="pull-right">
+                        <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.create',['idCampania'=>$campania->id]) }}">@lang('crud.add_new')</a>
+                    </h1>
+                @endcan
+                <h1 class="pull-right">             
+                        <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="#"> <i class="fa fa-upload"></i></a>
+                        <a gloss="Sincronizar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="#"> <i class="fa fa-filter"></i></a>
                 </h1>
-            @endcan
-            <h1 class="pull-right">                
-                <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.campanias.index') }}">Importar</a>
-                <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.campanias.index') }}">Sincronizar</a>
+            @endif
+            <h1 class="pull-right">
                 <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.campanias.index') }}">@lang('crud.back')</a>
             </h1>
         @endif 
@@ -41,14 +45,12 @@ div.dataTables_wrapper div.dataTables_filter {
                         <div class="nav-tabs-custom">
                             @if(!empty($contacto))
                                 @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])    
-                            @endif                    
-                            @can('campanias.oportunidades.crear')
-                                <h1 class="pull-left">
-                                    @if(!empty($contacto))
-                                        <a class="btn btn-default buttons-reset btn-sm no-corner" style="margin-top: -35px;" href="{{ route('campanias.oportunidades.create',['idContacto'=>$contacto->id]) }}"><span><i class="fa fa-plus"></i> Crear</span></a>
-                                    @endif
-                                </h1> 
-                            @endcan                            
+                            @else 
+                            <div class="alert alert-info">
+                                <p><span class="text-weight-bold"><i class="fa fa-info-circle"></i></span> 
+                                    Solo líderes del equipo pueden crear nuevas oportunidades o modificar responsables.</p>
+                            </div>
+                            @endif
                             <div class="tab-content">                                
                                 @include('campanias.oportunidades.table')   
                             </div>
