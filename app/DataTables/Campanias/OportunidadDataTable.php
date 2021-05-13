@@ -20,6 +20,8 @@ class OportunidadDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $colores = Oportunidad::arrayColores();
+
         $request=$this->request(); 
         $idContacto=false;
         if ($request->has('idContacto')) {
@@ -37,6 +39,11 @@ class OportunidadDataTable extends DataTable
             return view('campanias.oportunidades.datatables_actions', 
             compact('id','idContacto','idCampania'));
         })
+        ->editColumn('estado', function ($oportunidad) use($colores){
+            $id=$oportunidad->id;      
+            $color = $colores[$id]['color'];      
+            return "<span style='color:$color'><i class='fa fa-circle'></i></span> $oportunidad->estado";
+        })
         ->editColumn('adicion_manual', function ($row){
             return $row->adicion_manual? 'Si':'No';
         }) 
@@ -52,7 +59,7 @@ class OportunidadDataTable extends DataTable
             }
             return date('Y-m-d H:i:s', strtotime($oportunidad->ultima_interaccion));
         })
-        ->filterColumn('nombreContacto', function($query, $keyword) {
+        ->filterColumn('contacto', function($query, $keyword) {
             $query->whereRaw('CONCAT(contacto.nombres, " ", contacto.apellidos) like ?', ["%{$keyword}%"]);
         })
         ->filter(function ($query) use ($request) {
@@ -63,11 +70,16 @@ class OportunidadDataTable extends DataTable
                 $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
             }  
             return;          
-        });
+        })
+        ->rawColumns(['estado','action']);
 
         if($request->has('action') && $request->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->editColumn('estado', function ($oportunidad){
+                return $oportunidad->estado;
+            });
         }
+
         return $dataTable;
     }
 
@@ -88,13 +100,13 @@ class OportunidadDataTable extends DataTable
             ->leftjoin('justificacion_estado_campania as justificacionEstadoCampania', 'oportunidad.justificacion_estado_campania_id', '=', 'justificacionEstadoCampania.id')
             ->leftjoin('users as responsable', 'oportunidad.responsable_id', '=', 'responsable.id')
             ->select(['oportunidad.id',                
-                'categoriaOportunidad.nombre as nombreCategoria',
-                'campania.nombre as nombreCampania',
-                DB::raw('CONCAT(contacto.nombres," ",contacto.apellidos) as nombreContacto'),
-                'estadoCampania.nombre as nombreEstado',
-                'formacion.nombre as nombreFormacion',
-                'justificacionEstadoCampania.nombre as nombreRazon',
-                'responsable.name as nombreResponsable',
+                'categoriaOportunidad.nombre as categoria',
+                'campania.nombre as campania',
+                DB::raw('CONCAT(contacto.nombres," ",contacto.apellidos) as contacto'),
+                'estadoCampania.nombre as estado',
+                'formacion.nombre as formacion',
+                'justificacionEstadoCampania.nombre as razon',
+                'responsable.name as responsable',
                 'ultima_actualizacion',
                 'ultima_interaccion',
                 'interes',
@@ -112,13 +124,17 @@ class OportunidadDataTable extends DataTable
      */
     public function html()
     {
+        $columnDefs=[];
+        
         $idCampania=null;
         if ($this->request()->has("idCampania")) {
             $idCampania = $this->request()->get("idCampania");
+            $columnDefs[]=['targets' => [0], 'visible' => false, 'searchable' => false];
         }
         $idContacto=null;
         if ($this->request()->has("idContacto")) {
             $idContacto = $this->request()->get("idContacto");
+            $columnDefs[]=['targets' => [1], 'visible' => false, 'searchable' => false];
         }
 
         return $this->builder()
@@ -126,6 +142,7 @@ class OportunidadDataTable extends DataTable
             ->minifiedAjax(route('campanias.oportunidades.index', ['idCampania' => $idCampania,'idContacto' => $idContacto]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
+                'columnDefs' => $columnDefs,
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
@@ -164,16 +181,16 @@ class OportunidadDataTable extends DataTable
     {
         
         return [
-            'campania_id' => new Column(['title' => __('models/oportunidades.fields.campania_id'), 'data' => 'nombreCampania', 'name' => 'campania.nombre']),
-            'nombreContacto' => new Column(['title' => __('models/oportunidades.fields.contacto_id'), 'data' => 'nombreContacto']),
-            'formacion_id' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'nombreFormacion', 'name' => 'formacion.nombre']),
-            'responsable_id' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'nombreResponsable','name' => 'responsable.name']),
-            'estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'nombreEstado', 'name' => 'estadoCampania.nombre']),            
+            'campania' => new Column(['title' => __('models/oportunidades.fields.campania_id'), 'data' => 'campania', 'name' => 'campania.nombre']),
+            'contacto' => new Column(['title' => __('models/oportunidades.fields.contacto_id'), 'data' => 'contacto']),
+            'categoria' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria','name' => 'categoriaOportunidad.nombre']),            
+            'formacion' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'formacion', 'name' => 'formacion.nombre']),
+            'responsable' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable','name' => 'responsable.name']),
+            'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre']),            
             'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion']),
             'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion']),
-            //Campos no visibles
-            'categoria_oportunidad_id' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'nombreCategoria','name' => 'categoriaOportunidad.nombre','visible'=>false]),            
-            'justificacion_estado_campania_id' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'nombreRazon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
+            //Campos no visibles            
+            'razon' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'razon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false,'exportable' => false]),
             'capacidad' => new Column(['title' => __('models/oportunidades.fields.capacidad'), 'data' => 'capacidad','visible'=>false]),            
             'ingreso_recibido' => new Column(['title' => __('models/oportunidades.fields.ingreso_recibido'), 'data' => 'ingreso_recibido','visible'=>false]),

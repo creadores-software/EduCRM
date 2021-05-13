@@ -173,4 +173,12 @@ class Oportunidad extends Model implements Recordable
     {
         return $this->hasMany(\App\Models\Campanias\Interaccion::class, 'oportunidad_id');
     }
+
+    public static function arrayColores(){
+        return Oportunidad::
+        join('estado_campania as estado', 'estado.id', '=', 'oportunidad.estado_campania_id')
+        ->join('tipo_estado_color as tipoEstado', 'estado.tipo_estado_color_id', '=', 'tipoEstado.id')
+        ->get(['oportunidad.id as id_oportunidad','tipoEstado.color_hexadecimal as color'])
+        ->keyBy('id_oportunidad')->toArray();
+    }
 }
