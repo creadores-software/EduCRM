@@ -19,7 +19,7 @@ class SegmentoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'contactos.segmentos.datatables_actions')
         ->editColumn('global', function ($actividad){
             return $actividad->global? 'Si':'No';
@@ -36,6 +36,11 @@ class SegmentoDataTable extends DataTable
                 $query->whereRaw("global = 3"); //Ninguno    
             }               
         });
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

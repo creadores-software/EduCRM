@@ -30,7 +30,7 @@ class OportunidadDataTable extends DataTable
             $idCampania=$request->get('idCampania');
         } 
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', function($row) use ($idContacto,$idCampania){
             $id=$row->id;
             if($this->request()->has('action') && $this->request()->get('action')=="excel"){return;}
@@ -52,6 +52,11 @@ class OportunidadDataTable extends DataTable
             }  
             return;          
         });
+
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

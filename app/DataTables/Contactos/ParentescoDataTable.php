@@ -27,7 +27,7 @@ class ParentescoDataTable extends DataTable
             $idContacto=$request->get('idContacto');
         }
 
-        return $dataTable
+        $dataTable
         ->editColumn('acudiente', function ($row){
             return $row->acudiente? 'Si':'No';
         }) 
@@ -58,6 +58,11 @@ class ParentescoDataTable extends DataTable
                 $query->whereRaw("contacto_origen = ?", [$request->get('idContacto')]);   
             }            
         });    
+
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

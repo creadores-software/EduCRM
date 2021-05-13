@@ -20,7 +20,7 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $request=$this->request();  
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'admin.pertenencias_equipo_mercadeo.datatables_actions')
         ->editColumn('es_lider', function ($pertenencia){
             return $pertenencia->es_lider? 'Si':'No';
@@ -44,6 +44,11 @@ class PertenenciaEquipoMercadeoDataTable extends DataTable
                 $query->whereRaw("equipo_mercadeo_id = ?", [$request->get('idEquipo')]);   
             }            
         });
+
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

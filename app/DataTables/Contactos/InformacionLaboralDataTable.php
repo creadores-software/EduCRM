@@ -26,7 +26,7 @@ class InformacionLaboralDataTable extends DataTable
             $idContacto=$request->get('idContacto');
         }
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', function($row) use ($idContacto){
             $id=$row->id;
             return view('contactos.informaciones_laborales.datatables_actions', 
@@ -65,7 +65,12 @@ class InformacionLaboralDataTable extends DataTable
             }else{
                 $query->whereRaw("contacto_id = ?", [$request->get('idContacto')]);   
             }            
-        });    
+        }); 
+        
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

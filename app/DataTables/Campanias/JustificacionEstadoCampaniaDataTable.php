@@ -20,7 +20,7 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $request=$this->request();  
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.justificaciones_estado_campania.datatables_actions')
         ->filter(function ($query) use ($request) {
             if (!$request->has('idEstado')) {
@@ -29,6 +29,11 @@ class JustificacionEstadoCampaniaDataTable extends DataTable
                 $query->whereRaw("estado_campania_id = ?", [$request->get('idEstado')]);   
             }            
         });
+
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

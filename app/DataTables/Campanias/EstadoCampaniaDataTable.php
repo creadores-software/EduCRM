@@ -20,7 +20,7 @@ class EstadoCampaniaDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $colores = EstadoCampania::arrayColores();
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.estados_campania.datatables_actions')
         ->editColumn('nombre', function ($estado) use($colores){
             $id=$estado->id;      
@@ -28,6 +28,11 @@ class EstadoCampaniaDataTable extends DataTable
             return "<span style='color:$color'><i class='fa fa-circle'></i></span> $estado->nombre";
         })
         ->rawColumns(['nombre','action']);
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

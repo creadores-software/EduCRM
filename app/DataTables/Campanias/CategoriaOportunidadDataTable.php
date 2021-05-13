@@ -19,13 +19,18 @@ class CategoriaOportunidadDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.categorias_oportunidad.datatables_actions')
         ->editColumn('color_hexadecimal', function ($categoria){
             $color=$categoria->color_hexadecimal;            
             return "$color <span style='color:$color'><i class='fa fa-circle'></i><span>";
         })
         ->rawColumns(['color_hexadecimal','action']);
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+                $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

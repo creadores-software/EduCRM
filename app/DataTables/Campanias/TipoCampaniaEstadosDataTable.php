@@ -20,7 +20,7 @@ class TipoCampaniaEstadosDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $request=$this->request(); 
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.tipos_campania_estados.datatables_actions')
         ->filter(function ($query) use ($request) {
             if (!$request->has('idTipo')) {
@@ -29,6 +29,11 @@ class TipoCampaniaEstadosDataTable extends DataTable
                 $query->whereRaw("tipo_campania_id = ?", [$request->get('idTipo')]);   
             }            
         });
+
+        if($request->has('action') && $request->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

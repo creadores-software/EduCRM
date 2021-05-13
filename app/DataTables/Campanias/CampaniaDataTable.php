@@ -19,7 +19,7 @@ class CampaniaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.campanias.datatables_actions')
         ->editColumn('activa', function ($campania){
             return $campania->activa? 'Si':'No';
@@ -36,7 +36,12 @@ class CampaniaDataTable extends DataTable
                 $query->whereRaw("activa = 3"); //Ninguno    
             }               
         })
-        ->rawColumns(['descripcion','action']);;
+        ->rawColumns(['descripcion','action']);
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+                $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

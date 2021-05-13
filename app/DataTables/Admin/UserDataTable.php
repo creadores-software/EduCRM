@@ -19,7 +19,7 @@ class UserDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'admin.users.datatables_actions')
         ->editColumn('active', function ($user){
             return $user->active? 'Si':'No';
@@ -35,7 +35,12 @@ class UserDataTable extends DataTable
             }else{
                 $query->whereRaw("activo = 3"); //Ninguno    
             }             
-        });;
+        });
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**

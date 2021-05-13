@@ -19,7 +19,7 @@ class TipoInteraccionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable
+        $dataTable
         ->addColumn('action', 'campanias.tipos_interaccion.datatables_actions')
         ->editColumn('con_fecha_fin', function ($tipo){
             return $tipo->con_fecha_fin? 'Si':'No';
@@ -36,6 +36,11 @@ class TipoInteraccionDataTable extends DataTable
                 $query->whereRaw("con_fecha_fin = 3"); //Ninguno    
             }               
         });
+
+        if($this->request()->has('action') && $this->request()->get('action')=="excel"){
+            $dataTable->removeColumn('action');
+        }
+        return $dataTable;
     }
 
     /**
