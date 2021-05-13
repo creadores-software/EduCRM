@@ -13,9 +13,6 @@
                     <h2 class="page-header">Datos</h2>
                     @include('campanias.oportunidades.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('campanias.oportunidades.index') }}" class="btn btn-default">
-                        @lang('crud.back')
-                    </a>
                 </div>
             </div>
         </div>

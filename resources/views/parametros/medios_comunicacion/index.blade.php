@@ -7,7 +7,7 @@
         </h1>
         @can('parametros.mediosComunicacion.crear')
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('parametros.mediosComunicacion.create') }}">@lang('crud.add_new')</a>
+           <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('parametros.mediosComunicacion.create') }}">@lang('crud.add_new')</a>
         </h1>
         @endcan
     </section>

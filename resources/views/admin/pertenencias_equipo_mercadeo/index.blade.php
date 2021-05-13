@@ -7,10 +7,12 @@
         </h1>
         @can('admin.pertenenciasEquipoMercadeo.crear')
         <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.pertenenciasEquipoMercadeo.create',['idEquipo'=>$idEquipo]) }}">@lang('crud.add_new')</a>
-           <a class="btn btn-default pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('admin.equiposMercadeo.index') }}">@lang('crud.back')</a>
+           <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('admin.pertenenciasEquipoMercadeo.create',['idEquipo'=>$idEquipo]) }}">@lang('crud.add_new')</a>
         </h1>
         @endcan
+        <h1 class="pull-right">
+            <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('admin.equiposMercadeo.index') }}">@lang('crud.back')</a>
+        </h1>
     </section>
     <div class="content">
         <div class="clearfix"></div>
