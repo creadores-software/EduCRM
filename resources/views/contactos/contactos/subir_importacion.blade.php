@@ -26,14 +26,16 @@ dl, ol, ul {
 
         <div class="clearfix"></div>
         <div class="box box-primary">            
-            <div class="box-body">   
+            <div class="box-body">  
+                <div class="alert alert-info">
+                    <p><span class="text-weight-bold"><i class="fa fa-info-circle"></i></span> 
+                        El archivo debe estar en formato Excel (xlsx,xls) conservando en la primera línea los nombres de los campos.
+                        <a class="alert-info" target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar plantilla</a>
+                    </p>
+                </div> 
                 <div class="row">
-                    {!! Form::open(['route' => 'contactos.contactos.cargarImportacion','files' => true]) !!}
-                
-                        <div class="form-group col-sm-12">    
-                            <p>El archivo debe estar en formato Excel (xlsx,xls) conservando en la primera línea los titulos de los campos tal como están en base de datos.</p>
-                            <a target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar plantilla</a>
-                        </div>
+                    {!! Form::open(['route' => 'contactos.contactos.cargarImportacion','files' => true]) !!}               
+                          
                         <!-- Archivo -->
                         <div class="form-group col-sm-6">
                             {!! Form::label('archivo', 'Seleccionar archivo') !!}

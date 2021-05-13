@@ -119,6 +119,12 @@
             position: absolute;
             z-index: 99;
         }
+
+        .alert-info{
+            color:#31708f !important; 
+            background-color:#d9edf7 !important;
+            border-color:#bce8f1 !important;
+        }
         
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
