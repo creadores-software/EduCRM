@@ -1,5 +1,5 @@
 @push('css')
-    <link rel="stylesheet" href=/css/huebee.min.css">
+    <link rel="stylesheet" href="/css/huebee.min.css">
 @endpush
 
 <!-- Nombre Field -->
