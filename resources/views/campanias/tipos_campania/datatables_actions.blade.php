@@ -6,11 +6,11 @@
     @can('campanias.tiposCampania.editar')
     <a href="{{ route('campanias.tiposCampania.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-pencil"></i>
-    </a>
+    </a>    
+    @endcan
     <a gloss="Estados" href="{{ route('campanias.tiposCampaniaEstados.index', ['idTipo'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-filter"></i>
     </a>
-    @endcan
     @can('campanias.tiposCampania.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
         'type' => 'submit',

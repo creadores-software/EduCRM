@@ -2,15 +2,15 @@
 <div class='btn-group'>
     <a href="{{ route('admin.equiposMercadeo.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
-    </a>
+    </a>    
     @can('admin.equiposMercadeo.editar')
     <a href="{{ route('admin.equiposMercadeo.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-pencil"></i>
-    </a>
+    </a>    
+    @endcan
     <a gloss="Miembros" href="{{ route('admin.pertenenciasEquipoMercadeo.index', ['idEquipo'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-user"></i>
     </a>
-    @endcan
     @can('admin.equiposMercadeo.eliminar')
     {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
         'type' => 'submit',
