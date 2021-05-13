@@ -67,9 +67,13 @@ class PermissionRepository extends BaseRepository
     {
         $query = $this->model->newQuery();
         $model = $query->findOrFail($id);
-        $model->fill($input);
-        $model->updated_at= new Carbon();
+        $model->fill($input);       
         $model->save();
+
+        if ($model->wasChanged()) {
+            $model->updated_at= new Carbon();
+            $model->save();
+        }
         return $model;
     }
 }

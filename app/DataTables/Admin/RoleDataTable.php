@@ -19,7 +19,20 @@ class RoleDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->addColumn('action', 'admin.roles.datatables_actions');
+        $dataTable
+        ->addColumn('action', 'admin.roles.datatables_actions')
+        ->editColumn('created_at', function ($role){
+            if(empty($role->created_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($role->created_at));
+        })
+        ->editColumn('updated_at', function ($role){
+            if(empty($role->updated_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($role->updated_at));
+        });
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
              $dataTable->removeColumn('action');

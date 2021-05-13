@@ -4,6 +4,7 @@ namespace App\Repositories\Campanias;
 
 use App\Models\Campanias\Oportunidad;
 use App\Repositories\BaseRepository;
+use Carbon\Carbon;
 
 /**
  * Class OportunidadRepository
@@ -49,5 +50,39 @@ class OportunidadRepository extends BaseRepository
     public function model()
     {
         return Oportunidad::class;
+    }
+
+    /**
+     * Create model record
+     * @param array $input
+     * @return Model
+     */
+    public function create($input)
+    {
+        $model = $this->model->newInstance($input); 
+        $model->ultima_actualizacion= new Carbon();       
+        $model->save();
+        return $model;
+    }
+
+    /**
+     * Update model record for given id
+     *
+     * @param array $input
+     * @param int $id
+     *
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Model
+     */
+    public function update($input, $id)
+    {
+        $query = $this->model->newQuery();
+        $model = $query->findOrFail($id);
+        $model->fill($input);
+        $model->save();
+        if ($model->wasChanged()) {
+            $model->ultima_actualizacion= new Carbon(); 
+            $model->save();
+        }
+        return $model;
     }
 }

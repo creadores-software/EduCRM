@@ -4,6 +4,7 @@ namespace App\Http\Requests\Campanias;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Campanias\Oportunidad;
+use Illuminate\Validation\Rule;
 
 class CreateOportunidadRequest extends FormRequest
 {
@@ -25,6 +26,14 @@ class CreateOportunidadRequest extends FormRequest
      */
     public function rules()
     {
-        return Oportunidad::$rules;
+        $rules= Oportunidad::$rules;
+        $rules['contacto_id'] = [
+            'required',
+            'integer',
+            Rule::unique('oportunidad')
+                ->ignore($this->id)
+                ->where('campania_id', $this->campania_id)
+        ];
+        return $rules;
     }
 }

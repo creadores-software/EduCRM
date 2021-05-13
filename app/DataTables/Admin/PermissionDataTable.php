@@ -19,7 +19,20 @@ class PermissionDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->addColumn('action', 'admin.permissions.datatables_actions');
+        $dataTable
+        ->addColumn('action', 'admin.permissions.datatables_actions')
+        ->editColumn('created_at', function ($permission){
+            if(empty($permission->created_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($permission->created_at));
+        })
+        ->editColumn('updated_at', function ($permission){
+            if(empty($permission->updated_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($permission->updated_at));
+        });
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
              $dataTable->removeColumn('action');

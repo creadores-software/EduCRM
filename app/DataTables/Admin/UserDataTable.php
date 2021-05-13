@@ -24,6 +24,18 @@ class UserDataTable extends DataTable
         ->editColumn('active', function ($user){
             return $user->active? 'Si':'No';
         })
+        ->editColumn('created_at', function ($user){
+            if(empty($user->created_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($user->created_at));
+        })
+        ->editColumn('updated_at', function ($user){
+            if(empty($user->updated_at)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($user->updated_at));
+        })
         ->filterColumn('active', function ($query, $keyword) {
             $validacion=null;
             if(strpos(strtolower($keyword), 's')!==false){

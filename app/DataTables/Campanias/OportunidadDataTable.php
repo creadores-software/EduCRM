@@ -40,6 +40,18 @@ class OportunidadDataTable extends DataTable
         ->editColumn('adicion_manual', function ($row){
             return $row->adicion_manual? 'Si':'No';
         }) 
+        ->editColumn('ultima_actualizacion', function ($oportunidad){
+            if(empty($oportunidad->ultima_actualizacion)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($oportunidad->ultima_actualizacion));
+        })
+        ->editColumn('ultima_interaccion', function ($oportunidad){
+            if(empty($oportunidad->ultima_interaccion)){
+                return;
+            }
+            return date('Y-m-d H:i:s', strtotime($oportunidad->ultima_interaccion));
+        })
         ->filterColumn('nombreContacto', function($query, $keyword) {
             $query->whereRaw('CONCAT(contacto.nombres, " ", contacto.apellidos) like ?', ["%{$keyword}%"]);
         })

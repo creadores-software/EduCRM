@@ -83,14 +83,18 @@ class UserRepository extends BaseRepository
         $model->fill($input);
         if(array_key_exists('password',$input)){            
             $model->password=Hash::make($input['password']);
-        }        
-        $model->updated_at= new Carbon();
+        } 
         $model->save();
 
         if(array_key_exists('uroles',$input)){            
             $model->syncRoles((array)$input['uroles']);
         }else{
             $model->syncRoles([]);
+        }
+
+        if ($model->wasChanged()) {
+            $model->updated_at= new Carbon();
+            $model->save();
         }
 
         return $model;

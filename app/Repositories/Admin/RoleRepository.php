@@ -74,14 +74,18 @@ class RoleRepository extends BaseRepository
     {
         $query = $this->model->newQuery();
         $model = $query->findOrFail($id);
-        $model->fill($input);
-        $model->updated_at= new Carbon();
+        $model->fill($input);        
         $model->save();
 
         if(array_key_exists('permissions',$input)){            
             $model->syncPermissions((array)$input['permissions']);
         }else{
             $model->syncPermissions([]);
+        }
+
+        if ($model->wasChanged()) {
+            $model->updated_at= new Carbon();
+            $model->save();
         }
 
         return $model;
