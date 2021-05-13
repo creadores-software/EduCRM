@@ -180,9 +180,12 @@
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',
                     data: function (params) {  
+                        //Con esto se impide mostrar contactos ya elegidos
+                       campania = $("[name='campania_id']").val();
                        return {
                             q: params.term, 
                             page: params.page || 1,
+                            contactos_excluir_campania: campania
                         };
                     },
                     processResults: function (data) {
@@ -288,8 +291,7 @@
             });
 
             $(document).on('change', '#estado_campania_id', function(e){
-                $("#justificacion_estado_campania_id").val(); 
-                $("#justificacion_estado_campania_id").trigger('change');
+                $("#justificacion_estado_campania_id").val(null).trigger("change"); 
             }); 
 
             function actualizarCategoriaOportunidad(){

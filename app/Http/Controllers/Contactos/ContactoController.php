@@ -181,16 +181,27 @@ class ContactoController extends AppBaseController
     public function dataAjax(Request $request)
     {   
         $term=$request->input('q', '');   
-        $contacto_excluir=$request->input('contacto_excluir', '');  
+        $contacto_excluir=$request->input('contacto_excluir', '');
+        $contactos_excluir_campania=$request->input('contactos_excluir_campania', '');    
         $where_text = "identificacion is not null";
         $where_params=[];
         $page=$request->input('page', ''); 
-
-        if(!empty($contacto_excluir) && is_int($contacto_excluir)){
-            $where_text.="and id <> :id'";
-            $where_params=['id'=>$contacto_excluir];
-        }
+        
         $name="CONCAT(nombres, ' ', apellidos, ' - ', identificacion)";
+
+        if(!empty($contacto_excluir) && ctype_digit($contacto_excluir)){
+            $where_text.=" and id <> :id";
+            $where_params['id']=intval($contacto_excluir);
+        }
+        if(!empty($contactos_excluir_campania) && ctype_digit($contactos_excluir_campania)){
+            $where_text.=" and id not in (select contacto_id from oportunidad where campania_id= :campania)";
+            $where_params['campania']=intval($contactos_excluir_campania);
+        }
+        if(!empty($where_paramsa)){
+            $where_text.=$name." LIKE '%:term%'";
+            $where_params['term']=$term;
+        }
+        
         return $this->contactoRepository->infoSelect2($term,null,null,null,['text','ASC'],$name,$page,[$where_text,$where_params]);
     }
 

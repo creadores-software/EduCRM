@@ -86,9 +86,9 @@ class OportunidadController extends AppBaseController
         Flash::success(__('messages.saved', ['model' => __('models/oportunidades.singular')]));
 
         if ($request->has('idCampania')) {
-            return redirect(route('campanias.oportunidades.index'))->with(['idCampania'=>$request->get('idCampania')]); 
+            return redirect(route('campanias.oportunidades.index',['idCampania'=>$request->get('idCampania')])); 
         }else if ($request->has('idContacto')) {
-            return redirect(route('campanias.oportunidades.index'))->with(['idContacto'=>$request->get('idContacto')]); 
+            return redirect(route('campanias.oportunidades.index',['idContacto'=>$request->get('idContacto')])); 
         }
     }
 

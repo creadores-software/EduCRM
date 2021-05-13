@@ -210,7 +210,7 @@ abstract class BaseRepository
      */
     public function infoSelect2($term,$search=null,$join=[],$orSearch=null,$order=[],$name=null,$page=null,$customWhere=null)
     {
-       // DB::enableQueryLog();
+        //DB::enableQueryLog();
         $query = $this->model->newQuery();  
 
         if(!empty($join) && is_array($join)){
@@ -241,12 +241,7 @@ abstract class BaseRepository
                     $query->orWhere($key, $value);
                 }                
             }
-        }
-
-        if (!empty($customWhere)) {        
-            $query->whereRaw($customWhere[0],$customWhere[1]);
-        }
-        
+        }        
 
         if(empty($name)){
             $name = $this->model->table.'.nombre';
@@ -254,7 +249,12 @@ abstract class BaseRepository
         $name_alias= DB::raw($name." as text");
         $name_select= DB::raw($name);
 
-        $query->where($name_select, 'LIKE', '%'.$term.'%');
+        if (!empty($customWhere)) {        
+            $query->whereRaw($customWhere[0],$customWhere[1]);
+        }else{
+            $query->where($name_select, 'LIKE', '%'.$term.'%');  
+        }
+        
         if(empty($order)){
             $query->orderBy($this->model->table.'.nombre', 'ASC');
         }else{
