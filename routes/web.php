@@ -163,3 +163,8 @@ Route::group(['prefix' => 'campanias'], function () {
     Route::get('tiposInteraccion/dataAjax', 'Campanias\TipoInteraccionController@dataAjax')->name('campanias.tiposInteraccion.dataAjax');
     Route::resource('tiposInteraccion', 'Campanias\TipoInteraccionController', ["as" => 'campanias']);    
 });
+
+Route::group(['prefix' => 'reportes'], function () {
+    Route::get('funnel', function () {return view('reportes.funnel');})->name('reportes.funnel');
+    Route::get('interacciones', function () {return view('reportes.interacciones');})->name('reportes.interacciones');
+});

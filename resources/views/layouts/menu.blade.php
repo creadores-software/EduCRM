@@ -339,8 +339,13 @@
 @endif
 <li id="reportes" class="opcion-menu opcion-menu-padre treeview">
     <a class="app-menu__item" href="#"><i class="fa fa-bar-chart"></i><span>Reportes</span></a>
-    <ul class="treeview-menu">
-                   
+    <ul class="treeview-menu">  
+        <li id="reporte-funnel" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('reportes.funnel') }}"><i class="fa fa-circle-o"></i><span>Funnel de venta</span></a>
+        </li>  
+        <li id="reporte-interacciones" class="treeview-item opcion-menu menu-hijo">
+            <a href="{{ route('reportes.interacciones') }}"><i class="fa fa-circle-o"></i><span>Interacciones por estado</span></a>
+        </li>                
     </ul> 
 </li>
 <li id="manuales" class="opcion-menu opcion-menu-padre treeview">
