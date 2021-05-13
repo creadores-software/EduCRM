@@ -73,7 +73,7 @@
 <!-- Costo Matricula Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('costo_matricula', __('models/formaciones.fields.costo_matricula').':') !!}
-    <p>{{ $formacion->costo_matricula }}</p>
+   <p>${{ number_format($formacion->costo_matricula,0,",",'.') }}</p>
 </div>
 
 <!-- Perfiles Buyer Persona -->

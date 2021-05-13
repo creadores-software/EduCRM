@@ -37,13 +37,13 @@
 <!-- Ingreso Recibido Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido').':') !!}
-    <p>{{ $oportunidad->ingreso_recibido }}</p>
+    <p>${{ number_format($oportunidad->ingreso_recibido,0,",",'.') }}</p>
 </div>
 
 <!-- Ingreso Proyectado Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado').':') !!}
-    <p>{{ $oportunidad->ingreso_proyectado }}</p>
+    <p>${{ number_format($oportunidad->ingreso_proyectado,0,",",'.') }}</p>
 </div>
 
 <!-- Interes Field -->
@@ -73,7 +73,7 @@
 <!-- Ultima Actualizacion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ultima_actualizacion', __('models/oportunidades.fields.ultima_actualizacion').':') !!}
-    <p>{{ $oportunidad->ultima_interaccion? Date('Y-m-d H:i:s',strtotime($oportunidad->ultima_interaccion)):'' }}</p>
+    <p>{{ $oportunidad->ultima_actualizacion? Date('Y-m-d H:i:s',strtotime($oportunidad->ultima_actualizacion)):'' }}</p>
 </div>
 
 <!-- Ultima Interaccion Field -->

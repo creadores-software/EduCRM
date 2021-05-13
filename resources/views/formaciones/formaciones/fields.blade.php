@@ -113,7 +113,12 @@
 <!-- Costo Matricula Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('costo_matricula', __('models/formaciones.fields.costo_matricula').':') !!}
-    {!! Form::text('costo_matricula', null, ['class' => 'form-control']) !!}
+    <div class="input-group">
+        <span class="input-group-addon" id="symbol_cost1">$</span>
+        {!! Form::text('costo_matricula_formato', null, ['class' => 'form-control price_decimals']) !!}
+        <span class="input-group-addon" id="iso_cost1">COP</span>
+    </div>
+    {!! Form::hidden('costo_matricula', old('costo_matricula', $formacion->costo_matricula ?? '')) !!}     
 </div>
 
 <!-- Activo Field -->
@@ -148,8 +153,31 @@
 </div>
 
 @push('scripts')
+    <script src="/js/inputmask/jquery.inputmask.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {            
+        //Se inicializa el priceformat para los campos
+        $('.price_decimals').inputmask('decimal',{
+                'alias': 'numeric',
+                'groupSeparator': '.',
+                'autoGroup': true,
+                'digits': 0,
+                'radixPoint': ',',
+                'digitsOptional': false,
+                'allowMinus': false,
+                'prefix': '',
+                'placeholder': '0'
+        });
+        costo_matricula=$("[name='costo_matricula']").val();
+        $("[name='costo_matricula_formato'").val(costo_matricula);
+
+        $(document).ready(function() {     
+            $("[name='costo_matricula_formato'").on('keyup', function () {
+                var ingreso = $("[name='costo_matricula_formato'").val();
+                ingreso = ingreso.replace(/\./g,'');
+                ingreso = ingreso.replace(/\,/g,'.');
+                $("[name='costo_matricula']").val(ingreso);
+            });
+
             $('#entidad_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

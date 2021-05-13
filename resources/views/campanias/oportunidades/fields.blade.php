@@ -130,27 +130,40 @@
 
 @push('scripts')
     <script src="/js/inputmask/jquery.inputmask.js"></script>
-    <script>
-        /** 
-         * Se inicializa el priceformat para los campos
-         */
-         $('.price_decimals').inputmask('decimal',
-            {
-              'alias': 'numeric',
-              'groupSeparator': '.',
-              'autoGroup': true,
-              'digits': 2,
-              'radixPoint': ',',
-              'digitsOptional': false,
-              'allowMinus': false,
-              'prefix': '',
-              'placeholder': '0'
-            }
-          );
-      
-      </script>
     <script type="text/javascript">
-        $(document).ready(function() { 
+        //Se inicializa el priceformat para los campos
+        $('.price_decimals').inputmask('decimal',{
+                'alias': 'numeric',
+                'groupSeparator': '.',
+                'autoGroup': true,
+                'digits': 0,
+                'radixPoint': ',',
+                'digitsOptional': false,
+                'allowMinus': false,
+                'prefix': '',
+                'placeholder': '0'
+        });
+        ingreso_recibido=$("[name='ingreso_recibido']").val();
+        $("[name='ingreso_recibido_formato'").val(ingreso_recibido);
+
+        ingreso_proyectado=$("#ingreso_proyectado").val();
+        $("[name='ingreso_proyectado_formato'").val(ingreso_proyectado);
+
+        $(document).ready(function() {
+            $("[name='ingreso_recibido_formato'").on('keyup', function () {
+                var ingreso = $("[name='ingreso_recibido_formato'").val();
+                ingreso = ingreso.replace(/\./g,'');
+                ingreso = ingreso.replace(/\,/g,'.');
+                $("[name='ingreso_recibido']").val(ingreso);
+            });
+
+            $("[name='ingreso_proyectado_formato'").on('keyup', function () {
+                var ingreso = $("[name='ingreso_proyectado_formato'").val();
+                ingreso = ingreso.replace(/\./g,'');
+                ingreso = ingreso.replace(/\,/g,'.');
+                $("[name='ingreso_proyectado']").val(ingreso);
+            });
+            
             actualizarCategoriaOportunidad()
             $('#campania_id').select2({
                 placeholder: "Seleccionar",
@@ -274,19 +287,10 @@
                 actualizarCategoriaOportunidad()    
             });
 
-            $('#ingreso_esperado_formato').on('keyup', function () {
-                var ingreso = $('#ingreso_esperado_formato').val();
-                ingreso = ingreso.replace(/\./g,'');
-                ingreso = ingreso.replace(/\,/g,'.');
-                $("[name='ingreso_esperado']").val(ingreso);
-            });
-
-            $('#ingreso_proyectado_formato').on('keyup', function () {
-                var ingreso = $('#ingreso_proyectado_formato').val();
-                ingreso = ingreso.replace(/\./g,'');
-                ingreso = ingreso.replace(/\,/g,'.');
-                $("[name='ingreso_proyectado']").val(ingreso);
-            });
+            $(document).on('change', '#estado_campania_id', function(e){
+                $("#justificacion_estado_campania_id").val(); 
+                $("#justificacion_estado_campania_id").trigger('change');
+            }); 
 
             function actualizarCategoriaOportunidad(){
                 var interes = $('#interes').val();
