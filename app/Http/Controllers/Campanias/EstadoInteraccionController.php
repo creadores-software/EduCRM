@@ -45,9 +45,10 @@ class EstadoInteraccionController extends AppBaseController
      */
     public function create()
     {
+        //Solo se pueden crear negativos
         $colores = TipoEstadoColor::arrayColores();
         return view('campanias.estados_interaccion.create')
-        ->with(['colores'=>$colores]);
+        ->with(['colores'=>$colores,'tipoEstado'=>3]);
     }
 
     /**
@@ -175,6 +176,9 @@ class EstadoInteraccionController extends AppBaseController
                 }
                 if(!empty($estados)){
                     $search['estado_interaccion.id']=$estados; 
+                }else{
+                    //No aplica ninguno
+                    $search['estado_interaccion.id']='n'; 
                 }
             } 
         }

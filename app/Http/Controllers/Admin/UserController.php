@@ -182,6 +182,10 @@ class UserController extends AppBaseController
             $datosCampania = Campania::where('id',$campania)->first();
             if(!empty($datosCampania)){
                 $search['equipo_mercadeo_id']=$datosCampania->equipo_mercadeo_id;
+                if($datosCampania->equipoMercadeo->pertenencias->isEmpty()){
+                    //Sin integrantes no muestra usuarios
+                    $search['users.id']='n';    
+                }
             }
         }
         $join=[

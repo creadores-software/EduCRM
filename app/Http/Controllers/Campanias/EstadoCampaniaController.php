@@ -179,11 +179,15 @@ class EstadoCampaniaController extends AppBaseController
             $datosCampania = Campania::where('id',$campania)->first();
             if(!empty($datosCampania)){               
                 $estados=[];
+                
                 foreach($datosCampania->tipoCampania->tipoCampaniaEstados as $estado){
-                    $estados[]=$estado->id;
+                    $estados[]=$estado->estadoCampania->id;
                 }
-                if(!empty($formaciones)){
+                if(!empty($estados)){
                     $search['estado_campania.id']=$estados; 
+                }else{
+                    //No aplica ninguno
+                    $search['estado_campania.id']='n';
                 }
             } 
         }

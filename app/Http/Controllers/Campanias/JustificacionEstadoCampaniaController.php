@@ -186,6 +186,9 @@ class JustificacionEstadoCampaniaController extends AppBaseController
                 }
                 if(!empty($razones)){
                     $search['justificacion_estado_campania.id']=$razones; 
+                }else{
+                    //No aplica ninguno
+                    $search['justificacion_estado_campania.id']='n';      
                 }
             } 
         }
