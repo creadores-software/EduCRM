@@ -5,11 +5,6 @@
         <h1 class="pull-left">
             @lang('models/tiposEstadoColor.plural')
         </h1>
-        @can('campanias.tiposEstadoColor.crear')
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.tiposEstadoColor.create') }}">@lang('crud.add_new')</a>
-        </h1>
-        @endcan
     </section>
     <div class="content">
         <div class="clearfix"></div>

@@ -292,6 +292,11 @@
         <li id="campania-parametros" class="treeview opcion-menu opcion-menu-hijo">
             <a href="#"><i class="fa fa-circle-o"></i><span>Parámetros</span></a>
             <ul class="treeview-menu">
+                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
+                <li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
+                </li> 
+                @endif
                 @if(strpos(Session::get('textoPermisos'), 'campanias.categoriasOportunidad.')!==false)
                 <li id="categoriasOportunidad" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.categoriasOportunidad.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/categoriasOportunidad.plural')</span></a>
@@ -316,12 +321,7 @@
                 <li id="tiposCampania" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.tiposCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampania.plural')</span></a>
                 </li> 
-                @endif                
-                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
-                <li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
-                </li> 
-                @endif
+                @endif  
                 @if(strpos(Session::get('textoPermisos'), 'campanias.tiposInteraccion.')!==false)
                 <li id="tiposInteraccion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.tiposInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposInteraccion.plural')</span></a>
