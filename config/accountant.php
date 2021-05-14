@@ -49,7 +49,7 @@ return [
         |
         */
 
-        'date_format' => 'Y-m-d H:i:s',
+        'date_format' => 'Y-m-d h:i:s A',
     ],
 
     /*

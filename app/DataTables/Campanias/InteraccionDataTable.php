@@ -52,13 +52,13 @@ class InteraccionDataTable extends DataTable
             if(empty($interaccion->fecha_inicio)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($interaccion->fecha_inicio));
+            return date('Y-m-d h:i:s A', strtotime($interaccion->fecha_inicio));
         })
         ->editColumn('fecha_fin', function ($interaccion){
             if(empty($interaccion->fecha_fin)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($interaccion->fecha_fin));
+            return date('Y-m-d h:i:s A', strtotime($interaccion->fecha_fin));
         })
         ->filter(function ($query) use ($request) {
             if ($request->has('idOportunidad')) {

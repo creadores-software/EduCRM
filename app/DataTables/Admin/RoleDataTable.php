@@ -25,13 +25,13 @@ class RoleDataTable extends DataTable
             if(empty($role->created_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($role->created_at));
+            return date('Y-m-d h:i:s A', strtotime($role->created_at));
         })
         ->editColumn('updated_at', function ($role){
             if(empty($role->updated_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($role->updated_at));
+            return date('Y-m-d h:i:s A', strtotime($role->updated_at));
         });
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){

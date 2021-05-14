@@ -74,12 +74,12 @@
 <!-- Ultima Actualizacion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ultima_actualizacion', __('models/oportunidades.fields.ultima_actualizacion').':') !!}
-    <p>{{ $oportunidad->ultima_actualizacion? Date('Y-m-d H:i:s',strtotime($oportunidad->ultima_actualizacion)):'' }}</p>
+    <p>{{ $oportunidad->ultima_actualizacion? Date('Y-m-d h:i:s A',strtotime($oportunidad->ultima_actualizacion)):'' }}</p>
 </div>
 
 <!-- Ultima Interaccion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('ultima_interaccion', __('models/oportunidades.fields.ultima_interaccion').':') !!}
-    <p>{{ $oportunidad->ultima_interaccion? Date('Y-m-d H:i:s',strtotime($oportunidad->ultima_interaccion)):'' }}</p>
+    <p>{{ $oportunidad->ultima_interaccion? Date('Y-m-d h:i:s A',strtotime($oportunidad->ultima_interaccion)):'' }}</p>
 </div>
 

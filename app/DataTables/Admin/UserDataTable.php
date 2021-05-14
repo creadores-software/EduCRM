@@ -28,13 +28,13 @@ class UserDataTable extends DataTable
             if(empty($user->created_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($user->created_at));
+            return date('Y-m-d h:i:s A', strtotime($user->created_at));
         })
         ->editColumn('updated_at', function ($user){
             if(empty($user->updated_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($user->updated_at));
+            return date('Y-m-d h:i:s A', strtotime($user->updated_at));
         })
         ->filterColumn('active', function ($query, $keyword) {
             $validacion=null;

@@ -67,13 +67,13 @@ class OportunidadDataTable extends DataTable
             if(empty($oportunidad->ultima_actualizacion)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($oportunidad->ultima_actualizacion));
+            return date('Y-m-d h:i:s A', strtotime($oportunidad->ultima_actualizacion));
         })
         ->editColumn('ultima_interaccion', function ($oportunidad){
             if(empty($oportunidad->ultima_interaccion)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($oportunidad->ultima_interaccion));
+            return date('Y-m-d h:i:s A', strtotime($oportunidad->ultima_interaccion));
         })
         ->filterColumn('contacto', function($query, $keyword) {
             $query->whereRaw('CONCAT(contacto.nombres, " ", contacto.apellidos) like ?', ["%{$keyword}%"]);

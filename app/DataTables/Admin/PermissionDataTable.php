@@ -25,13 +25,13 @@ class PermissionDataTable extends DataTable
             if(empty($permission->created_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($permission->created_at));
+            return date('Y-m-d h:i:s A', strtotime($permission->created_at));
         })
         ->editColumn('updated_at', function ($permission){
             if(empty($permission->updated_at)){
                 return;
             }
-            return date('Y-m-d H:i:s', strtotime($permission->updated_at));
+            return date('Y-m-d h:i:s A', strtotime($permission->updated_at));
         });
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
