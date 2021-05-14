@@ -40,12 +40,12 @@
 
 <!-- Fecha Fin Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_fin', __('models/interacciones.fields.fecha_fin').':') !!}
+    {!! Form::label('fecha_fin', __('models/interacciones.fields.fecha_fin').' (Hora):') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_fin" name="fecha_fin" type="text" placeholder="AAAA-MM-DD HH:MM" value="{{ old('fecha_fin',$interaccion->fecha_fin ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_fin" name="fecha_fin" type="text" placeholder="HH:MM" value="{{ old('fecha_fin',$interaccion->fecha_fin ?? '' ) }}" class="form-control pull-right">
     </div>
 </div>
 
@@ -63,15 +63,28 @@
 
 @push('scripts')
    <script type="text/javascript">
-        $('#fecha_fin').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
-            useCurrent: false,
-            locale: 'es',
-        });
+        var hoyPrimeraHora = new Date();
+        hoyPrimeraHora.setHours(0,0,0,0);
+
         $('#fecha_inicio').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm',
+            format: 'YYYY-MM-DD hh:mm a',
             useCurrent: false,
             locale: 'es',
+            defaultDate: new Date(),
+            minDate: hoyPrimeraHora,
+            stepping:5,
+        }).on('dp.change', function(e) {
+            $('#fecha_fin').data("DateTimePicker").minDate(e.date);
+            $('#fecha_fin').data("DateTimePicker").defaultDate(e.date);
+            $('#fecha_fin').data("DateTimePicker").date(e.date);
+        });
+
+        $('#fecha_fin').datetimepicker({
+            format: 'hh:mm a',
+            useCurrent: false,
+            locale: 'es',     
+            defaultDate: new Date(), 
+            stepping:5,      
         });
         var coloresEstadosInteraccion = @json($coloresEstadosInteraccion);
         var coloresEstadosCampania = @json($coloresEstadosCampania);
