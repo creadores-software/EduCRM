@@ -19,10 +19,18 @@ class EquipoMercadeoDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->addColumn('action', 'admin.equipos_mercadeo.datatables_actions');
+        $dataTable
+        ->editColumn('pertenencias', function (EquipoMercadeo $equipo) {
+            return $equipo->pertenencias->map(function ($pertencia) {
+                return $pertencia->user->name;
+            })->implode(', ');
+        })
+        ->rawColumns(['pertenencias','action'])
+        ->addColumn('action', 'admin.equipos_mercadeo.datatables_actions');
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
              $dataTable->removeColumn('action');
+             $dataTable->removeColumn('pertenecia_equipo_mercadeo');
         }
         return $dataTable;
     }
@@ -35,7 +43,7 @@ class EquipoMercadeoDataTable extends DataTable
      */
     public function query(EquipoMercadeo $model)
     {
-        return $model->newQuery();
+        return $model::with('pertenencias')->select('equipo_mercadeo.*')->newQuery();
     }
 
     /**
@@ -86,6 +94,7 @@ class EquipoMercadeoDataTable extends DataTable
         return [
             'nombre' => new Column(['title' => __('models/equiposMercadeo.fields.nombre'), 'data' => 'nombre']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            'pertenencias' => new Column(['title' => 'Integrantes', 'data' => 'pertenencias','name'=>'pertenencias.name','searchable'=>false]),            
         ];
     }
 

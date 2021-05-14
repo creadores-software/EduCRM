@@ -22,6 +22,12 @@ class EstadoCampaniaDataTable extends DataTable
 
         $dataTable
         ->addColumn('action', 'campanias.estados_campania.datatables_actions')
+        ->editColumn('justificacionEstadoCampania', function (EstadoCampania $estado) {
+            return $estado->justificacionEstadoCampania->map(function ($asociacion) {
+                return $asociacion->nombre;
+            })->implode(', ');
+        })
+        ->rawColumns(['pertenencias','action'])
         ->editColumn('nombre', function ($estado) use($colores){
             $id=$estado->id;      
             $color = $colores[$id]['color'];      
@@ -31,6 +37,7 @@ class EstadoCampaniaDataTable extends DataTable
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->removeColumn('justificacion_estado_campania');
             $dataTable->editColumn('nombre', function ($estado){
                 return $estado->nombre;
             });
@@ -46,7 +53,7 @@ class EstadoCampaniaDataTable extends DataTable
      */
     public function query(EstadoCampania $model)
     {
-        return $model::
+        return $model::with('justificacionEstadoCampania')->
             leftjoin('tipo_estado_color as tipoEstadoColor', 'tipoEstadoColor.id', '=', 'estado_campania.tipo_estado_color_id')
             ->select([
                 'estado_campania.id',
@@ -106,6 +113,7 @@ class EstadoCampaniaDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/estadosCampania.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/estadosCampania.fields.descripcion'), 'data' => 'descripcion']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            'justificacionEstadoCampania' => new Column(['title' => 'Razones', 'data' => 'justificacionEstadoCampania','name'=>'justificacionEstadoCampania.nombre','searchable'=>false]),            
         ];
     }
 

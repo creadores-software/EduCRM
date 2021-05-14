@@ -24,6 +24,12 @@ class TipoInteraccionDataTable extends DataTable
         ->editColumn('con_fecha_fin', function ($tipo){
             return $tipo->con_fecha_fin? 'Si':'No';
         })
+        ->editColumn('tipoInteraccionEstados', function (TipoInteraccion $tipo) {
+            return $tipo->tipoInteraccionEstados->map(function ($asociacion) {
+                return $asociacion->nombre;
+            })->implode(', ');
+        })
+        ->rawColumns(['pertenencias','action'])
         ->filterColumn('con_fecha_fin', function ($query, $keyword) {
             $validacion=null;
             if(strpos(strtolower($keyword), 's')!==false){
@@ -39,6 +45,7 @@ class TipoInteraccionDataTable extends DataTable
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->removeColumn('tipo_interaccion_estados');
         }
         return $dataTable;
     }
@@ -51,7 +58,7 @@ class TipoInteraccionDataTable extends DataTable
      */
     public function query(TipoInteraccion $model)
     {
-        return $model->newQuery();
+        return $model::with('tipoInteraccionEstados')->newQuery();
     }
 
     /**
@@ -103,6 +110,7 @@ class TipoInteraccionDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/tiposInteraccion.fields.nombre'), 'data' => 'nombre']),
             'con_fecha_fin' => new Column(['title' => __('models/tiposInteraccion.fields.con_fecha_fin'), 'data' => 'con_fecha_fin']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            'tipoInteraccionEstados' => new Column(['title' => 'Estados', 'data' => 'tipoInteraccionEstados','name'=>'tipoInteraccionEstados.nombre','searchable'=>false]),            
         ];
     }
 

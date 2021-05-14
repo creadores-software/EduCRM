@@ -19,10 +19,18 @@ class TipoCampaniaDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->addColumn('action', 'campanias.tipos_campania.datatables_actions');
+        $dataTable
+        ->editColumn('tipoCampaniaEstados', function (TipoCampania $tipo) {
+            return $tipo->tipoCampaniaEstados->map(function ($asociacion) {
+                return $asociacion->orden."-".$asociacion->estadoCampania->nombre;
+            })->implode(', ');
+        })
+        ->rawColumns(['pertenencias','action'])
+        ->addColumn('action', 'campanias.tipos_campania.datatables_actions');
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
              $dataTable->removeColumn('action');
+             $dataTable->removeColumn('tipo_campania_estados');
         }
         return $dataTable;
     }
@@ -35,7 +43,7 @@ class TipoCampaniaDataTable extends DataTable
      */
     public function query(TipoCampania $model)
     {
-        return $model->newQuery();
+        return $model::with('tipoCampaniaEstados')->select('tipo_campania.*')->newQuery();
     }
 
     /**
@@ -87,6 +95,7 @@ class TipoCampaniaDataTable extends DataTable
             'nombre' => new Column(['title' => __('models/tiposCampania.fields.nombre'), 'data' => 'nombre']),
             'descripcion' => new Column(['title' => __('models/tiposCampania.fields.descripcion'), 'data' => 'descripcion']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
+            'tipoCampaniaEstados' => new Column(['title' => 'Estados', 'data' => 'tipoCampaniaEstados','name'=>'tipoCampaniaEstados.nombre','searchable'=>false]),            
         ];
     }
 
