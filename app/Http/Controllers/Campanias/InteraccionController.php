@@ -153,7 +153,7 @@ class InteraccionController extends AppBaseController
 
         Flash::success(__('messages.updated', ['model' => __('models/interacciones.singular')]));
 
-        return redirect(route('campanias.interacciones.index'));
+        return redirect(route('campanias.interacciones.index',['idOportunidad'=>$interaccion->oportunidad->id]));
     }
 
     /**
