@@ -1,5 +1,8 @@
 {!! Form::open(['route' => ['campanias.oportunidades.destroy', $id], 'method' => 'delete']) !!}
 <div class='btn-group'>
+    <a gloss="Interacciones" href="{{ route('campanias.interacciones.index', ['idOportunidad'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
+        <i class="glyphicon glyphicon-comment"></i>
+    </a>
     <a href="{{ route('campanias.oportunidades.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>    
@@ -14,10 +17,7 @@
             <i class="glyphicon glyphicon-pencil"></i>
         </a>
         @endif
-    @endcan
-    <a gloss="Interacciones" href="{{ route('campanias.interacciones.index', ['idOportunidad'=>$id]) }}" class='mytooltip btn btn-default btn-xs'>
-        <i class="glyphicon glyphicon-comment"></i>
-    </a>
+    @endcan    
     @can('campanias.oportunidades.eliminar')
         @if(!empty($idCampania))
             {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', [
