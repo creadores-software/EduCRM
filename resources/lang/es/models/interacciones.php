@@ -2,7 +2,7 @@
 
 return array (
   'singular' => 'Interacción',
-  'plural' => 'Interacciónes',
+  'plural' => 'Interacciones',
   'fields' => 
   array (
     'id' => 'Id',
@@ -13,5 +13,6 @@ return array (
     'observacion' => 'Observación',
     'oportunidad_id' => 'Oportunidad',
     'contacto_id' => 'Contacto',
+    'users_id' => 'Usuario',
   ),
 );

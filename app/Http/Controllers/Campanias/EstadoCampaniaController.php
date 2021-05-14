@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Campanias;
 use App\DataTables\Campanias\EstadoCampaniaDataTable;
 use App\Models\Campanias\TipoEstadoColor;
 use App\Models\Campanias\Campania;
+use App\Models\Campanias\Oportunidad;
 use App\Http\Requests\Campanias\CreateEstadoCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateEstadoCampaniaRequest;
 use App\Repositories\Campanias\EstadoCampaniaRepository;
@@ -166,7 +167,14 @@ class EstadoCampaniaController extends AppBaseController
     {
         $term=$request->input('q', ''); 
         $campania=$request->input('campania', '');
+        $oportunidad=$request->input('oportunidad', '');
         $search=[];
+        if(!empty($oportunidad)){        
+            $datosOportunidad=Oportunidad::where('id',$oportunidad)->first();
+            if(!empty($datosOportunidad)){
+                $campania=$datosOportunidad->campania_id; 
+            }
+        }
         if(!empty($campania)){         
             $datosCampania = Campania::where('id',$campania)->first();
             if(!empty($datosCampania)){               

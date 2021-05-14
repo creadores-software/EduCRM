@@ -27,9 +27,12 @@ class CreateInteraccionTable extends Migration
             $table->dateTime('fecha_fin');
             $table->unsignedInteger('tipo_interaccion_id');
             $table->unsignedInteger('estado_interaccion_id');
-            $table->string('observacion')->nullable();
+            $table->string('observacion');
             $table->unsignedInteger('oportunidad_id')->nullable()->comment('Interacción en medio de una campaña.');
             $table->unsignedInteger('contacto_id')->nullable()->comment('Si el contacto se hace en un contexo diferente a camapaña.');
+            $table->unsignedBigInteger('users_id');
+
+            $table->index(["users_id"], 'fk_interaccion_users1_idx');
 
             $table->index(["tipo_interaccion_id"], 'fk_interaccion_tipo_interaccion_idx');
 
@@ -57,6 +60,11 @@ class CreateInteraccionTable extends Migration
 
             $table->foreign('contacto_id', 'fk_interaccion_contacto_idx')
                 ->references('id')->on('contacto')
+                ->onDelete('restrict')
+                ->onUpdate('cascade');
+
+            $table->foreign('users_id', 'fk_interaccion_users1_idx')
+                ->references('id')->on('users')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

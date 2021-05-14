@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class InteraccionRepository
  * @package App\Repositories\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version May 13, 2021, 8:05 pm -05
 */
 
 class InteraccionRepository extends BaseRepository
@@ -23,7 +23,8 @@ class InteraccionRepository extends BaseRepository
         'estado_interaccion_id',
         'observacion',
         'oportunidad_id',
-        'contacto_id'
+        'contacto_id',
+        'users_id'
     ];
 
     /**

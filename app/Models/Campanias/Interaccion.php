@@ -8,12 +8,13 @@ use Altek\Accountant\Contracts\Recordable;
 /**
  * Class Interaccion
  * @package App\Models\Campanias
- * @version April 24, 2021, 2:04 pm -05
+ * @version May 13, 2021, 8:05 pm -05
  *
  * @property \App\Models\Campanias\Contacto $contacto
  * @property \App\Models\Campanias\EstadoInteraccion $estadoInteraccion
  * @property \App\Models\Campanias\Oportunidad $oportunidad
  * @property \App\Models\Campanias\TipoInteraccion $tipoInteraccion
+ * @property \App\Models\Campanias\User $users
  * @property string|\Carbon\Carbon $fecha_inicio
  * @property string|\Carbon\Carbon $fecha_fin
  * @property integer $tipo_interaccion_id
@@ -21,6 +22,7 @@ use Altek\Accountant\Contracts\Recordable;
  * @property string $observacion
  * @property integer $oportunidad_id
  * @property integer $contacto_id
+ * @property integer $users_id
  */
 class Interaccion extends Model implements Recordable
 {
@@ -40,7 +42,8 @@ class Interaccion extends Model implements Recordable
         'estado_interaccion_id',
         'observacion',
         'oportunidad_id',
-        'contacto_id'
+        'contacto_id',
+        'users_id'
     ];
 
     /**
@@ -56,7 +59,8 @@ class Interaccion extends Model implements Recordable
         'estado_interaccion_id' => 'integer',
         'observacion' => 'string',
         'oportunidad_id' => 'integer',
-        'contacto_id' => 'integer'
+        'contacto_id' => 'integer',
+        'users_id' => 'integer'
     ];
 
     /**
@@ -65,13 +69,14 @@ class Interaccion extends Model implements Recordable
      * @var array
      */
     public static $rules = [
-        'fecha_inicio' => 'required',
-        'fecha_fin' => 'required',
+        'fecha_inicio' => 'required|after_or_equal:today',
+        'fecha_fin' => 'required|after_or_equal:today',
         'tipo_interaccion_id' => 'required|integer',
         'estado_interaccion_id' => 'required|integer',
-        'observacion' => 'nullable|string|max:255',
+        'observacion' => 'string|max:255',
         'oportunidad_id' => 'nullable|integer',
-        'contacto_id' => 'nullable|integer'
+        'contacto_id' => 'nullable|integer',
+        'users_id' => 'required'
     ];
 
     /**
@@ -79,7 +84,7 @@ class Interaccion extends Model implements Recordable
      **/
     public function contacto()
     {
-        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id');
+        return $this->belongsTo(\App\Models\Campanias\Contacto::class, 'contacto_id');
     }
 
     /**
@@ -87,8 +92,7 @@ class Interaccion extends Model implements Recordable
      **/
     public function estadoInteraccion()
     {
-        return $this->belongsTo(\App\Models\Campanias\EstadoInteraccion::class, 'estado_interaccion_id')
-            ->withDefault(['nombre' => '']);
+        return $this->belongsTo(\App\Models\Campanias\EstadoInteraccion::class, 'estado_interaccion_id');
     }
 
     /**
@@ -104,7 +108,14 @@ class Interaccion extends Model implements Recordable
      **/
     public function tipoInteraccion()
     {
-        return $this->belongsTo(\App\Models\Campanias\TipoInteraccion::class, 'tipo_interaccion_id')
-            ->withDefault(['nombre' => '']);
+        return $this->belongsTo(\App\Models\Campanias\TipoInteraccion::class, 'tipo_interaccion_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     **/
+    public function users()
+    {
+        return $this->belongsTo(\App\Models\Campanias\User::class, 'users_id');
     }
 }

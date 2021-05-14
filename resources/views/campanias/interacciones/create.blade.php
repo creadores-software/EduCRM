@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/interacciones.singular')
+            @lang('models/interacciones.singular'): {{$oportunidad->contacto->getNombreCompleto()}} ({{$oportunidad->estadoCampania->nombre}}) 
         </h1>
     </section>
     <div class="content">

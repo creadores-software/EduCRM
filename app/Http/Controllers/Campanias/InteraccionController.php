@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\InteraccionDataTable;
+use App\Models\Campanias\Oportunidad;
+use App\Models\Contactos\Contacto;
+use App\Models\Campanias\EstadoInteraccion;
+use App\Models\Campanias\EstadoCampania;
 use App\Http\Requests\Campanias\CreateInteraccionRequest;
 use App\Http\Requests\Campanias\UpdateInteraccionRequest;
 use App\Repositories\Campanias\InteraccionRepository;
@@ -10,6 +14,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 
 class InteraccionController extends AppBaseController
 {
@@ -33,7 +38,19 @@ class InteraccionController extends AppBaseController
      */
     public function index(InteraccionDataTable $interaccionDataTable)
     {
-        return $interaccionDataTable->render('campanias.interacciones.index');
+        $contacto=null;
+        $oportunidad=null;
+        if ($interaccionDataTable->request()->has('idOportunidad')) {            
+            $oportunidad = Oportunidad::find($interaccionDataTable->request()->get('idOportunidad'));
+        }
+        if ($interaccionDataTable->request()->has('idContacto')) {
+            $contacto = Contacto::find($interaccionDataTable->request()->get('idContacto'));            
+        }
+        if(empty($contacto) && empty($oportunidad)) {
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una oportunidad o contacto seleccionado'], 500);     
+        } 
+        return $interaccionDataTable->render('campanias.interacciones.index',
+                ['oportunidad'=>$oportunidad,'contacto'=>$contacto]); 
     }
 
     /**
@@ -41,8 +58,17 @@ class InteraccionController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $coloresEstadosCampania = EstadoCampania::arrayColores();
+        $coloresEstadosInteraccion = EstadoInteraccion::arrayColores();
+        $usuario = Auth::user()->id;
+        if ($request->has('idOportunidad')) {
+            $oportunidad=Oportunidad::where('id',$request->get('idOportunidad'))->first();
+            return view('campanias.interacciones.create')->with(['oportunidad'=>$oportunidad,'coloresEstadosCampania'=>$coloresEstadosCampania,'coloresEstadosInteraccion'=>$coloresEstadosInteraccion,'usuario'=>$usuario]); 
+        }else {
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
+        }
         return view('campanias.interacciones.create');
     }
 
@@ -61,7 +87,7 @@ class InteraccionController extends AppBaseController
 
         Flash::success(__('messages.saved', ['model' => __('models/interacciones.singular')]));
 
-        return redirect(route('campanias.interacciones.index'));
+        return redirect(route('campanias.interacciones.index',['idOportunidad'=>$request->get('idOportunidad')]));
     }
 
     /**
@@ -94,14 +120,15 @@ class InteraccionController extends AppBaseController
     public function edit($id)
     {
         $interaccion = $this->interaccionRepository->find($id);
+        $coloresEstadosCampania = EstadoCampania::arrayColores();
+        $coloresEstadosInteraccion = EstadoInteraccion::arrayColores();
 
         if (empty($interaccion)) {
             Flash::error(__('messages.not_found', ['model' => __('models/interacciones.singular')]));
 
             return redirect(route('campanias.interacciones.index'));
         }
-
-        return view('campanias.interacciones.edit')->with('interaccion', $interaccion);
+        return view('campanias.interacciones.edit')->with(['interaccion'=>$interaccion,'oportunidad'=>$interaccion->oportunidad,'coloresEstadosCampania'=>$coloresEstadosCampania,'coloresEstadosInteraccion'=>$coloresEstadosInteraccion,'usuario'=>$interaccion->users_id]);
     }
 
     /**

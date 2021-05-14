@@ -40,3 +40,9 @@
     <p>{{ $interaccion->contacto_id }}</p>
 </div>
 
+<!-- Users Id Field -->
+<div class="form-group">
+    {!! Form::label('users_id', __('models/interacciones.fields.users_id').':') !!}
+    <p>{{ $interaccion->users_id }}</p>
+</div>
+

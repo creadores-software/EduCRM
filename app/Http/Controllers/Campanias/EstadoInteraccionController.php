@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Campanias;
 
 use App\DataTables\Campanias\EstadoInteraccionDataTable;
 use App\Models\Campanias\TipoEstadoColor;
+use App\Models\Campanias\TipoInteraccion;
 use App\Http\Requests\Campanias\CreateEstadoInteraccionRequest;
 use App\Http\Requests\Campanias\UpdateEstadoInteraccionRequest;
 use App\Repositories\Campanias\EstadoInteraccionRepository;
@@ -162,7 +163,22 @@ class EstadoInteraccionController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->estadoInteraccionRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', ''); 
+        $tipo=$request->input('tipo', '');
+        $search=[];
+        if(!empty($tipo)){         
+            $tipoDatos = TipoInteraccion::where('id',$tipo)->first();
+            if(!empty($tipoDatos)){               
+                $estados=[];
+                foreach($tipoDatos->tipoInteraccionEstados as $estado){
+                    $estados[]=$estado->id;
+                }
+                if(!empty($estados)){
+                    $search['estado_interaccion.id']=$estados; 
+                }
+            } 
+        }
+        return $this->estadoInteraccionRepository->infoSelect2($term,$search,null,null,['estado_interaccion.tipo_estado_color_id','ASC']);
     }
 
 }
