@@ -49,7 +49,7 @@
 <!-- Inversion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('inversion', __('models/campanias.fields.inversion').':') !!}
-    <p>{{ $campania->inversion }}</p>
+    <p>${{ number_format($campania->inversion,0,",",'.') }}</p>
 </div>
 
 

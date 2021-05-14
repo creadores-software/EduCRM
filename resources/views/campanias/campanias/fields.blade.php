@@ -87,7 +87,12 @@
 <!-- Inversion Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('inversion', __('models/campanias.fields.inversion').':') !!}
-    {!! Form::text('inversion', null, ['class' => 'form-control']) !!}
+    <div class="input-group">
+        <span class="input-group-addon" id="symbol_cost1">$</span>
+        {!! Form::text('inversion_formato', null, ['class' => 'form-control price_decimals']) !!}
+        <span class="input-group-addon" id="iso_cost1">COP</span>
+    </div> 
+    {!! Form::hidden('inversion', old('inversion', $oportunidad->inversion ?? '')) !!} 
 </div>
 
 <!-- Facultad Id Field -->
@@ -150,7 +155,23 @@
 
 @push('scripts')
     <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-   <script type="text/javascript">
+    <script src="/js/inputmask/jquery.inputmask.js"></script>
+    <script type="text/javascript">
+        //Se inicializa el priceformat para los campos
+        $('.price_decimals').inputmask('decimal',{
+                'alias': 'numeric',
+                'groupSeparator': '.',
+                'autoGroup': true,
+                'digits': 0,
+                'radixPoint': ',',
+                'digitsOptional': false,
+                'allowMinus': false,
+                'prefix': '',
+                'placeholder': '0'
+        });
+        inversion=$("[name='inversion']").val();
+        $("[name='inversion_formato'").val(inversion);
+
         CKEDITOR.replace( 'descripcion' );   
         $('#fecha_final').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -163,6 +184,13 @@
             locale: 'es',
         });
         $(document).ready(function() { 
+            $("[name='inversion_formato'").on('keyup', function () {
+                var inversion = $("[name='inversion_formato'").val();
+                inversion = inversion.replace(/\./g,'');
+                inversion = inversion.replace(/\,/g,'.');
+                $("[name='inversion']").val(inversion);
+            });
+
             $('#activa').select2(); 
             $('.mytt').tooltip();
             $('#tipo_campania_id').select2({
