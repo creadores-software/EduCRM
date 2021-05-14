@@ -221,6 +221,13 @@
                 ajax: {
                     url: '{{ route("formaciones.nivelesFormacion.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                       return {
+                            q: params.term, 
+                            //Se escluye educación no formal
+                            nivelAcademicoExcluir: 3,
+                        };
+                    },
                 },
             }); 
             $('#ocupacion_actual_id').select2({

@@ -163,15 +163,19 @@ class NivelFormacionController extends AppBaseController
         $search=null;
         $es_ies=$request->input('es_ies');
         $nivelAcademico=$request->input('nivelAcademico');
+        $nivelAcademicoExcluir=$request->input('nivelAcademicoExcluir');
         $term=$request->input('q', '');
-        $join = [];
+        $join=['nivel_academico','nivel_formacion.nivel_academico_id','=','nivel_academico.id'];
+        $customWhere=[];
         if($es_ies!=null){
-            $search['nivel_academico.es_ies']=$es_ies;    
-            $join=['nivel_academico','nivel_formacion.nivel_academico_id','=','nivel_academico.id'];
+            $search['nivel_academico.es_ies']=$es_ies;  
         }
         if($nivelAcademico!=null){    
             $search['nivel_academico_id']=$nivelAcademico;
         }
-        return $this->nivelFormacionRepository->infoSelect2($term,$search, $join);
+        if($nivelAcademicoExcluir!=null){    
+            $customWhere=['nivel_academico_id <> :excluir',['excluir'=>$nivelAcademicoExcluir]];
+        }
+        return $this->nivelFormacionRepository->infoSelect2($term,$search, $join,null,null,null,null,$customWhere);
     }
 }
