@@ -355,5 +355,11 @@
     <a href="#"><i class="fa fa-book"></i><span>Manual</span></a>
 </li>
 <li id="cerrar-sesion" class="opcion-menu opcion-menu-padre treeview">
-    <a href="#"><i class="fa fa-sign-out"></i><span>Cerrar sesión</span></a>
+    <a href="{{ url('/logout') }}"
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <i class="fa fa-sign-out"></i><span>Cerrar sesión</span>
+    </a>
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 </li>
