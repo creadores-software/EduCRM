@@ -3,6 +3,7 @@
     <a href="{{ route('campanias.estadosInteraccion.show', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
+    @if($id!=1 && $id!=2)
     @can('campanias.estadosInteraccion.editar')
     <a href="{{ route('campanias.estadosInteraccion.edit', $id) }}" class='btn btn-default btn-xs'>
         <i class="glyphicon glyphicon-pencil"></i>
@@ -15,5 +16,6 @@
         'onclick' => 'return confirm("'.__('crud.are_you_sure').'")'
     ]) !!}
     @endcan
+    @endif
 </div>
 {!! Form::close() !!}

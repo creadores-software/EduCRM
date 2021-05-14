@@ -1,15 +1,4 @@
-
-<!-- Tipo Estado Color Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_estado_color_id', __('models/estadosInteraccion.fields.tipo_estado_color_id').':') !!}
-    <select name="tipo_estado_color_id" id="tipo_estado_color_id" class="form-control">
-        <option></option>
-        @if(!empty(old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' )))
-            <option value="{{ old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' ) }}" selected> {{ App\Models\Campanias\TipoEstadoColor::find(old('tipo_estado_color_id', $estadoInteraccion->tipo_estado_color_id ?? '' ))->nombre }} </option>
-        @endif
-    </select>  
-</div>
-
+{!! Form::hidden('tipo_estado_color_id',$tipoEstado ?? $estadoInteraccion->tipo_estado_color_id) !!}
 
 <!-- Nombre Field -->
 <div class="form-group col-sm-6">
