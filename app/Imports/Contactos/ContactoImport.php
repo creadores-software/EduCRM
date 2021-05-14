@@ -16,10 +16,13 @@ use Cache;
 class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsOnFailure,WithChunkReading
 {
     use Importable, SkipsFailures;
+    
 
     public function onRow(Row $row)
     {
         $row      = $row->toArray();
+        //Los contactos que se importan son activos
+        $row['activo']=1; 
         $contacto = Contacto::firstOrCreate([
             'tipo_documento_id' => $row['tipo_documento_id'],
             'identificacion' => $row['identificacion'],
@@ -36,7 +39,6 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
             'lugar_residencia' => $row['lugar_residencia'],
             'direccion_residencia' => $row['direccion_residencia'],
             'estrato' => $row['estrato'],
-            'activo' => $row['activo'],
             'observacion' => $row['observacion'],
             'origen_id' => $row['origen_id'],
             'referido_por' => $row['referido_por'],

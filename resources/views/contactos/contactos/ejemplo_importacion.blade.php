@@ -1,26 +1,25 @@
 <table>
     <thead>
     <tr>
-        <th>tipo_documento_id</th>
-        <th>identificacion</th>
-        <th>prefijo_id</th>
         <th>nombres</th>
         <th>apellidos</th>
+        <th>celular</th>
+        <th>correo_personal</th>
+        <th>origen_id</th>
+        <th>referido_por</th>
+        <th>otro_origen</th>
+        <th>tipo_documento_id</th>
+        <th>identificacion</th>
+        <th>prefijo_id</th>        
         <th>fecha_nacimiento</th>
         <th>genero_id</th>
-        <th>estado_civil_id</th>
-        <th>celular</th>
-        <th>telefono</th>
-        <th>correo_personal</th>
+        <th>estado_civil_id</th>        
+        <th>telefono</th>        
         <th>correo_institucional</th>
         <th>lugar_residencia</th>
         <th>direccion_residencia</th>
         <th>estrato</th>
-        <th>activo</th>
-        <th>observacion</th>
-        <th>origen_id</th>
-        <th>referido_por</th>
-        <th>otro_origen</th>
+        <th>observacion</th>        
         <th>maximo_nivel_formacion_id</th>
         <th>ocupacion_actual_id</th>
         <th>estilo_vida_id</th>

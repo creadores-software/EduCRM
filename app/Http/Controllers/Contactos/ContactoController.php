@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Response;
 use Flash;
 use Cache;
+use Illuminate\Support\Facades\Log;
 use Validator;
 
 class ContactoController extends AppBaseController
@@ -237,7 +238,8 @@ class ContactoController extends AppBaseController
                 $import = new ContactoImport;
                 $import->import($request->file('archivo'));
                 $failures=$import->failures();
-                if(!empty($failures)){
+                Log::debug("Errores son: ".print_r($failures,true));
+                if(!$failures->isEmpty()){
                     $mensaje="";      
                     foreach ($failures as $failure) {
                         $mensaje.="Error en la linea ".$failure->row().": ";
@@ -252,9 +254,9 @@ class ContactoController extends AppBaseController
                     Flash::error($mensaje);
                     return back();
                 }
-
-                Flash::success("El archivo ha sido importado correctamente {$nombreArchivo}.");
-                return back(); 
+                $importados=Cache::get('cantidadImportados');
+                Flash::success("El archivo ha sido importado correctamente con {$importados} registro(s).");
+                return redirect(route('contactos.contactos.index'));
             } catch (Exception $e) {
                 Flash::error($e->getMessage());
                 return back();
