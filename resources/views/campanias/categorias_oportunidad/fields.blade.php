@@ -42,7 +42,7 @@
 <!-- Descripcion Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('descripcion', __('models/categoriasOportunidad.fields.descripcion').':') !!}
-    {!! Form::textArea('descripcion', null, ['class' => 'form-control']) !!}
+    {!! Form::textArea('descripcion', null, ['class' => 'form-control','rows'=>2,'maxlength'=>255]) !!}
 </div>
 
 <!-- Submit Field -->
