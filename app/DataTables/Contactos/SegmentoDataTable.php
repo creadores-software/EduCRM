@@ -3,6 +3,7 @@
 namespace App\DataTables\Contactos;
 
 use App\Models\Contactos\Segmento;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -18,7 +19,8 @@ class SegmentoDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-
+        $usuario=Auth::user();
+        $esAdmin=$usuario->hasRole('Superadmin');
         $dataTable
         ->addColumn('action', 'contactos.segmentos.datatables_actions')
         ->editColumn('global', function ($actividad){
@@ -35,6 +37,13 @@ class SegmentoDataTable extends DataTable
             }else{
                 $query->whereRaw("global = 3"); //Ninguno    
             }               
+        })
+        ->filter(function ($query) use ($usuario,$esAdmin) {
+            if ($esAdmin) {
+               return;                  
+            }else{
+                $query->whereRaw("global = 1 or usuario_id=:id",[$usuario->id]);    
+            }         
         });
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
