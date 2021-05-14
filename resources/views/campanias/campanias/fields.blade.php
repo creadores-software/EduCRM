@@ -92,7 +92,7 @@
         {!! Form::text('inversion_formato', null, ['class' => 'form-control price_decimals']) !!}
         <span class="input-group-addon" id="iso_cost1">COP</span>
     </div> 
-    {!! Form::hidden('inversion', old('inversion', $oportunidad->inversion ?? '')) !!} 
+    {!! Form::hidden('inversion', old('inversion', $campania->inversion ?? '')) !!} 
 </div>
 
 <!-- Facultad Id Field -->
