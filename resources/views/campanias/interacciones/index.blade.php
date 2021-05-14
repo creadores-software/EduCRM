@@ -25,7 +25,7 @@ div.dataTables_wrapper div.dataTables_filter {
             @endcan
             @can('campanias.oportunidades.editar')
                 <h1 class="pull-right">
-                    <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.edit',[$oportunidad->id,'idCampania'=>$oportunidad->campania->id]) }}">Editar oportunidad</a>
+                    <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.edit',[$oportunidad->id,'idCampania'=>$oportunidad->campania->id]) }}"><i class="glyphicon glyphicon-pencil"></i> Estado</a>
                 </h1>
             @endcan
             <h1 class="pull-right">
