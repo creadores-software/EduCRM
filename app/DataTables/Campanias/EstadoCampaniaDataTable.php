@@ -110,7 +110,7 @@ class EstadoCampaniaDataTable extends DataTable
     {
         return [
             'tipo_estado_color_id' => new Column(['title' => __('models/estadosInteraccion.fields.tipo_estado_color_id'), 'data' => 'tipo_estado','name' => 'tipoEstadoColor.nombre']),
-            'nombre' => new Column(['title' => __('models/estadosCampania.fields.nombre'), 'data' => 'nombre']),
+            'nombre' => new Column(['title' => __('models/estadosCampania.fields.nombre'), 'data' => 'nombre','width'=>'120px']),
             'descripcion' => new Column(['title' => __('models/estadosCampania.fields.descripcion'), 'data' => 'descripcion']),            
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             'justificacionEstadoCampania' => new Column(['title' => 'Razones', 'data' => 'justificacionEstadoCampania','name'=>'justificacionEstadoCampania.nombre','searchable'=>false]),            
