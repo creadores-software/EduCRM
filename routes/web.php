@@ -167,4 +167,5 @@ Route::group(['prefix' => 'campanias'], function () {
 Route::group(['prefix' => 'reportes'], function () {
     Route::get('funnel', function () {return view('reportes.funnel');})->name('reportes.funnel');
     Route::get('interacciones', function () {return view('reportes.interacciones');})->name('reportes.interacciones');
+    Route::get('dashboard', function () {return view('reportes.dashboard');})->name('reportes.dashboard');
 });
