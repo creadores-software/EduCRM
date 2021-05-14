@@ -53,20 +53,20 @@
             datasets: [{
                 data: [1,2,5,10, 35, 90],
                 backgroundColor: [
-                    "#FAA",
-                    "#FAA",
-                    "#FAA",
-                    "#AE7", 
-                    "#EE7",
-                    "#EE7",           
+                    "#dd4b39",
+                    "#dd4b39",
+                    "#dd4b39",
+                    "#00a65a", 
+                    "#f39c12",
+                    "#f39c12",           
                 ],
                 hoverBackgroundColor: [
-                    "#FAA",
-                    "#FAA",
-                    "#FAA",
-                    "#AE7", 
-                    "#EE7",
-                    "#EE7",   
+                    "#dd4b39",
+                    "#dd4b39",
+                    "#dd4b39",
+                    "#00a65a", 
+                    "#f39c12",
+                    "#f39c12",   
                 ]
             }],
             labels: [   

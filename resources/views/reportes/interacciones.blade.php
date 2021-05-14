@@ -53,17 +53,17 @@
                 {
                     label: 'Realizadas',
                     data: [25, 29, 13, 15, 5, 3],               
-                    backgroundColor: "#AE7",
+                    backgroundColor: "#00a65a",
                 },
                 {
                     label: 'Pendientes',
                     data: [10, 9, 3, 5, 2, 3],
-                    backgroundColor: "#EE7",
+                    backgroundColor: "#f39c12",
                 },
                 {
                     label: 'No efectivas',
                     data: [10, 9, 3, 5, 2, 3],
-                    backgroundColor: "#FAA",
+                    backgroundColor: "#dd4b39",
                 }
             ]
         };
