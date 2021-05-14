@@ -309,7 +309,7 @@
 
             function actualizarCategoriaOportunidad(){
                 var interes = $('#interes').val();
-                var capacidad = $('#interes').val();
+                var capacidad = $('#capacidad').val();
                 $.ajax({
                     url:'{{ route("campanias.categoriasOportunidad.categoriaPorDatos") }}?interes=_interes_&capacidad=_capacidad_'.replace("_interes_",interes).replace("_capacidad_",capacidad),
                     dataType: 'json',               
