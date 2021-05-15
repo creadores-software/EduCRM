@@ -160,6 +160,7 @@ class NivelAcademicoController extends AppBaseController
     {
         $es_ies=$request->input('es_ies');
         $term=$request->input('q', '');
+        $search=[];
         if($es_ies!=null){
             $search=['es_ies'=>$es_ies];  
         }
