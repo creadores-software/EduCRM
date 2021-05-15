@@ -182,7 +182,9 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        });
+        }).on('dp.change', function(e) {
+            $('#fecha_final').data("DateTimePicker").minDate(e.date);
+        });;
         $(document).ready(function() { 
             $("[name='inversion_formato'").on('keyup', function () {
                 var inversion = $("[name='inversion_formato'").val();

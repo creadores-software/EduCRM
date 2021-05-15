@@ -87,6 +87,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#fecha_grado').data("DateTimePicker").minDate(e.date);
         });
         $('#fecha_grado').datetimepicker({
             format: 'YYYY-MM-DD',

@@ -118,6 +118,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#universidadFechaFinalGrado').data("DateTimePicker").minDate(e.date);
         });
         $('#universidadFechaFinalGrado').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -128,6 +130,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#universidadFechaFinalInicio').data("DateTimePicker").minDate(e.date);
         });
         $('#universidadFechaFinalInicio').datetimepicker({
             format: 'YYYY-MM-DD',

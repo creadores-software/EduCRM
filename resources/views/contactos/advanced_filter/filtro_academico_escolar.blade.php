@@ -96,6 +96,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#colegioFechaFinalGrado').data("DateTimePicker").minDate(e.date);
         });
         $('#colegioFechaFinalGrado').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -106,6 +108,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#colegioFechaFinalInicio').data("DateTimePicker").minDate(e.date);
         });
         $('#colegioFechaFinalInicio').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -116,6 +120,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#colegioFechaFinalIcfes').data("DateTimePicker").minDate(e.date);
         });
         $('#colegioFechaFinalIcfes').datetimepicker({
             format: 'YYYY-MM-DD',

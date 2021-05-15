@@ -96,6 +96,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#laboralFechaFinalFin').data("DateTimePicker").minDate(e.date);
         });
         $('#laboralFechaFinalFin').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -106,6 +108,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#laboralFechaFinalInicio').data("DateTimePicker").minDate(e.date);
         });
         $('#laboralFechaFinalInicio').datetimepicker({
             format: 'YYYY-MM-DD',

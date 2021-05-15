@@ -88,6 +88,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#fecha_fin').data("DateTimePicker").minDate(e.date);
         });
         $('#fecha_fin').datetimepicker({
             format: 'YYYY-MM-DD',

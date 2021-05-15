@@ -68,7 +68,6 @@
 
         $('#fecha_inicio').datetimepicker({
             format: 'YYYY-MM-DD hh:mm a',
-            useCurrent: false,
             locale: 'es',
             defaultDate: new Date(),
             minDate: hoyPrimeraHora,
@@ -81,7 +80,6 @@
 
         $('#fecha_fin').datetimepicker({
             format: 'hh:mm a',
-            useCurrent: false,
             locale: 'es',     
             defaultDate: new Date(), 
             stepping:5,      
