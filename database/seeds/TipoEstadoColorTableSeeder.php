@@ -23,19 +23,19 @@ class TipoEstadoColorTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'nombre' => 'Positivo',
-                'color_hexadecimal' => '#AE7',
+                'color_hexadecimal' => '#00a65a',
             ),
             1 => 
             array (
                 'id' => 2,
                 'nombre' => 'Neutro',
-                'color_hexadecimal' => '#EE7',
+                'color_hexadecimal' => '#f39c12',
             ),
             2 => 
             array (
                 'id' => 3,
                 'nombre' => 'Negativo',
-                'color_hexadecimal' => '#FAA',
+                'color_hexadecimal' => '#dd4b39',
             ),
         ));
         

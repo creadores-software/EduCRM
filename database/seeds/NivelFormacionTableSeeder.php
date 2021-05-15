@@ -35,7 +35,7 @@ class NivelFormacionTableSeeder extends Seeder
             array (
                 'id' => 3,
                 'nombre' => 'Universitaria',
-                'nivel_academico_id' => 2,
+                'nivel_academico_id' => 1,
             ),
             3 => 
             array (
