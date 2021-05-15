@@ -21,27 +21,12 @@ class TipoInteraccionDataTable extends DataTable
 
         $dataTable
         ->addColumn('action', 'campanias.tipos_interaccion.datatables_actions')
-        ->editColumn('con_fecha_fin', function ($tipo){
-            return $tipo->con_fecha_fin? 'Si':'No';
-        })
         ->editColumn('tipoInteraccionEstados', function (TipoInteraccion $tipo) {
             return $tipo->tipoInteraccionEstados->map(function ($asociacion) {
                 return $asociacion->nombre;
             })->implode(', ');
         })
-        ->rawColumns(['pertenencias','action'])
-        ->filterColumn('con_fecha_fin', function ($query, $keyword) {
-            $validacion=null;
-            if(strpos(strtolower($keyword), 's')!==false){
-                $validacion=1; 
-                $query->whereRaw("con_fecha_fin = ?", [$validacion]);   
-            }else if(strpos(strtolower($keyword), 'n')!==false){
-                $validacion=0;
-                $query->whereRaw("con_fecha_fin = ?", [$validacion]);    
-            }else{
-                $query->whereRaw("con_fecha_fin = 3"); //Ninguno    
-            }               
-        });
+        ->rawColumns(['pertenencias','action']);
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
             $dataTable->removeColumn('action');
@@ -87,7 +72,7 @@ class TipoInteraccionDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(2)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -108,7 +93,6 @@ class TipoInteraccionDataTable extends DataTable
     {
         return [
             'nombre' => new Column(['title' => __('models/tiposInteraccion.fields.nombre'), 'data' => 'nombre']),
-            'con_fecha_fin' => new Column(['title' => __('models/tiposInteraccion.fields.con_fecha_fin'), 'data' => 'con_fecha_fin']),
             'id' => new Column(['title' => 'ID', 'data' => 'id']),
             'tipoInteraccionEstados' => new Column(['title' => 'Estados', 'data' => 'tipoInteraccionEstados','name'=>'tipoInteraccionEstados.nombre','searchable'=>false]),            
         ];

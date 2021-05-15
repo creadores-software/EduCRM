@@ -13,7 +13,6 @@ use Altek\Accountant\Contracts\Recordable;
  * @property \Illuminate\Database\Eloquent\Collection $interaccions
  * @property \Illuminate\Database\Eloquent\Collection $tipoInteraccionEstados
  * @property string $nombre
- * @property boolean $con_fecha_fin
  */
 class TipoInteraccion extends Model implements Recordable
 {
@@ -30,7 +29,6 @@ class TipoInteraccion extends Model implements Recordable
 
     public $fillable = [
         'nombre',
-        'con_fecha_fin'
     ];
 
     /**
@@ -41,7 +39,6 @@ class TipoInteraccion extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
-        'con_fecha_fin' => 'boolean'
     ];
 
     /**
@@ -51,7 +48,6 @@ class TipoInteraccion extends Model implements Recordable
      */
     public static $rules = [
         'nombre' => 'required|string|max:45',
-        'con_fecha_fin' => 'nullable|boolean'
     ];
 
     /**

@@ -5,12 +5,6 @@
     {!! Form::hidden('id', old('id', $tipoInteraccion->id ?? '')) !!}
 </div>
 
-<!-- Con Fecha Fin Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('con_fecha_fin', __('models/tiposInteraccion.fields.con_fecha_fin')) !!}
-    {!! Form::select('con_fecha_fin',[1=>'SI', 0=>'NO'], old('con_fecha_fin'), ['class' => 'form-control']) !!}
-</div>
-
 <!-- Permisos -->
 <div class="form-group col-sm-6">
     {!! Form::label('estados', ' Estados:') !!}
@@ -47,8 +41,7 @@
                     url: '{{ route("campanias.estadosInteraccion.dataAjax") }}',
                     dataType: 'json',
                 },
-            });
-            $('#con_fecha_fin').select2();     
+            });    
         });
 
         function formatState(state) {

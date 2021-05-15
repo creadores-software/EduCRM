@@ -24,7 +24,6 @@ class CreateTipoInteraccionTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('nombre', 45);
-            $table->tinyInteger('con_fecha_fin')->nullable();
         });
     }
 

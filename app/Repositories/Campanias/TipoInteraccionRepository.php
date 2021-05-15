@@ -18,7 +18,6 @@ class TipoInteraccionRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'nombre',
-        'con_fecha_fin'
     ];
 
     /**

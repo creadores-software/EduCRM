@@ -23,25 +23,21 @@ class TipoInteraccionTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'nombre' => 'Llamada',
-                'con_fecha_fin' => 1,
             ),
             1 => 
             array (
                 'id' => 2,
                 'nombre' => 'Correo electrónico',
-                'con_fecha_fin' => 0,
             ),
             2 => 
             array (
                 'id' => 3,
                 'nombre' => 'Videconferencia',
-                'con_fecha_fin' => 1,
             ),
             3 => 
             array (
                 'id' => 4,
                 'nombre' => 'Reunión presencial',
-                'con_fecha_fin' => 1,
             ),
         ));
         
