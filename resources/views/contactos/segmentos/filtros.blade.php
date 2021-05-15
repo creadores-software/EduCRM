@@ -74,7 +74,7 @@
             });
         }
 
-        function actualizarCamposSegmento(campos) {            
+        function actualizarCamposSegmento(campos) { 
             $.each(campos, function(index, filtro) {
                 actualizarCampo(filtro['campo'], filtro['valor']); 
             });
@@ -106,6 +106,7 @@
 
         function actualizarCampo(campo, valor){
             if($('#' + campo).hasClass("select2-hidden-accessible")){
+                $('#' + campo).empty().trigger("change"); 
                 //Inputs de tipo select2
                 var opciones = valor.split(','); 
                 $.each(opciones, function(index, opcion) { 
@@ -136,11 +137,12 @@
             //Resetea todos los input de filtros
             $('#form_filtros')[0].reset();
             if(mantieneSeleccionado){
-                $(".select2-hidden-accessible").not('#segmento_seleccionado').not('#global').val(null).trigger("change");            
+                $(".select2-hidden-accessible").not('#segmento_seleccionado').not('#global').empty().trigger("change"); 
             }else{
-                $(".select2-hidden-accessible").val(null).trigger("change");            
+                $(".select2-hidden-accessible").empty().trigger("change");                            
             }
             $("#form_filtros :input").prop("disabled", false);
+            $('#errores').empty();
         }
     </script>
 @endpush

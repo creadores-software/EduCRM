@@ -125,7 +125,8 @@
                 data: {
                         nombre: nombre,
                         descripcion: $('#descripcion').val(),
-                        filtros: arrayFiltrosActuales(),
+                        filtros_texto: $("[name='filtros_texto']").val(),
+                        filtros: [{"campo":"filtros","valor":1}],
                         global: $('#global').val(),
                 },
                 success: function(json) {
@@ -147,22 +148,6 @@
                 }
             });
         };
-
-        function arrayFiltrosActuales() {
-            let filtros = {};
-            let contador = 0;
-            $('#form_filtros *').filter(':input').not("[name='filtros_texto']").each(function() {
-                var $this = $(this);
-                if ($(this).val() && $(this).val().length !== 0) {
-                    filtros[contador] = {
-                        "campo": $this.attr('id'),
-                        "valor": $this.val()
-                    };
-                    contador++;
-                }
-            });
-            return filtros;
-        }   
         
         function actualizarSegmentoEnFormulario(idSegmento) {  
             $('#nuevo_segmento').hide();
