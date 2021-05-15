@@ -1,15 +1,15 @@
 {!! Form::hidden('tipo_estado_color_id',$tipoEstado ?? $estadoInteraccion->tipo_estado_color_id) !!}
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/estadosInteraccion.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/estadosInteraccion.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $estadoInteraccion->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('descripcion', __('models/estadosInteraccion.fields.descripcion').':') !!}
+    {!! Form::label('descripcion', __('models/estadosInteraccion.fields.descripcion')) !!}
     {!! Form::text('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 

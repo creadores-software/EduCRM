@@ -125,6 +125,13 @@
             background-color:#d9edf7 !important;
             border-color:#bce8f1 !important;
         }
+
+        form .required label:after {
+            color: #e32;
+            content: ' *';
+            display:inline;
+            font-weight: bold;
+        }
         
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />

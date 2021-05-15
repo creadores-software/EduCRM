@@ -4,8 +4,8 @@
 
 
 <!-- Estado Campania Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('estado_campania_id', __('models/tiposCampaniaEstados.fields.estado_campania_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('estado_campania_id', __('models/tiposCampaniaEstados.fields.estado_campania_id')) !!}
     <select name="estado_campania_id" id="estado_campania_id" class="form-control">
         <option></option>
         @if(!empty(old('estado_campania_id', $tipoCampaniaEstados->estado_campania_id ?? '' )))
@@ -15,15 +15,15 @@
 </div>
 
 <!-- Orden Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('orden', __('models/tiposCampaniaEstados.fields.orden').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('orden', __('models/tiposCampaniaEstados.fields.orden')) !!}
     {!! Form::text('orden', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Dias Cambio Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('dias_cambio', __('models/tiposCampaniaEstados.fields.dias_cambio').':') !!}
-    <p><small>Dias en los que se espera que la oportunidad tenga una modificación hacia el próximo estado</small></p>
+<div class="form-group col-sm-6 required">
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Dias en los que se espera que la oportunidad cambie hacia el próximo estado. Si es el último estado poner cero."></i>
+    {!! Form::label('dias_cambio', __('models/tiposCampaniaEstados.fields.dias_cambio')) !!}
     {!! Form::text('dias_cambio', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -36,6 +36,7 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.mytt').tooltip();
             $('#estado_campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

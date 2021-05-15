@@ -1,12 +1,12 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/formaciones.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/formaciones.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Entidad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/formaciones.fields.entidad_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('entidad_id', __('models/formaciones.fields.entidad_id')) !!}
     <select name="entidad_id" id="entidad_id" class="form-control">
         <option></option>
         @if(!empty(old('entidad_id', $formacion->entidad_id ?? '' )))
@@ -16,8 +16,8 @@
 </div>
 
 <!-- Nivel Formacion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nivel_formacion_id', __('models/formaciones.fields.nivel_formacion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nivel_formacion_id', __('models/formaciones.fields.nivel_formacion_id')) !!}
     <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_formacion_id', $formacion->nivel_formacion_id ?? '' )))
@@ -28,19 +28,19 @@
 
 <!-- Codigo Snies Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('codigo_snies', __('models/formaciones.fields.codigo_snies').':') !!}
+    {!! Form::label('codigo_snies', __('models/formaciones.fields.codigo_snies')) !!}
     {!! Form::text('codigo_snies', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Titulo Otorgado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('titulo_otorgado', __('models/formaciones.fields.titulo_otorgado').':') !!}
+    {!! Form::label('titulo_otorgado', __('models/formaciones.fields.titulo_otorgado')) !!}
     {!! Form::text('titulo_otorgado', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Campo Educación Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id').':') !!}
+    {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id')) !!}
     <select name="campo_educacion_id" id="campo_educacion_id" class="form-control">
         <option></option>
         @if(!empty(old('campo_educacion_id', $formacion->campo_educacion_id ?? '' )))
@@ -51,7 +51,7 @@
 
 <!-- Facultad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('facultad_id', __('models/formaciones.fields.facultad_id').':') !!}
+    {!! Form::label('facultad_id', __('models/formaciones.fields.facultad_id')) !!}
     <select name="facultad_id" id="facultad_id" class="form-control">
         <option></option>
         @if(!empty(old('facultad_id', $formacion->facultad_id ?? '' )))
@@ -62,7 +62,7 @@
 
 <!-- Modalidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('modalidad_id', __('models/formaciones.fields.modalidad_id').':') !!}
+    {!! Form::label('modalidad_id', __('models/formaciones.fields.modalidad_id')) !!}
     <select name="modalidad_id" id="modalidad_id" class="form-control">
         <option></option>
         @if(!empty(old('modalidad_id', $formacion->modalidad_id ?? '' )))
@@ -73,7 +73,7 @@
 
 <!-- Jornada Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('jornada_id', __('models/formaciones.fields.jornada_id').':') !!}
+    {!! Form::label('jornada_id', __('models/formaciones.fields.jornada_id')) !!}
     <select name="jornada_id" id="jornada_id" class="form-control">
         <option></option>
         @if(!empty(old('jornada_id', $formacion->jornada_id ?? '' )))
@@ -84,7 +84,7 @@
 
 <!-- Periodicidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodicidad_id', __('models/formaciones.fields.periodicidad_id').':') !!}
+    {!! Form::label('periodicidad_id', __('models/formaciones.fields.periodicidad_id')) !!}
     <select name="periodicidad_id" id="periodicidad_id" class="form-control">
         <option></option>
         @if(!empty(old('periodicidad_id', $formacion->periodicidad_id ?? '' )))
@@ -95,13 +95,13 @@
 
 <!-- Periodos Duracion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodos_duracion', __('models/formaciones.fields.periodos_duracion').':') !!}
+    {!! Form::label('periodos_duracion', __('models/formaciones.fields.periodos_duracion')) !!}
     {!! Form::text('periodos_duracion', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Reconocimiento Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('reconocimiento_id', __('models/formaciones.fields.reconocimiento_id').':') !!}
+    {!! Form::label('reconocimiento_id', __('models/formaciones.fields.reconocimiento_id')) !!}
     <select name="reconocimiento_id" id="reconocimiento_id" class="form-control">
         <option></option>
         @if(!empty(old('reconocimiento_id', $formacion->reconocimiento_id ?? '' )))
@@ -112,7 +112,7 @@
 
 <!-- Costo Matricula Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('costo_matricula', __('models/formaciones.fields.costo_matricula').':') !!}
+    {!! Form::label('costo_matricula', __('models/formaciones.fields.costo_matricula')) !!}
     <div class="input-group">
         <span class="input-group-addon" id="symbol_cost1">$</span>
         {!! Form::text('costo_matricula_formato', null, ['class' => 'form-control price_decimals']) !!}
@@ -123,7 +123,7 @@
 
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/formaciones.fields.activo').':') !!}
+    {!! Form::label('activo', __('models/formaciones.fields.activo')) !!}
     {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
 </div>
 

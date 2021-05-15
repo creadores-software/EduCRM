@@ -1,7 +1,7 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6 required">
     {!! Form::hidden('id', old('id', $categoriaActividadEconomica->id ?? '')) !!}
-    {!! Form::label('nombre', __('models/categoriasActividadEconomica.fields.nombre').':') !!}
+    {!! Form::label('nombre', __('models/categoriasActividadEconomica.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 

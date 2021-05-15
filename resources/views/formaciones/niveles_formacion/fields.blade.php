@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/nivelesFormacion.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/nivelesFormacion.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $nivelFormacion->id ?? '')) !!}
 </div>
 
 <!-- Nivel Academico Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_academico_id', __('models/nivelesFormacion.fields.nivel_academico_id').':') !!}
+    {!! Form::label('nivel_academico_id', __('models/nivelesFormacion.fields.nivel_academico_id')) !!}
     <select name="nivel_academico_id" id="nivel_academico_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_academico_id', $nivelFormacion->nivel_academico_id ?? '' )))

@@ -3,16 +3,16 @@
 @endpush
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/tiposEstadoColor.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/tiposEstadoColor.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control','disabled'=>true]) !!}
     {!! Form::hidden('nombre', old('nombre', $tipoEstadoColor->nombre ?? '')) !!}
     {!! Form::hidden('id', old('id', $tipoEstadoColor->id ?? '')) !!}
 </div>
 
 <!-- Color Hexadecimal Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('color_hexadecimal', __('models/tiposEstadoColor.fields.color_hexadecimal').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('color_hexadecimal', __('models/tiposEstadoColor.fields.color_hexadecimal')) !!}
     {!! Form::text('color_hexadecimal', null, ['class' => 'form-control']) !!}
 </div>
 

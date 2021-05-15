@@ -1,6 +1,6 @@
 <!-- Tipo Campania Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_campania_id', __('models/campanias.fields.tipo_campania_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo_campania_id', __('models/campanias.fields.tipo_campania_id')) !!}
     <select name="tipo_campania_id" id="tipo_campania_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_campania_id', $campania->tipo_campania_id ?? '' )))
@@ -10,14 +10,14 @@
 </div>
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/campanias.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/campanias.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Periodo Academico Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('periodo_academico_id', __('models/campanias.fields.periodo_academico_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('periodo_academico_id', __('models/campanias.fields.periodo_academico_id')) !!}
     <select name="periodo_academico_id" id="periodo_academico_id" class="form-control">
         <option></option>
         @if(!empty(old('periodo_academico_id', $campania->periodo_academico_id ?? '' )))
@@ -27,9 +27,9 @@
 </div>
 
 <!-- Equipo Mercadeo Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('equipo_mercadeo_id', __('models/campanias.fields.equipo_mercadeo_id').':') !!}
+<div class="form-group col-sm-6 required">
     <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Sus miembros podrán gestionar las oportunidades y ser asignados como responsables."></i>
+    {!! Form::label('equipo_mercadeo_id', __('models/campanias.fields.equipo_mercadeo_id')) !!}    
     <select name="equipo_mercadeo_id" id="equipo_mercadeo_id" class="form-control">
         <option></option>
         @if(!empty(old('equipo_mercadeo_id', $campania->equipo_mercadeo_id ?? '' )))
@@ -40,7 +40,7 @@
 
 <!-- Fecha Inicio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/campanias.fields.fecha_inicio').':') !!}
+    {!! Form::label('fecha_inicio', __('models/campanias.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -51,7 +51,7 @@
 
 <!-- Fecha Final Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_final', __('models/campanias.fields.fecha_final').':') !!}
+    {!! Form::label('fecha_final', __('models/campanias.fields.fecha_final')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -62,15 +62,15 @@
 
 <!-- Activa Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activa', __('models/campanias.fields.activa').':') !!}
+    {!! Form::label('activa', __('models/campanias.fields.activa')) !!}
     {!! Form::select('activa',[1=>'SI', 0=>'NO'], old('activa'), ['class' => 'form-control']) !!}
 </div>
 
 
 <!-- Segmento Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('segmento_id', __('models/campanias.fields.segmento_id').':') !!}
     <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Este segmento servirá para importaciones automáticas de los contactos como oportunidades"></i>
+    {!! Form::label('segmento_id', __('models/campanias.fields.segmento_id')) !!}
     <div class="input-group">
         <select name="segmento_id" id="segmento_id" class="form-control">
             <option></option>
@@ -86,7 +86,7 @@
 
 <!-- Inversion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('inversion', __('models/campanias.fields.inversion').':') !!}
+    {!! Form::label('inversion', __('models/campanias.fields.inversion')) !!}
     <div class="input-group">
         <span class="input-group-addon" id="symbol_cost1">$</span>
         {!! Form::text('inversion_formato', null, ['class' => 'form-control price_decimals']) !!}
@@ -97,7 +97,7 @@
 
 <!-- Facultad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('facultad_id', __('models/campanias.fields.facultad_id').':') !!}
+    {!! Form::label('facultad_id', __('models/campanias.fields.facultad_id')) !!}
     <select name="facultad_id" id="facultad_id" class="form-control">
         <option></option>
         @if(!empty(old('facultad_id', $campania->facultad_id ?? '' )))
@@ -108,7 +108,7 @@
 
 <!-- Nivel Academico Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_academico_id', __('models/campanias.fields.nivel_academico_id').':') !!}
+    {!! Form::label('nivel_academico_id', __('models/campanias.fields.nivel_academico_id')) !!}
     <select name="nivel_academico_id" id="nivel_academico_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_academico_id', $campania->nivel_academico_id ?? '' )))
@@ -119,7 +119,7 @@
 
 <!-- Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_formacion_id', __('models/campanias.fields.nivel_formacion_id').':') !!}
+    {!! Form::label('nivel_formacion_id', __('models/campanias.fields.nivel_formacion_id')) !!}
     <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_formacion_id', $campania->nivel_formacion_id ?? '' )))
@@ -143,7 +143,7 @@
 
 <!-- Descripcion Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('descripcion', __('models/campanias.fields.descripcion').':') !!}
+    {!! Form::label('descripcion', __('models/campanias.fields.descripcion')) !!}
     {!! Form::textarea('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 

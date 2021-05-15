@@ -3,8 +3,8 @@
 {!! Form::hidden('id', old('id', $informacionEscolar->id ?? '')) !!}
 
 <!-- Entidad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id')) !!}
     <select name="entidad_id" id="entidad_id" class="form-control">
         <option></option>
         @if(!empty(old('entidad_id', $informacionEscolar->entidad_id ?? '' )))
@@ -14,8 +14,8 @@
 </div>
 
 <!-- Nivel Formacion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id')) !!}
     <select name="nivel_formacion_id" id="nivel_formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('nivel_formacion_id', $informacionEscolar->nivel_formacion_id ?? '' )))
@@ -26,13 +26,13 @@
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
+    {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado')) !!}
     {!! Form::select('finalizado',[1=>'SI', 0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Inicio Field -->
 <div id="div_fecha_inicio" class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/informacionesEscolares.fields.fecha_inicio').':') !!}
+    {!! Form::label('fecha_inicio', __('models/informacionesEscolares.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -43,7 +43,7 @@
 
 <!-- Fecha Grado Field -->
 <div id="div_fecha_grado" class="form-group col-sm-6">
-    {!! Form::label('fecha_grado', __('models/informacionesEscolares.fields.fecha_grado').':') !!}
+    {!! Form::label('fecha_grado', __('models/informacionesEscolares.fields.fecha_grado')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -54,13 +54,13 @@
 
 <!-- Grado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('grado', __('models/informacionesEscolares.fields.grado').':') !!}
+    {!! Form::label('grado', __('models/informacionesEscolares.fields.grado')) !!}
     {!! Form::text('grado', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Icfes Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_icfes', __('models/informacionesEscolares.fields.fecha_icfes').':') !!}
+    {!! Form::label('fecha_icfes', __('models/informacionesEscolares.fields.fecha_icfes')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -71,7 +71,7 @@
 
 <!-- Puntaje Icfes Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes').':') !!}
+    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes')) !!}
     {!! Form::text('puntaje_icfes', null, ['class' => 'form-control']) !!}
 </div>
 

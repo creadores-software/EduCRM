@@ -3,8 +3,8 @@
 {!! Form::hidden('id', old('id', $informacionUniversitaria->id ?? '')) !!}
 
 <!-- Entidad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id')) !!}
     <select name="entidad_id" id="entidad_id" class="form-control">
         <option></option>
         @if(!empty(old('entidad_id', $informacionUniversitaria->entidad_id ?? '' )))
@@ -14,8 +14,8 @@
 </div>
 
 <!-- Formacion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id')) !!}
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('formacion_id', $informacionUniversitaria->formacion_id ?? '' )))
@@ -26,7 +26,7 @@
 
 <!-- Tipo Acceso Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id').':') !!}
+    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id')) !!}
     <select name="tipo_acceso_id" id="tipo_acceso_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_acceso_id', $informacionUniversitaria->tipo_acceso_id ?? '' )))
@@ -37,13 +37,13 @@
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
+    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado')) !!}
     {!! Form::select('finalizado',[1=>'SI',0=>'NO'], old('finalizado'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Fecha Inicio Field -->
 <div id="div_fecha_inicio" class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/informacionesUniversitarias.fields.fecha_inicio').':') !!}
+    {!! Form::label('fecha_inicio', __('models/informacionesUniversitarias.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -54,7 +54,7 @@
 
 <!-- Periodo Académico Inicial Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial').':') !!}
+    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial')) !!}
     <select name="periodo_academico_inicial" id="periodo_academico_inicial" class="form-control">
         <option></option>
         @if(!empty(old('periodo_academico_inicial', $informacionUniversitaria->periodo_academico_inicial ?? '' )))
@@ -65,7 +65,7 @@
 
 <!-- Fecha Grado Field -->
 <div id="div_fecha_grado" class="form-group col-sm-6">
-    {!! Form::label('fecha_grado', __('models/informacionesUniversitarias.fields.fecha_grado').':') !!}
+    {!! Form::label('fecha_grado', __('models/informacionesUniversitarias.fields.fecha_grado')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -76,7 +76,7 @@
 
 <!-- Periodo Académico Final Field -->
 <div id="div_periodo_academico_final" class="form-group col-sm-6">
-    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final').':') !!}
+    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final')) !!}
     <select name="periodo_academico_final" id="periodo_academico_final" class="form-control">
         <option></option>
         @if(!empty(old('periodo_academico_final', $informacionUniversitaria->periodo_academico_final ?? '' )))
@@ -87,13 +87,13 @@
 
 <!-- Promedio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio').':') !!}
+    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio')) !!}
     {!! Form::text('promedio', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Periodo Alcanzado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado').':') !!}
+    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado')) !!}
     {!! Form::text('periodo_alcanzado', null, ['class' => 'form-control']) !!}
 </div>
 

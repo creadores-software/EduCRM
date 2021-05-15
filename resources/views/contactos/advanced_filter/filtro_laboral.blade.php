@@ -1,6 +1,6 @@
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesLaborales.fields.entidad_id').':') !!}
+    {!! Form::label('entidad_id', __('models/informacionesLaborales.fields.entidad_id')) !!}
     <select name="laboralEntidades[]" id="laboralEntidades" class="form-control">
      </select> 
 </div>
@@ -35,26 +35,26 @@
 
 <!-- Ocupacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ocupacion_id', __('models/informacionesLaborales.fields.ocupacion_id').':') !!}
+    {!! Form::label('ocupacion_id', __('models/informacionesLaborales.fields.ocupacion_id')) !!}
     <select name="laboralOcupaciones[]" id="laboralOcupaciones" class="form-control">
     </select> 
 </div>
 
 <!-- Area Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('area', __('models/informacionesLaborales.fields.area').':') !!}
+    {!! Form::label('area', __('models/informacionesLaborales.fields.area')) !!}
     {!! Form::text('laboralArea', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/informacionesLaborales.fields.telefono').':') !!}
+    {!! Form::label('telefono', __('models/informacionesLaborales.fields.telefono')) !!}
     {!! Form::text('laboralTelefono', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Funciones Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('funciones', __('models/informacionesLaborales.fields.funciones').':') !!}
+    {!! Form::label('funciones', __('models/informacionesLaborales.fields.funciones')) !!}
     {!! Form::text('laboralFunciones', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
@@ -86,7 +86,7 @@
 
 <!-- Vinculado Actualmente Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('vinculado_actualmente', __('models/informacionesLaborales.fields.vinculado_actualmente').':') !!}
+    {!! Form::label('vinculado_actualmente', __('models/informacionesLaborales.fields.vinculado_actualmente')) !!}
     {!! Form::select('laboralVinculado',[''=>'TODOS',1=>'SI',0=>'NO'], old('vinculado_actualmente'), ['class' => 'form-control','id'=>'laboralVinculado']) !!}
 </div>
 

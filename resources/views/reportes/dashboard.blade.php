@@ -48,7 +48,7 @@
             <div class="form-group col-sm-12">
                 <!-- Campania Id Field -->
                 <div class="form-group col-sm-6">
-                    {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id').':') !!}
+                    {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
                     <select name="campania_id" id="campania_id" class="form-control">
                         <option></option>
                         @if(!empty(old('campania_id', $oportunidad->campania_id ?? '' )))
@@ -58,7 +58,7 @@
                 </div>   
                 <!-- Responsable Id Field -->
                 <div class="form-group col-sm-6">
-                    {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id').':') !!}
+                    {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
                     <select name="responsable_id" id="responsable_id" class="form-control">
                         <option></option>
                         @if(!empty(old('responsable_id', $oportunidad->responsable_id ?? '' )))

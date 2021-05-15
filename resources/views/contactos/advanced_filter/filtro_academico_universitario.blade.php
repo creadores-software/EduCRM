@@ -1,6 +1,6 @@
  <!-- Entidad Id Field -->
  <div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id').':') !!}
+    {!! Form::label('entidad_id', __('models/informacionesUniversitarias.fields.entidad_id')) !!}
     <select name="universidadEntidades[]" id="universidadEntidades" class="form-control" multiple="multiple">
     </select> 
 </div>
@@ -14,7 +14,7 @@
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id').':') !!}
+    {!! Form::label('formacion_id', __('models/informacionesUniversitarias.fields.formacion_id')) !!}
     <select name="universidadFormaciones[]" id="universidadFormaciones" class="form-control"  multiple="multiple">
     </select> 
 </div>
@@ -35,14 +35,14 @@
 
 <!-- Tipo Acceso Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id').':') !!}
+    {!! Form::label('tipo_acceso_id', __('models/informacionesUniversitarias.fields.tipo_acceso_id')) !!}
     <select name="universidadTiposAcceso[]" id="universidadTiposAcceso" class="form-control" multiple="multiple">
     </select> 
 </div>
 
 <!-- Promedio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio').':') !!}
+    {!! Form::label('promedio', __('models/informacionesUniversitarias.fields.promedio')) !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="universidadPromedioMinimo" name="universidadPromedioMinimo" type="text" placeholder="Desde" value="{{ old('universidadPromedioMinimo') }}" class="form-control pull-right">
@@ -55,7 +55,7 @@
 
 <!-- Periodo Alcanzado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado').':') !!}
+    {!! Form::label('periodo_alcanzado', __('models/informacionesUniversitarias.fields.periodo_alcanzado')) !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="universidadPeriodoAlcanzadoMinimo" name="universidadPeriodoAlcanzadoMinimo" type="text" placeholder="Desde" value="{{ old('universidadPeriodoAlcanzadoMinimo') }}" class="form-control pull-right">
@@ -94,21 +94,21 @@
 
 <!-- Periodo Academico Inicial Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial').':') !!}
+    {!! Form::label('periodo_academico_inicial', __('models/informacionesUniversitarias.fields.periodo_academico_inicial')) !!}
     <select name="universidadPeriodosAcademicosIniciales[]" id="universidadPeriodosAcademicosIniciales" class="form-control" multiple="multiple">
     </select> 
 </div>
 
 <!-- Periodo Academico Final Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final').':') !!}
+    {!! Form::label('periodo_academico_final', __('models/informacionesUniversitarias.fields.periodo_academico_final')) !!}
     <select name="universidadPeriodosAcademicosFinales[]" id="universidadPeriodosAcademicosFinales" class="form-control" multiple="multiple">
     </select> 
 </div>
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado').':') !!}
+    {!! Form::label('finalizado', __('models/informacionesUniversitarias.fields.finalizado')) !!}
     {!! Form::select('universidadFinalizado',[''=>'TODOS',1=>'SI',0=>'NO'], old('universidadFinalizado'), ['class' => 'form-control','id'=>'universidadFinalizado']) !!}
 </div>
 

@@ -6,8 +6,8 @@
 {!! Form::hidden('oportunidad_id',$oportunidad->id ?? $interaccion->oportunidad_id) !!}
 
 <!-- Tipo Interaccion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_interaccion_id', __('models/interacciones.fields.tipo_interaccion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo_interaccion_id', __('models/interacciones.fields.tipo_interaccion_id')) !!}
     <select name="tipo_interaccion_id" id="tipo_interaccion_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_interaccion_id', $interaccion->tipo_interaccion_id ?? '' )))
@@ -17,8 +17,8 @@
 </div>
 
 <!-- Estado Interaccion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('estado_interaccion_id', __('models/interacciones.fields.estado_interaccion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('estado_interaccion_id', __('models/interacciones.fields.estado_interaccion_id')) !!}
     <select name="estado_interaccion_id" id="estado_interaccion_id" class="form-control">
         <option></option>
         @if(!empty(old('estado_interaccion_id', $interaccion->estado_interaccion_id ?? '' )))
@@ -28,8 +28,8 @@
 </div>
 
 <!-- Fecha Inicio Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/interacciones.fields.fecha_inicio').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('fecha_inicio', __('models/interacciones.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -39,7 +39,7 @@
 </div>
 
 <!-- Fecha Fin Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6 required">
     {!! Form::label('fecha_fin', __('models/interacciones.fields.fecha_fin').' (Hora):') !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -50,8 +50,8 @@
 </div>
 
 <!-- Observacion Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('observacion', __('models/interacciones.fields.observacion').':') !!}
+<div class="form-group col-sm-12 required">
+    {!! Form::label('observacion', __('models/interacciones.fields.observacion')) !!}
     {!! Form::textArea('observacion', null, ['class' => 'form-control','rows'=>2,'maxlength'=>255]) !!}
 </div>
 

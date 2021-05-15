@@ -7,7 +7,7 @@
 
 <!-- Acudiente Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('acudiente', __('models/parentescos.fields.acudiente').':') !!}
+    {!! Form::label('acudiente', __('models/parentescos.fields.acudiente')) !!}
     {!! Form::select('parentescoAcudiente',[''=>'TODOS',1=>'SI',0=>'NO'], old('parentescoAcudiente'), ['class' => 'form-control','id'=>'parentescoAcudiente']) !!}
 </div>
 

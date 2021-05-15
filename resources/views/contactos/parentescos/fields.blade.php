@@ -3,8 +3,8 @@
 {!! Form::hidden('id', old('id', $parentesco->id ?? '')) !!}
 
 <!-- Contacto Destino Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contacto_destino', __('models/parentescos.fields.contacto_destino').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('contacto_destino', __('models/parentescos.fields.contacto_destino')) !!}
     <div class="input-group">
         <select name="contacto_destino" id="contacto_destino" class="form-control">
             <option></option>
@@ -19,8 +19,8 @@
 </div>
 
 <!-- Tipo Parentesco Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_parentesco_id', __('models/parentescos.fields.tipo_parentesco_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo_parentesco_id', __('models/parentescos.fields.tipo_parentesco_id')) !!}
     <select name="tipo_parentesco_id" id="tipo_parentesco_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_parentesco_id', $parentesco->tipo_parentesco_id ?? '' )))
@@ -31,7 +31,7 @@
 
 <!-- Acudiente Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('acudiente', __('models/parentescos.fields.acudiente').':') !!}
+    {!! Form::label('acudiente', __('models/parentescos.fields.acudiente')) !!}
     {!! Form::select('acudiente',[0=>'NO',1=>'SI'], old('acudiente'), ['class' => 'form-control']) !!}
 </div>
 @push('scripts')

@@ -5,8 +5,8 @@
 {!! Form::hidden('campania_id',$idCampania ?? $oportunidad->campania_id) !!}
 @else
 <!-- Campania Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
     <select name="campania_id" id="campania_id" class="form-control">
         <option></option>
         @if(!empty(old('campania_id', $oportunidad->campania_id ?? '' )))
@@ -21,8 +21,8 @@
 {!! Form::hidden('contacto_id',$idContacto  ?? $oportunidad->contacto_id) !!}
 @else
 <!-- Contacto Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('contacto_id', __('models/oportunidades.fields.contacto_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('contacto_id', __('models/oportunidades.fields.contacto_id')) !!}
     <select name="contacto_id" id="contacto_id" class="form-control">
         <option></option>
         @if(!empty(old('contacto_id', $oportunidad->contacto_id ?? '' )))
@@ -33,8 +33,8 @@
 @endif
 
 <!-- Formacion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('formacion_id', __('models/oportunidades.fields.formacion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('formacion_id', __('models/oportunidades.fields.formacion_id')) !!}
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('formacion_id', $oportunidad->formacion_id ?? '' )))
@@ -44,8 +44,8 @@
 </div>
 
 <!-- Estado Campania Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('estado_campania_id', __('models/oportunidades.fields.estado_campania_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('estado_campania_id', __('models/oportunidades.fields.estado_campania_id')) !!}
     <select name="estado_campania_id" id="estado_campania_id" class="form-control">
         <option></option>
         @if(!empty(old('estado_campania_id', $oportunidad->estado_campania_id ?? '' )))
@@ -55,8 +55,8 @@
 </div>
 
 <!-- Justificacion Estado Campania Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('justificacion_estado_campania_id', __('models/oportunidades.fields.justificacion_estado_campania_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('justificacion_estado_campania_id', __('models/oportunidades.fields.justificacion_estado_campania_id')) !!}
     <select name="justificacion_estado_campania_id" id="justificacion_estado_campania_id" class="form-control">
         <option></option>
         @if(!empty(old('justificacion_estado_campania_id', $oportunidad->justificacion_estado_campania_id ?? '' )))
@@ -67,7 +67,7 @@
 
 <!-- Ingreso Recibido Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido').':') !!}
+    {!! Form::label('ingreso_recibido', __('models/oportunidades.fields.ingreso_recibido')) !!}
     <div class="input-group">
         <span class="input-group-addon" id="symbol_cost1">$</span>
         {!! Form::text('ingreso_recibido_formato', null, ['class' => 'form-control price_decimals']) !!}
@@ -78,7 +78,7 @@
 
 <!-- Ingreso Proyectado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado').':') !!}
+    {!! Form::label('ingreso_proyectado', __('models/oportunidades.fields.ingreso_proyectado')) !!}
     <div class="input-group">
         <span class="input-group-addon" id="symbol_cost1">$</span>
         {!! Form::text('ingreso_proyectado_formato', null, ['class' => 'form-control price_decimals']) !!}
@@ -89,19 +89,19 @@
 
 <!-- Capacidad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
+    {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad')) !!}
     {!! Form::select('capacidad',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5], old('interes'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Interes Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
+    {!! Form::label('interes', __('models/oportunidades.fields.interes')) !!}
     {!! Form::select('interes',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5], old('interes'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Categoria Oportunidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id').':') !!}
+    {!! Form::label('categoria_oportunidad_id', __('models/oportunidades.fields.categoria_oportunidad_id')) !!}
     <span id="categoria_icono"></span>
     {!! Form::text('categoria_oportunidad_nombre', null, ['class' => 'form-control','disabled'=>true]) !!}
     {!! Form::hidden('categoria_oportunidad_id', old('categoria_oportunidad_id', $oportunidad->categoria_oportunidad_id ?? '')) !!}
@@ -110,7 +110,7 @@
 @if($autorizacionGeneral)
 <!-- Responsable Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id').':') !!}
+    {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
     <select name="responsable_id" id="responsable_id" class="form-control">
         <option></option>
         @if(!empty(old('responsable_id', $oportunidad->responsable_id ?? '' )))

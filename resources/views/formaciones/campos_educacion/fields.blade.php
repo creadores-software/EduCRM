@@ -1,6 +1,6 @@
 <!-- Categoria Campo Educacion Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('categoria_campo_educacion_id', __('models/camposEducacion.fields.categoria_campo_educacion_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('categoria_campo_educacion_id', __('models/camposEducacion.fields.categoria_campo_educacion_id')) !!}
     <select name="categoria_campo_educacion_id" id="categoria_campo_educacion_id" class="form-control">
         <option></option>
         @if(!empty(old('categoria_campo_educacion_id', $campoEducacion->categoria_campo_educacion_id ?? '' )))
@@ -10,8 +10,8 @@
 </div>
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/camposEducacion.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/camposEducacion.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $campoEducacion->id ?? '')) !!}
 </div>

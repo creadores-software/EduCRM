@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/periodosAcademico.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/periodosAcademico.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $periodoAcademico->id ?? '')) !!}
 </div>
 
 <!-- Fecha Inicio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_inicio', __('models/periodosAcademico.fields.fecha_inicio').':') !!}
+    {!! Form::label('fecha_inicio', __('models/periodosAcademico.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -19,7 +19,7 @@
 
 <!-- Fecha Fin Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_fin', __('models/periodosAcademico.fields.fecha_fin').':') !!}
+    {!! Form::label('fecha_fin', __('models/periodosAcademico.fields.fecha_fin')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>

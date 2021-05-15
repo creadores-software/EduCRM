@@ -2,97 +2,97 @@
 
 <!-- Nombres Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nombres', __('models/contactos.fields.nombres').':') !!}
+    {!! Form::label('nombres', __('models/contactos.fields.nombres')) !!}
     {!! Form::text('nombres', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Apellidos Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('apellidos', __('models/contactos.fields.apellidos').':') !!}
+    {!! Form::label('apellidos', __('models/contactos.fields.apellidos')) !!}
     {!! Form::text('apellidos', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Correo Personal Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal').':') !!}
+    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal')) !!}
     {!! Form::text('correo_personal', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Celular Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('celular', __('models/contactos.fields.celular').':') !!}
+    {!! Form::label('celular', __('models/contactos.fields.celular')) !!}
     {!! Form::text('celular', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Origen Id Field -->
 <div class="form-group col-sm-6" id="div_origen">
-    {!! Form::label('origenes', __('models/contactos.fields.origen_id').':') !!}
+    {!! Form::label('origenes', __('models/contactos.fields.origen_id')) !!}
     <select name="origenes[]" id="origenes" class="form-control">
     </select> 
 </div>
 
 <!-- Identificacion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
+    {!! Form::label('identificacion', __('models/contactos.fields.identificacion')) !!}
     {!! Form::text('identificacion', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}   
 </div>
 
 <!-- Referido Por Field -->
 <div class="form-group col-sm-6" id="div_referido">
-    {!! Form::label('referidos', __('models/contactos.fields.referido_por').':') !!}
+    {!! Form::label('referidos', __('models/contactos.fields.referido_por')) !!}
     <select name="referidos[]" id="referidos" class="form-control">
     </select> 
 </div>
 
 <!-- Otro origen Field -->
 <div class="form-group col-sm-6" id="div_otro_origen">
-    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen').':') !!}
+    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen')) !!}
     {!! Form::text('otro_origen', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Tipo Documento Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tipos_documento', __('models/contactos.fields.tipo_documento_id').':') !!}
+    {!! Form::label('tipos_documento', __('models/contactos.fields.tipo_documento_id')) !!}
     <select name="tipos_documento[]" id="tipos_documento" class="form-control">               
     </select> 
 </div>
 
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/contactos.fields.telefono').':') !!}
+    {!! Form::label('telefono', __('models/contactos.fields.telefono')) !!}
     {!! Form::text('telefono', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Correo Institucional Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional').':') !!}
+    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional')) !!}
     {!! Form::text('correo_institucional', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Genero Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('generos', __('models/contactos.fields.genero_id').':') !!}
+    {!! Form::label('generos', __('models/contactos.fields.genero_id')) !!}
     <select name="generos[]" id="generos" class="form-control"> 
     </select> 
 </div>
 
 <!-- Prefijo Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('prefijos', __('models/contactos.fields.prefijo_id').':') !!}
+    {!! Form::label('prefijos', __('models/contactos.fields.prefijo_id')) !!}
     <select name="prefijos[]" id="prefijos" class="form-control">   
     </select> 
 </div>
 
 <!-- Estado Civil Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estados_civiles', __('models/contactos.fields.estado_civil_id').':') !!}
+    {!! Form::label('estados_civiles', __('models/contactos.fields.estado_civil_id')) !!}
     <select name="estados_civiles[]" id="estados_civiles" class="form-control"> 
     </select> 
 </div>
 
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
+    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -134,25 +134,25 @@
 
 <!-- Direccion Residencia Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('direccion_residencia', __('models/contactos.fields.direccion_residencia').':') !!}
+    {!! Form::label('direccion_residencia', __('models/contactos.fields.direccion_residencia')) !!}
     {!! Form::text('direccion_residencia', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Barrio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('barrio', __('models/contactos.fields.barrio').':') !!}
+    {!! Form::label('barrio', __('models/contactos.fields.barrio')) !!}
     {!! Form::text('barrio', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Estrato Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estratos', __('models/contactos.fields.estrato').':') !!}
+    {!! Form::label('estratos', __('models/contactos.fields.estrato')) !!}
     {!! Form::select('estratos',[1=>1,2=>2,3=>3,4=>4,5=>5,6=>6], old('estratos'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Sisben Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
+    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id')) !!}
     <select name="sisbenes_elegidos[]" id="sisbenes_elegidos" class="form-control">   
     </select> 
 </div>
@@ -160,7 +160,7 @@
 
 <!-- Lugar Residencia Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('lugares_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
+    {!! Form::label('lugares_residencia', __('models/contactos.fields.lugar_residencia')) !!}
     <select name="lugares_residencia[]" id="lugares_residencia" class="form-control">                
     </select> 
 </div>
@@ -174,13 +174,13 @@
 
 <!-- Observacion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
+    {!! Form::label('observacion', __('models/contactos.fields.observacion')) !!}
     {!! Form::text('observacion', null, ['class' => 'form-control','placeholder'=>'Contiene este texto']) !!}
 </div>
 
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
+    {!! Form::label('activo', __('models/contactos.fields.activo')) !!}
     {!! Form::select('activo',[''=>'TODOS',1=>'SI',0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
 </div>
 

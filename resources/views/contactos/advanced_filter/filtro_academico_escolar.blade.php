@@ -1,6 +1,6 @@
  <!-- Entidad Id Field -->
  <div class="form-group col-sm-6">
-    {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id').':') !!}
+    {!! Form::label('entidad_id', __('models/informacionesEscolares.fields.entidad_id')) !!}
     <select name="colegioEntidades[]" id="colegioEntidades" class="form-control" multiple="multiple">
     </select> 
 </div>
@@ -14,14 +14,14 @@
 
 <!-- Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id').':') !!}
+    {!! Form::label('nivel_formacion_id', __('models/informacionesEscolares.fields.nivel_formacion_id')) !!}
     <select name="colegioNivelesFormacion[]" id="colegioNivelesFormacion" class="form-control" multiple="multiple">
     </select> 
 </div>
 
 <!-- Grado Alcanzado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('grado', __('models/informacionesEscolares.fields.grado').':') !!}
+    {!! Form::label('grado', __('models/informacionesEscolares.fields.grado')) !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="colegioGradoMinimo" name="colegioGradoMinimo" type="text" placeholder="Desde" value="{{ old('colegioGradoMinimo') }}" class="form-control pull-right">
@@ -73,7 +73,7 @@
 
 <!-- Grado Alcanzado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes').':') !!}
+    {!! Form::label('puntaje_icfes', __('models/informacionesEscolares.fields.puntaje_icfes')) !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="colegioIcfesMinimo" name="colegioIcfesMinimo" type="text" placeholder="Desde" value="{{ old('colegioIcfesMinimo') }}" class="form-control pull-right">
@@ -86,7 +86,7 @@
 
 <!-- Finalizado Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado').':') !!}
+    {!! Form::label('finalizado', __('models/informacionesEscolares.fields.finalizado')) !!}
     {!! Form::select('colegioFinalizado',[''=>'TODOS',1=>'SI', 0=>'NO'], old('colegioFinalizado'), ['class' => 'form-control','id'=>'colegioFinalizado']) !!}
 </div>
 

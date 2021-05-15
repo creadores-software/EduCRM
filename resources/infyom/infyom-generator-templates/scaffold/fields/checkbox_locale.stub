@@ -1,6 +1,6 @@
 <!-- $FIELD_NAME_TITLE$ Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('$FIELD_NAME$', __('models/$MODEL_NAME_PLURAL_CAMEL$.fields.$FIELD_NAME$').':') !!}
+    {!! Form::label('$FIELD_NAME$', __('models/$MODEL_NAME_PLURAL_CAMEL$.fields.$FIELD_NAME$')) !!}
     {!! Form::select('$FIELD_NAME$',[1=>'SI', 0=>'NO'], old('$FIELD_NAME$'), ['class' => 'form-control']) !!}
 </div>
 @push('scripts')

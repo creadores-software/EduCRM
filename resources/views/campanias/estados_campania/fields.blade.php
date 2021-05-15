@@ -1,6 +1,6 @@
 <!-- Tipo Estado Color Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_estado_color_id', __('models/estadosCampania.fields.tipo_estado_color_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo_estado_color_id', __('models/estadosCampania.fields.tipo_estado_color_id')) !!}
     <select name="tipo_estado_color_id" id="tipo_estado_color_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_estado_color_id', $estadoCampania->tipo_estado_color_id ?? '' )))
@@ -10,15 +10,15 @@
 </div>
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/estadosCampania.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/estadosCampania.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $estadoCampania->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('descripcion', __('models/estadosCampania.fields.descripcion').':') !!}
+    {!! Form::label('descripcion', __('models/estadosCampania.fields.descripcion')) !!}
     {!! Form::textarea('descripcion', null, ['class' => 'form-control']) !!}
 </div>
 

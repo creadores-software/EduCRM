@@ -2,7 +2,7 @@
 
 <!-- Maximo Nivel Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('maximo_nivel_formacion_id', __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id').':') !!}
+    {!! Form::label('maximo_nivel_formacion_id', __('models/informacionesRelacionales.fields.maximo_nivel_formacion_id')) !!}
     <select name="maximo_nivel_formacion_id" id="maximo_nivel_formacion_id" class="form-control">
         <option></option>
         @if(!empty(old('maximo_nivel_formacion_id', $informacionRelacional->maximo_nivel_formacion_id ?? '' )))
@@ -13,7 +13,7 @@
 
 <!-- Ocupacion Actual Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('ocupacion_actual_id', __('models/informacionesRelacionales.fields.ocupacion_actual_id').':') !!}
+    {!! Form::label('ocupacion_actual_id', __('models/informacionesRelacionales.fields.ocupacion_actual_id')) !!}
     <select name="ocupacion_actual_id" id="ocupacion_actual_id" class="form-control">
         <option></option>
         @if(!empty(old('ocupacion_actual_id', $informacionRelacional->ocupacion_actual_id ?? '' )))
@@ -24,7 +24,7 @@
 
 <!-- Estilo Vida Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estilo_vida_id', __('models/informacionesRelacionales.fields.estilo_vida_id').':') !!}
+    {!! Form::label('estilo_vida_id', __('models/informacionesRelacionales.fields.estilo_vida_id')) !!}
     <select name="estilo_vida_id" id="estilo_vida_id" class="form-control">
         <option></option>
         @if(!empty(old('estilo_vida_id', $informacionRelacional->estilo_vida_id ?? '' )))
@@ -35,7 +35,7 @@
 
 <!-- Religion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('religion_id', __('models/informacionesRelacionales.fields.religion_id').':') !!}
+    {!! Form::label('religion_id', __('models/informacionesRelacionales.fields.religion_id')) !!}
     <select name="religion_id" id="religion_id" class="form-control">
         <option></option>
         @if(!empty(old('religion_id', $informacionRelacional->religion_id ?? '' )))
@@ -46,7 +46,7 @@
 
 <!-- Raza Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('raza_id', __('models/informacionesRelacionales.fields.raza_id').':') !!}
+    {!! Form::label('raza_id', __('models/informacionesRelacionales.fields.raza_id')) !!}
     <select name="raza_id" id="raza_id" class="form-control">
         <option></option>
         @if(!empty(old('raza_id', $informacionRelacional->raza_id ?? '' )))
@@ -57,7 +57,7 @@
 
 <!-- Generacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('generacion_id', __('models/informacionesRelacionales.fields.generacion_id').':') !!}
+    {!! Form::label('generacion_id', __('models/informacionesRelacionales.fields.generacion_id')) !!}
     <select name="generacion_id" id="generacion_id" class="form-control">
         <option></option>
         @if(!empty(old('generacion_id', $informacionRelacional->generacion_id ?? '' )))
@@ -68,7 +68,7 @@
 
 <!-- Personalidad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('personalidad_id', __('models/informacionesRelacionales.fields.personalidad_id').':') !!}
+    {!! Form::label('personalidad_id', __('models/informacionesRelacionales.fields.personalidad_id')) !!}
     <select name="personalidad_id" id="personalidad_id" class="form-control">
         <option></option>
         @if(!empty(old('personalidad_id', $informacionRelacional->personalidad_id ?? '' )))
@@ -79,7 +79,7 @@
 
 <!-- Beneficio Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('beneficio_id', __('models/informacionesRelacionales.fields.beneficio_id').':') !!}
+    {!! Form::label('beneficio_id', __('models/informacionesRelacionales.fields.beneficio_id')) !!}
     <select name="beneficio_id" id="beneficio_id" class="form-control">
         <option></option>
         @if(!empty(old('beneficio_id', $informacionRelacional->beneficio_id ?? '' )))
@@ -90,7 +90,7 @@
 
 <!-- Frecuencia Uso Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('frecuencia_uso_id', __('models/informacionesRelacionales.fields.frecuencia_uso_id').':') !!}
+    {!! Form::label('frecuencia_uso_id', __('models/informacionesRelacionales.fields.frecuencia_uso_id')) !!}
     <select name="frecuencia_uso_id" id="frecuencia_uso_id" class="form-control">
         <option></option>
         @if(!empty(old('frecuencia_uso_id', $informacionRelacional->frecuencia_uso_id ?? '' )))
@@ -101,7 +101,7 @@
 
 <!-- Estatus Usuario Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estatus_usuario_id', __('models/informacionesRelacionales.fields.estatus_usuario_id').':') !!}
+    {!! Form::label('estatus_usuario_id', __('models/informacionesRelacionales.fields.estatus_usuario_id')) !!}
     <select name="estatus_usuario_id" id="estatus_usuario_id" class="form-control">
         <option></option>
         @if(!empty(old('estatus_usuario_id', $informacionRelacional->estatus_usuario_id ?? '' )))
@@ -112,7 +112,7 @@
 
 <!-- Estatus Lealtad Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estatus_lealtad_id', __('models/informacionesRelacionales.fields.estatus_lealtad_id').':') !!}
+    {!! Form::label('estatus_lealtad_id', __('models/informacionesRelacionales.fields.estatus_lealtad_id')) !!}
     <select name="estatus_lealtad_id" id="estatus_lealtad_id" class="form-control">
         <option></option>
         @if(!empty(old('estatus_lealtad_id', $informacionRelacional->estatus_lealtad_id ?? '' )))
@@ -123,7 +123,7 @@
 
 <!-- Estado Disposicion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estado_disposicion_id', __('models/informacionesRelacionales.fields.estado_disposicion_id').':') !!}
+    {!! Form::label('estado_disposicion_id', __('models/informacionesRelacionales.fields.estado_disposicion_id')) !!}
     <select name="estado_disposicion_id" id="estado_disposicion_id" class="form-control">
         <option></option>
         @if(!empty(old('estado_disposicion_id', $informacionRelacional->estado_disposicion_id ?? '' )))
@@ -134,7 +134,7 @@
 
 <!-- Actitud Servicio Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('actitud_servicio_id', __('models/informacionesRelacionales.fields.actitud_servicio_id').':') !!}
+    {!! Form::label('actitud_servicio_id', __('models/informacionesRelacionales.fields.actitud_servicio_id')) !!}
     <select name="actitud_servicio_id" id="actitud_servicio_id" class="form-control">
         <option></option>
         @if(!empty(old('actitud_servicio_id', $informacionRelacional->actitud_servicio_id ?? '' )))
@@ -145,7 +145,7 @@
 
 <!-- Autoriza Comunicacion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion').':') !!}
+    {!! Form::label('autoriza_comunicacion', __('models/informacionesRelacionales.fields.autoriza_comunicacion')) !!}
     {!! Form::select('autoriza_comunicacion',[1=>'SI', 0=>'NO'], old('autoriza_comunicacion'), ['class' => 'form-control']) !!}
 </div>
 @push('scripts')

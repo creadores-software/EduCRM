@@ -3,37 +3,37 @@
 {!! Form::hidden('idPariente', $idPariente) !!}
 
 <!-- Nombres Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombres', __('models/contactos.fields.nombres').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombres', __('models/contactos.fields.nombres')) !!}
     {!! Form::text('nombres', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Apellidos Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('apellidos', __('models/contactos.fields.apellidos').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('apellidos', __('models/contactos.fields.apellidos')) !!}
     {!! Form::text('apellidos', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Correo Personal Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('correo_personal', __('models/contactos.fields.correo_personal')) !!}
     {!! Form::text('correo_personal', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Celular Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('celular', __('models/contactos.fields.celular').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('celular', __('models/contactos.fields.celular')) !!}
     {!! Form::text('celular', null, ['class' => 'form-control']) !!}
 </div>
 
 @if($esPariente)
 <!-- Identificacion Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('identificacion', __('models/contactos.fields.identificacion')) !!}
     {!! Form::text('identificacion', null, ['class' => 'form-control']) !!}   
 </div>
-<div class="form-group col-sm-6">
-    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id')) !!}
     <select name="origen_id" id="origen_id" class="form-control" disabled=true>
         <option value="{{$idPariente}}" selected> Pariente </option>
     </select> 
@@ -44,8 +44,8 @@
 
 @if(!$esPariente)
 <!-- Origen Id Field -->
-<div class="form-group col-sm-6" id="div_origen">
-    {!! Form::label('origen_id', __('models/contactos.fields.origen_id').':') !!}
+<div class="form-group col-sm-6 required" id="div_origen">
+    {!! Form::label('origen_id', __('models/contactos.fields.origen_id')) !!}
     <select name="origen_id" id="origen_id" class="form-control">
         @if(!empty(old('origen_id', $contacto->origen_id ?? '' )))
             <option value="{{ old('origen_id', $contacto->origen_id ?? '' ) }}" selected> {{ App\Models\Parametros\Origen::find(old('origen_id', $contacto->origen_id ?? '' ))->nombre }} </option>
@@ -55,7 +55,7 @@
 
 <!-- Referido Por Field -->
 <div class="form-group col-sm-6" id="div_referido">
-    {!! Form::label('referido_por', __('models/contactos.fields.referido_por').':') !!}
+    {!! Form::label('referido_por', __('models/contactos.fields.referido_por')) !!}
     <select name="referido_por" id="referido_por" class="form-control">
         <option></option>
         @if(!empty(old('referido_por', $contacto->referido_por ?? '' )))
@@ -66,7 +66,7 @@
 
 <!-- Otro origen Field -->
 <div class="form-group col-sm-6" id="div_otro_origen">
-    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen').':') !!}
+    {!! Form::label('otro_origen', __('models/contactos.fields.otro_origen')) !!}
     {!! Form::text('otro_origen', null, ['class' => 'form-control','placeholder'=>'¿Cuál?']) !!}
 </div>
 @endif
@@ -78,7 +78,7 @@
 
 <!-- Tipo Documento Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tipo_documento_id', __('models/contactos.fields.tipo_documento_id').':') !!}
+    {!! Form::label('tipo_documento_id', __('models/contactos.fields.tipo_documento_id')) !!}
     <select name="tipo_documento_id" id="tipo_documento_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_documento_id', $contacto->tipo_documento_id ?? '' )))
@@ -90,26 +90,26 @@
 @if(!$esPariente)
 <!-- Identificacion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('identificacion', __('models/contactos.fields.identificacion').':') !!}
+    {!! Form::label('identificacion', __('models/contactos.fields.identificacion')) !!}
     {!! Form::text('identificacion', null, ['class' => 'form-control']) !!}
 </div>
 @endif
 
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/contactos.fields.telefono').':') !!}
+    {!! Form::label('telefono', __('models/contactos.fields.telefono')) !!}
     {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Correo Institucional Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional').':') !!}
+    {!! Form::label('correo_institucional', __('models/contactos.fields.correo_institucional')) !!}
     {!! Form::text('correo_institucional', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Genero Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('genero_id', __('models/contactos.fields.genero_id').':') !!}
+    {!! Form::label('genero_id', __('models/contactos.fields.genero_id')) !!}
     <select name="genero_id" id="genero_id" class="form-control">
         <option></option>
         @if(!empty(old('genero_id', $contacto->genero_id ?? '' )))
@@ -120,7 +120,7 @@
 
 <!-- Prefijo Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id').':') !!}
+    {!! Form::label('prefijo_id', __('models/contactos.fields.prefijo_id')) !!}
     <select name="prefijo_id" id="prefijo_id" class="form-control">
         <option></option>
         @if(!empty(old('prefijo_id', $contacto->prefijo_id ?? '' )))
@@ -132,7 +132,7 @@
 
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento').':') !!}
+    {!! Form::label('fecha_nacimiento', __('models/contactos.fields.fecha_nacimiento')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -144,7 +144,7 @@
 
 <!-- Estado Civil Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estado_civil_id', __('models/contactos.fields.estado_civil_id').':') !!}
+    {!! Form::label('estado_civil_id', __('models/contactos.fields.estado_civil_id')) !!}
     <select name="estado_civil_id" id="estado_civil_id" class="form-control">
         <option></option>
         @if(!empty(old('estado_civil_id', $contacto->estado_civil_id ?? '' )))
@@ -155,26 +155,26 @@
 
 <!-- Direccion Residencia Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('direccion_residencia', __('models/contactos.fields.direccion_residencia').':') !!}
+    {!! Form::label('direccion_residencia', __('models/contactos.fields.direccion_residencia')) !!}
     {!! Form::text('direccion_residencia', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Barrio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('barrio', __('models/contactos.fields.barrio').':') !!}
+    {!! Form::label('barrio', __('models/contactos.fields.barrio')) !!}
     {!! Form::text('barrio', null, ['class' => 'form-control']) !!}
 </div>
 
 
 <!-- Estrato Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estrato', __('models/contactos.fields.estrato').':') !!}
+    {!! Form::label('estrato', __('models/contactos.fields.estrato')) !!}
     {!! Form::select('estrato',[''=>'',1=>1,2=>2,3=>3,4=>4,5=>5,6=>6], old('estrato'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Estrato Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id').':') !!}
+    {!! Form::label('sisben_id', __('models/contactos.fields.sisben_id')) !!}
     <select name="sisben_id" id="sisben_id" class="form-control">
         <option></option>
         @if(!empty(old('sisben_id', $contacto->sisben_id ?? '' )))
@@ -185,7 +185,7 @@
 
 <!-- Lugar Residencia Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia').':') !!}
+    {!! Form::label('lugar_residencia', __('models/contactos.fields.lugar_residencia')) !!}
     <select name="lugar_residencia" id="lugar_residencia" class="form-control">
         <option></option>
         @if(!empty(old('lugar_residencia', $contacto->lugar_residencia ?? '' )))
@@ -209,13 +209,13 @@
 
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('activo', __('models/contactos.fields.activo').':') !!}
+    {!! Form::label('activo', __('models/contactos.fields.activo')) !!}
     {!! Form::select('activo',[1=>'SI', 0=>'NO'], old('activo'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Observacion Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('observacion', __('models/contactos.fields.observacion').':') !!}
+    {!! Form::label('observacion', __('models/contactos.fields.observacion')) !!}
     {!! Form::textarea('observacion', null, ['class' => 'form-control']) !!}
 </div>
 

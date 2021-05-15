@@ -1,48 +1,60 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6 required">
     {!! Form::hidden('id', old('id', $entidad->id ?? '')) !!}
-    {!! Form::label('nombre', __('models/entidades.fields.nombre').':') !!}
+    {!! Form::label('nombre', __('models/entidades.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+</div>
+
+<!-- Lugar Id Field -->
+<div class="form-group col-sm-6 location-select required">    
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Seleccionar primero el pais, luego el departamento y por último la ciudad. Para el exterior solo es necesario el pais."></i>
+    {!! Form::label('lugar_id', __('models/entidades.fields.lugar_id')) !!}    
+    <select name="lugar_id" id="lugar_id" class="form-control">
+        <option></option>
+        @if(!empty(old('lugar_id', $entidad->lugar_id ?? '' )))
+            <option value="{{ old('lugar_id', $entidad->lugar_id ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('lugar_id', $entidad->lugar_id ?? '' ))->nombre }} </option>
+        @endif
+    </select>
 </div>
 
 <!-- Telefono Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('telefono', __('models/entidades.fields.telefono').':') !!}
+    {!! Form::label('telefono', __('models/entidades.fields.telefono')) !!}
     {!! Form::text('telefono', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Direccion Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('direccion', __('models/entidades.fields.direccion').':') !!}
+    {!! Form::label('direccion', __('models/entidades.fields.direccion')) !!}
     {!! Form::text('direccion', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Barrio Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('barrio', __('models/entidades.fields.barrio').':') !!}
+    {!! Form::label('barrio', __('models/entidades.fields.barrio')) !!}
     {!! Form::text('barrio', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Correo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('correo', __('models/entidades.fields.correo').':') !!}
+    {!! Form::label('correo', __('models/entidades.fields.correo')) !!}
     {!! Form::text('correo', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Sitio Web Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('sitio_web', __('models/entidades.fields.sitio_web').':') !!}
+    {!! Form::label('sitio_web', __('models/entidades.fields.sitio_web')) !!}
     {!! Form::text('sitio_web', null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group col-sm-6">
-    {!! Form::label('nit', __('models/entidades.fields.nit').':') !!}
+    {!! Form::label('nit', __('models/entidades.fields.nit')) !!}
     {!! Form::text('nit', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Sector Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('sector_id', __('models/entidades.fields.sector_id').':') !!}
+    {!! Form::label('sector_id', __('models/entidades.fields.sector_id')) !!}
     <select name="sector_id" id="sector_id" class="form-control">
         <option></option>
         @if(!empty(old('sector_id', $entidad->sector_id ?? '' )))
@@ -53,25 +65,13 @@
 
 <!-- Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id').':') !!}
+    {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id')) !!}
     <select name="actividad_economica_id" id="actividad_economica_id" class="form-control">
         <option></option>
         @if(!empty(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' )))
             <option value="{{ old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ) }}" selected> {{ App\Models\Entidades\ActividadEconomica::find(old('actividad_economica_id', $entidad->actividad_economica_id ?? '' ))->nombre }} </option>
         @endif
     </select>  
-</div>
-
-<!-- Lugar Id Field -->
-<div class="form-group col-sm-6 location-select">    
-    {!! Form::label('lugar_id', __('models/entidades.fields.lugar_id').':') !!}    
-    <select name="lugar_id" id="lugar_id" class="form-control">
-        <option></option>
-        @if(!empty(old('lugar_id', $entidad->lugar_id ?? '' )))
-            <option value="{{ old('lugar_id', $entidad->lugar_id ?? '' ) }}" selected> {{ App\Models\Parametros\Lugar::find(old('lugar_id', $entidad->lugar_id ?? '' ))->nombre }} </option>
-        @endif
-    </select>  
-    <small>Seleccionar primero el pais, luego el departamento y por último la ciudad.<br/> Para el exterior solo es necesario el pais</small>
 </div>
 
 <br/><br/>
@@ -83,13 +83,13 @@
 
 <!-- Mi Universidad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad').':') !!}
+    {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad')) !!}
     {!! Form::select('mi_universidad',[0=>'NO',1=>'SI'], old('mi_universidad'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Acreditacion Ies Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('acreditacion_ies', __('models/entidades.fields.acreditacion_ies').':') !!}
+    {!! Form::label('acreditacion_ies', __('models/entidades.fields.acreditacion_ies')) !!}
     {!! Form::select('acreditacion_ies',[0=>'NO',1=>'SI'], old('acreditacion_ies'), ['class' => 'form-control']) !!}
 </div>
 
@@ -105,13 +105,13 @@
 
 <!-- Calendario Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('calendario', __('models/entidades.fields.calendario').':') !!}
+    {!! Form::label('calendario', __('models/entidades.fields.calendario')) !!}
     {!! Form::text('calendario', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Codigo Ies Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('codigo_ies', __('models/entidades.fields.codigo_ies').':') !!}
+    {!! Form::label('codigo_ies', __('models/entidades.fields.codigo_ies')) !!}
     {!! Form::text('codigo_ies', null, ['class' => 'form-control']) !!}
 </div>
 
@@ -124,7 +124,8 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {            
+        $(document).ready(function() {  
+            $('.mytt').tooltip();          
             $('#lugar_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

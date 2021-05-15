@@ -1,19 +1,19 @@
 <!-- Name Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('name', __('models/users.fields.name').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('name', __('models/users.fields.name')) !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Email Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('email', __('models/users.fields.email').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('email', __('models/users.fields.email')) !!}
     {!! Form::email('email', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $user->id ?? '')) !!}
 </div>
 
 <!-- Password Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('password', __('models/users.fields.password').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('password', __('models/users.fields.password')) !!}
     {!! Form::password('password', ['class' => 'form-control']) !!}
 </div>
 
@@ -31,7 +31,7 @@
 
 <!-- Activo Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('active', __('models/users.fields.active').':') !!}
+    {!! Form::label('active', __('models/users.fields.active')) !!}
     {!! Form::select('active',[1=>'SI', 0=>'NO'], old('active'), ['class' => 'form-control']) !!}
 </div>
 

@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/tiposParentesco.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/tiposParentesco.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $tipoParentesco->id ?? '')) !!}
 </div>
 
 <!-- Tipo Contrario Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo_contrario_id', __('models/tiposParentesco.fields.tipo_contrario_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo_contrario_id', __('models/tiposParentesco.fields.tipo_contrario_id')) !!}
     <select name="tipo_contrario_id" id="tipo_contrario_id" class="form-control">
         <option></option>
         @if(!empty(old('tipo_contrario_id', $tipoParentesco->tipo_contrario_id ?? '' )))

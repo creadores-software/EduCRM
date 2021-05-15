@@ -3,8 +3,8 @@
 {!! Form::hidden('id', old('id', $pertenenciaEquipoMercadeo->id ?? '')) !!}
 
 <!-- Users Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('users_id', __('models/pertenenciasEquipoMercadeo.fields.users_id').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('users_id', __('models/pertenenciasEquipoMercadeo.fields.users_id')) !!}
     <select name="users_id" id="users_id" class="form-control">
         <option></option>
         @if(!empty(old('users_id', $pertenenciaEquipoMercadeo->users_id ?? '' )))
@@ -15,7 +15,7 @@
 
 <!-- Es Lider Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('es_lider', __('models/pertenenciasEquipoMercadeo.fields.es_lider').':') !!}
+    {!! Form::label('es_lider', __('models/pertenenciasEquipoMercadeo.fields.es_lider')) !!}
     {!! Form::select('es_lider',[0=>'NO',1=>'SI'], old('es_lider'), ['class' => 'form-control']) !!}
 </div>
 

@@ -1,18 +1,18 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/lugares.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/lugares.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Tipo Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('tipo', __('models/lugares.fields.tipo').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('tipo', __('models/lugares.fields.tipo')) !!}
     {!! Form::select('tipo',[''=>'','P'=>'Pais','D'=>'Departamento','C'=>'Ciudad'], old('tipo'), ['class' => 'form-control']) !!}
 </div>
 
 <!-- Padre Id Field -->
-<div class="form-group col-sm-6" id="div_padre_id">
-    {!! Form::label('padre_id', __('models/lugares.fields.padre_id').':') !!}
+<div class="form-group col-sm-6 required" id="div_padre_id">
+    {!! Form::label('padre_id', __('models/lugares.fields.padre_id')) !!}
     <select name="padre_id" id="padre_id" class="form-control">
         <option></option>
         @if(!empty(old('padre_id', $lugar->padre_id ?? '' )))

@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/tiposDocumento.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/tiposDocumento.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $tipoDocumento->id ?? '')) !!}
 </div>
 
 <!-- Abreviacion Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('abreviacion', __('models/tiposDocumento.fields.abreviacion').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('abreviacion', __('models/tiposDocumento.fields.abreviacion')) !!}
     {!! Form::text('abreviacion', null, ['class' => 'form-control']) !!}
 </div>
 

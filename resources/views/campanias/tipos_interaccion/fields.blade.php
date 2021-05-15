@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/tiposInteraccion.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/tiposInteraccion.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $tipoInteraccion->id ?? '')) !!}
 </div>
 
 <!-- Con Fecha Fin Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('con_fecha_fin', __('models/tiposInteraccion.fields.con_fecha_fin').':') !!}
+    {!! Form::label('con_fecha_fin', __('models/tiposInteraccion.fields.con_fecha_fin')) !!}
     {!! Form::select('con_fecha_fin',[1=>'SI', 0=>'NO'], old('con_fecha_fin'), ['class' => 'form-control']) !!}
 </div>
 

@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/nivelesAcademicos.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/nivelesAcademicos.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $nivelAcademico->id ?? '')) !!}
 </div>
 
 <!-- Es Ies Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('es_ies', __('models/nivelesAcademicos.fields.es_ies').':') !!}
+    {!! Form::label('es_ies', __('models/nivelesAcademicos.fields.es_ies')) !!}
     {!! Form::select('es_ies',[1=>'SI', 0=>'NO'], old('es_ies'), ['class' => 'form-control']) !!}
 </div>
 @push('scripts')

@@ -7,8 +7,8 @@
                 </button>
                 <div class="row">
                     <div class="form-group col-sm-12">
-                        <form id="form_segmento">
-                            {!! Form::label('segmento', 'Segmento:') !!}
+                        <form>
+                            {!! Form::label('segmento', 'Segmento') !!}
                             <select name="segmento_seleccionado" id="segmento_seleccionado" class="form-control">
                                 <option></option>
                                 @if (!empty(old('segmento_seleccionado')))
@@ -17,27 +17,29 @@
                                     </option>
                                 @endif
                             </select>
+                        </form>
                     </div>
                     <div id="nuevo_segmento">
+                        <form>
                         <!-- Nombre Field -->
-                        <div class="form-group col-sm-6">
-                            {!! Form::label('nombre', __('models/segmentos.fields.nombre') . ':') !!}
+                        <div class="form-group col-sm-6 required">
+                            {!! Form::label('nombre', __('models/segmentos.fields.nombre')) !!}
                             {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
                         </div>
                         <!-- Descripcion Field -->
-                        <div class="form-group col-sm-6">
-                            {!! Form::label('descripcion', __('models/segmentos.fields.descripcion') . ':') !!}
+                        <div class="form-group col-sm-6 required">
+                            {!! Form::label('descripcion', __('models/segmentos.fields.descripcion')) !!}
                             {!! Form::text('descripcion', null, ['class' => 'form-control']) !!}
                         </div>
                         <!-- Global Field -->
                         <div class="form-group col-sm-6">
-                            {!! Form::label('global', __('models/segmentos.fields.global') . ':') !!}
+                            {!! Form::label('global', __('models/segmentos.fields.global')) !!}
                             <select name="global" id="global" class="form-control">
                               <option value="0" selected>NO</option>
                               <option value="1">SI</option>
                             </select> 
                         </div>
-                        </form>
+                    </form>
                     </div>
                     <div class="col-md-12">
                         <form id="form_filtros">

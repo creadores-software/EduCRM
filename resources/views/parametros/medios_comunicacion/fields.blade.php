@@ -1,13 +1,13 @@
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/mediosComunicacion.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/mediosComunicacion.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
     {!! Form::hidden('id', old('id', $medioComunicacion->id ?? '')) !!}
 </div>
 
 <!-- Es Red Social Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('es_red_social', __('models/mediosComunicacion.fields.es_red_social').':') !!}
+    {!! Form::label('es_red_social', __('models/mediosComunicacion.fields.es_red_social')) !!}
     {!! Form::select('es_red_social',[ 0=>'NO',1=>'SI'], old('es_red_social'), ['class' => 'form-control']) !!}
 </div>
 @push('scripts')

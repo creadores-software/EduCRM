@@ -3,8 +3,8 @@
 {!! Form::hidden('id', old('id', $justificacionEstadoCampania->id ?? '')) !!}
 
 <!-- Nombre Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('nombre', __('models/justificacionesEstadoCampania.fields.nombre').':') !!}
+<div class="form-group col-sm-6 required">
+    {!! Form::label('nombre', __('models/justificacionesEstadoCampania.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
 </div>
 
