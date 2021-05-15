@@ -6,6 +6,7 @@
 <div class="form-group col-sm-6">
     {!! Form::label('nombre', __('models/tiposEstadoColor.fields.nombre').':') !!}
     {!! Form::text('nombre', null, ['class' => 'form-control','disabled'=>true]) !!}
+    {!! Form::hidden('nombre', old('nombre', $tipoEstadoColor->nombre ?? '')) !!}
     {!! Form::hidden('id', old('id', $tipoEstadoColor->id ?? '')) !!}
 </div>
 
