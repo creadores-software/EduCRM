@@ -194,7 +194,6 @@
             });
 
             $('#activa').select2(); 
-            $('.mytt').tooltip();
             $('#tipo_campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

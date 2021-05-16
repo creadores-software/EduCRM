@@ -220,6 +220,7 @@
             }
         });
         $(document).ready(function () {
+            $('.mytt').tooltip();
             $.fn.select2.defaults.set('language', 'es');
             $.fn.select2.defaults.set( "theme", "bootstrap" );
             $("#buscador_menu").keyup(function () {
@@ -241,8 +242,6 @@
                     }
                 });
             });
-            $('[data-toggle="popover"]').popover();  
-            $('a').popover({trigger: "hover"});
             $("li").click(function (e) {                
                 if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
                     localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));

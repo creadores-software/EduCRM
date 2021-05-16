@@ -36,7 +36,6 @@
 @push('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.mytt').tooltip();
             $('#estado_campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
