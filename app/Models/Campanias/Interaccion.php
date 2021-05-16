@@ -70,7 +70,7 @@ class Interaccion extends Model implements Recordable
      */
     public static $rules = [
         'fecha_inicio' => 'required|after_or_equal:today',
-        'fecha_fin' => 'required|after_or_equal:today',
+        'fecha_fin' => 'required|after_or_equal:fecha_inicio',
         'tipo_interaccion_id' => 'required|integer',
         'estado_interaccion_id' => 'required|integer',
         'observacion' => 'string|max:255',
