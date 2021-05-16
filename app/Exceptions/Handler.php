@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Throwable;
@@ -66,6 +67,8 @@ class Handler extends ExceptionHandler
         }else if($exception instanceof MethodNotAllowedHttpException){
             $mensaje ="Este acción no está habilitada.";
             return response()->view('layouts.error', ['message'=>$mensaje], 500);
+        }else if(Auth::guest()){
+            return redirect()->guest('login');
         }else if ($exception instanceof UnauthorizedException) {
             $mensaje ="No estás autorizado para realizar esta operación.";
             return response()->view('layouts.error', ['message'=>$mensaje], 500);
