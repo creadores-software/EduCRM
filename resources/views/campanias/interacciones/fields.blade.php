@@ -137,13 +137,21 @@
             $('#fecha_fin').data("DateTimePicker").minDate(e.date);
             $('#fecha_fin').data("DateTimePicker").defaultDate(e.date);
             $('#fecha_fin').data("DateTimePicker").date(e.date);
-        });
-
+        });         
+        
         $('#fecha_fin').datetimepicker({
             format: 'hh:mm a',
             locale: 'es',   
             defaultDate: fechaActual,
         });
+
+        interaccion = @json($interaccion);
+        if(interaccion!=null){
+            fin = interaccion['fecha_fin'];
+            date = new Date(fin);
+            $('#fecha_fin').data("DateTimePicker").date(date); 
+        }
+
         var coloresEstadosInteraccion = @json($coloresEstadosInteraccion);
         var coloresEstadosCampania = @json($coloresEstadosCampania);
 
