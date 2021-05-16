@@ -13,7 +13,7 @@
                     <h2 class="page-header">Datos</h2>
                     @include('campanias.interacciones.show_fields')
                     @include('layouts.audit')
-                    <a href="{{ route('campanias.interacciones.index') }}" class="btn btn-default">
+                    <a href="{{ route('campanias.interacciones.index',['idOportunidad'=>$interaccion->oportunidad_id]) }}" class="btn btn-default">
                         @lang('crud.back')
                     </a>
                 </div>

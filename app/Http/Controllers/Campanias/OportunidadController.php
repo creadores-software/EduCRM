@@ -66,7 +66,7 @@ class OportunidadController extends AppBaseController
         if ($request->has('idCampania')) {
             $campania = Campania::find($request->get('idCampania'));
             $autorizacionGeneral=Campania::tieneAutorizacionGeneral($campania->id);
-            return view('campanias.oportunidades.create')->with(['idCampania'=>$campania->id,'nombreCampania'=>$campania->nombre,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias,'autorizacionGeneral'=>$autorizacionGeneral]); 
+            return view('campanias.oportunidades.create')->with(['campania'=>$campania,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias,'autorizacionGeneral'=>$autorizacionGeneral]); 
         }else {
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
         }
@@ -132,20 +132,15 @@ class OportunidadController extends AppBaseController
 
             return redirect(route('campanias.oportunidades.index'));
         }
-        $idCampania=null;
-        $idContacto=null;
+        $campania=null;
         $autorizacionGeneral=false;
         if ($request->has('idCampania')) {
             $idCampania=$request->get('idCampania'); 
+            $campania = Campania::where('id',$idCampania)->first();
             $autorizacionGeneral=Campania::tieneAutorizacionGeneral($idCampania);       
-        }
-        if ($request->has('idContacto')) {
-            $idContacto=$request->get('idContacto');            
-        }
-        if(empty($idCampania) && empty($idContacto)){
-            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
+            return view('campanias.oportunidades.edit')->with(['campania'=>$campania,'oportunidad'=>$oportunidad,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias,'autorizacionGeneral'=>$autorizacionGeneral]); 
         }else{
-            return view('campanias.oportunidades.edit')->with(['oportunidad'=>$oportunidad,'idContacto'=>$idContacto,'idCampania'=>$idCampania,'coloresEstados'=>$coloresEstados,'coloresCategorias'=>$coloresCategorias,'autorizacionGeneral'=>$autorizacionGeneral]); 
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
         }
     }
 

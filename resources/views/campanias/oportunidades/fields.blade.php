@@ -1,36 +1,23 @@
 {!! Form::hidden('id', old('id', $oportunidad->id ?? '')) !!}
 
-@if(!empty($idCampania) || !empty($oportunidad))
-{!! Form::hidden('idCampania',$idCampania) !!}
-{!! Form::hidden('campania_id',$idCampania ?? $oportunidad->campania_id) !!}
-@else
-<!-- Campania Id Field -->
-<div class="form-group col-sm-6 required">
-    {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
-    <select name="campania_id" id="campania_id" class="form-control">
-        <option></option>
-        @if(!empty(old('campania_id', $oportunidad->campania_id ?? '' )))
-            <option value="{{ old('campania_id', $oportunidad->campania_id ?? '' ) }}" selected> {{ App\Models\Campanias\Campania::find(old('campania_id', $oportunidad->campania_id ?? '' ))->nombre }} </option>
-        @endif
-    </select>
-</div>
+@if(!empty($campania))
+{!! Form::hidden('idCampania',$campania->id) !!}
+{!! Form::hidden('campania_id',$campania->id) !!}
 @endif
 
-@if(!empty($idContacto)  || !empty($oportunidad))
-{!! Form::hidden('idContacto',$idContacto) !!}
-{!! Form::hidden('contacto_id',$idContacto  ?? $oportunidad->contacto_id) !!}
-@else
 <!-- Contacto Id Field -->
 <div class="form-group col-sm-6 required">
     {!! Form::label('contacto_id', __('models/oportunidades.fields.contacto_id')) !!}
-    <select name="contacto_id" id="contacto_id" class="form-control">
+    <select name="contacto_id" id="contacto_id" class="form-control" @if(!empty($oportunidad)) disabled="disabled" @endif>
         <option></option>
         @if(!empty(old('contacto_id', $oportunidad->contacto_id ?? '' )))
             <option value="{{ old('contacto_id', $oportunidad->contacto_id ?? '' ) }}" selected> {{ App\Models\Contactos\Contacto::find(old('contacto_id', $oportunidad->contacto_id ?? '' ))->getNombreCompleto() }} </option>
         @endif
     </select>
+    @if(!empty($oportunidad)) 
+    {!! Form::hidden('contacto_id',$oportunidad->contacto_id) !!}
+    @endif
 </div>
-@endif
 
 <!-- Formacion Id Field -->
 <div class="form-group col-sm-6 required">
@@ -123,11 +110,7 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('crud.save'), ['class' => 'btn btn-primary']) !!}
-    @if(!empty($idContacto))
-        <a href="{{ route('campanias.oportunidades.index',['idContacto'=>$idContacto]) }}" class="btn btn-default">@lang('crud.cancel')</a>
-    @else
-        <a href="{{ route('campanias.oportunidades.index',['idCampania'=>$idCampania]) }}" class="btn btn-default">@lang('crud.cancel')</a>
-    @endif
+    <a href="{{ route('campanias.oportunidades.index',['idCampania'=>$campania->id]) }}" class="btn btn-default">@lang('crud.cancel')</a>
 </div>
 
 @push('scripts')

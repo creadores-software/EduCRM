@@ -1,5 +1,65 @@
-<h2 class="page-header" style="padding-left: 20px">Campaña: {{$oportunidad->campania->nombre}}</h2>
 
+<div class="col-xs-12">
+    <div class="box box-solid box-default">
+      <div class="box-header">  
+        @can('campanias.oportunidades.editar')
+        <a data-toggle="tooltip" title="Editar oportunidad" style="color:white;margin-left:5px" class="mytt btn btn-primary pull-right btn-sm" target="_black" href="{{ route('campanias.oportunidades.edit',[$oportunidad->id,'idCampania'=>$oportunidad->campania->id]) }}">
+            <i class="glyphicon glyphicon-filter"></i>
+        </a> 
+        @endcan
+        <a data-toggle="tooltip" title="Información familiar" style="color:white;margin-left:5px" class="mytt btn btn-primary pull-right btn-sm" target="_black" href="{{ route('contactos.parentescos.index',['idContacto'=>$oportunidad->contacto->id]) }}">
+            <i class="fa fa-users"></i>
+        </a>         
+        <a data-toggle="tooltip" title="Ver detalles"  style="color:white;margin-left:5px" class="mytt btn btn-primary pull-right btn-sm" target="_black" href="{{ route('contactos.contactos.show',$oportunidad->contacto->id) }}">
+            <i class="glyphicon glyphicon-eye-open"></i>
+        </a>            
+        <h3 class="box-title" style="margin-top:5px">Información de contacto</h3>
+      </div>
+      <div class="box-body">
+        <!-- Celular -->
+        <div class="col-sm-3">
+            {!! Form::label('celular','Celular') !!}
+            <p>{{ $oportunidad->contacto->celular }}</p>
+        </div>
+        <!-- Teléfono -->
+        <div class="col-sm-3">
+            {!! Form::label('telefono','Teléfono') !!}
+            <p>{{ $oportunidad->contacto->telefono? $oportunidad->contacto->telefono:"No registrado"}}</p>
+        </div>
+        <!-- Correo personal -->
+        <div class="col-sm-3">
+            {!! Form::label('correo_personal','Correo personal') !!}
+            <p>{{ $oportunidad->contacto->correo_personal }}</p>
+        </div>
+        <!-- Correo institucion -->
+        <div class="col-sm-3">
+            {!! Form::label('correo_institucional','Correo institucional') !!}
+            <p>{{ $oportunidad->contacto->correo_institucional?$oportunidad->contacto->correo_institucional:"No registrado" }}</p>
+        </div>  
+        
+        <!-- Estado -->
+        <div class="col-sm-3">
+            {!! Form::label('estado','Estado') !!}
+            <p>{{ $oportunidad->estadoCampania->nombre }}</p>
+        </div>
+        <!-- Razon estado -->
+        <div class="col-sm-3">
+            {!! Form::label('razon','Razón') !!}
+            <p>{{ $oportunidad->justificacionEstadoCampania->nombre}}</p>
+        </div>
+        <!-- Capacidad -->
+        <div class="col-sm-3">
+            {!! Form::label('capacidad','Capacidad') !!}
+            <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->capacidad) !!}</p>
+        </div>
+        <!-- Interes -->
+        <div class="col-sm-3">
+            {!! Form::label('interes','Interés') !!}
+            <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->interes) !!}</p>
+        </div>  
+      </div>
+    </div>
+  </div>
 {!! Form::hidden('id', old('id', $interaccion->id ?? '')) !!}
 {!! Form::hidden('idOportunidad',$oportunidad->id) !!}
 {!! Form::hidden('users_id',$usuario) !!}
@@ -29,6 +89,7 @@
 
 <!-- Fecha Inicio Field -->
 <div class="form-group col-sm-6 required">
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="Debe ser mayor o igual a la fecha actual"></i>
     {!! Form::label('fecha_inicio', __('models/interacciones.fields.fecha_inicio')) !!}
     <div class="input-group date">
         <div class="input-group-addon">
@@ -40,7 +101,7 @@
 
 <!-- Fecha Fin Field -->
 <div class="form-group col-sm-6 required">
-    {!! Form::label('fecha_fin', __('models/interacciones.fields.fecha_fin').' (Hora):') !!}
+    {!! Form::label('fecha_fin', __('models/interacciones.fields.fecha_fin').' (Hora):' ) !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -63,15 +124,15 @@
 
 @push('scripts')
    <script type="text/javascript">
-        var hoyPrimeraHora = new Date();
+        fechaActual=new Date();
+        hoyPrimeraHora = new Date();
         hoyPrimeraHora.setHours(0,0,0,0);
-
+        //Minimo la fecha actual para que no se pierda trazabilidad de atrasos
         $('#fecha_inicio').datetimepicker({
             format: 'YYYY-MM-DD hh:mm a',
             locale: 'es',
-            defaultDate: new Date(),
+            defaultDate: fechaActual,
             minDate: hoyPrimeraHora,
-            stepping:5,
         }).on('dp.change', function(e) {
             $('#fecha_fin').data("DateTimePicker").minDate(e.date);
             $('#fecha_fin').data("DateTimePicker").defaultDate(e.date);
@@ -80,9 +141,8 @@
 
         $('#fecha_fin').datetimepicker({
             format: 'hh:mm a',
-            locale: 'es',     
-            defaultDate: new Date(), 
-            stepping:5,      
+            locale: 'es',   
+            defaultDate: fechaActual,
         });
         var coloresEstadosInteraccion = @json($coloresEstadosInteraccion);
         var coloresEstadosCampania = @json($coloresEstadosCampania);
@@ -116,7 +176,11 @@
 
             $(document).on('change', '#tipo_interaccion_id', function(e){
                 $("#estado_interaccion_id").val(null).trigger("change"); 
-            });            
+            });   
+            
+            $(document).on('change', '#estado_interaccion_id', function(e){
+                $("#observacion").val(null).trigger("change"); 
+            });
 
             //Para estados de interaccion
             function formatEstadoInteraccion(estado) {

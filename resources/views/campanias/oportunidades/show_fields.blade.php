@@ -49,13 +49,13 @@
 <!-- Capacidad Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('capacidad', __('models/oportunidades.fields.capacidad').':') !!}
-    <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->capacidad) !!}</p>
+    <p>{!! !empty($oportunidad->categoriaOportunidad)?$oportunidad->categoriaOportunidad->stars($oportunidad->capacidad): '' !!}</p>
 </div>
 
 <!-- Interes Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('interes', __('models/oportunidades.fields.interes').':') !!}
-    <p>{!! $oportunidad->categoriaOportunidad->stars($oportunidad->interes) !!}</p>
+    <p>{!! !empty($oportunidad->categoriaOportunidad)?$oportunidad->categoriaOportunidad->stars($oportunidad->interes):'' !!}</p>
 </div>
 
 

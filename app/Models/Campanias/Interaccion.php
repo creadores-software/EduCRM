@@ -116,6 +116,6 @@ class Interaccion extends Model implements Recordable
      **/
     public function users()
     {
-        return $this->belongsTo(\App\Models\Campanias\User::class, 'users_id');
+        return $this->belongsTo(\App\Models\Admin\User::class, 'users_id');
     }
 }

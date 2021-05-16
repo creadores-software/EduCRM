@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>
-            @lang('models/oportunidades.singular')
+            @lang('models/oportunidades.singular'): {{$campania->nombre}} 
         </h1>
    </section>
    <div class="content">

@@ -17,17 +17,15 @@ div.dataTables_wrapper div.dataTables_filter {
         @else
             <h1 class="pull-left">
                 @lang('models/interacciones.plural'): {{$oportunidad->contacto->getNombreCompleto()}} ({{$oportunidad->estadoCampania->nombre}}) 
-            </h1>
+            </h1>            
             @can('campanias.interacciones.crear')
                 <h1 class="pull-right">
                     <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.interacciones.create',['idOportunidad'=>$oportunidad->id]) }}">@lang('crud.add_new')</a>
                 </h1>
             @endcan
-            @can('campanias.oportunidades.editar')
-                <h1 class="pull-right">
-                    <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.edit',[$oportunidad->id,'idCampania'=>$oportunidad->campania->id]) }}"><i class="glyphicon glyphicon-pencil"></i> Estado</a>
-                </h1>
-            @endcan
+            <h1 class="pull-right">
+                <a class="btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.edit',[$oportunidad->id,'idCampania'=>$oportunidad->campania_id]) }}">Editar <i class="glyphicon glyphicon-filter"></i></a>
+            </h1>
             <h1 class="pull-right">
                 <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.index',['idCampania'=>$oportunidad->campania_id]) }}">@lang('crud.back')</a>
             </h1>

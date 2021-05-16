@@ -75,7 +75,15 @@ class ParentescoDataTable extends DataTable
     {
         return $model::leftjoin('contacto as pariente', 'parentesco.contacto_destino', '=', 'pariente.id')
             ->leftjoin('tipo_parentesco as tipoParentesco', 'parentesco.tipo_parentesco_id', '=', 'tipoParentesco.id')
-            ->select(['parentesco.id','parentesco.contacto_origen',DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),'tipoParentesco.nombre as nombre_tipo','acudiente'])->newQuery();
+            ->select([
+                'parentesco.id',
+                'parentesco.contacto_origen',
+                DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),
+                'pariente.celular as celular_pariente',
+                'pariente.telefono as telefono_pariente',
+                'pariente.correo_personal as correo_pariente',
+                'tipoParentesco.nombre as nombre_tipo',
+                'acudiente'])->newQuery();
     }
 
     /**
@@ -109,7 +117,7 @@ class ParentescoDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(3)').every(function () {
+                    this.api().columns(':lt(6)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -131,7 +139,10 @@ class ParentescoDataTable extends DataTable
         return [
             'contacto_destino' => new Column(['title' => __('models/parentescos.fields.contacto_destino'), 'data' => 'nombre_pariente','name'=>'pariente.nombre']),
             'tipo_parentesco_id' => new Column(['title' => __('models/parentescos.fields.tipo_parentesco_id'), 'data' => 'nombre_tipo','name'=>'tipoParentesco.nombre']),
-            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente'])
+            'acudiente' => new Column(['title' => __('models/parentescos.fields.acudiente'), 'data' => 'acudiente']),
+            'celular' => new Column(['title' => 'Telefono', 'data' => 'telefono_pariente','name'=>'pariente.telefono']),
+            'telefono' => new Column(['title' => 'Celular', 'data' => 'celular_pariente','name'=>'pariente.celular']),
+            'correo' => new Column(['title' => 'Correo', 'data' => 'correo_pariente','name'=>'pariente.correo_personal']),
         ];
     }
 

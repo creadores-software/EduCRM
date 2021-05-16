@@ -125,8 +125,10 @@ class InteraccionController extends AppBaseController
 
         if (empty($interaccion)) {
             Flash::error(__('messages.not_found', ['model' => __('models/interacciones.singular')]));
-
             return redirect(route('campanias.interacciones.index'));
+        }else if($interaccion->estadoInteraccion->tipoEstadoColor->nombre!='Neutro'){
+            Flash::error("Esta interacción no se puede editar");
+            return redirect(route('campanias.interacciones.index',['idOportunidad'=>$interaccion->oportunidad->id]));   
         }
         return view('campanias.interacciones.edit')->with(['interaccion'=>$interaccion,'oportunidad'=>$interaccion->oportunidad,'coloresEstadosCampania'=>$coloresEstadosCampania,'coloresEstadosInteraccion'=>$coloresEstadosInteraccion,'usuario'=>$interaccion->users_id]);
     }
