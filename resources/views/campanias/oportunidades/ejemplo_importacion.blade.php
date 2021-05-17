@@ -4,9 +4,9 @@
         <th>campania_id</th>
         <th>contacto_id</th>
         <th>estado_campania_id</th>
-        <th>razon_estado_id</th>
-        <th>formacion_id</th>
         <th>justificacion_estado_campania_id</th>
+        <th>formacion_id</th>
+        <th>responsable_id</th>
         <th>interes</th>
         <th>capacidad</th>
         <th>ingreso_recibido</th>        
