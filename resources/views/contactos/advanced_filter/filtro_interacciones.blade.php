@@ -91,6 +91,16 @@
                 ajax: {
                     url: '{{ route("campanias.estadosInteraccion.dataAjax") }}',
                     dataType: 'json',
+                    data: function (params) {  
+                        tipos_seleccionados = $('#tipoInteracciones').val();
+                        if($('#tipoInteracciones').val()=== ''){
+                            tipos_seleccionados='n';    
+                        }
+                        return {
+                            q: params.term, 
+                            tipo: tipos_seleccionados,
+                        };
+                    },
                 },
             });
             

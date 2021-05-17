@@ -10,6 +10,7 @@ use App\Http\Requests\Campanias\CreateEstadoCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateEstadoCampaniaRequest;
 use App\Repositories\Campanias\EstadoCampaniaRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Campanias\TipoCampania;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
@@ -167,6 +168,7 @@ class EstadoCampaniaController extends AppBaseController
     {
         $term=$request->input('q', ''); 
         $campania=$request->input('campania', '');
+        $tipo=$request->input('tipo', '');
         $oportunidad=$request->input('oportunidad', '');
         $search=[];
         if(!empty($oportunidad)){        
@@ -175,22 +177,44 @@ class EstadoCampaniaController extends AppBaseController
                 $campania=$datosOportunidad->campania_id; 
             }
         }
-        if(!empty($campania)){         
-            $datosCampania = Campania::where('id',$campania)->first();
-            if(!empty($datosCampania)){               
-                $estados=[];
-                
-                foreach($datosCampania->tipoCampania->tipoCampaniaEstados as $estado){
-                    $estados[]=$estado->estadoCampania->id;
+
+        //Para no repetir búsquedas se hace primero por los tipos que agrupan las campanias
+        $estados=[];
+        if(!empty($tipo)){ 
+            if(is_array($tipo)){
+                $datosTipo = TipoCampania::whereIn('id',$tipo)->get(); 
+            }else{
+                $datosTipo = TipoCampania::where('id',$tipo)->get(); 
+            }         
+            if(!$datosTipo->isEmpty()){ 
+                foreach($datosTipo as $datoTipo){   
+                    foreach($datoTipo->tipoCampaniaEstados as $estado){
+                        $estados[]=$estado->estadoCampania->id;
+                    }
                 }
-                if(!empty($estados)){
-                    $search['estado_campania.id']=$estados; 
-                }else{
-                    //No aplica ninguno
-                    $search['estado_campania.id']='n';
+            } 
+        }else if(!empty($campania)){   
+            if(is_array($campania)){
+                $datosCampania = Campania::whereIn('id',$campania)->get();
+            }else{
+                $datosCampania = Campania::where('id',$campania)->get();
+            } 
+            if(!$datosCampania->isEmpty()){  
+                foreach($datosCampania as $datoCampania){   
+                    foreach($datoCampania->tipoCampania->tipoCampaniaEstados as $estado){
+                        $estados[]=$estado->estadoCampania->id;
+                    }
                 }
             } 
         }
+        if(!empty($tipo) || !empty($campania)){
+            if(!empty($estados)){
+                $search['estado_campania.id']=$estados; 
+            }else{//No aplica ninguno
+                $search['estado_campania.id']='n';
+            }
+        }
+        
         return $this->estadoCampaniaRepository->infoSelect2($term,$search);
     }
 

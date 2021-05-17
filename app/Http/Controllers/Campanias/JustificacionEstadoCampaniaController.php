@@ -177,22 +177,33 @@ class JustificacionEstadoCampaniaController extends AppBaseController
         $term=$request->input('q', ''); 
         $estado=$request->input('estado', '');
         $search=[];
-        if(!empty($estado)){         
-            $estadoDatos = EstadoCampania::where('id',$estado)->first();
-            if(!empty($estadoDatos)){               
-                $razones=[];
-                foreach($estadoDatos->justificacionEstadoCampania as $razon){
-                    $razones[]=$razon->id;
-                }
-                if(!empty($razones)){
-                    $search['justificacion_estado_campania.id']=$razones; 
-                }else{
-                    //No aplica ninguno
-                    $search['justificacion_estado_campania.id']='n';      
-                }
-            } 
+        $customWhere=[];
+        if(!empty($estado)){      
+            if(is_array($estado)){
+                $estadoDatos = EstadoCampania::whereIn('id',$estado)->get();
+                //Para busquedas múltiples se omite la búsqueda de no aplica.
+                $customWhere=["justificacion_estado_campania.nombre <> 'No aplica'",[]];
+            }else{
+                $estadoDatos = EstadoCampania::where('id',$estado)->get();    
+            }  
+
+            $razones=[];
+
+            if(!$estadoDatos->isEmpty()){  
+                foreach($estadoDatos as $estadoDato){
+                    foreach($estadoDato->justificacionEstadoCampania as $razon){
+                        $razones[]=$razon->id;
+                    }
+                }                
+            }
+
+            if(!empty($razones)){
+                $search['justificacion_estado_campania.id']=$razones; 
+            }else{ //No aplica ninguno
+                $search['justificacion_estado_campania.id']='n';      
+            }
         }
-        return $this->justificacionEstadoCampaniaRepository->infoSelect2($term,$search);
+        return $this->justificacionEstadoCampaniaRepository->infoSelect2($term,$search,null,null,null,null,null,$customWhere);
     }
 
 }

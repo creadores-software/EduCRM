@@ -158,7 +158,13 @@ class CampaniaController extends AppBaseController
      */
     public function dataAjax(Request $request)
     {
-        return $this->campaniaRepository->infoSelect2($request->input('q', ''));
+        $term=$request->input('q', ''); 
+        $tipo=$request->input('tipo', '');
+        $search=[];
+        if(!empty($tipo)){         
+            $search['tipo_campania_id']=$tipo;  
+        }
+        return $this->campaniaRepository->infoSelect2($term,$search);
     }
 
 }

@@ -167,20 +167,25 @@ class EstadoInteraccionController extends AppBaseController
         $term=$request->input('q', ''); 
         $tipo=$request->input('tipo', '');
         $search=[];
-        if(!empty($tipo)){         
-            $tipoDatos = TipoInteraccion::where('id',$tipo)->first();
-            if(!empty($tipoDatos)){               
-                $estados=[];
-                foreach($tipoDatos->tipoInteraccionEstados as $estado){
-                    $estados[]=$estado->id;
-                }
-                if(!empty($estados)){
-                    $search['estado_interaccion.id']=$estados; 
-                }else{
-                    //No aplica ninguno
-                    $search['estado_interaccion.id']='n'; 
-                }
+        if(!empty($tipo)){   
+            if(is_array($tipo)){
+                $tipoDatos = TipoInteraccion::whereIn('id',$tipo)->get();
+            }else{
+                $tipoDatos = TipoInteraccion::where('id',$tipo)->get();
+            }  
+            $estados=[];  
+            if(!$tipoDatos->isEmpty()){               
+                foreach($tipoDatos as $tipoDato){
+                    foreach($tipoDato->tipoInteraccionEstados as $estado){
+                        $estados[]=$estado->id;
+                    }
+                }                
             } 
+            if(!empty($estados)){
+                $search['estado_interaccion.id']=$estados; 
+            }else{//No aplica ninguno
+                $search['estado_interaccion.id']='n'; 
+            }
         }
         return $this->estadoInteraccionRepository->infoSelect2($term,$search,null,null,['estado_interaccion.tipo_estado_color_id','ASC']);
     }

@@ -69,9 +69,6 @@
                     dataType: 'json',
                     data: function (params) {  
                         tipos_seleccionados = $('#tipoCampanias').val();
-                        if($('#tipoCampanias').val()=== ''){
-                            tipos_seleccionados='n';    
-                        }
                         return {
                             q: params.term, 
                             tipo: tipos_seleccionados,
@@ -90,13 +87,12 @@
                     url: '{{ route("campanias.estadosCampania.dataAjax") }}',
                     dataType: 'json',
                     data: function (params) {  
+                        tipos_seleccionados = $('#tipoCampanias').val();
                         campanias_seleccionadas = $('#campaniasOportunidad').val();
-                        if($('#campaniasOportunidad').val()=== ''){
-                            campanias_seleccionadas='n';    
-                        }
                         return {
                             q: params.term, 
                             campania: campanias_seleccionadas,
+                            tipo: tipos_seleccionados
                         };
                     },
                 },
