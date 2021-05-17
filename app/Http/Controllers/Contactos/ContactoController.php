@@ -232,13 +232,11 @@ class ContactoController extends AppBaseController
                 return back();
             }
     
-            $nombreArchivo=$request->archivo->getClientOriginalExtension();
             try {
                 Cache::put('cantidadImportados',0, 10);
                 $import = new ContactoImport;
                 $import->import($request->file('archivo'));
                 $failures=$import->failures();
-                Log::debug("Errores son: ".print_r($failures,true));
                 if(!$failures->isEmpty()){
                     $mensaje="";      
                     foreach ($failures as $failure) {
@@ -256,6 +254,7 @@ class ContactoController extends AppBaseController
                 }
                 $importados=Cache::get('cantidadImportados');
                 Flash::success("El archivo ha sido importado correctamente con {$importados} registro(s).");
+                Cache::forget('cantidadImportados');
                 return redirect(route('contactos.contactos.index'));
             } catch (Exception $e) {
                 Flash::error($e->getMessage());
