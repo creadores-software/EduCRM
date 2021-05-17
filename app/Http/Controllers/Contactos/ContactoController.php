@@ -261,6 +261,9 @@ class ContactoController extends AppBaseController
                 Flash::error($e->getMessage());
                 return back();
             }     
+        }else{
+            Flash::error('Debe seleccionar un archivo para realizar la importación');
+            return back();    
         }       
     }
 }

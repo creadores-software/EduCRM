@@ -55,7 +55,8 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         $mensaje=$exception->getMessage();
-        if ($exception instanceof QueryException) {            
+        //Las importaciones manejan las excepciones
+        if (!$request->is('subirImportacion') && $exception instanceof QueryException) {            
             if($exception->getCode() == "23000"){ //Error de llave foranea
                 if($request->method()==='DELETE'){//En método de eliminación
                     $mensaje = "Validar que el registro no tenga asociación con otro elemento antes de eliminar.";
@@ -72,7 +73,7 @@ class Handler extends ExceptionHandler
         }else if ($exception instanceof UnauthorizedException) {
             $mensaje ="No estás autorizado para realizar esta operación.";
             return response()->view('layouts.error', ['message'=>$mensaje], 500);
-        }      
+        }   
         return parent::render($request, $exception);
     }
 }

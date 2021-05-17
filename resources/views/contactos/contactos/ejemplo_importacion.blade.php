@@ -18,7 +18,9 @@
         <th>correo_institucional</th>
         <th>lugar_residencia</th>
         <th>direccion_residencia</th>
+        <th>barrio</th>
         <th>estrato</th>
+        <th>sisben_id</th>
         <th>observacion</th>        
         <th>maximo_nivel_formacion_id</th>
         <th>ocupacion_actual_id</th>

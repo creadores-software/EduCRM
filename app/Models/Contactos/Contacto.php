@@ -140,7 +140,7 @@ class Contacto extends Model implements Recordable
         'lugar_residencia' => 'nullable|integer',
         'direccion_residencia' => 'nullable|string|max:200',
         'barrio' => 'nullable|string|max:150',
-        'estrato' => 'nullable|integer',
+        'estrato' => 'nullable|integer|max:6|min:1',
         'sisben_id' => 'nullable|integer',
         'activo' => 'nullable|boolean',
         'observacion' => 'nullable|string|max:255',
