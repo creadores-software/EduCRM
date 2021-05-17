@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -48,6 +49,12 @@ class LoginController extends Controller
                 $this->username() => 'Tu cuenta no está activa. Si tienes dudas contacta al administrador.',
             ]);
         }
+        $permisos = auth()->user()->getAllPermissions();
+        $textoPermisos = "";
+        foreach($permisos as $permiso){
+            $textoPermisos.=$permiso->name;
+        }
+        Session::put('textoPermisos', $textoPermisos);
         return redirect()->intended($this->redirectPath());
     }
 }
