@@ -65,7 +65,7 @@ class InteraccionController extends AppBaseController
         $usuario = Auth::user()->id;
         if ($request->has('idOportunidad')) {
             $oportunidad=Oportunidad::where('id',$request->get('idOportunidad'))->first();
-            return view('campanias.interacciones.create')->with(['oportunidad'=>$oportunidad,'coloresEstadosCampania'=>$coloresEstadosCampania,'coloresEstadosInteraccion'=>$coloresEstadosInteraccion,'usuario'=>$usuario]); 
+            return view('campanias.interacciones.create')->with(['interaccion'=>null,'oportunidad'=>$oportunidad,'coloresEstadosCampania'=>$coloresEstadosCampania,'coloresEstadosInteraccion'=>$coloresEstadosInteraccion,'usuario'=>$usuario]); 
         }else {
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una campaña o contacto seleccionado'], 500);     
         }
