@@ -242,7 +242,7 @@
                     }
                 });
             });
-            $("li").click(function (e) {                
+            $(".sidebar-menu li").click(function (e) {                
                 if ($(this).attr('class') && $(this).attr('class').indexOf('menu-padre') != -1) {
                     localStorage.setItem('menu_padre_seleccionado', $(this).attr('id'));
                 } else if ($(this).attr('class') && $(this).attr('class').indexOf('menu-hijo') != -1) {

@@ -351,8 +351,8 @@
         </li>               
     </ul> 
 </li>
-<li id="manuales" class="opcion-menu opcion-menu-padre treeview">
-    <a href="#"><i class="fa fa-book"></i><span>Manual</span></a>
+<li id="manuales">
+    <a href="https://youtu.be/KMN170blLnE" target="_blank"><i class="fa fa-book"></i><span>Manual</span></a>
 </li>
 <li id="cerrar-sesion" class="opcion-menu opcion-menu-padre treeview">
     <a href="{{ url('/logout') }}"
