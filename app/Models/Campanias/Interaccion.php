@@ -92,7 +92,8 @@ class Interaccion extends Model implements Recordable
      **/
     public function estadoInteraccion()
     {
-        return $this->belongsTo(\App\Models\Campanias\EstadoInteraccion::class, 'estado_interaccion_id');
+        return $this->belongsTo(\App\Models\Campanias\EstadoInteraccion::class, 'estado_interaccion_id')
+        ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -108,7 +109,8 @@ class Interaccion extends Model implements Recordable
      **/
     public function tipoInteraccion()
     {
-        return $this->belongsTo(\App\Models\Campanias\TipoInteraccion::class, 'tipo_interaccion_id');
+        return $this->belongsTo(\App\Models\Campanias\TipoInteraccion::class, 'tipo_interaccion_id')
+        ->withDefault(['nombre' => '']);
     }
 
     /**
@@ -116,6 +118,81 @@ class Interaccion extends Model implements Recordable
      **/
     public function users()
     {
-        return $this->belongsTo(\App\Models\Admin\User::class, 'users_id');
+        return $this->belongsTo(\App\Models\Admin\User::class, 'users_id')
+        ->withDefault(['name' => '']);
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+            ->leftjoin('interaccion', 'oportunidad.id', '=', 'interaccion.oportunidad_id')
+
+            ->leftjoin('tipo_interaccion as tipoInteraccion', 'tipoInteraccion.id', '=', 'interaccion.tipo_interaccion_id')
+            ->leftjoin('estado_interaccion as estadoInteraccion', 'estadoInteraccion.id', '=', 'interaccion.estado_interaccion_id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable para exportaciones
+     */
+    public static function selectDataTable(){
+        return [];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){
+        $dt_atributos = [
+            'tipoInteracciones',
+            'estadoInteracciones',
+            'campaniaFechaInicialInicio',
+            'campaniaFechaFinalInicio',
+            'campaniaFechaInicialFin',
+            'campaniaFechaFinalFin',
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){
+        $dt_atributos_in=[
+            'tipoInteracciones'=>'tipoInteraccion.id',
+            'estadoInteracciones'=>'estadoInteraccion.id',
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }
+
+        $dt_atributos_menor_que=[
+            'campaniaFechaInicialInicio'=>'interaccion.fecha_inicio',
+            'campaniaFechaInicialFin'=>'interaccion.fecha_fin',
+        ];
+        foreach($dt_atributos_menor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} >= ?",[$valores[$atributo]]);
+            }
+        }
+
+        $dt_atributos_mayor_que=[
+            'campaniaFechaFinalInicio'=>'interaccion.fecha_inicio',
+            'campaniaFechaFinalFin'=>'interaccion.fecha_fin',
+        ];
+        foreach($dt_atributos_mayor_que as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
+                $query->whereRaw("{$enTabla} is not null and  {$enTabla} <= ?",[$valores[$atributo]]);
+            }
+        }
+    } 
 }

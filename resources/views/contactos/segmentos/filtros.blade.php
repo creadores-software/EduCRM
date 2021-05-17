@@ -7,8 +7,8 @@
         <li><a data-content="Información Académica" data-toggle="tab" href="#academico"><i class="fa fa-graduation-cap"></i></a></li>
         <li><a data-content="Información Laboral" data-toggle="tab" href="#laboral"><i class="fa fa-briefcase"></i></a></li>
         <li><a data-content="Información Familiar" data-toggle="tab" href="#familiar"><i class="fa fa-users"></i></a></li>
-        <li><a data-content="Interacciones" data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a></li>
-        <li><a data-content="Campañas" data-toggle="tab" href="#campañas"><i class="fa fa-filter"></i></a></li>
+        <li><a data-content="Campañas" data-toggle="tab" href="#camp"><i class="fa fa-filter"></i></a></li>
+        <li><a data-content="Interacciones" data-toggle="tab" href="#interacciones"><i class="fa fa-comment"></i></a></li>        
     </ul>
 </div>
 <div class="tab-content" id="content-filtros">
@@ -27,11 +27,20 @@
     <div id="familiar" class="tab-pane fade">
         @include('contactos.advanced_filter.filtro_familiar')
     </div>    
+    <div id="camp" class="tab-pane fade">
+        @include('contactos.advanced_filter.filtro_campanias')
+    </div>    
+    <div id="interacciones" class="tab-pane fade">
+        @include('contactos.advanced_filter.filtro_interacciones')
+    </div> 
 </div>
 
 
 @push('scripts')
     <script type="text/javascript">
+       $('[data-toggle="popover"]').popover();  
+       $('a').popover({trigger: "hover"});
+       
        $("form :input").change( function() {
             actualizarFiltroTexto();    
        });

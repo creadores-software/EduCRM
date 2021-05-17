@@ -8,6 +8,8 @@ use App\Models\Contactos\InformacionUniversitaria;
 use App\Models\Contactos\InformacionEscolar;
 use App\Models\Contactos\InformacionLaboral;
 use App\Models\Contactos\Parentesco;
+use App\Models\Campanias\Oportunidad;
+use App\Models\Campanias\Interaccion;
 
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -62,6 +64,8 @@ class ContactoDataTable extends DataTable
             InformacionEscolar::filtroDataTable($valores, $query);
             InformacionLaboral::filtroDataTable($valores, $query);
             Parentesco::filtroDataTable($valores, $query);
+            Oportunidad::filtroDataTable($valores, $query);
+            Interaccion::filtroDataTable($valores, $query);
 
             $command=$query->toSql();
             $posicion_where=strpos($command,'where');
@@ -93,6 +97,8 @@ class ContactoDataTable extends DataTable
         $model=InformacionEscolar::joinDataTable($model);
         $model=InformacionLaboral::joinDataTable($model);
         $model=Parentesco::joinDataTable($model);
+        $model=Oportunidad::joinDataTable($model);
+        $model=Interaccion::joinDataTable($model);
         
         return $model->distinct()->select(
             array_merge(
@@ -101,7 +107,9 @@ class ContactoDataTable extends DataTable
                 InformacionUniversitaria::selectDataTable(),
                 InformacionEscolar::selectDataTable(),
                 InformacionLaboral::selectDataTable(),
-                Parentesco::selectDataTable()
+                Parentesco::selectDataTable(),
+                Oportunidad::selectDataTable(),
+                Interaccion::selectDataTable()
             )
         )->newQuery();
     }
@@ -125,6 +133,8 @@ class ContactoDataTable extends DataTable
                     InformacionEscolar::inputsDataTable().
                     InformacionLaboral::inputsDataTable().
                     Parentesco::inputsDataTable().
+                    Oportunidad::inputsDataTable().
+                    Interaccion::inputsDataTable().
                 "}"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])

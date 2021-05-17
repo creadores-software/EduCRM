@@ -137,7 +137,9 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        });
+        }).on('dp.change', function(e) {
+            $('#universidadFechaInicialGrado').data("DateTimePicker").minDate(e.date);
+        });;
         $('#universidadEntidades').change(function(){
             $('#universidadFormaciones').val(null).trigger('change');
         }); 

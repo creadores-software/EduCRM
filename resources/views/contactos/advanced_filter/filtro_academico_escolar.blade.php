@@ -115,6 +115,8 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
+        }).on('dp.change', function(e) {
+            $('#colegioFechaInicialGrado').data("DateTimePicker").minDate(e.date);
         });
         $('#colegioFechaInicialIcfes').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -122,7 +124,7 @@
             locale: 'es',
         }).on('dp.change', function(e) {
             $('#colegioFechaFinalIcfes').data("DateTimePicker").minDate(e.date);
-        });
+        });;
         $('#colegioFechaFinalIcfes').datetimepicker({
             format: 'YYYY-MM-DD',
             useCurrent: false,

@@ -115,7 +115,9 @@
             format: 'YYYY-MM-DD',
             useCurrent: false,
             locale: 'es',
-        });   
+        }).on('dp.change', function(e) {
+            $('#laboralFechaInicialFin').data("DateTimePicker").minDate(e.date);
+        });  
         $(document).ready(function() { 
             $('#laboralVinculado').select2(); 
             $('#laboralEntidades').select2({

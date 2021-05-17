@@ -208,4 +208,69 @@ class Oportunidad extends Model implements Recordable
         }        
         return false;
     }
+
+    /**
+     * Define los join que deben ir en el query del datatable
+     */
+    public static function joinDataTable($model){
+        return $model
+            ->leftjoin('oportunidad', 'contacto.id', '=', 'oportunidad.contacto_id')
+
+            ->leftjoin('campania', 'oportunidad.campania_id', '=', 'campania.id')
+            ->leftjoin('tipo_campania as tipoCampania', 'campania.tipo_campania_id', '=', 'tipoCampania.id')
+            ->leftjoin('estado_campania as estadoCampania', 'oportunidad.estado_campania_id', '=', 'estadoCampania.id')
+            ->leftjoin('justificacion_estado_campania as razonCampania', 'oportunidad.justificacion_estado_campania_id', '=', 'razonCampania.id')
+            ->leftjoin('categoria_oportunidad as categoriaOportunidad', 'oportunidad.categoria_oportunidad_id', '=', 'categoriaOportunidad.id');
+    }
+
+    /**
+     * Define los select que deben ir en el query del datatable para exportaciones
+     */
+    public static function selectDataTable(){
+        return [];
+    }
+
+    /**
+     * Establece la obtención de los valores en los inputs de la vista de segmento
+     */
+    public static function inputsDataTable(){
+        $dt_atributos = [
+            'tipoCampanias',
+            'campaniasOportunidad',
+            'estadosCampanias',
+            'razonesCampanias',
+            'categoriasOportunidadContacto',
+            'campaniaActiva',
+        ];
+        $inputs="";
+        foreach($dt_atributos as $atributo){
+            $inputs.="data.{$atributo}  = $('#{$atributo}').val();";   
+        }
+        return $inputs;
+    }
+
+    /**
+     * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
+     */
+    public static function filtroDataTable($valores, $query){
+        $dt_atributos_in=[
+            'tipoCampanias'=>'tipoCampania.id',
+            'campaniasOportunidad'=>'campania.id',
+            'estadosCampanias'=>'estadoCampania.id',
+            'razonesCampanias'=>'razonCampania.id',
+            'categoriasOportunidadContacto'=>'categoriaOportunidad.id'
+        ];
+        foreach($dt_atributos_in as $atributo => $enTabla){
+            if(array_key_exists($atributo, $valores) 
+            && is_array($valores[$atributo]) &&
+            !empty($valores[$atributo])){
+                $query->whereIn($enTabla,$valores[$atributo]);
+            }
+        }
+        //Otras validaciones específicas
+        if(array_key_exists('campaniaActiva', $valores) && $valores['campaniaActiva']!=''){
+            //No se revisa solo con empty pues el valor 0 en activo implica no
+            $query->where("campania.activa", $valores['campaniaActiva']);
+        }
+    } 
 }

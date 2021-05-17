@@ -188,8 +188,8 @@ class InformacionLaboral extends Model implements Recordable
         }
 
         $dt_atributos_menor_que=[
-            'laboralFechaInicialInicio'=>'inforacionLaboral.fecha_inicio',
-            'laboralFechaInicialFin'=>'inforacionLaboral.fecha_fin',
+            'laboralFechaInicialInicio'=>'informacionLaboral.fecha_inicio',
+            'laboralFechaInicialFin'=>'informacionLaboral.fecha_fin',
         ];
         foreach($dt_atributos_menor_que as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
@@ -198,8 +198,8 @@ class InformacionLaboral extends Model implements Recordable
         }
 
         $dt_atributos_mayor_que=[
-            'laboralFechaFinalInicio'=>'inforacionLaboral.fecha_inicio',
-            'laboralFechaFinalFin'=>'inforacionLaboral.fecha_fin',
+            'laboralFechaFinalInicio'=>'informacionLaboral.fecha_inicio',
+            'laboralFechaFinalFin'=>'informacionLaboral.fecha_fin',
         ];
         foreach($dt_atributos_mayor_que as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
