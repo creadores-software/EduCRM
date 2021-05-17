@@ -33,6 +33,7 @@ class UpdateOportunidadRequest extends FormRequest
             Rule::unique('oportunidad')
                 ->ignore($this->id)
                 ->where('campania_id', $this->campania_id)
+                ->where('formacion_id', $this->formacion_id)
         ];
         return $rules;
     }

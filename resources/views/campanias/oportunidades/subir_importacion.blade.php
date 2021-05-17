@@ -16,7 +16,7 @@ dl, ol, ul {
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">
-            Subir contactos masivamente
+            Subir oportunidades masivamente
         </h1>
     </section>
     <div class="content">
@@ -30,13 +30,14 @@ dl, ol, ul {
                 <div class="alert alert-info">
                     <p><span class="text-weight-bold"><i class="fa fa-info-circle"></i></span> <b>Instrucciones</b></p> 
                     <p>El archivo debe estar en formato Excel (xlsx,xls) conservando en la primera línea los nombres de los campos.
-                            <a class="alert-info" target="_blank" href="{{ route('contactos.contactos.archivoEjemplo') }}">Descargar plantilla</a>
+                            <a class="alert-info" target="_blank" href="{{ route('campanias.oportunidades.archivoEjemplo') }}">Descargar plantilla</a>
                     </p>
                     <p>Tener en cuenta que no se debe poner el nombre de atributos relacionados sino el identificador (id).</p>
-                    <p>Los campos mínimos a diligenciar son: <b>nombres, apellidos, celular, correo_personal, origen_id</b></p>
+                    <p>Los campos mínimos a diligenciar son: <b>campania_id, contacto_id, estado_campania_id,justificacion_estado_campania_id</b></p>
+                    <p>La formación debe coincidir con la campaña, el responsable debe pertenecer al equipo responsable, y la justificacion (razón) estar asociada al estado.</p>
                 </div> 
                 <div class="row">
-                    {!! Form::open(['route' => 'contactos.contactos.cargarImportacion','files' => true]) !!}               
+                    {!! Form::open(['route' => 'campanias.oportunidades.cargarImportacion','files' => true]) !!}               
                           
                         <!-- Archivo -->
                         <div class="form-group col-sm-12">

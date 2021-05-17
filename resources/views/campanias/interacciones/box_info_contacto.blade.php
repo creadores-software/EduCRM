@@ -37,16 +37,18 @@
             <p>{{ $oportunidad->contacto->correo_institucional?$oportunidad->contacto->correo_institucional:"No registrado" }}</p>
         </div>  
         
+        <!-- Formación estado -->
+        <div class="col-sm-3">
+            {!! Form::label('formación','Formación') !!}
+            <p>{{ $oportunidad->formacion->nombre }}</p>
+        </div>
+        
         <!-- Estado -->
         <div class="col-sm-3">
             {!! Form::label('estado','Estado') !!}
-            <p>{{ $oportunidad->estadoCampania->nombre }}</p>
+            <p>{{ $oportunidad->estadoCampania->nombre }} ({{ $oportunidad->justificacionEstadoCampania->nombre }})</p>
         </div>
-        <!-- Razon estado -->
-        <div class="col-sm-3">
-            {!! Form::label('razon','Razón') !!}
-            <p>{{ $oportunidad->justificacionEstadoCampania->nombre}}</p>
-        </div>
+        
         <!-- Capacidad -->
         <div class="col-sm-3">
             {!! Form::label('capacidad','Capacidad') !!}

@@ -25,7 +25,7 @@ class CreateOportunidadTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('campania_id');
             $table->unsignedInteger('contacto_id');
-            $table->unsignedInteger('formacion_id');
+            $table->unsignedInteger('formacion_id')->nullable();
             $table->unsignedBigInteger('responsable_id')->nullable();
             $table->unsignedInteger('estado_campania_id');
             $table->unsignedInteger('justificacion_estado_campania_id');

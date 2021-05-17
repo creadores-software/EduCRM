@@ -154,6 +154,9 @@ Route::group(['prefix' => 'campanias'], function () {
     Route::resource('interacciones', 'Campanias\InteraccionController', ["as" => 'campanias']);    
     Route::get('justificacionesEstadoCampania/dataAjax', 'Campanias\JustificacionEstadoCampaniaController@dataAjax')->name('campanias.justificacionesEstadoCampania.dataAjax');
     Route::resource('justificacionesEstadoCampania', 'Campanias\JustificacionEstadoCampaniaController', ["as" => 'campanias']);
+    Route::get('oportunidades/subirImportacion', 'Campanias\OportunidadController@subirImportacion')->name('campanias.oportunidades.subirImportacion');
+    Route::post('oportunidades/cargarImportacion', 'Campanias\OportunidadController@cargarImportacion')->name('campanias.oportunidades.cargarImportacion');
+    Route::get('oportunidades/archivoEjemplo', 'Campanias\OportunidadController@archivoEjemplo')->name('campanias.oportunidades.archivoEjemplo');
     Route::resource('oportunidades', 'Campanias\OportunidadController', ["as" => 'campanias']);
     Route::get('tiposCampania/dataAjax', 'Campanias\TipoCampaniaController@dataAjax')->name('campanias.tiposCampania.dataAjax');
     Route::resource('tiposCampania', 'Campanias\TipoCampaniaController', ["as" => 'campanias']);

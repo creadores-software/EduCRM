@@ -25,7 +25,7 @@ div.dataTables_wrapper div.dataTables_filter {
                     </h1>
                 @endcan
                 <h1 class="pull-right">             
-                        <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="#"> <i class="fa fa-upload"></i></a>
+                        <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.subirImportacion') }}"> <i class="fa fa-upload"></i></a>
                         <a gloss="Sincronizar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="#"> <i class="fa fa-filter"></i></a>
                 </h1>
             @endif

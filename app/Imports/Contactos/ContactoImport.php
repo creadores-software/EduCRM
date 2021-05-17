@@ -114,8 +114,8 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
                 Cache::increment('cantidadImportados');            
             }
         }catch(Exception $e){
-            $failure = new Failure($indice,'bd',[$e->getMessage()]);
-            $this->failures = array_merge($this->failures, ['Excepción no controlado']);
+            $failure = new Failure($indice,'bd',['Excepción no controlada']);
+            $this->failures = array_merge($this->failures, $failure);
         }
   
     }

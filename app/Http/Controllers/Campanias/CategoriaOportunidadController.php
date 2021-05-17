@@ -171,12 +171,7 @@ class CategoriaOportunidadController extends AppBaseController
         $interes=$request->input('interes', '');
         $resultado=[];
         if(!empty($capacidad) && !empty($interes)){
-            $categoria = CategoriaOportunidad::
-                 where('interes_minimo','<=',intval($interes))
-                ->where('interes_maximo','>=',intval($interes))
-                ->where('capacidad_minima','<=',intval($capacidad))
-                ->where('capacidad_maxima','>=',intval($capacidad))
-                ->first();
+            $categoria = CategoriaOportunidad::categoriaPorDatos($interes,$capacidad);
             if(!empty($categoria)){
                 $resultado=['id'=>$categoria->id,'nombre'=>$categoria->nombre];
             }

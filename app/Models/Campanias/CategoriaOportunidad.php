@@ -93,4 +93,17 @@ class CategoriaOportunidad extends Model implements Recordable
         }
         return $stars;
     }
+
+    public static function categoriaPorDatos($interes, $capacidad){
+        if(empty($interes) || empty($capacidad)){
+            return null;
+        }
+        $categoria = CategoriaOportunidad::
+            where('interes_minimo','<=',intval($interes))
+        ->where('interes_maximo','>=',intval($interes))
+        ->where('capacidad_minima','<=',intval($capacidad))
+        ->where('capacidad_maxima','>=',intval($capacidad))
+        ->first();
+        return $categoria;
+    }
 }

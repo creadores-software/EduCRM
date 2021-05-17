@@ -183,7 +183,6 @@ class ContactoController extends AppBaseController
     {   
         $term=$request->input('q', '');   
         $contacto_excluir=$request->input('contacto_excluir', '');
-        $contactos_excluir_campania=$request->input('contactos_excluir_campania', '');    
         $where_text = "identificacion is not null";
         $where_params=[];
         $page=$request->input('page', ''); 
@@ -193,10 +192,6 @@ class ContactoController extends AppBaseController
         if(!empty($contacto_excluir) && ctype_digit($contacto_excluir)){
             $where_text.=" and id <> :id";
             $where_params['id']=intval($contacto_excluir);
-        }
-        if(!empty($contactos_excluir_campania) && ctype_digit($contactos_excluir_campania)){
-            $where_text.=" and id not in (select contacto_id from oportunidad where campania_id= :campania)";
-            $where_params['campania']=intval($contactos_excluir_campania);
         }
         if(!empty($where_paramsa)){
             $where_text.=$name." LIKE '%:term%'";
@@ -253,8 +248,12 @@ class ContactoController extends AppBaseController
                     return back();
                 }
                 $importados=Cache::get('cantidadImportados');
-                Flash::success("El archivo ha sido importado correctamente con {$importados} registro(s).");
                 Cache::forget('cantidadImportados');
+                if($importados==0){
+                    Flash::error('No se encontró ningún registro en la plantilla');
+                    return back();
+                }                
+                Flash::success("El archivo ha sido importado correctamente con {$importados} registro(s).");
                 return redirect(route('contactos.contactos.index'));
             } catch (Exception $e) {
                 Flash::error($e->getMessage());

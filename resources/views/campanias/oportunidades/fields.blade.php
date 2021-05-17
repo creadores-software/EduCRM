@@ -20,7 +20,7 @@
 </div>
 
 <!-- Formacion Id Field -->
-<div class="form-group col-sm-6 required">
+<div class="form-group col-sm-6">
     {!! Form::label('formacion_id', __('models/oportunidades.fields.formacion_id')) !!}
     <select name="formacion_id" id="formacion_id" class="form-control">
         <option></option>
@@ -168,12 +168,9 @@
                     url: '{{ route("contactos.contactos.dataAjax") }}',
                     dataType: 'json',
                     data: function (params) {  
-                        //Con esto se impide mostrar contactos ya elegidos
-                       campania = $("[name='campania_id']").val();
                        return {
                             q: params.term, 
                             page: params.page || 1,
-                            contactos_excluir_campania: campania
                         };
                     },
                     processResults: function (data) {
