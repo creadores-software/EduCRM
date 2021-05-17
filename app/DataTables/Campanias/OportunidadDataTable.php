@@ -5,6 +5,7 @@ namespace App\DataTables\Campanias;
 use App\Models\Campanias\Oportunidad;
 use App\Models\Campanias\EstadoCampania;
 use App\Models\Campanias\CategoriaOportunidad;
+use App\Models\Campanias\Interaccion;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -41,6 +42,23 @@ class OportunidadDataTable extends DataTable
         } 
 
         $dataTable
+        ->editColumn('interacciones', function (Oportunidad $oportunidad) {
+            return $oportunidad->interacciones->map(function ($interaccion) {
+                return $interaccion->fecha_inicio.": ".$interaccion->tipoInteraccion->nombre." (".$interaccion->estadoInteraccion->nombre.") ".$interaccion->observacion." - {$interaccion->users->name}";
+            })->implode('; ');
+        })
+        ->editColumn('interacciones_realizadas', function (Oportunidad $oportunidad) {
+            $interacciones = Interaccion::join('estado_interaccion as estadoInteraccion', 'estadoInteraccion.id', '=', 'interaccion.estado_interaccion_id')->where('oportunidad_id',$oportunidad->id)->where('estadoInteraccion.tipo_estado_color_id',1)->count();
+            return $interacciones;
+        })
+        ->editColumn('interacciones_pendientes', function (Oportunidad $oportunidad) {
+            $interacciones = Interaccion::join('estado_interaccion as estadoInteraccion', 'estadoInteraccion.id', '=', 'interaccion.estado_interaccion_id')->where('oportunidad_id',$oportunidad->id)->where('estadoInteraccion.tipo_estado_color_id',2)->count();
+            return $interacciones;
+        })
+        ->editColumn('interacciones_no_efectivas', function (Oportunidad $oportunidad) {
+            $interacciones = Interaccion::join('estado_interaccion as estadoInteraccion', 'estadoInteraccion.id', '=', 'interaccion.estado_interaccion_id')->where('oportunidad_id',$oportunidad->id)->whereNotIn('estadoInteraccion.tipo_estado_color_id',[1,2])->count();
+            return $interacciones;
+        })
         ->addColumn('action', function($row) use ($idContacto,$idCampania){
             $id=$row->id;
             $autorizada=Oportunidad::tieneAutorizacion($id);
@@ -98,6 +116,12 @@ class OportunidadDataTable extends DataTable
 
         if($request->has('action') && $request->get('action')=="excel"){
             $dataTable->removeColumn('action');
+            $dataTable->removeColumn('id');
+            $dataTable->removeColumn('interaccion');            
+            $dataTable->removeColumn('id_contacto');
+            $dataTable->removeColumn('id_campania');
+            $dataTable->removeColumn('id_estado');
+            $dataTable->removeColumn('id_categoria');
             $dataTable->editColumn('estado', function ($oportunidad){
                 return $oportunidad->estado;
             });
@@ -117,32 +141,34 @@ class OportunidadDataTable extends DataTable
      */
     public function query(Oportunidad $model)
     {
-        return $model::
-            leftjoin('categoria_oportunidad as categoriaOportunidad', 'oportunidad.categoria_oportunidad_id', '=', 'categoriaOportunidad.id')
+        return $model::with(['interacciones'])
+            ->leftjoin('categoria_oportunidad as categoriaOportunidad', 'oportunidad.categoria_oportunidad_id', '=', 'categoriaOportunidad.id')
             ->leftjoin('campania', 'oportunidad.campania_id', '=', 'campania.id')
             ->leftjoin('contacto', 'oportunidad.contacto_id', '=', 'contacto.id')
             ->leftjoin('estado_campania as estadoCampania', 'oportunidad.estado_campania_id', '=', 'estadoCampania.id')
             ->leftjoin('formacion', 'oportunidad.formacion_id', '=', 'formacion.id')
             ->leftjoin('justificacion_estado_campania as justificacionEstadoCampania', 'oportunidad.justificacion_estado_campania_id', '=', 'justificacionEstadoCampania.id')
             ->leftjoin('users as responsable', 'oportunidad.responsable_id', '=', 'responsable.id')
-            ->select(['oportunidad.id',    
-                'categoriaOportunidad.id as id_categoria',            
-                'categoriaOportunidad.nombre as categoria',
-                'campania.nombre as campania',
-                'campania.id as id_campania',
+            ->select([
+                'oportunidad.id',
+                'contacto.id as id_contacto',
                 DB::raw('CONCAT(contacto.nombres," ",contacto.apellidos) as contacto'),
+                'campania.id as id_campania',
+                'campania.nombre as campania',                
+                'formacion.nombre as formacion',                
                 'estadoCampania.id as id_estado',
-                'estadoCampania.nombre as estado',
-                'formacion.nombre as formacion',
-                'justificacionEstadoCampania.nombre as razon',
-                'responsable.name as responsable',
-                'ultima_actualizacion',
-                'ultima_interaccion',
+                'estadoCampania.nombre as estado',                
+                'justificacionEstadoCampania.nombre as razon',   
+                'responsable.name as responsable',                             
                 'interes',
                 'capacidad',
+                'categoriaOportunidad.id as id_categoria',            
+                'categoriaOportunidad.nombre as categoria',
                 'ingreso_recibido',
                 'ingreso_proyectado',
-                'adicion_manual',
+                'ultima_actualizacion',
+                'ultima_interaccion',
+                'adicion_manual',                                
             ])->newQuery();
     }
 
@@ -226,6 +252,10 @@ class OportunidadDataTable extends DataTable
             'ingreso_proyectado' => new Column(['title' => __('models/oportunidades.fields.ingreso_proyectado'), 'data' => 'ingreso_proyectado','visible'=>false]),
             'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false,]),
             'id' => new Column(['title' => 'ID', 'data' => 'id','visible'=>false]), 
+            'interacciones' => new Column(['title' => 'interacciones', 'data' => 'interacciones','searchable'=>false,'visible'=>false]), 
+            'interacciones_realizadas' => new Column(['title' => 'interacciones_realizadas', 'data' => 'interacciones_realizadas','searchable'=>false,'visible'=>false]),                                    
+            'interacciones_no_efectivas' => new Column(['title' => 'interacciones_no_efectivas', 'data' => 'interacciones_no_efectivas','searchable'=>false,'visible'=>false]),                                    
+            'interacciones_pendientes' => new Column(['title' => 'interacciones_pendientes', 'data' => 'interacciones_pendientes','searchable'=>false,'visible'=>false]),                                    
         ];
     }
 
