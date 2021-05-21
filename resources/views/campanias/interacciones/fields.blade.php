@@ -45,7 +45,8 @@
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
         </div>
-        <input id="fecha_fin" name="fecha_fin" type="text" placeholder="HH:MM" value="{{ old('fecha_fin',$interaccion->fecha_fin ?? '' ) }}" class="form-control pull-right">
+        <input id="fecha_fin_formato" name="fecha_fin_formato" type="text" placeholder="HH:MM" value="{{ old('fecha_fin_formato',$interaccion->fecha_fin ?? '' ) }}" class="form-control pull-right">
+        {!! Form::hidden('fecha_fin', old('fecha_fin', $interaccion->fecha_fin ?? '')) !!} 
     </div>
 </div>
 
@@ -73,22 +74,32 @@
             defaultDate: fechaActual,
             minDate: hoyPrimeraHora,
         }).on('dp.change', function(e) {
-            $('#fecha_fin').data("DateTimePicker").minDate(e.date);
-            $('#fecha_fin').data("DateTimePicker").defaultDate(e.date);
-            $('#fecha_fin').data("DateTimePicker").date(e.date);
+            date = new Date(e.date);
+            $('#fecha_fin_formato').data("DateTimePicker").minDate(date);
+            $('#fecha_fin_formato').data("DateTimePicker").defaultDate(date);
+            $('#fecha_fin_formato').data("DateTimePicker").date(date);
         });         
         
-        $('#fecha_fin').datetimepicker({
+        $('#fecha_fin_formato').datetimepicker({
             format: 'hh:mm a',
             locale: 'es',   
             defaultDate: fechaActual,
+        }).on('dp.change', function(e) {
+            date = new Date(e.date);
+            var day = date.getDate();
+            var month = date.getMonth()+1;
+            var year = date.getFullYear();
+            $("[name='fecha_fin'").val(year+"-"+month+"-"+day+" "+ $('#fecha_fin_formato').val());
         });
 
         interaccion = @json($interaccion);
         if(interaccion!=null){
-            fin = interaccion['fecha_fin'];
-            date = new Date(fin);
-            $('#fecha_fin').data("DateTimePicker").date(date); 
+            fin = new Date(interaccion['fecha_fin']);
+            $('#fecha_fin_formato').data("DateTimePicker").date(fin); 
+            inicio = new Date(interaccion['fecha_inicio']);
+            $('#fecha_inicio').data("DateTimePicker").minDate(inicio);
+            $('#fecha_inicio').data("DateTimePicker").date(inicio);
+            //Posterior al almacenamiento restringirá desde el request.
         }
 
         var coloresEstadosInteraccion = @json($coloresEstadosInteraccion);
