@@ -201,4 +201,54 @@ class Campania extends Model implements Recordable
         }       
         return false;
     }
+
+    /**
+     * Genera el dataset que se visualizara en el reporte de funnel en campañas
+     */
+    public static function reporteFunnel($campania, $responsable){
+        $labels=[];
+        $dataset=[];  
+        if(!empty($campania)){
+            $labels=TipoCampaniaEstados::
+                join('estado_campania','tipo_campania_estados.estado_campania_id','=','estado_campania.id')
+                ->where('tipo_campania_estados.tipo_campania_id',$campania->tipo_campania_id)
+                ->orderBy('orden','DESC')
+                ->pluck('estado_campania.nombre')->toArray();                  
+                
+            $valorAnterior=0;
+            $data=[]; 
+            $color=[];
+
+            $estados=TipoCampaniaEstados::
+                join('estado_campania','tipo_campania_estados.estado_campania_id','=','estado_campania.id')
+                ->where('tipo_campania_estados.tipo_campania_id',$campania->tipo_campania_id)
+                ->orderBy('orden','DESC')->get();
+            
+            foreach($estados as $estado){
+                $estadoCampania = $estado->estadoCampania;
+
+                $oportunidades = Oportunidad
+                    ::where('estado_campania_id',$estadoCampania->id)
+                    ->where('campania_id',$campania->id);
+                if(!empty($responsable)){
+                    $oportunidades->where('responsable_id',$responsable->id);
+                }
+
+                $cantidad=$oportunidades->count();
+                $cantidad+=$valorAnterior;
+                $valorAnterior=$cantidad;
+
+                $data[]=$cantidad;
+                $color[]=$estadoCampania->tipoEstadoColor->color_hexadecimal;
+            }  
+            $dataset=[
+                [
+                    'data'=> $data,
+                    'backgroundColor'=> $color,
+                    'hoverBackgroundColor'=>  $color
+                ]
+            ]; 
+        }
+        return ['labels'=>$labels,'dataset'=>$dataset];
+    }
 }

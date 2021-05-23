@@ -5,6 +5,7 @@ namespace App\Models\Campanias;
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
 
+
 /**
  * Class Interaccion
  * @package App\Models\Campanias
@@ -195,4 +196,37 @@ class Interaccion extends Model implements Recordable
             }
         }
     } 
+
+    /**
+     * Genera el dataset que se visualizara en el reporte de interacciones por estado
+     */
+    public static function reportePorEstado($campania, $responsable){
+        $labels=TipoInteraccion::pluck('nombre')->toArray();
+        $tipos = TipoInteraccion::get();
+        $colores = TipoEstadoColor::get();
+        $nombresEstados=[1=>"Realizada",2=>"Planeada",3=>"No efectiva"];
+        $dataset=[];
+        foreach($colores as $color){            
+            $infoColor = ['label'=>$nombresEstados[$color->id], 'backgroundColor'=>$color->color_hexadecimal];
+            $data=[];
+            foreach($tipos as $tipo){
+                $inderacciones = Interaccion::join('estado_interaccion','interaccion.estado_interaccion_id','=','estado_interaccion.id')               
+                ->leftjoin('oportunidad','interaccion.oportunidad_id','=','oportunidad.id')               
+                ->leftjoin('campania','oportunidad.campania_id','=','campania.id')               
+                ->leftjoin('users','interaccion.users_id','=','users.id')  
+                ->where('tipo_estado_color_id',$color->id)
+                ->where('tipo_interaccion_id',$tipo->id);
+                if(!empty($campania)){                    
+                    $inderacciones->where('campania_id',$campania->id);    
+                }
+                if(!empty($responsable)){
+                    $inderacciones->where('oportunidad.responsable_id',$responsable->id);    
+                }
+                $data[]=$inderacciones->count();
+            }
+            $infoColor['data']=$data;
+            $dataset[] = $infoColor;
+        } 
+        return ['labels'=>$labels,'dataset'=>$dataset];
+    }
 }

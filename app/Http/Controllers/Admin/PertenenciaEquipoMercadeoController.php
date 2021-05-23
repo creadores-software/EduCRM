@@ -20,7 +20,7 @@ class PertenenciaEquipoMercadeoController extends AppBaseController
     public function __construct(PertenenciaEquipoMercadeoRepository $pertenenciaEquipoMercadeoRepo)
     {
         $this->pertenenciaEquipoMercadeoRepository = $pertenenciaEquipoMercadeoRepo;
-        $this->middleware('permission:admin.pertenenciasEquipoMercadeo.consultar', ['only' => ['index','show','dataAjax']]);
+        //$this->middleware('permission:admin.pertenenciasEquipoMercadeo.consultar', ['only' => ['index','show','dataAjax']]);
         $this->middleware('permission:admin.pertenenciasEquipoMercadeo.crear', ['only' => ['create','store']]);        
         $this->middleware('permission:admin.pertenenciasEquipoMercadeo.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:admin.pertenenciasEquipoMercadeo.eliminar', ['only' => ['destroy']]);

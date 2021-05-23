@@ -15,28 +15,34 @@
                 <div id="canvas-holder" class="form-group col-sm-6">
                     <canvas id="chart-area" width="400" height="300"></canvas>
                 </div>
-                <div class="form-group col-sm-6">
-                    <!-- Campania Id Field -->
-                    <div class="form-group col-sm-12">
-                        {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
-                        <select name="campania_id" id="campania_id" class="form-control">
-                            <option></option>
-                            @if(!empty(old('campania_id', $oportunidad->campania_id ?? '' )))
-                                <option value="{{ old('campania_id', $oportunidad->campania_id ?? '' ) }}" selected> {{ App\Models\Campanias\Campania::find(old('campania_id', $oportunidad->campania_id ?? '' ))->nombre }} </option>
-                            @endif
-                        </select>
-                    </div>   
-                    <!-- Responsable Id Field -->
-                    <div class="form-group col-sm-12">
-                        {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
-                        <select name="responsable_id" id="responsable_id" class="form-control">
-                            <option></option>
-                            @if(!empty(old('responsable_id', $oportunidad->responsable_id ?? '' )))
-                                <option value="{{ old('responsable_id', $oportunidad->responsable_id ?? '' ) }}" selected> {{ App\Models\Admin\User::find(old('responsable_id', $oportunidad->responsable_id ?? '' ))->name }} </option>
-                            @endif
-                        </select>
-                    </div>               
-                </div>
+                {!! Form::open(['route' => 'reportes.interacciones']) !!}
+                    <div class="form-group col-sm-6">
+                        <!-- Campania Id Field -->
+                        <div class="form-group col-sm-12">
+                            {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
+                            <select name="campania_id" id="campania_id" class="form-control">
+                                <option></option>
+                                @if(!empty($campania))
+                                    <option value="{{ $campania->id }}" selected> {{ $campania->nombre }} </option>
+                                @endif
+                            </select>
+                        </div>   
+                        <!-- Responsable Id Field -->
+                        <div class="form-group col-sm-12">
+                            {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
+                            <select name="responsable_id" id="responsable_id" class="form-control">
+                                <option></option>
+                                @if(!empty($responsable))
+                                    <option value="{{ $responsable->id }}" selected> {{ $responsable->name }} </option>
+                                @endif
+                            </select>
+                        </div> 
+                        <!-- Submit Field -->
+                        <div class="form-group col-sm-12">
+                            {!! Form::submit('Filtrar', ['class' => 'btn btn-primary']) !!}
+                        </div>              
+                    </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -46,37 +52,36 @@
     <script src="/js/chart.js"></script>
     
     <script type="text/javascript"> 
-        const labels = ["Correo electrónico", "Llamada", "Reunión presencial", "Videoconferencia"];
-        const data = {
-            labels: labels,
-            datasets:[
-                {
-                    label: 'Realizadas',
-                    data: [25, 29, 13, 15, 5, 3],               
-                    backgroundColor: "#00a65a",
-                },
-                {
-                    label: 'Pendientes',
-                    data: [10, 9, 3, 5, 2, 3],
-                    backgroundColor: "#f39c12",
-                },
-                {
-                    label: 'No efectivas',
-                    data: [10, 9, 3, 5, 2, 3],
-                    backgroundColor: "#dd4b39",
-                }
-            ]
+        var labels = @json($labels);
+        var dataset = @json($dataset);
+
+        const footer = (tooltipItems) => {
+            let sum = 0;
+            tooltipItems.forEach(function(tooltipItem) {
+                sum += tooltipItem.parsed.y;
+            });
+            return 'Total: ' + sum;
         };
 
-        const config = {
+        window.onload = function() {
+        var area = document.getElementById("chart-area").getContext("2d");
+        window.chart = new Chart(area, {
             type: 'bar',
-            data: data,
+            data: {
+                labels: labels,
+                datasets: dataset
+            },
             options: {
                 plugins: {
                     title: {
                         display: true,
                         text: 'Interacciones por estado'
                     },
+                    tooltip: {
+                        callbacks: {
+                        footer: footer,
+                        }
+                    }
                 },
                 responsive: true,
                 scales: {
@@ -88,11 +93,8 @@
                     }
                 }
             }
-        };
+        });        
 
-    window.onload = function() {
-        var ctx = document.getElementById("chart-area").getContext("2d");
-        window.myDoughnut = new Chart(ctx, config);
         $('#campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,

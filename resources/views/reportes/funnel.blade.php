@@ -15,14 +15,18 @@
                 <div id="canvas-holder" class="form-group col-sm-6">
                     <canvas id="chart-area" height="300" width="350"></canvas>
                 </div>
+                {!! Form::open(['route' => 'reportes.funnel']) !!}               
                 <div class="form-group col-sm-6">
+                    <div class="form-group col-sm-12 alert alert-info">
+                        <p>Es necesario elegir una campaña</p>
+                    </div>
                     <!-- Campania Id Field -->
                     <div class="form-group col-sm-12">
                         {!! Form::label('campania_id', __('models/oportunidades.fields.campania_id')) !!}
                         <select name="campania_id" id="campania_id" class="form-control">
                             <option></option>
-                            @if(!empty(old('campania_id', $oportunidad->campania_id ?? '' )))
-                                <option value="{{ old('campania_id', $oportunidad->campania_id ?? '' ) }}" selected> {{ App\Models\Campanias\Campania::find(old('campania_id', $oportunidad->campania_id ?? '' ))->nombre }} </option>
+                            @if(!empty($campania))
+                                <option value="{{ $campania->id}}" selected> {{ $campania->nombre }} </option>
                             @endif
                         </select>
                     </div>   
@@ -31,12 +35,17 @@
                         {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
                         <select name="responsable_id" id="responsable_id" class="form-control">
                             <option></option>
-                            @if(!empty(old('responsable_id', $oportunidad->responsable_id ?? '' )))
-                                <option value="{{ old('responsable_id', $oportunidad->responsable_id ?? '' ) }}" selected> {{ App\Models\Admin\User::find(old('responsable_id', $oportunidad->responsable_id ?? '' ))->name }} </option>
+                            @if(!empty($responsable))
+                                <option value="{{ $responsable->id}}" selected> {{ $responsable->name }} </option>
                             @endif
                         </select>
-                    </div>               
+                    </div>
+                    <!-- Submit Field -->
+                    <div class="form-group col-sm-12">
+                        {!! Form::submit('Filtrar', ['class' => 'btn btn-primary']) !!}
+                    </div>                
                 </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -46,37 +55,16 @@
     <script src="/js/funnel/chart.funnel.bundled.js"></script>
     
     <script type="text/javascript">
-        
-        var config = {
+         var labels = @json($labels);
+        var dataset = @json($dataset);
+
+    window.onload = function() {
+        var area = document.getElementById("chart-area").getContext("2d");
+        window.chart = new Chart(area, {
         type: 'funnel',
         data: {
-            datasets: [{
-                data: [1,2,5,10, 35, 90],
-                backgroundColor: [
-                    "#dd4b39",
-                    "#dd4b39",
-                    "#dd4b39",
-                    "#00a65a", 
-                    "#f39c12",
-                    "#f39c12",           
-                ],
-                hoverBackgroundColor: [
-                    "#dd4b39",
-                    "#dd4b39",
-                    "#dd4b39",
-                    "#00a65a", 
-                    "#f39c12",
-                    "#f39c12",   
-                ]
-            }],
-            labels: [   
-                "Retirado",
-                "Aplazado",
-                "Graduado",
-                "Matriculado",
-                "Proceso",
-                "Prospecto",
-            ]
+            datasets: dataset,
+            labels: labels
         },
         options: {
             responsive: true,
@@ -93,11 +81,7 @@
                 animateRotate: true
             }
         }
-    };
-
-    window.onload = function() {
-        var ctx = document.getElementById("chart-area").getContext("2d");
-        window.myDoughnut = new Chart(ctx, config);
+    });
         $('#campania_id').select2({
                 placeholder: "Seleccionar",
                 allowClear: true,
