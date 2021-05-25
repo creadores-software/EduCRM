@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->middleware('auth');
-Route::get('/home', 'HomeController@index')->middleware('auth');
+Route::get('/home', 'HomeController@index')->middleware('auth')->name('home');
 
 Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::get('actitudesServicio/dataAjax', 'Parametros\ActitudServicioController@dataAjax')->name('parametros.actitudesServicio.dataAjax');
