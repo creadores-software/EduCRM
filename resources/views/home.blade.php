@@ -46,7 +46,7 @@
             "pageLength": 3,
             "pagingType": "simple",
             "language": {
-                info: "Mostrando de _START_ hasta el _END_ de _TOTAL_ registros",
+                info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
                 infoEmpty:  "Total registros: 0",                
                 paginate: {
                     first:      "Prim.",
@@ -56,13 +56,13 @@
                 },
             },
         });
-        $('#campaniasAbiertas').DataTable({
+        $('#actividadesHoy').DataTable({
             "searching": false,
             "lengthChange": false,
             "pageLength": 3,
             "pagingType": "simple",
             "language": {
-                info: "Mostrando de _START_ hasta el _END_ de _TOTAL_ registros",
+                info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
                 infoEmpty:  "Total registros: 0",                
                 paginate: {
                     first:      "Prim.",

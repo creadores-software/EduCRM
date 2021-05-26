@@ -5,65 +5,34 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body">
-            <table id="prueba" class="table table-striped table-bordered dataTable">
-            <tbody>
-            <tr>
-                <th>Hora</th>
-                <th width="150px">Detalle</th>
-                <th>Acción</th>
-            </tr>
-            <tr style="color:#00a65a">
-                <td>08:00 am</td>
-                <td>Llamada: Valentina Londoño Marin</td>
-                <td>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                            <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            <tr style="color:#dd4b39">
-                <td>10:30 am</td>
-                <td>Videoconferencia: Miriam Marin</td>
-                <td>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                            <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>12:30 am</td>
-                <td>Mensaje: Pedro Perez</td>
-                <td>
-                    <div class="btn-group">
-                        <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                            <a href="#" class="btn btn-default btn-xs">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>                        
-            </tbody></table>
-            <div>
-                <ul class="pagination pagination-sm no-margin pull-right">
-                  <li><a href="#">«</a></li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">»</a></li>
-                </ul>
-            </div>
+            <table id="actividadesHoy" class="table table-striped table-bordered dataTable">
+                <thead>
+                    <tr role="row">
+                        <th>Hora</th>                                               
+                        <th>Tipo</th>
+                        <th>Nombre</th>
+                        <th>Observación</th> 
+                        <th>Acción</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($actividadesHoy as $interaccion)
+                    <tr role="row" class="odd">
+                        <td>{{ date("H:i",strtotime($interaccion->fecha_inicio)) }}</td>   
+                        <td>{{ $interaccion->tipoInteraccion->nombre }}</td>                                            
+                        <td>{{ $interaccion->oportunidad->contacto->getNombreCompleto() }}</td>                        
+                        <td>{{ $interaccion->observacion }}</td> 
+                        <td>
+                            <div class="btn-group">
+                                <a target="_blank" href="{{ route('campanias.interacciones.edit', [$interaccion->id,'idOportunidad'=>$interaccion->oportunidad->id]) }}" class="btn btn-default btn-xs">
+                                    <i class="glyphicon glyphicon-pencil"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr> 
+                    @endforeach                                                       
+                </tbody>
+            </table> 
         </div>                    
     </div>
-</div> 
+</div>

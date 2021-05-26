@@ -8,24 +8,26 @@
             <table id="contactosActualizacion" class="table table-striped table-bordered dataTable">
                 <thead>
                     <tr role="row">
-                        <th>Dias</th>
-                        <th>Estado</th>
+                        <th>Campaña</th>                                               
                         <th>Nombre</th>
-                        <th>Acción</th>
+                        <th>Estado</th>
+                        <th>Dias</th> 
+                        <th>Acción</th>                        
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($contactosActualizacion as $interaccion)
+                    @foreach($contactosActualizacion as $oportunidad)
                     <tr role="row" class="odd">
-                        <td>{{ $interaccion->oportunidad->ultima_actualizacion }}</td>
-                        <td>{{ $interaccion->oportunidad->estadoCampania->nombre }}</td>
-                        <td>{{ $interaccion->oportunidad->contacto->nombres }}</td>
+                        <td>{{ $oportunidad->campania->nombre }}</td>                                               
+                        <td>{{ $oportunidad->contacto->getNombreCompleto() }}</td>
+                        <td>{{ $oportunidad->estadoCampania->nombre }}</td>
+                        <td>{!! $oportunidad->getDiasUltimaActualizacion(true) !!}</td>
                         <td>
                             <div class="btn-group">
-                                <a href="#" class="btn btn-default btn-xs">
+                                <a target="_blank" href="{{ route('campanias.oportunidades.edit', [$oportunidad->id,'idCampania'=>$oportunidad->campania->id]) }}" class="btn btn-default btn-xs">
                                     <i class="glyphicon glyphicon-pencil"></i>
                                 </a>
-                                    <a href="#" class="btn btn-default btn-xs">
+                                <a target="_blank" href="{{ route('campanias.interacciones.index', ['idOportunidad'=>$oportunidad->id]) }}" class="btn btn-default btn-xs">
                                     <i class="glyphicon glyphicon-comment"></i>
                                 </a>
                             </div>

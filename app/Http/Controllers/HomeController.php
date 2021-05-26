@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin\User;
 use App\Models\Campanias\Campania;
 use App\Models\Campanias\Interaccion;
+use App\Models\Campanias\Oportunidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,8 +39,8 @@ class HomeController extends Controller
             $responsable = User::where('id',Auth::user()->id)->first();     
         }
         $reporte = Interaccion::reportePorEstado($campania,$responsable);
-        $campanias = Campania::get();
-        $interacciones=Interaccion::get();
+        $interacciones=Interaccion::where('estado_interaccion_id',2)->get();
+        $oportunidades=Oportunidad::orderBy('ultima_actualizacion', 'asc')->get();
         return view('home',[
             'campania'=>$campania,
             'responsable'=>$responsable,
@@ -47,8 +48,7 @@ class HomeController extends Controller
             'interaccionesPendientes'=>4,
             'interaccionesRealizadas'=>'25/30',
             'actividadesHoy'=>$interacciones,
-            'contactosActualizacion'=>$interacciones,
-            'campaniasAbiertas'=>$campanias,
+            'contactosActualizacion'=>$oportunidades,
             ]
         );
     }

@@ -85,7 +85,7 @@ class Interaccion extends Model implements Recordable
      **/
     public function contacto()
     {
-        return $this->belongsTo(\App\Models\Campanias\Contacto::class, 'contacto_id');
+        return $this->belongsTo(\App\Models\Contactos\Contacto::class, 'contacto_id');
     }
 
     /**

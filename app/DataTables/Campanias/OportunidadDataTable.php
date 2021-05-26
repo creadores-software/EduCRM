@@ -59,6 +59,10 @@ class OportunidadDataTable extends DataTable
             $interacciones = Interaccion::join('estado_interaccion as estadoInteraccion', 'estadoInteraccion.id', '=', 'interaccion.estado_interaccion_id')->where('oportunidad_id',$oportunidad->id)->whereNotIn('estadoInteraccion.tipo_estado_color_id',[1,2])->count();
             return $interacciones;
         })
+        ->addColumn('dias_actualizacion', function($row){
+            $oportunidad = Oportunidad::where('id',$row->id)->first();
+            return $oportunidad->getDiasUltimaActualizacion(true);
+        })
         ->addColumn('action', function($row) use ($idContacto,$idCampania){
             $id=$row->id;
             $autorizada=Oportunidad::tieneAutorizacion($id);
@@ -112,7 +116,7 @@ class OportunidadDataTable extends DataTable
             }            
             return;          
         })
-        ->rawColumns(['estado','action','categoria']);
+        ->rawColumns(['estado','action','categoria','dias_actualizacion']);
 
         if($request->has('action') && $request->get('action')=="excel"){
             $dataTable->removeColumn('action');
@@ -127,6 +131,10 @@ class OportunidadDataTable extends DataTable
             });
             $dataTable->editColumn('categoria', function ($oportunidad){
                 return $oportunidad->categoria;
+            });
+            $dataTable->editColumn('dias_actualizacion', function ($row){
+                $oportunidad = Oportunidad::where('id',$row->id)->first();
+                return $oportunidad->getDiasUltimaActualizacion();
             });
         }   
 
@@ -241,9 +249,10 @@ class OportunidadDataTable extends DataTable
             'categoria' => new Column(['title' => __('models/oportunidades.fields.categoria_oportunidad_id'), 'data' => 'categoria','name' => 'categoriaOportunidad.nombre','width' => '100px']),            
             'formacion' => new Column(['title' => __('models/oportunidades.fields.formacion_id'), 'data' => 'formacion', 'name' => 'formacion.nombre']),
             'responsable' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable','name' => 'responsable.name','width' => '30px']),
-            'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre','width' => '100px']),            
+            'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre','width' => '100px']),                        
             'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion','width' => '60px']),
             'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion','width' => '60px']),
+            'dias_actualizacion' => new Column(['title' => 'Dias actualización','data'=>'dias_actualizacion']),
             //Campos no visibles            
             'razon' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'razon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false,'exportable' => false]),

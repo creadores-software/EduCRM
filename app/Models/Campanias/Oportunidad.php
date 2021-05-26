@@ -273,4 +273,30 @@ class Oportunidad extends Model implements Recordable
             $query->where("campania.activa", $valores['campaniaActiva']);
         }
     } 
+
+    public function getDiasUltimaActualizacion($formato=false){
+        $ahora = time(); // or your date as well
+        $ultimaActualizacion = strtotime($this->ultima_actualizacion);
+        $diferencia = $ahora - $ultimaActualizacion;
+        $dias=round($diferencia / (60 * 60 * 24));        
+        if($formato){
+
+            $diasEstado = TipoCampaniaEstados::
+                where('tipo_campania_id',$this->campania->tipo_campania_id)
+                ->where('estado_campania_id',$this->estado_campania_id)
+                ->first()->dias_cambio;
+            //Positivo
+            $color=TipoEstadoColor::where('id',1)->first()->color_hexadecimal;
+            if($diasEstado<$dias){
+                //Negativo
+                $color=TipoEstadoColor::where('id',3)->first()->color_hexadecimal;
+            }else if($diasEstado==$dias){
+                //Neutro
+                $color=TipoEstadoColor::where('id',2)->first()->color_hexadecimal;
+            }
+            return "<span style='color:{$color}'><i class='fa fa-circle'></i></span> ".$dias;  
+        }else{
+            return $dias;
+        }        
+    }
 }
