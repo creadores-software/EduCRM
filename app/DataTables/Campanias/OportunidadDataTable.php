@@ -203,7 +203,7 @@ class OportunidadDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax(route('campanias.oportunidades.index', ['idCampania' => $idCampania,'idContacto' => $idContacto]))
-            ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
+            ->addAction(['width' => '150px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'columnDefs' => $columnDefs,
                 'dom'       => 'Bfrtip',
@@ -251,8 +251,8 @@ class OportunidadDataTable extends DataTable
             'responsable' => new Column(['title' => __('models/oportunidades.fields.responsable_id'), 'data' => 'responsable','name' => 'responsable.name','width' => '30px']),
             'estado' => new Column(['title' => __('models/oportunidades.fields.estado_campania_id'), 'data' => 'estado', 'name' => 'estadoCampania.nombre','width' => '100px']),                        
             'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion','width' => '60px']),
+            'dias_actualizacion' => new Column(['title' => 'Dias','data'=>'dias_actualizacion']),
             'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion','width' => '60px']),
-            'dias_actualizacion' => new Column(['title' => 'Dias actualización','data'=>'dias_actualizacion']),
             //Campos no visibles            
             'razon' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'razon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false,'exportable' => false]),

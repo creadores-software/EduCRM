@@ -4,9 +4,11 @@ namespace App\DataTables\Campanias;
 
 use App\Models\Campanias\Interaccion;
 use App\Models\Campanias\EstadoInteraccion;
+use App\Models\Campanias\TipoEstadoColor;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
+use Illuminate\Support\Facades\Log;
 
 class InteraccionDataTable extends DataTable
 {
@@ -23,15 +25,10 @@ class InteraccionDataTable extends DataTable
         $request=$this->request();
         $colores = EstadoInteraccion::arrayColores();
 
-        $idContacto=false;
-        if ($request->has('idContacto')) {
-            $idContacto=$request->get('idContacto');
-        }
         $idOportunidad=false;
         if ($request->has('idOportunidad')) {
             $idOportunidad=$request->get('idOportunidad');
         } 
-
         $dataTable
         ->addColumn('action', function($row) use ($idOportunidad){
             $id=$row->id;
@@ -45,14 +42,21 @@ class InteraccionDataTable extends DataTable
         })
         ->editColumn('estado', function ($interaccion) use($colores){
             $id=$interaccion->id_estado;      
-            $color = $colores[$id]['color']; 
-            return "<span style='color:$color'><i class='fa fa-circle'></i></span> $interaccion->estado";
+            $color = $colores[$id]['color'];
+            return "<span style='color:$color'><i class='fa fa-circle'></i></span> {$interaccion->estado}";
         })
         ->editColumn('fecha_inicio', function ($interaccion){
             if(empty($interaccion->fecha_inicio)){
                 return;
             }
-            return date('Y-m-d h:i:s A', strtotime($interaccion->fecha_inicio));
+            $tiempoActual=date("Y-m-d H:i:s");
+            $tiempoInicio=date("Y-m-d H:i:s",strtotime($interaccion->fecha_inicio));   
+            $atraso="";           
+            if($interaccion->id_estado==2 && $tiempoInicio<$tiempoActual){
+                $colorNegativo=TipoEstadoColor::where('id',3)->first()->color_hexadecimal;
+                $atraso="<span style='color:{$colorNegativo}'><i class='fa fa-circle'></i></span> ";  
+            }
+            return $atraso.date('Y-m-d h:i:s A', strtotime($interaccion->fecha_inicio));
         })
         ->editColumn('fecha_fin', function ($interaccion){
             if(empty($interaccion->fecha_fin)){
@@ -61,22 +65,43 @@ class InteraccionDataTable extends DataTable
             return date('Y-m-d h:i:s A', strtotime($interaccion->fecha_fin));
         })
         ->filter(function ($query) use ($request) {
-            if ($request->has('idOportunidad')) {
-                $query->where("oportunidad_id",$request->get('idOportunidad'));
+            if ($request->has('idOportunidad') && !empty($request->get('idOportunidad'))) {
+                $idOportunidad=$request->get('idOportunidad');
+                $query->where("oportunidad_id",$idOportunidad);
             } 
-            if ($request->has('idContacto')) {
-                $query->where("oportunidad.contacto_id",$request->get('idContacto'));   
+            if ($request->has('idContacto') && !empty($request->get('idContacto'))) {                
+                $idContacto=$request->get('idContacto');
+                $query->where("oportunidad.contacto_id",$idContacto);
+            } 
+             
+            $idCampania=false;
+            $idResponsable=false;
+            $idEstado=false;
+
+            if ($request->has('idCampania')) {
+                $idCampania=$request->get('idCampania');
             }            
+            if ($request->has('idResponsable')) {
+                $idResponsable=$request->get('idResponsable');
+            }            
+            if ($request->has('idEstado') && !empty($request->get('idEstado'))) {
+                $idEstado=$request->get('idEstado');
+                Interaccion::filtroInteracciones($query,$idCampania,$idResponsable,$idEstado);
+            }         
             return;          
         })
-        ->rawColumns(['estado','action']);
+        ->rawColumns(['estado','action','fecha_inicio']);
 
         if($this->request()->has('action') && $this->request()->get('action')=="excel"){
              $dataTable->removeColumn('action');
-             $dataTable->editColumn('estado', function ($oportunidad){
-                return $oportunidad->estado;
+             $dataTable->editColumn('estado', function ($interaccion){
+                return $interaccion->estado;
+            });
+            $dataTable->editColumn('fecha_inicio', function ($interaccion){
+                return $interaccion->fecha_inicio;
             });
         }
+
         return $dataTable;
     }
 
@@ -97,7 +122,7 @@ class InteraccionDataTable extends DataTable
             ->select(['interaccion.id',  
                 'campania.nombre as campania',
                 'interaccion.oportunidad_id',
-                'interaccion.contacto_id', 
+                'oportunidad.contacto_id', 
                 'tipoInteraccion.nombre as tipo_interaccion',
                 'estado.id as id_estado',            
                 'estado.nombre as estado',
@@ -116,18 +141,36 @@ class InteraccionDataTable extends DataTable
     public function html()
     {
         $columnDefs=[];
-        $idOportunidad=null;
-        if ($this->request()->has("idOportunidad")) {
-            $idOportunidad = $this->request()->get("idOportunidad");
+        $idCampania=false;
+        if ($this->request()->has('idCampania')) {
+            $idCampania=$this->request()->get('idCampania');
         }
-        $idContacto=null;
-        if ($this->request()->has("idContacto")) {
-            $idContacto = $this->request()->get("idContacto");
+        $idResponsable=false;
+        if ($this->request()->has('idResponsable')) {
+            $idResponsable=$this->request()->get('idResponsable');
         }
+        $idEstado=false;
+        if ($this->request()->has('idEstado')) {
+            $idEstado=$this->request()->get('idEstado');
+        }
+        $idOportunidad=false;
+        if ($this->request()->has('idOportunidad')) {
+            $idOportunidad=$this->request()->get('idOportunidad');
+        } 
+        $idContacto=false;
+        if ($this->request()->has('idContacto')) {
+            $idContacto=$this->request()->get('idContacto');
+        } 
 
         return $this->builder()
             ->columns($this->getColumns())
-            ->minifiedAjax(route('campanias.interacciones.index', ['idOportunidad' => $idOportunidad,'idContacto' => $idContacto]))
+            ->minifiedAjax(route('campanias.interacciones.index', [
+                'idOportunidad' => $idOportunidad,
+                'idCampania' => $idCampania,
+                'idResponsable' => $idResponsable,
+                'idEstado' => $idEstado,
+                'idContacto' => $idContacto,
+            ]))
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'columnDefs' => $columnDefs,

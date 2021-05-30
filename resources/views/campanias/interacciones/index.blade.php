@@ -14,9 +14,9 @@ div.dataTables_wrapper div.dataTables_filter {
     <section class="content-header">
         @if(!empty($contacto))
             <h1>Vista: {{$contacto->getNombreCompleto()}}</h1>
-        @else
+        @elseif(!empty($oportunidad))
             <h1 class="pull-left">
-                @lang('models/interacciones.plural'): {{$oportunidad->contacto->getNombreCompleto()}} ({{$oportunidad->estadoCampania->nombre}}) 
+                @lang('models/interacciones.plural'): {{$oportunidad->contacto->getNombreCompleto()}} ({{$oportunidad->estadoCampania->nombre}})                 
             </h1>            
             @can('campanias.interacciones.crear')
                 <h1 class="pull-right">
@@ -28,6 +28,10 @@ div.dataTables_wrapper div.dataTables_filter {
             </h1>
             <h1 class="pull-right">
                 <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.index',['idCampania'=>$oportunidad->campania_id]) }}">@lang('crud.back')</a>
+            </h1>
+        @else
+            <h1 class="pull-left">
+                @lang('models/interacciones.plural')
             </h1>
         @endif
     </section>

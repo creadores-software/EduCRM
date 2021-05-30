@@ -38,16 +38,21 @@ class InteraccionController extends AppBaseController
      */
     public function index(InteraccionDataTable $interaccionDataTable)
     {
-        $contacto=null;
+        $estado=null;
         $oportunidad=null;
+        $contacto=null;
         if ($interaccionDataTable->request()->has('idOportunidad')) {            
             $oportunidad = Oportunidad::find($interaccionDataTable->request()->get('idOportunidad'));
         }
         if ($interaccionDataTable->request()->has('idContacto')) {
             $contacto = Contacto::find($interaccionDataTable->request()->get('idContacto'));            
         }
-        if(empty($contacto) && empty($oportunidad)) {
-            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una oportunidad o contacto seleccionado'], 500);     
+        if ($interaccionDataTable->request()->has('idEstado')) {
+            $estado = $interaccionDataTable->request()->get('idEstado');            
+        }
+
+        if(empty($contacto) && empty($oportunidad) && empty($estado)) {
+            return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin una oportunidad, contacto o estado seleccionado'], 500);     
         } 
         return $interaccionDataTable->render('campanias.interacciones.index',
                 ['oportunidad'=>$oportunidad,'contacto'=>$contacto]); 

@@ -38,17 +38,20 @@ class HomeController extends Controller
         }else{
             $responsable = User::where('id',Auth::user()->id)->first();     
         }
-        $reporte = Interaccion::reportePorEstado($campania,$responsable);
-        $interacciones=Interaccion::where('estado_interaccion_id',2)->get();
-        $oportunidades=Oportunidad::orderBy('ultima_actualizacion', 'asc')->get();
+        $indicadores = Interaccion::indicadoresInteracciones($campania, $responsable);
+        $interaccionesAtrasadas = $indicadores['interaccionesAtrasadas'];
+        $interaccionesPendientes = $indicadores['interaccionesPendientes'];
+        $interaccionesRealizadas = "{$indicadores['interaccionesRealizadas']}/{$indicadores['interaccionesTotales']}";
+        $actividadesHoy=Interaccion::interaccionesPendientes($campania, $responsable);
+        $contactosActualizacion=Oportunidad::oportunidadesPorActualizacion($campania, $responsable);
         return view('home',[
             'campania'=>$campania,
             'responsable'=>$responsable,
-            'interaccionesAtrasadas'=>2,
-            'interaccionesPendientes'=>4,
-            'interaccionesRealizadas'=>'25/30',
-            'actividadesHoy'=>$interacciones,
-            'contactosActualizacion'=>$oportunidades,
+            'interaccionesAtrasadas'=>$interaccionesAtrasadas,
+            'interaccionesPendientes'=>$interaccionesPendientes,
+            'interaccionesRealizadas'=>$interaccionesRealizadas,
+            'actividadesHoy'=>$actividadesHoy,
+            'contactosActualizacion'=>$contactosActualizacion,
             ]
         );
     }

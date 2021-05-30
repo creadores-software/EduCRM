@@ -7,6 +7,10 @@
         color: #333;
         padding: 10px 0px 0px 0px;
     }
+    .select2-container {
+        width: 100% !important;
+        padding: 0;
+    }
     </style>
 @endpush
 
@@ -22,7 +26,7 @@
             @include('dashboard.contactos_actualizacion')     
         </div> 
         <div class="row"> 
-            <a class="btn btn-default pull-right" style="margin: 0px 25px 10px 5px;" href="{{ route('contactos.contactos.create') }}">Filtrar</a>                         
+            <a id="button-filtrar" class="btn btn-default pull-right" style="margin: 0px 25px 10px 5px;" href="#">Filtrar</a>                         
         </div>         
     </div>  
     
@@ -30,81 +34,17 @@
 @include('dashboard.filtro')
 @endsection
 
-@push('scripts')
-    @include('layouts.datatables_js')
-    <script src="/js/funnel/chart.funnel.bundled.js"></script>
-    
+@push('scripts')    
+    @include('layouts.datatables_js')     
     <script type="text/javascript">
-    localStorage.removeItem('menu_abuelo_seleccionado');
-    localStorage.removeItem('menu_padre_seleccionado');
-    localStorage.removeItem('menu_hijo_seleccionado');
+        localStorage.removeItem('menu_abuelo_seleccionado');
+        localStorage.removeItem('menu_padre_seleccionado');
+        localStorage.removeItem('menu_hijo_seleccionado');        
         
-    window.onload = function() {        
-        $('#contactosActualizacion').DataTable({
-            "searching": false,
-            "lengthChange": false,
-            "pageLength": 3,
-            "pagingType": "simple",
-            "language": {
-                info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
-                infoEmpty:  "Total registros: 0",                
-                paginate: {
-                    first:      "Prim.",
-                    previous:   "«",
-                    next:       "»",
-                    last:       "Ult."
-                },
-            },
+        $(document).ready(function() {  
+            $('#button-filtrar').on( "click", function() {
+                $('#advanced_filter').modal('show');
+            });  
         });
-        $('#actividadesHoy').DataTable({
-            "searching": false,
-            "lengthChange": false,
-            "pageLength": 3,
-            "pagingType": "simple",
-            "language": {
-                info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
-                infoEmpty:  "Total registros: 0",                
-                paginate: {
-                    first:      "Prim.",
-                    previous:   "«",
-                    next:       "»",
-                    last:       "Ult."
-                },
-            },
-        });
-        $('#campania_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("campanias.campanias.dataAjax") }}',
-                    dataType: 'json',
-                },
-            });
-        };
-        $('#responsable_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("admin.users.dataAjax") }}',
-                    dataType: 'json',
-                    data: function (params) {  
-                       //La campaña determinará los equipos
-                       campania = $("[name='campania_id']").val();
-                       return {
-                            q: params.term, 
-                            page: params.page || 1,
-                            campania: campania,
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data.results,
-                            pagination: {
-                                more: data.more
-                            }
-                        };
-                    }
-                },
-            });
     </script>
 @endpush

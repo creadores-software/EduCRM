@@ -345,10 +345,7 @@
         </li>  
         <li id="reporte-interacciones" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('reportes.interacciones') }}"><i class="fa fa-circle-o"></i><span>Interacciones por estado</span></a>
-        </li> 
-        <li id="dashboar" class="treeview-item opcion-menu menu-hijo">
-            <a href="{{ route('reportes.dashboard') }}"><i class="fa fa-circle-o"></i><span>Dashboard</span></a>
-        </li>               
+        </li>                
     </ul> 
 </li>
 <li id="manuales">

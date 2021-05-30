@@ -274,29 +274,55 @@ class Oportunidad extends Model implements Recordable
         }
     } 
 
+    /**
+     * Retorna los días que lleva una oportunidad en el mismo estado
+     */
     public function getDiasUltimaActualizacion($formato=false){
-        $ahora = time(); // or your date as well
+        $ahora = time();
         $ultimaActualizacion = strtotime($this->ultima_actualizacion);
         $diferencia = $ahora - $ultimaActualizacion;
         $dias=round($diferencia / (60 * 60 * 24));        
         if($formato){
-
             $diasEstado = TipoCampaniaEstados::
                 where('tipo_campania_id',$this->campania->tipo_campania_id)
                 ->where('estado_campania_id',$this->estado_campania_id)
                 ->first()->dias_cambio;
             //Positivo
             $color=TipoEstadoColor::where('id',1)->first()->color_hexadecimal;
-            if($diasEstado<$dias){
-                //Negativo
-                $color=TipoEstadoColor::where('id',3)->first()->color_hexadecimal;
-            }else if($diasEstado==$dias){
-                //Neutro
-                $color=TipoEstadoColor::where('id',2)->first()->color_hexadecimal;
-            }
+            if($diasEstado>0){
+                if($diasEstado<$dias){
+                    //Negativo
+                    $color=TipoEstadoColor::where('id',3)->first()->color_hexadecimal;
+                }else if($diasEstado==$dias){
+                    //Neutro
+                    $color=TipoEstadoColor::where('id',2)->first()->color_hexadecimal;
+                }  
+            }        
             return "<span style='color:{$color}'><i class='fa fa-circle'></i></span> ".$dias;  
         }else{
             return $dias;
         }        
     }
+
+    /**
+     * Contactos por última actualización
+     */
+    public static function oportunidadesPorActualizacion($campania, $responsable){   
+        $oportunidades = Oportunidad::
+        join('campania','oportunidad.campania_id','=','campania.id')
+        ->join('tipo_campania','campania.tipo_campania_id','=','tipo_campania.id')  
+        ->join('tipo_campania_estados', function($join){
+            $join->on('tipo_campania_estados.estado_campania_id','=','oportunidad.estado_campania_id');
+            $join->on('tipo_campania_estados.tipo_campania_id','=','tipo_campania.id');
+        })        
+        ->where('dias_cambio','>',0) //Diferente a estados finales.
+        ->select('oportunidad.*');
+        if(!empty($campania)){                    
+            $oportunidades->where('campania_id',$campania->id);    
+        }
+        if(!empty($responsable)){
+            $oportunidades->where('responsable_id',$responsable->id);    
+        } 
+        return $oportunidades->get();
+    }  
 }

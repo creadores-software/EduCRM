@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'HomeController@index')->middleware('auth');
-Route::get('/home', 'HomeController@index')->middleware('auth')->name('home');
+Route::match(array('GET','POST'),'/home', 'HomeController@index')->middleware('auth')->name('home');
 
 Route::group(['prefix' => 'parametros','middleware'=>'auth'], function () {
     Route::get('actitudesServicio/dataAjax', 'Parametros\ActitudServicioController@dataAjax')->name('parametros.actitudesServicio.dataAjax');
@@ -170,5 +170,4 @@ Route::group(['prefix' => 'campanias'], function () {
 Route::group(['prefix' => 'reportes'], function () {
     Route::match(array('GET','POST'),'funnel', 'ReportesController@funnel')->name('reportes.funnel');
     Route::match(array('GET','POST'),'interacciones', 'ReportesController@interacciones')->name('reportes.interacciones');
-    Route::get('dashboard', function () {return view('reportes.dashboard');})->name('reportes.dashboard');
 });

@@ -1,7 +1,7 @@
 <div class="col-lg-6 col-xs-12">
     <div class="row">
         <div class="box-header text-center">
-            <h3 class="box-title">Actividades para hoy</h3>
+            <h3 class="box-title">Actividades pendientes para hoy</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -18,7 +18,7 @@
                 <tbody>
                     @foreach($actividadesHoy as $interaccion)
                     <tr role="row" class="odd">
-                        <td>{{ date("H:i",strtotime($interaccion->fecha_inicio)) }}</td>   
+                        <td>{!! $interaccion->getHora(true) !!}</td>   
                         <td>{{ $interaccion->tipoInteraccion->nombre }}</td>                                            
                         <td>{{ $interaccion->oportunidad->contacto->getNombreCompleto() }}</td>                        
                         <td>{{ $interaccion->observacion }}</td> 
@@ -36,3 +36,27 @@
         </div>                    
     </div>
 </div>
+
+@push('scripts')   
+    <script type="text/javascript">
+        $(document).ready(function() {             
+            $('#actividadesHoy').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "pageLength": 3,
+                "pagingType": "simple",
+                "language": {
+                    info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
+                    infoEmpty:  "Total registros: 0", 
+                    emptyTable: "No se encontró ningún registro",               
+                    paginate: {
+                        first:      "Prim.",
+                        previous:   "«",
+                        next:       "»",
+                        last:       "Ult."
+                    },
+                },                
+            });
+        });
+    </script>
+@endpush

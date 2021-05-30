@@ -210,23 +210,135 @@ class Interaccion extends Model implements Recordable
             $infoColor = ['label'=>$nombresEstados[$color->id], 'backgroundColor'=>$color->color_hexadecimal];
             $data=[];
             foreach($tipos as $tipo){
-                $inderacciones = Interaccion::join('estado_interaccion','interaccion.estado_interaccion_id','=','estado_interaccion.id')               
+                $interacciones = Interaccion::join('estado_interaccion','interaccion.estado_interaccion_id','=','estado_interaccion.id')               
                 ->leftjoin('oportunidad','interaccion.oportunidad_id','=','oportunidad.id')               
                 ->leftjoin('campania','oportunidad.campania_id','=','campania.id')               
                 ->leftjoin('users','interaccion.users_id','=','users.id')  
                 ->where('tipo_estado_color_id',$color->id)
                 ->where('tipo_interaccion_id',$tipo->id);
                 if(!empty($campania)){                    
-                    $inderacciones->where('campania_id',$campania->id);    
+                    $interacciones->where('campania_id',$campania->id);    
                 }
                 if(!empty($responsable)){
-                    $inderacciones->where('oportunidad.responsable_id',$responsable->id);    
+                    $interacciones->where('oportunidad.responsable_id',$responsable->id);    
                 }
-                $data[]=$inderacciones->count();
+                $data[]=$interacciones->count();
             }
             $infoColor['data']=$data;
             $dataset[] = $infoColor;
         } 
         return ['labels'=>$labels,'dataset'=>$dataset];
+    }
+
+    /** 
+     * Retorna la hora (fecha inicio) de una interacción
+     */
+    public function getHora($formato=false){
+        $hora=date("H:i",strtotime($this->fecha_inicio));              
+        if($formato){
+            $horaActual=date("H:i");    
+            //Neutro
+            $color=TipoEstadoColor::where('id',2)->first()->color_hexadecimal;
+            if($horaActual>$hora){
+                //Negativo
+                $color=TipoEstadoColor::where('id',3)->first()->color_hexadecimal;
+            }
+            return "<span style='color:{$color}'><i class='fa fa-circle'></i></span> ".$hora;  
+        }else{
+            return $hora;
+        }        
+    }
+
+    /** 
+     * Retorna las interacciones planeadas para el día actual según campaña y responsable
+     */
+    public static function interaccionesPendientes($campania, $responsable){   
+        $interacciones = Interaccion::where('estado_interaccion_id',2)
+        ->leftjoin('oportunidad','interaccion.oportunidad_id','=','oportunidad.id')  
+        ->whereRaw("DATE(fecha_inicio) = CURDATE()")
+        ->select('interaccion.*');
+        if(!empty($campania)){                    
+            $interacciones->where('oportunidad.campania_id',$campania->id);    
+        }
+        if(!empty($responsable)){
+            $interacciones->where('interaccion.users_id',$responsable->id);    
+        } 
+        return $interacciones->get();
+    }
+
+     /**
+     * Se obtienen indicadores clave para el dashboard
+     */
+    public static function indicadoresInteracciones($campania, $responsable){   
+        $interaccionesA=Interaccion::join('oportunidad','interaccion.oportunidad_id','oportunidad.id');  
+        $interaccionesP=Interaccion::join('oportunidad','interaccion.oportunidad_id','oportunidad.id');          
+        $interaccionesR=Interaccion::join('oportunidad','interaccion.oportunidad_id','oportunidad.id');            
+        $interaccionesT=Interaccion::join('oportunidad','interaccion.oportunidad_id','oportunidad.id');
+
+        return [
+            'interaccionesAtrasadas'=>Interaccion::filtroInteracciones($interaccionesA,$campania,$responsable,1,true)->count(),
+            'interaccionesPendientes'=>Interaccion::filtroInteracciones($interaccionesP,$campania,$responsable,2,true)->count(),
+            'interaccionesRealizadas'=>Interaccion::filtroInteracciones($interaccionesR,$campania,$responsable,3,true)->count(),
+            'interaccionesTotales'=>Interaccion::filtroInteracciones($interaccionesT,$campania,$responsable,4,true)->count(),
+        ];
+    }
+
+    /**
+     * Se añade condiciones al QueryBuilder de acuerdo a los parámetros dados.
+     */
+    public static function filtroInteracciones($query,$campania,$responsable,$estado,$retorno=false){  
+        $tabla="";
+        if(!$retorno){
+            $tabla="interaccion.";    
+        }
+        switch($estado){
+            case 1: 
+                $query->where($tabla.'estado_interaccion_id',2)
+                ->whereRaw($tabla."fecha_inicio < NOW()");
+                break;
+            case 2:
+                $query->where($tabla.'estado_interaccion_id',2)
+                ->whereRaw($tabla."fecha_inicio > NOW()") //No vencidas
+                ->whereRaw("DATE({$tabla}fecha_inicio) = CURDATE()"); //De hoy     
+                break;
+            case 3: 
+                $query->where($tabla.'estado_interaccion_id',1)   
+                ->whereRaw(
+                    "DATE({$tabla}fecha_inicio + INTERVAL (YEAR(NOW()) - YEAR({$tabla}fecha_inicio)) YEAR)
+                    BETWEEN DATE(NOW() - INTERVAL WEEKDAY(NOW()) DAY)
+                    AND DATE(NOW() + INTERVAL 6 - WEEKDAY(NOW()) DAY)"
+                );     
+                break;
+            case 4: 
+                $query->whereRaw(
+                    "DATE({$tabla}fecha_inicio + INTERVAL (YEAR(NOW()) - YEAR({$tabla}fecha_inicio)) YEAR)
+                    BETWEEN DATE(NOW() - INTERVAL WEEKDAY(NOW()) DAY)
+                    AND DATE(NOW() + INTERVAL 6 - WEEKDAY(NOW()) DAY)"
+                );     
+                break;
+        } 
+                     
+        if(!empty($campania)){ 
+            $id=$campania;
+            if(!is_int($campania) && !empty($campania)){
+                $id=$campania->id;
+            }
+            if(!empty($id)){
+                $query->where('oportunidad.campania_id',$id);
+            } 
+        }
+        if(!empty($responsable)){
+            $id=$responsable;
+            if(!is_int($responsable) && !empty($responsable)){
+                $id=$responsable->id;
+            }
+            if(!empty($id)){
+                $query->where("{$tabla}.users_id",$id);
+            } 
+        }
+
+        if($retorno){
+            return $query;
+        }        
     }
 }
