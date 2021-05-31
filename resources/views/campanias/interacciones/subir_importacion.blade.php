@@ -16,7 +16,7 @@ dl, ol, ul {
 @section('content')
     <section class="content-header">
         <h1 class="pull-left">
-            Subir oportunidades masivamente
+            Subir interacciones masivamente
         </h1>
     </section>
     <div class="content">
@@ -32,9 +32,9 @@ dl, ol, ul {
                     <p>El archivo debe estar en formato Excel (xlsx,xls) conservando en la primera línea los nombres de los campos.
                             <a class="alert-info" target="_blank" href="{{ route('campanias.oportunidades.archivoEjemplo') }}">Descargar plantilla</a>
                     </p>
-                    <p>Tener en cuenta que no se debe poner el nombre de atributos relacionados sino el identificador (id).</p>
-                    <p>Los campos mínimos a diligenciar son: <b>campania_id, contacto_id, estado_campania_id,justificacion_estado_campania_id</b></p>
-                    <p>La formación debe coincidir con la campaña, el responsable debe pertenecer al equipo responsable, y la justificacion (razón) estar asociada al estado.</p>
+                    <p>Todos los campos son requeridos. Tener en cuenta que no se debe poner el nombre de atributos relacionados sino el identificador (id).</p>
+                    <p>El estado de interacción debe corresponder al tipo de interaccion y la fecha fin debe ser mayor o igual a la fecha inicial.</p>
+                    <p>El formato de fechas debe incluir la hora y minutos en modo militar, así: AAAA-MM-DD HH:MM:SS. Por ejemplo: 2021-01-01 14:30:00.</p>                    
                 </div> 
                 <div class="row">
                     {!! Form::open(['route' => 'campanias.oportunidades.cargarImportacion','files' => true]) !!}               

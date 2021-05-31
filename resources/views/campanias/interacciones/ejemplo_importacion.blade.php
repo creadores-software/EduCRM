@@ -1,0 +1,15 @@
+<table>
+    <thead>
+    <tr>
+        <th>oportunidad_id</th>
+        <th>users_id</th>
+        <th>fecha_inicio</th>
+        <th>fecha_fin</th>
+        <th>tipo_interaccion_id</th>
+        <th>estado_interaccion_id</th>
+        <th>observacion</th>        
+    </tr>
+    </thead>
+    <tbody>  
+    </tbody>
+</table>

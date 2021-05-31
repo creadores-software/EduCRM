@@ -7,13 +7,18 @@ use App\Models\Campanias\Oportunidad;
 use App\Models\Contactos\Contacto;
 use App\Models\Campanias\EstadoInteraccion;
 use App\Models\Campanias\EstadoCampania;
+use App\Imports\Campanias\InteraccionImport;
+use App\Exports\Campanias\InteraccionExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\Campanias\CreateInteraccionRequest;
 use App\Http\Requests\Campanias\UpdateInteraccionRequest;
 use App\Repositories\Campanias\InteraccionRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Validator;
 use Response;
 use Flash;
+use Cache;
 use Illuminate\Support\Facades\Auth;
 
 class InteraccionController extends AppBaseController
@@ -25,7 +30,7 @@ class InteraccionController extends AppBaseController
     {
         $this->interaccionRepository = $interaccionRepo;
         $this->middleware('permission:campanias.interacciones.consultar', ['only' => ['index','show','dataAjax']]);
-        $this->middleware('permission:campanias.interacciones.crear', ['only' => ['create','store']]);        
+        $this->middleware('permission:campanias.interacciones.crear', ['only' => ['create','store','archivoEjemplo','subirImportacion','cargarImportacion']]);        
         $this->middleware('permission:campanias.interacciones.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:campanias.interacciones.eliminar', ['only' => ['destroy']]);
     }
@@ -193,6 +198,70 @@ class InteraccionController extends AppBaseController
     public function dataAjax(Request $request)
     {
         return $this->interaccionRepository->infoSelect2($request->input('q', ''));
+    }
+
+    public function archivoEjemplo(){
+        return Excel::download(new InteraccionExport, 'plantilla_interacciones.xlsx');
+    }
+    
+    public function subirImportacion(){
+        return view('campanias.interacciones.subir_importacion');
+    }
+
+    public function cargarImportacion(Request $request){
+        if($request->archivo){
+            $validator = Validator::make(
+                [
+                    'file'      => $request->archivo,
+                    'extension' => strtolower($request->archivo->getClientOriginalExtension()),
+                ],
+                [
+                    'file'          => 'required',
+                    'extension'      => 'required|in:xlsx,xls',
+                ]
+            );
+    
+            if ($validator->fails()) {
+                Flash::error($validator);
+                return back();
+            }
+    
+            try {
+                Cache::put('cantidadImportados',0, 10);
+                $import = new InteraccionImport;
+                $import->import($request->file('archivo'));
+                $failures=$import->failures();
+                if(!$failures->isEmpty()){
+                    $mensaje="";      
+                    foreach ($failures as $failure) {
+                        $mensaje.="Error en la linea ".$failure->row().": ";
+                        foreach($failure->errors() as $error){
+                            $mensaje.=$error." ";    
+                        }
+                        $mensaje.=" <br/>";
+                    }
+                    $importados=Cache::get('cantidadImportados');
+                    $mensaje.="<br/>Se importaron sin error {$importados} registro(s).";
+                    Cache::forget('cantidadImportados');
+                    Flash::error($mensaje);
+                    return back();
+                }
+                $importados=Cache::get('cantidadImportados');
+                Cache::forget('cantidadImportados');
+                if($importados==0){
+                    Flash::error('No se encontró ningún registro en la plantilla');
+                    return back();
+                }                
+                Flash::success("El archivo ha sido importado correctamente con {$importados} registro(s).");
+                return redirect(route('campanias.campanias.index'));
+            } catch (Exception $e) {
+                Flash::error($e->getMessage());
+                return back();
+            }     
+        }else{
+            Flash::error('Debe seleccionar un archivo para realizar la importación');
+            return back();    
+        }       
     }
 
 }

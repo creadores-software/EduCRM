@@ -22,14 +22,14 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
     use Importable, SkipsFailures;
     private $failuresFK=[];
 
-    private function validarFk($row,$indice,$class,$column,$name){        
+    private function validarFK($row,$indice,$class,$column,$name){        
         $objeto = $class::where('id',$row[$column])->first();       
         if(!empty($row[$column]) && empty($objeto)){
             $this->failuresFK[] = new Failure($indice,'column',["No existe {$name} con este id"]);               
         }
     }
 
-    private function validarTodasKf($row,$indice){
+    private function validarTodasFK($row,$indice){
         $atributosForaneos=[
            ["App\Models\Campanias\Campania",'campania_id','campaña'],
            ["App\Models\Contactos\Contacto",'contacto_id','contacto'],
@@ -39,9 +39,31 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
            ["App\Models\Campanias\JustificacionEstadoCampania",'justificacion_estado_campania_id','razón (justificación)'],
         ];
         foreach($atributosForaneos as $atributos){
-            $this->validarFk($row,$indice,$atributos[0],$atributos[1],$atributos[2]);
+            $this->validarFK($row,$indice,$atributos[0],$atributos[1],$atributos[2]);
         }    
         $this->failures = array_merge($this->failures, $this->failuresFK); 
+    }
+
+    private function validacionesEspeciales($row,$indice){
+
+        //No debe existir una oportunidad previamente para la misma formación, contacto y compania
+        $oportunidadExistente = Oportunidad
+            ::where('campania_id',$row['campania_id'])
+            ->where('contacto_id',$row['contacto_id'])
+            ->where('formacion_id',$row['formacion_id'])
+            ->first();
+        if(!empty($oportunidadExistente)){
+            $failure = new Failure($indice,'contacto_id',["Ya existe una oportunidad en este campaña para este contacto y formación"]);                   
+            $this->failures = array_merge($this->failures, [$failure]); 
+        }
+        //La justificacion (razón) debe estar asociada al estado
+
+        //El estado debe pertenecer al tipo de campaña
+
+        //La formación debe corresponder con la parametrización de la campaña
+
+        //El responsable debe pertenecer al equipo de la campaña
+
     }
 
     public function onRow(Row $row)
@@ -49,16 +71,8 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
         $indice = $row->getIndex();
         $row      = $row->toArray();
         try{ 
-            $this->validarTodasKf($row,$indice);
-            $oportunidadExistente = Oportunidad
-                ::where('campania_id',$row['campania_id'])
-                ->where('contacto_id',$row['contacto_id'])
-                ->where('formacion_id',$row['formacion_id'])
-                ->first();
-            if(!empty($oportunidadExistente)){
-                $failure = new Failure($indice,'contacto_id',["Ya existe una oportunidad en este campaña para este contacto y formación"]);                   
-                $this->failures = array_merge($this->failures, [$failure]); 
-            }
+            $this->validarTodasFK($row,$indice);
+            $this->validacionesEspeciales($row,$indice);            
             if(empty($this->failures)){ 
                 $categoria_id=null;
                 $categoria = CategoriaOportunidad::categoriaPorDatos($row['interes'],$row['capacidad']);

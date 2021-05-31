@@ -20,14 +20,14 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
     use Importable, SkipsFailures;
     private $failuresFK=[];
 
-    private function validarFk($row,$indice,$class,$column,$name){        
+    private function validarFK($row,$indice,$class,$column,$name){        
         $objeto = $class::where('id',$row[$column])->first();       
         if(!empty($row[$column]) && empty($objeto)){
             $this->failuresFK[] = new Failure($indice,'column',["No existe {$name} con este id"]);               
         }
     }
 
-    private function validarTodasKf($row,$indice){
+    private function validarTodasFK($row,$indice){
         $atributosForaneos=[
            ["App\Models\Parametros\TipoDocumento",'tipo_documento_id','tipo de documento'],
            ["App\Models\Parametros\Prefijo",'prefijo_id','prefijo'],
@@ -51,7 +51,7 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
            ["App\Models\Parametros\ActitudServicio",'actitud_servicio_id','actitud servicio'],
         ];
         foreach($atributosForaneos as $atributos){
-            $this->validarFk($row,$indice,$atributos[0],$atributos[1],$atributos[2]);
+            $this->validarFK($row,$indice,$atributos[0],$atributos[1],$atributos[2]);
         }    
         $this->failures = array_merge($this->failures, $this->failuresFK); 
     }
@@ -61,7 +61,7 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
         $indice = $row->getIndex();
         $row      = $row->toArray();
         try{ 
-            $this->validarTodasKf($row,$indice);
+            $this->validarTodasFK($row,$indice);
             if(empty($this->failuresFK)){                       
                 //Los contactos que se importan son activos
                 $row['activo']=1; 
