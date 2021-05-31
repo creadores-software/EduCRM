@@ -2,8 +2,14 @@
 
 namespace App\Imports\Campanias;
 
+use App\Models\Admin\PertenenciaEquipoMercadeo;
 use App\Models\Campanias\CategoriaOportunidad;
+use App\Models\Campanias\JustificacionEstadoCampania;
 use App\Models\Campanias\Oportunidad;
+use App\Models\Campanias\Campania;
+use App\Models\Campanias\CampaniaFormaciones;
+use App\Models\Campanias\TipoCampaniaEstados;
+use App\Models\Formaciones\Formacion;
 use Maatwebsite\Excel\Row;
 use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -46,6 +52,7 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
 
     private function validacionesEspeciales($row,$indice){
 
+        $failuresEspeciales=[];
         //No debe existir una oportunidad previamente para la misma formación, contacto y compania
         $oportunidadExistente = Oportunidad
             ::where('campania_id',$row['campania_id'])
@@ -53,17 +60,66 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
             ->where('formacion_id',$row['formacion_id'])
             ->first();
         if(!empty($oportunidadExistente)){
-            $failure = new Failure($indice,'contacto_id',["Ya existe una oportunidad en este campaña para este contacto y formación"]);                   
-            $this->failures = array_merge($this->failures, [$failure]); 
+            $failuresEspeciales[] = new Failure($indice,'contacto_id',["Ya existe una oportunidad en este campaña para este contacto y formación"]);                   
         }
         //La justificacion (razón) debe estar asociada al estado
-
-        //El estado debe pertenecer al tipo de campaña
-
-        //La formación debe corresponder con la parametrización de la campaña
-
-        //El responsable debe pertenecer al equipo de la campaña
-
+        $justificacionAsociada = JustificacionEstadoCampania::
+            where('estado_campania_id',$row['estado_campania_id'])
+            ->where('id',$row['id'])
+            ->first();
+        if(empty($justificacionAsociada)){
+            $failuresEspeciales[] = new Failure($indice,'justificacion_estado_campania_id',["El id de la razón no corresponde con el estado asociado."]);                   
+        }        
+        $campania = Campania::where('id',$row['campania_id']);
+        if(!empty($campania)){
+            //El estado debe pertenecer al tipo de campaña
+            $estadoAsociado = TipoCampaniaEstados::
+                where('tipo_campania_id',$campania->tipo_campania_id)
+                ->where('estado_campania_id',$row['estado_campania_id'])
+                ->first();
+            if(empty($estadoAsociado)){
+                $failure = new Failure($indice,'estado_campania_id',["El id del estado no corresponde al tipo de campaña."]);                   
+                $this->failures = array_merge($this->failures, [$failure]); 
+            } 
+            //La formación debe corresponder con la parametrización de la campaña
+            if(!empty($row['formacion_id'])){
+                $formacion = Formacion::join('nivel_formacion','nivel_formacion.id','=','formacion.nivel_formacion_id')
+                    ->where('id',$row['formacion_id'])
+                    ->select('formacion.*');
+                if(!empty($campania->nivel_formacion_id)){
+                    $formacion->where('nivel_formacion_id',$campania->nivel_formacion_id);    
+                }
+                if(!empty($campania->nivel_academico_id)){
+                    $formacion->where('nivel_formacion.nivel_academico_id',$campania->nivel_academico_id);    
+                }
+                if(!empty($campania->facultad_id)){
+                    $formacion->where('facultad_id',$campania->facultad_id);    
+                }
+                $formacion=$formacion->first();
+                if(empty($formacion)){
+                    $failuresEspeciales[] = new Failure($indice,'formacion_id',["El id de la formación no corresponde con la parametrización de la campaña."]);                                       
+                } 
+                if($campania->campaniaFormacionesAsociadas->count()>0){
+                    $formacionAsociada=CampaniaFormaciones::
+                        where('campania_id',$campania->id)
+                        ->where('formacion_id',$row['formacion_id'])
+                        ->first();
+                    if(empty($formacionAsociada)){
+                        $failuresEspeciales[] = new Failure($indice,'formacion_id',["El id de la formación no corresponde con la parametrización de la campaña."]);                   
+                    }   
+                }
+            }
+            //El responsable debe pertenecer al equipo de la campaña
+            $responsableAsociado = PertenenciaEquipoMercadeo::
+                where('equipo_mercadeo_id',$row['equipo_mercadeo_id'])
+                ->where('users_id',$row['responsable_id'])
+                ->first();
+            if(empty($responsableAsociado)){
+                $failuresEspeciales[] = new Failure($indice,'responsable_id',["El responsable no está pertenece al equipo designado para la campaña."]);                   
+                
+            }
+        }
+        $this->failures = array_merge($this->failures, $failuresEspeciales); 
     }
 
     public function onRow(Row $row)
