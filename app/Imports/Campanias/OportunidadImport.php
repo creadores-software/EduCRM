@@ -65,12 +65,12 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
         //La justificacion (razón) debe estar asociada al estado
         $justificacionAsociada = JustificacionEstadoCampania::
             where('estado_campania_id',$row['estado_campania_id'])
-            ->where('id',$row['id'])
+            ->where('id',$row['justificacion_estado_campania_id'])
             ->first();
         if(empty($justificacionAsociada)){
             $failuresEspeciales[] = new Failure($indice,'justificacion_estado_campania_id',["El id de la razón no corresponde con el estado asociado."]);                   
         }        
-        $campania = Campania::where('id',$row['campania_id']);
+        $campania = Campania::where('id',$row['campania_id'])->first();
         if(!empty($campania)){
             //El estado debe pertenecer al tipo de campaña
             $estadoAsociado = TipoCampaniaEstados::
@@ -83,8 +83,11 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
             } 
             //La formación debe corresponder con la parametrización de la campaña
             if(!empty($row['formacion_id'])){
-                $formacion = Formacion::join('nivel_formacion','nivel_formacion.id','=','formacion.nivel_formacion_id')
-                    ->where('id',$row['formacion_id'])
+                $formacion = Formacion::
+                    join('nivel_formacion','nivel_formacion.id','=','formacion.nivel_formacion_id')
+                    ->join('entidad','entidad.id','=','formacion.entidad_id')
+                    ->where('formacion.id',$row['formacion_id'])
+                    ->where('entidad.mi_universidad',1)
                     ->select('formacion.*');
                 if(!empty($campania->nivel_formacion_id)){
                     $formacion->where('nivel_formacion_id',$campania->nivel_formacion_id);    
@@ -111,7 +114,7 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
             }
             //El responsable debe pertenecer al equipo de la campaña
             $responsableAsociado = PertenenciaEquipoMercadeo::
-                where('equipo_mercadeo_id',$row['equipo_mercadeo_id'])
+                where('equipo_mercadeo_id',$campania->equipo_mercadeo_id)
                 ->where('users_id',$row['responsable_id'])
                 ->first();
             if(empty($responsableAsociado)){
