@@ -223,7 +223,7 @@ class OportunidadDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                    this.api().columns(':lt(8)').every(function () {
+                    this.api().columns(':lt(9)').every(function () {
                         var column = this;
                         var input = document.createElement(\"input\");
                         $(input).appendTo($(column.footer()).empty())
@@ -253,14 +253,14 @@ class OportunidadDataTable extends DataTable
             'ultima_actualizacion' => new Column(['title' => __('models/oportunidades.fields.ultima_actualizacion'), 'data' => 'ultima_actualizacion','width' => '60px']),
             'dias_actualizacion' => new Column(['title' => 'Dias','data'=>'dias_actualizacion']),
             'ultima_interaccion' => new Column(['title' => __('models/oportunidades.fields.ultima_interaccion'), 'data' => 'ultima_interaccion','width' => '60px']),
+            'id' => new Column(['title' => 'ID', 'data' => 'id']), 
             //Campos no visibles            
             'razon' => new Column(['title' => __('models/oportunidades.fields.justificacion_estado_campania_id'), 'data' => 'razon','name' => 'justificacionEstadoCampania.nombre','visible'=>false]),
             'interes' => new Column(['title' => __('models/oportunidades.fields.interes'), 'data' => 'interes','visible'=>false,'exportable' => false]),
             'capacidad' => new Column(['title' => __('models/oportunidades.fields.capacidad'), 'data' => 'capacidad','visible'=>false]),            
             'ingreso_recibido' => new Column(['title' => __('models/oportunidades.fields.ingreso_recibido'), 'data' => 'ingreso_recibido','visible'=>false]),
             'ingreso_proyectado' => new Column(['title' => __('models/oportunidades.fields.ingreso_proyectado'), 'data' => 'ingreso_proyectado','visible'=>false]),
-            'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false,]),
-            'id' => new Column(['title' => 'ID', 'data' => 'id','visible'=>false]), 
+            'adicion_manual' => new Column(['title' => __('models/oportunidades.fields.adicion_manual'), 'data' => 'adicion_manual','visible'=>false,]),            
             'interacciones' => new Column(['title' => 'interacciones', 'data' => 'interacciones','searchable'=>false,'visible'=>false]), 
             'interacciones_realizadas' => new Column(['title' => 'interacciones_realizadas', 'data' => 'interacciones_realizadas','searchable'=>false,'visible'=>false]),                                    
             'interacciones_no_efectivas' => new Column(['title' => 'interacciones_no_efectivas', 'data' => 'interacciones_no_efectivas','searchable'=>false,'visible'=>false]),                                    

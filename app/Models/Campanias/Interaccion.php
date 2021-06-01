@@ -220,7 +220,7 @@ class Interaccion extends Model implements Recordable
                     $interacciones->where('campania_id',$campania->id);    
                 }
                 if(!empty($responsable)){
-                    $interacciones->where('oportunidad.responsable_id',$responsable->id);    
+                    $interacciones->where('users_id',$responsable->id);    
                 }
                 $data[]=$interacciones->count();
             }
