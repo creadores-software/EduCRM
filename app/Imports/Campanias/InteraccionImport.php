@@ -93,9 +93,7 @@ class InteraccionImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
     {
         $rules= Interaccion::$rules;
          //La fecha inicial puede ser inferior a la actual para importaciones
-        $rules['fecha_inicio'] = [               
-            'required',
-        ];
+        $rules['fecha_inicio'] = ['required'];
         return $rules;
     }
 
