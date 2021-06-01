@@ -11,7 +11,7 @@
     <div class="small-box bg-yellow">
     <div class="inner text-center">
         <h3>{{ $interaccionesPendientes }}</h3>  
-        <p>Interacciones próximas a vencer</p>
+        <p>Interacciones que vencerán hoy</p>
     </div>             
     <a id="enlaceProximas" href="#" class="small-box-footer">Ver detalles <i class="fa fa-arrow-circle-right"></i></a>
     </div>
