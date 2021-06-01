@@ -17,7 +17,7 @@
                 </div>
                 {!! Form::open(['route' => 'reportes.funnel']) !!}               
                 <div class="form-group col-sm-6">
-                    <div class="form-group col-sm-12 alert alert-info">
+                    <div id="mensaje-seleccion" class="form-group col-sm-12 alert alert-info">
                         <p>Es necesario elegir una campaña</p>
                     </div>
                     <!-- Campania Id Field -->
@@ -61,61 +61,69 @@
     window.onload = function() {
         var area = document.getElementById("chart-area").getContext("2d");
         window.chart = new Chart(area, {
-        type: 'funnel',
-        data: {
-            datasets: dataset,
-            labels: labels
-        },
-        options: {
-            responsive: true,
-            sort: 'desc',
-            legend: {
-                position: 'top'
+            type: 'funnel',
+            data: {
+                datasets: dataset,
+                labels: labels
             },
-            title: {
-                display: true,
-                text: 'Estados por oportunidad - Funnel de venta'
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
+            options: {
+                responsive: true,
+                sort: 'desc',
+                legend: {
+                    position: 'top'
+                },
+                title: {
+                    display: true,
+                    text: 'Estados por oportunidad - Funnel de venta'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
             }
-        }
-    });
+        });
         $('#campania_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("campanias.campanias.dataAjax") }}',
-                    dataType: 'json',
-                },
-            });
-        };
+            placeholder: "Seleccionar",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("campanias.campanias.dataAjax") }}',
+                dataType: 'json',
+            },
+        });
         $('#responsable_id').select2({
-                placeholder: "Seleccionar",
-                allowClear: true,
-                ajax: {
-                    url: '{{ route("admin.users.dataAjax") }}',
-                    dataType: 'json',
-                    data: function (params) {  
-                       //La campaña determinará los equipos
-                       campania = $("[name='campania_id']").val();
-                       return {
-                            q: params.term, 
-                            page: params.page || 1,
-                            campania: campania,
-                        };
-                    },
-                    processResults: function (data) {
-                        return {
-                            results: data.results,
-                            pagination: {
-                                more: data.more
-                            }
-                        };
-                    }
+            placeholder: "Seleccionar",
+            allowClear: true,
+            ajax: {
+                url: '{{ route("admin.users.dataAjax") }}',
+                dataType: 'json',
+                data: function (params) {  
+                    //La campaña determinará los equipos
+                    campania = $("[name='campania_id']").val();
+                    return {
+                        q: params.term, 
+                        page: params.page || 1,
+                        campania: campania,
+                    };
                 },
-            });
+                processResults: function (data) {
+                    return {
+                        results: data.results,
+                        pagination: {
+                            more: data.more
+                        }
+                    };
+                }
+            },
+        });
+
+        $(document).on('change', '#campania_id', function(e){
+            if($("#campania_id").val()!=""){
+                $("#mensaje-seleccion").hide();
+            }else{
+                $("#mensaje-seleccion").show();   
+            }
+        });
+    }
     </script>
 @endpush
 
