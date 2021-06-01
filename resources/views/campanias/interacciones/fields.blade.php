@@ -75,6 +75,7 @@
             minDate: hoyPrimeraHora,
         }).on('dp.change', function(e) {
             date = new Date(e.date);
+            validacionFechasSegunEstado(); 
             $('#fecha_fin_formato').data("DateTimePicker").minDate(date);
             $('#fecha_fin_formato').data("DateTimePicker").defaultDate(date);
             $('#fecha_fin_formato').data("DateTimePicker").date(date);
@@ -137,7 +138,10 @@
             });   
             
             $(document).on('change', '#estado_interaccion_id', function(e){
-                $("#observacion").val(null).trigger("change"); 
+                $("#observacion").val(null).trigger("change");                 
+                $('#fecha_inicio').data("DateTimePicker").date(fechaActual);
+                $('#fecha_inicio').data("DateTimePicker").minDate(hoyPrimeraHora); 
+                validacionFechasSegunEstado(); 
             });
 
             //Para estados de interaccion
@@ -153,6 +157,18 @@
                 return $(`<span style="color: ${color}"><i class='fa fa-circle'></i></span><span> ${estado.text}</span>`);
             };
         });
+
+
+        //Solo se puede ingresar una fecha futura cuando es planeación
+        function validacionFechasSegunEstado(){
+            estado=$("#estado_interaccion_id").val();
+            $('#fecha_inicio').data("DateTimePicker").maxDate(false);
+            $('#fecha_fin_formato').data("DateTimePicker").maxDate(false);
+            if(estado!=2){                     
+                $('#fecha_inicio').data("DateTimePicker").maxDate(fechaActual);
+                $('#fecha_fin_formato').data("DateTimePicker").maxDate(fechaActual);
+            }            
+        }
     </script>
 @endpush
 

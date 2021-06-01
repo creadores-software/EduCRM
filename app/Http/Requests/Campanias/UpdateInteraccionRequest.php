@@ -26,11 +26,6 @@ class UpdateInteraccionRequest extends FormRequest
     public function rules()
     {
         $rules = Interaccion::$rules;
-        //Si es diferente a planeación la fecha no se puede pasar al día actual
-        if($this->request->get('estado_interaccion_id')<>2){
-            $rules['fecha_inicio'] = ['required','before_or_equal:today'];      
-            $rules['fecha_fin'] = ['required','before_or_equal:today'];     
-        } 
         return $rules;
     }
 }
