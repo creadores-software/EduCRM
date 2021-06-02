@@ -14,7 +14,6 @@ use App\Models\Campanias\Interaccion;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
-use Illuminate\Support\Facades\Log;
 
 class ContactoDataTable extends DataTable
 {
@@ -58,23 +57,7 @@ class ContactoDataTable extends DataTable
         ->filter(function ($query) use($request) 
         {
             $valores=$request->all();    
-            Contacto::filtroDataTable($valores, $query);
-            InformacionRelacional::filtroDataTable($valores, $query);
-            InformacionUniversitaria::filtroDataTable($valores, $query);
-            InformacionEscolar::filtroDataTable($valores, $query);
-            InformacionLaboral::filtroDataTable($valores, $query);
-            Parentesco::filtroDataTable($valores, $query);
-            Oportunidad::filtroDataTable($valores, $query);
-            Interaccion::filtroDataTable($valores, $query);
-
-            $command=$query->toSql();
-            $posicion_where=strpos($command,'where');
-            $where="";
-            if( $posicion_where !== false){
-                $where = substr($command,$posicion_where+6);  
-            }  
-            $parametros=$query->getBindings();           
-            Log::debug('El query where es '. $where . ' con parametros ' .print_r($parametros,true));
+            Contacto::filtroGeneralSegmento($valores, $query);
         }); 
         
         if($request->has('action') && $request->get('action')=="excel"){
@@ -91,27 +74,7 @@ class ContactoDataTable extends DataTable
      */
     public function query(Contacto $model)
     {
-        $model=Contacto::joinDataTable($model);
-        $model=InformacionRelacional::joinDataTable($model);
-        $model=InformacionUniversitaria::joinDataTable($model);
-        $model=InformacionEscolar::joinDataTable($model);
-        $model=InformacionLaboral::joinDataTable($model);
-        $model=Parentesco::joinDataTable($model);
-        $model=Oportunidad::joinDataTable($model);
-        $model=Interaccion::joinDataTable($model);
-        
-        return $model->distinct()->select(
-            array_merge(
-                Contacto::selectDataTable(),
-                InformacionRelacional::selectDataTable(),
-                InformacionUniversitaria::selectDataTable(),
-                InformacionEscolar::selectDataTable(),
-                InformacionLaboral::selectDataTable(),
-                Parentesco::selectDataTable(),
-                Oportunidad::selectDataTable(),
-                Interaccion::selectDataTable()
-            )
-        )->newQuery();
+        return Contacto::queryGeneralSegmento($model);
     }
 
     /**
@@ -127,14 +90,14 @@ class ContactoDataTable extends DataTable
                 'url'  => '',
                 'data' => "function(data){
                     data.segmento  = $('#segmento_seleccionado').val();".
-                    Contacto::inputsDataTable().
-                    InformacionRelacional::inputsDataTable().
-                    InformacionUniversitaria::inputsDataTable().
-                    InformacionEscolar::inputsDataTable().
-                    InformacionLaboral::inputsDataTable().
-                    Parentesco::inputsDataTable().
-                    Oportunidad::inputsDataTable().
-                    Interaccion::inputsDataTable().
+                    Contacto::inputsSegmento().
+                    InformacionRelacional::inputsSegmento().
+                    InformacionUniversitaria::inputsSegmento().
+                    InformacionEscolar::inputsSegmento().
+                    InformacionLaboral::inputsSegmento().
+                    Parentesco::inputsSegmento().
+                    Oportunidad::inputsSegmento().
+                    Interaccion::inputsSegmento().
                 "}"
             ])
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])

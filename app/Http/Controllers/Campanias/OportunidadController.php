@@ -8,17 +8,20 @@ use App\Imports\Campanias\OportunidadImport;
 use App\Exports\Campanias\OportunidadExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Contactos\Contacto;
+use App\Models\Campanias\Oportunidad;
 use App\Models\Campanias\EstadoCampania;
 use App\Models\Campanias\CategoriaOportunidad;
 use App\Http\Requests\Campanias\CreateOportunidadRequest;
 use App\Http\Requests\Campanias\UpdateOportunidadRequest;
 use App\Repositories\Campanias\OportunidadRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Campanias\TipoCampaniaEstados;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
 use Validator;
 use Cache;
+use Carbon\Carbon;
 
 class OportunidadController extends AppBaseController
 {
@@ -29,7 +32,7 @@ class OportunidadController extends AppBaseController
     {
         $this->oportunidadRepository = $oportunidadRepo;
         $this->middleware('permission:campanias.oportunidades.consultar', ['only' => ['index','show','dataAjax']]);
-        $this->middleware('permission:campanias.oportunidades.crear', ['only' => ['create','store','archivoEjemplo','subirImportacion','cargarImportacion']]);        
+        $this->middleware('permission:campanias.oportunidades.crear', ['only' => ['create','store','archivoEjemplo','subirImportacion','cargarImportacion','sincronizar']]);        
         $this->middleware('permission:campanias.oportunidades.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:campanias.oportunidades.eliminar', ['only' => ['destroy']]);
     }
@@ -273,6 +276,44 @@ class OportunidadController extends AppBaseController
             Flash::error('Debe seleccionar un archivo para realizar la importación');
             return back();    
         }       
+    }
+
+    public function sincronizar(Request $request){
+        $contactos=null;
+        $cantidad=0;
+        if ($request->has('idCampania')) {
+            $campania_id=$request->get('idCampania');
+            $campania = Campania::find($campania_id);
+            if(!empty($campania) && !empty($campania->segmento_id)){ 
+                $primerEstado = TipoCampaniaEstados::
+                    where('tipo_campania_id',$campania->tipo_campania_id)
+                    ->where('orden',1)->first();
+                if(!empty($primerEstado) && $primerEstado->estadoCampania->justificacionEstadoCampania->count()>0){
+                    //Estado "No aplica" en su defecto    
+                    $justificacion=$primerEstado->estadoCampania->justificacionEstadoCampania[0];
+                    $contactos = Contacto::oportunidadesNoIncluidas($campania);
+                    foreach($contactos as $contacto){
+                        $oportunidad = new Oportunidad();
+                        $oportunidad->campania_id=$campania->id;
+                        $oportunidad->contacto_id=$contacto->id;
+                        $oportunidad->estado_campania_id=$primerEstado->estadoCampania->id;
+                        $oportunidad->justificacion_estado_campania_id=$justificacion->id;
+                        $oportunidad->adicion_manual=0;
+                        $oportunidad->ultima_actualizacion= new Carbon();
+                        $oportunidad->save();
+                        $cantidad++;
+                    } 
+                    Flash::success("Se han sincronizado {$cantidad} contactos. Debe asignar un responsable y contactarlos para completar la información");
+                }else{
+                    Flash::error("El tipo de campaña no tiene un primer estado con una justificación");     
+                }
+            }else{
+                Flash::error("La campaña no tiene un segmento asociado");     
+            }
+        }else {            
+            Flash::error('No es posible sincronizar un segmento sin una campaña definida');     
+        }
+        return back();
     }
 
 }

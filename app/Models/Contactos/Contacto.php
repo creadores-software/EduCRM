@@ -4,8 +4,11 @@ namespace App\Models\Contactos;
 
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
+use App\Models\Campanias\Interaccion;
+use App\Models\Campanias\Oportunidad;
 use App\Models\Contactos\InformacionRelacional;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Contacto
@@ -329,7 +332,7 @@ class Contacto extends Model implements Recordable
     /**
      * Define los join que deben ir en el query del datatable
      */
-    public static function joinDataTable($model){
+    public static function joinSegmento($model){
         return $model
             ->leftjoin('lugar as lugarResidencia', 'contacto.lugar_residencia', '=', 'lugarResidencia.id')
             ->leftjoin('estado_civil as estadoCivil', 'contacto.estado_civil_id', '=', 'estadoCivil.id')
@@ -344,7 +347,7 @@ class Contacto extends Model implements Recordable
     /**
      * Define los select que deben ir en el query del datatable
      */
-    public static function selectDataTable(){
+    public static function selectSegmento(){
         return 
         ['contacto.id','tipoDocumento.nombre as nombre_tipo_documento','contacto.identificacion',
         'prefijo.nombre as nombre_prefijo','contacto.nombres','contacto.apellidos','contacto.fecha_nacimiento',
@@ -357,7 +360,7 @@ class Contacto extends Model implements Recordable
     /**
      * Establece la obtención de los valores en los inputs de la vista de segmento
      */
-    public static function inputsDataTable(){
+    public static function inputsSegmento(){
         $dt_atributos = [
             'nombres',
             'apellidos',
@@ -396,9 +399,9 @@ class Contacto extends Model implements Recordable
     /**
      * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
      */
-    public static function filtroDataTable($valores, $query){
+    public static function filtroSegmento($valores, $query){        
         $dt_atributos_like=[
-            'nombres'=>'contacto.nombres',
+            //'nombres'=>'contacto.nombres',
             'apellidos'=>'contacto.apellidos',
             'correo_personal'=>'contacto.correo_personal',
             'correo_institucional'=>'contacto.correo_institucional',
@@ -409,10 +412,11 @@ class Contacto extends Model implements Recordable
             'barrio'=>'contacto.barrio',
             'identificacion'=>'contacto.identificacion'              
         ];
+        
         foreach($dt_atributos_like as $atributo => $enTabla){
             if(array_key_exists($atributo, $valores) && !empty($valores[$atributo])){
                 $texto='%'.strtoupper($valores[$atributo]).'%';
-                $query->where(DB::raw("upper({$enTabla})"), 'LIKE', $texto);                        
+                $query->where(DB::raw("upper({$enTabla})"), 'LIKE', $texto);
             }
         }
         $dt_atributos_in=[
@@ -475,5 +479,75 @@ class Contacto extends Model implements Recordable
         if(array_key_exists('edad_maxima', $valores) && !empty($valores['edad_maxima'])){
             $query->whereRaw("fecha_nacimiento is not null and  TIMESTAMPDIFF( YEAR, fecha_nacimiento, now()) <= ?",[$valores['edad_maxima']]);
         }
-    }    
+    }
+    
+    /**
+     * Se separa para utilizar en Datatable y otros métodos como sincronización de oportunidades
+     * Dado un modelo (query) define los select y join llamando a los métodos de cada modelo
+     */
+    public static function queryGeneralSegmento($model){
+        $model=Contacto::joinSegmento($model);
+        $model=InformacionRelacional::joinSegmento($model);
+        $model=InformacionUniversitaria::joinSegmento($model);
+        $model=InformacionEscolar::joinSegmento($model);
+        $model=InformacionLaboral::joinSegmento($model);
+        $model=Parentesco::joinSegmento($model);
+        $model=Oportunidad::joinSegmento($model);
+        $model=Interaccion::joinSegmento($model);
+        
+        return $model->distinct()->select(
+            array_merge(
+                Contacto::selectSegmento(),
+                InformacionRelacional::selectSegmento(),
+                InformacionUniversitaria::selectSegmento(),
+                InformacionEscolar::selectSegmento(),
+                InformacionLaboral::selectSegmento(),
+                Parentesco::selectSegmento(),
+                Oportunidad::selectSegmento(),
+                Interaccion::selectSegmento()
+            )
+        )->newQuery();
+        return $model;
+    }
+
+    /**
+     * Se separa para utilizar en Datatable y otros métodos como sincronización de oportunidades
+     * Dado unos valores adicional los filtros al query, llamando a los métodos de cada modelo
+     */
+    public static function filtroGeneralSegmento($valores, $query){
+        Contacto::filtroSegmento($valores, $query);
+        InformacionRelacional::filtroSegmento($valores, $query);
+        InformacionUniversitaria::filtroSegmento($valores, $query);
+        InformacionEscolar::filtroSegmento($valores, $query);
+        InformacionLaboral::filtroSegmento($valores, $query);
+        Parentesco::filtroSegmento($valores, $query);
+        Oportunidad::filtroSegmento($valores, $query);
+        Interaccion::filtroSegmento($valores, $query);
+
+        $command=$query->toSql();
+        $posicion_where=strpos($command,'where');
+        $where="";
+        if( $posicion_where !== false){
+            $where = substr($command,$posicion_where+6);  
+        }  
+        $parametros=$query->getBindings();           
+        Log::debug('El query where es '. $where . ' con parametros ' .print_r($parametros,true));
+    }
+
+    /**
+     * Método que será utilizado para sincronizar las oportunidades 
+     * no incluidas en una campaña, según su segmento asociado.
+     */
+    public static function oportunidadesNoIncluidas($campania){
+        $resultado=null; 
+        if(!empty($campania) && !empty($campania->segmento_id)){            
+            $valores = $campania->segmento->filtrosArrayValores();
+            $query = DB::table('contacto');
+            Contacto::queryGeneralSegmento($query);
+            Contacto::filtroGeneralSegmento($valores,$query);
+            $query->whereRaw('contacto.id not in (select contacto_id from oportunidad where campania_id=?)',$campania->id);
+            $resultado=$query->get();
+        }
+        return $resultado;
+    }
 }

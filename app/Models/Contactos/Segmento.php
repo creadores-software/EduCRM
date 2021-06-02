@@ -86,4 +86,17 @@ class Segmento extends Model implements Recordable
         return $this->belongsTo(\App\Models\Admin\User::class, 'usuario_id')
             ->withDefault(['nombre' => '']);
     }
+
+    /**
+     * Retorna el campo filtros como un array indexado por campo
+     **/
+    public function filtrosArrayValores()
+    {
+        $valores = [];
+        foreach($this->filtros as $filtro){
+            $valores[$filtro['campo']]=$filtro['valor'];
+        }
+        return $valores;
+
+    }
 }

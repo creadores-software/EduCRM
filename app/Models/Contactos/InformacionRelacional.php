@@ -284,7 +284,7 @@ class InformacionRelacional extends Model implements Recordable
     /**
      * Define los join que deben ir en el query del datatable
      */
-    public static function joinDataTable($model){
+    public static function joinSegmento($model){
         return $model
         ->leftjoin('informacion_relacional as informacionRelacional', 'contacto.informacion_relacional_id', '=', 'informacionRelacional.id')
         
@@ -312,7 +312,7 @@ class InformacionRelacional extends Model implements Recordable
     /**
      * Define los select que deben ir en el query del datatable
      */
-    public static function selectDataTable(){
+    public static function selectSegmento(){
         return 
         ['nivelFormacion.nombre as nombre_nivel_formacion','ocupacion.nombre as nombre_ocupacion','estiloVida.nombre as nombre_estilo_vida',
         'religion.nombre as nombre_religion','raza.nombre as nombre_raza','generacion.nombre as nombre_generacion',
@@ -324,7 +324,7 @@ class InformacionRelacional extends Model implements Recordable
     /**
      * Establece la obtención de los valores en los inputs de la vista de segmento
      */
-    public static function inputsDataTable(){  
+    public static function inputsSegmento(){  
         $dt_atributos = [
             'nivelesFormacion',
             'ocupaciones',
@@ -356,7 +356,7 @@ class InformacionRelacional extends Model implements Recordable
     /**
      * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad informacion relacional
      */
-    public static function filtroDataTable($valores, $query){ 
+    public static function filtroSegmento($valores, $query){ 
         $dt_atributos_in=[
             'nivelesFormacion'=>'informacionRelacional.maximo_nivel_formacion_id',
             'ocupaciones'=>'informacionRelacional.ocupacion_actual_id',

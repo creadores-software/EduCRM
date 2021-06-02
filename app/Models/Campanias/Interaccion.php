@@ -126,7 +126,7 @@ class Interaccion extends Model implements Recordable
     /**
      * Define los join que deben ir en el query del datatable
      */
-    public static function joinDataTable($model){
+    public static function joinSegmento($model){
         return $model
             ->leftjoin('interaccion', 'oportunidad.id', '=', 'interaccion.oportunidad_id')
 
@@ -137,14 +137,14 @@ class Interaccion extends Model implements Recordable
     /**
      * Define los select que deben ir en el query del datatable para exportaciones
      */
-    public static function selectDataTable(){
+    public static function selectSegmento(){
         return [];
     }
 
     /**
      * Establece la obtención de los valores en los inputs de la vista de segmento
      */
-    public static function inputsDataTable(){
+    public static function inputsSegmento(){
         $dt_atributos = [
             'tipoInteracciones',
             'estadoInteracciones',
@@ -163,7 +163,7 @@ class Interaccion extends Model implements Recordable
     /**
      * Filtra el query de acuerdo a los atributos enviados, relacionados con la entidad contacto
      */
-    public static function filtroDataTable($valores, $query){
+    public static function filtroSegmento($valores, $query){
         $dt_atributos_in=[
             'tipoInteracciones'=>'tipoInteraccion.id',
             'estadoInteracciones'=>'estadoInteraccion.id',
