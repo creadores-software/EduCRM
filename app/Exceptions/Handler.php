@@ -59,7 +59,7 @@ class Handler extends ExceptionHandler
         if (!$request->is('subirImportacion') && $exception instanceof QueryException) {            
             if($exception->getCode() == "23000"){ //Error de llave foranea
                 if($request->method()==='DELETE'){//En método de eliminación
-                    $mensaje = "Validar que el registro no tenga asociación con otro elemento antes de eliminar.";
+                    $mensaje = "No se puede eliminar el registro. Es posible que tenga asociación con otros elementos.";
                 }else if($request->method()==='PUT' || $request->method()==='PATCH'){//En método de eliminación
                     $mensaje = "Verificar que todas las asociaciones existan correctamente.";
                 }               
