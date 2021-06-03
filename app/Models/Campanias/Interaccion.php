@@ -286,7 +286,7 @@ class Interaccion extends Model implements Recordable
     /**
      * Se añade condiciones al QueryBuilder de acuerdo a los parámetros dados.
      */
-    public static function filtroInteracciones($query,$campania,$responsable,$estado,$retorno=false){  
+    public static function filtroInteracciones($query,$campania,$usuario,$estado,$retorno=false){  
         $tabla="";
         if(!$retorno){
             $tabla="interaccion.";    
@@ -320,21 +320,24 @@ class Interaccion extends Model implements Recordable
                      
         if(!empty($campania)){ 
             $id=$campania;
-            if(!is_int($campania) && !empty($campania)){
+            if(!is_int($campania) && is_object($campania)){
                 $id=$campania->id;
             }
             if(!empty($id)){
                 $query->where('oportunidad.campania_id',$id);
             } 
         }
-        if(!empty($responsable)){
-            $id=$responsable;
-            if(!is_int($responsable) && !empty($responsable)){
-                $id=$responsable->id;
+        if(!empty($usuario)){
+            $id=$usuario;
+            if(!is_int($usuario) && is_object($usuario)){
+                $id=$usuario->id;
             }
             if(!empty($id)){
-                $query->where("{$tabla}.users_id",$id);
-            } 
+                $query->where("{$tabla}users_id",$id);
+            }else{
+                //El usuario es requerido
+                $query->where("{$tabla}users_id",0);     
+            }
         }
 
         if($retorno){

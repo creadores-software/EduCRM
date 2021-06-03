@@ -33,11 +33,13 @@ class HomeController extends Controller
         if($request->has('campania_id')){
             $campania = Campania::where('id',$request->get('campania_id'))->first();   
         }
-        if($request->has('responsable_id')){
-            $responsable = User::where('id',$request->get('responsable_id'))->first();   
-        }else{
-            $responsable = User::where('id',Auth::user()->id)->first();     
+
+        $responsable_id=Auth::user()->id;
+        if($request->has('responsable_id') && $request->get('responsable_id')){
+            $responsable_id = $request->get('responsable_id');   
         }
+        $responsable = User::where('id',$responsable_id)->first(); 
+
         $indicadores = Interaccion::indicadoresInteracciones($campania, $responsable);
         $interaccionesAtrasadas = $indicadores['interaccionesAtrasadas'];
         $interaccionesPendientes = $indicadores['interaccionesPendientes'];

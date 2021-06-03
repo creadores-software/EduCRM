@@ -48,7 +48,7 @@
                 url="{{ route('campanias.interacciones.index') }}?idEstado="+estado;
                 idResponsable=$("#responsable_id").val();                
                 if(idResponsable!=null && idResponsable!=""){
-                    url=url+"&idResposable="+idResponsable;    
+                    url=url+"&idResponsable="+idResponsable;    
                 }
                 idCampania=$("#campania_id").val();
                 if(idCampania!=null && idCampania!=""){
