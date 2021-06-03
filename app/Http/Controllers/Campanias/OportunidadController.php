@@ -32,9 +32,11 @@ class OportunidadController extends AppBaseController
     {
         $this->oportunidadRepository = $oportunidadRepo;
         $this->middleware('permission:campanias.oportunidades.consultar', ['only' => ['index','show','dataAjax']]);
-        $this->middleware('permission:campanias.oportunidades.crear', ['only' => ['create','store','archivoEjemplo','subirImportacion','cargarImportacion','sincronizar']]);        
+        $this->middleware('permission:campanias.oportunidades.crear', ['only' => ['create','store']]);        
         $this->middleware('permission:campanias.oportunidades.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:campanias.oportunidades.eliminar', ['only' => ['destroy']]);
+        $this->middleware('permission:campanias.oportunidades.importar', ['only' => ['archivoEjemplo','subirImportacion','cargarImportacion']]);
+        $this->middleware('permission:campanias.oportunidades.sincronizar', ['only' => ['sincronizar']]);        
     }
 
     /**

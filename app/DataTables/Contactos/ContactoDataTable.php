@@ -108,14 +108,7 @@ class ContactoDataTable extends DataTable
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
                 'order'     => [[0, 'asc']],
-                'buttons'   => [   
-                    [
-                        'className' => 'btn btn-default btn-sm no-corner',
-                        'text'=>'<i class="fa fa-upload"></i> Importar contactos',
-                        'action'=> "function (e, node, config){
-                                        window.location = window.location.href + '/subirImportacion';
-                                    }"
-                    ],                
+                'buttons'   => [  
                     [
                        'extend' => 'export',
                        'className' => 'btn btn-default btn-sm no-corner',

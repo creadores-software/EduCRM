@@ -20,9 +20,14 @@ div.dataTables_wrapper div.dataTables_filter {
             @lang('models/contactos.plural')
         </h1>
         @can('contactos.contactos.crear')
-        <h1 class="pull-right">            
-           <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('contactos.contactos.create') }}">@lang('crud.add_new')</a>           
-        </h1>
+            <h1 class="pull-right">            
+            <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('contactos.contactos.create') }}">@lang('crud.add_new')</a>           
+            </h1>
+        @endcan
+        @can('contactos.contactos.importar')
+            <h1 class="pull-right">             
+                <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('contactos.contactos.subirImportacion') }}"> <i class="fa fa-upload"></i></a>
+            </h1>  
         @endcan
     </section>
     <div class="content">

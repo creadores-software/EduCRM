@@ -23,9 +23,11 @@ div.dataTables_wrapper div.dataTables_filter {
                 <h1 class="pull-right">
                     <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.interacciones.create',['idOportunidad'=>$oportunidad->id]) }}">@lang('crud.add_new')</a>
                 </h1>
+            @endcan
+            @can('campanias.interacciones.importar')
                 <h1 class="pull-right">             
                     <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.interacciones.subirImportacion') }}"> <i class="fa fa-upload"></i></a>
-                </h1>   
+                </h1>  
             @endcan
             <h1 class="pull-right">
                 <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.index',['idCampania'=>$oportunidad->campania_id]) }}">@lang('crud.back')</a>

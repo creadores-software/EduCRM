@@ -18,17 +18,19 @@ div.dataTables_wrapper div.dataTables_filter {
             <h1 class="pull-left">
                 @lang('models/oportunidades.plural'): {{$campania->nombre}}    
             </h1>
-            @if($autorizacionGeneral)  
-                @can('campanias.oportunidades.crear')
-                    <h1 class="pull-right">
-                        <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.create',['idCampania'=>$campania->id]) }}">@lang('crud.add_new')</a>
-                    </h1>
-                    <h1 class="pull-right">             
+            @can('campanias.oportunidades.crear')
+                <h1 class="pull-right">
+                    <a class="btn btn-primary pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.create',['idCampania'=>$campania->id]) }}">@lang('crud.add_new')</a>
+                </h1>
+                <h1 class="pull-right"> 
+                    @can('campanias.oportunidades.importar')            
                         <a gloss="Importar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.subirImportacion') }}"> <i class="fa fa-upload"></i></a>
+                    @endcan
+                    @can('campanias.oportunidades.sincronizar')
                         <a gloss="Sincronizar" class="mytooltip btn btn-success pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.oportunidades.sincronizar',['idCampania'=>$campania->id]) }}"> <i class="fa fa-filter"></i></a>
-                    </h1>
-                @endcan
-            @endif
+                    @endcan
+                </h1>
+            @endcan
             <h1 class="pull-right">
                 <a class="btn btn-default pull-right" style="margin: -10px 5px 0px 5px;" href="{{ route('campanias.campanias.index') }}">@lang('crud.back')</a>
             </h1>

@@ -29,16 +29,22 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $campania = null;
-        $responsable = null;        
+        $responsable = null;     
+        $verResponsable=false;   
+        $usuario=Auth::user();
+        if($usuario->hasRole(['Superadmin','Coordinador'])){
+            $verResponsable=true;     
+        }
+
         if($request->has('campania_id')){
             $campania = Campania::where('id',$request->get('campania_id'))->first();   
         }
-
-        $responsable_id=Auth::user()->id;
+        
+        $responsable_id=$usuario->id;
         if($request->has('responsable_id') && $request->get('responsable_id')){
             $responsable_id = $request->get('responsable_id');   
         }
-        $responsable = User::where('id',$responsable_id)->first(); 
+        $responsable = User::where('id',$responsable_id)->first();         
 
         $indicadores = Interaccion::indicadoresInteracciones($campania, $responsable);
         $interaccionesAtrasadas = $indicadores['interaccionesAtrasadas'];
@@ -54,6 +60,7 @@ class HomeController extends Controller
             'interaccionesRealizadas'=>$interaccionesRealizadas,
             'actividadesHoy'=>$actividadesHoy,
             'contactosActualizacion'=>$contactosActualizacion,
+            'verResponsable'=>$verResponsable,
             ]
         );
     }

@@ -337,17 +337,23 @@
     </ul> 
 </li>
 @endif
+@if(strpos(Session::get('textoPermisos'), 'reportes.')!==false)     
 <li id="reportes" class="opcion-menu opcion-menu-padre treeview">
     <a class="app-menu__item" href="#"><i class="fa fa-bar-chart"></i><span>Reportes</span></a>
     <ul class="treeview-menu">  
+        @if(strpos(Session::get('textoPermisos'), 'reportes.funnel')!==false)  
         <li id="reporte-funnel" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('reportes.funnel') }}"><i class="fa fa-circle-o"></i><span>Funnel de venta</span></a>
-        </li>  
+        </li> 
+        @endif 
+        @if(strpos(Session::get('textoPermisos'), 'reportes.interacciones')!==false) 
         <li id="reporte-interacciones" class="treeview-item opcion-menu menu-hijo">
             <a href="{{ route('reportes.interacciones') }}"><i class="fa fa-circle-o"></i><span>Interacciones por estado</span></a>
-        </li>                
+        </li> 
+        @endif                
     </ul> 
 </li>
+@endif
 <li id="manuales">
     <a href="https://youtu.be/KMN170blLnE" target="_blank"><i class="fa fa-book"></i><span>Manual</span></a>
 </li>

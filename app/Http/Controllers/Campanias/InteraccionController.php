@@ -30,7 +30,8 @@ class InteraccionController extends AppBaseController
     {
         $this->interaccionRepository = $interaccionRepo;
         $this->middleware('permission:campanias.interacciones.consultar', ['only' => ['index','show','dataAjax']]);
-        $this->middleware('permission:campanias.interacciones.crear', ['only' => ['create','store','archivoEjemplo','subirImportacion','cargarImportacion']]);        
+        $this->middleware('permission:campanias.interacciones.crear', ['only' => ['create','store']]);
+        $this->middleware('permission:campanias.interacciones.importar', ['only' => ['archivoEjemplo','subirImportacion','cargarImportacion']]);
         $this->middleware('permission:campanias.interacciones.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:campanias.interacciones.eliminar', ['only' => ['destroy']]);
     }

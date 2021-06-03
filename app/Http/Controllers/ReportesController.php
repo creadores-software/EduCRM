@@ -13,6 +13,8 @@ class ReportesController extends AppBaseController
 {
     public function __construct()
     {
+        $this->middleware('permission:reportes.interacciones', ['only' => ['interacciones']]);
+        $this->middleware('permission:reportes.funnel', ['only' => ['funnel']]);
     }    
 
     public function interacciones(Request $request)

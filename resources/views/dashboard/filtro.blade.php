@@ -17,7 +17,8 @@
                                     <option value="{{ $campania->id }}" selected> {{ $campania->nombre }} </option>
                                 @endif
                             </select>
-                        </div>   
+                        </div>
+                        @if($verResponsable)
                         <!-- Responsable Id Field -->
                         <div class="form-group col-sm-12">
                             {!! Form::label('responsable_id', __('models/oportunidades.fields.responsable_id')) !!}
@@ -27,7 +28,8 @@
                                     <option value="{{ $responsable->id }}" selected> {{ $responsable->name }} </option>
                                 @endif
                             </select>
-                        </div>               
+                        </div> 
+                        @endif              
                     </div>                    
                 </div>
             </div>
