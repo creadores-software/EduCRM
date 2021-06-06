@@ -8,6 +8,10 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    /**
+     * Compara dos arreglos confirmando que cuenten con la misma información
+     * Sirve para validar entre lo creado y lo guardado.
+     */
     public function assertModelData(Array $actualData, Array $expectedData)
     {
         foreach ($actualData as $key => $value) {

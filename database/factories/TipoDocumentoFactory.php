@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(TipoDocumento::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word(45),
+        'nombre' => $faker->unique()->realText(45),
         'abreviacion' => strtoupper($faker->lexify('??'))
     ];
 });

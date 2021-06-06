@@ -2,7 +2,10 @@
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
+use $NAMESPACE_REQUEST$\Create$MODEL_NAME$Request;
+use $NAMESPACE_REQUEST$\Update$MODEL_NAME$Request;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Validator;
 use $NAMESPACE_TESTS$\TestCase;
 
 class $MODEL_NAME$RepositoryTest extends TestCase
@@ -27,13 +30,21 @@ class $MODEL_NAME$RepositoryTest extends TestCase
     {
         $$MODEL_NAME_CAMEL$ = factory($MODEL_NAME$::class)->make()->toArray();
 
-        $created$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->create($$MODEL_NAME_CAMEL$);
+        $rules = (new Create$MODEL_NAME$Request())->rules();
+        $validator = Validator::make($$MODEL_NAME_CAMEL$, $rules);
+        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
 
-        $created$MODEL_NAME$ = $created$MODEL_NAME$->toArray();
-        $this->assertArrayHasKey('id', $created$MODEL_NAME$);
-        $this->assertNotNull($created$MODEL_NAME$['id'], 'El modelo $MODEL_NAME$ creado debe tener un id especificado');
-        $this->assertNotNull($MODEL_NAME$::find($created$MODEL_NAME$['id']), 'El modelo $MODEL_NAME$ con el id dado debe exitar en la BD');
-        $this->assertModelData($$MODEL_NAME_CAMEL$, $created$MODEL_NAME$);
+        $objeto$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->create($$MODEL_NAME_CAMEL$);
+        $objeto$MODEL_NAME$ = $objeto$MODEL_NAME$->toArray();
+
+        $this->assertArrayHasKey('id', $objeto$MODEL_NAME$, 'El modelo creado debe tener un id especificado.');
+        $this->assertNotNull($objeto$MODEL_NAME$['id'], 'El id del modelo no debe ser nulo.');
+        $this->assertNotNull($MODEL_NAME$::find($objeto$MODEL_NAME$['id']), 'El modelo no quedó registrado en la BD.');
+        $this->assertModelData($$MODEL_NAME_CAMEL$, $objeto$MODEL_NAME$,'El modelo guardado no coincide con el creado.');        
+        
+        //Valida después de creado con los mismos datos (repetido)
+        $validator = Validator::make($$MODEL_NAME_CAMEL$, $rules);
+        $this->assertEquals(true, $validator->fails(),'El modelo no pasó la validación de las reglas.');
     }
 
     /**
@@ -57,11 +68,15 @@ class $MODEL_NAME$RepositoryTest extends TestCase
         $$MODEL_NAME_CAMEL$ = factory($MODEL_NAME$::class)->create();
         $fake$MODEL_NAME$ = factory($MODEL_NAME$::class)->make()->toArray();
 
-        $updated$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->update($fake$MODEL_NAME$, $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
+        $rules = (new Update$MODEL_NAME$Request())->rules();
+        $validator = Validator::make($fake$MODEL_NAME$, $rules);
+        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
 
-        $this->assertModelData($fake$MODEL_NAME$, $updated$MODEL_NAME$->toArray());
+        $objeto$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->update($fake$MODEL_NAME$, $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
+
+        $this->assertModelData($fake$MODEL_NAME$, $objeto$MODEL_NAME$->toArray(),'El modelo no quedó con los datos editados.');
         $db$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->find($$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
-        $this->assertModelData($fake$MODEL_NAME$, $db$MODEL_NAME$->toArray());
+        $this->assertModelData($fake$MODEL_NAME$, $db$MODEL_NAME$->toArray(),'La edición no tuvo efectos en la BD.');
     }
 
     /**
@@ -73,7 +88,7 @@ class $MODEL_NAME$RepositoryTest extends TestCase
 
         $resp = $this->$MODEL_NAME_CAMEL$Repo->delete($$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
 
-        $this->assertTrue($resp);
-        $this->assertNull($MODEL_NAME$::find($$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$), 'El modelo $MODEL_NAME$ no debe existir en bd');
+        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
+        $this->assertNull($MODEL_NAME$::find($$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$), 'El modelo no debe existir en BD.');
     }
 }

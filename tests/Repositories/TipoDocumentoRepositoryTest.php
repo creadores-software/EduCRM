@@ -2,7 +2,10 @@
 
 use App\Models\Parametros\TipoDocumento;
 use App\Repositories\Parametros\TipoDocumentoRepository;
+use App\Http\Requests\Parametros\CreateTipoDocumentoRequest;
+use App\Http\Requests\Parametros\UpdateTipoDocumentoRequest;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 class TipoDocumentoRepositoryTest extends TestCase
@@ -27,13 +30,21 @@ class TipoDocumentoRepositoryTest extends TestCase
     {
         $tipoDocumento = factory(TipoDocumento::class)->make()->toArray();
 
-        $createdTipoDocumento = $this->tipoDocumentoRepo->create($tipoDocumento);
+        $rules = (new CreateTipoDocumentoRequest())->rules();
+        $validator = Validator::make($tipoDocumento, $rules);
+        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
 
-        $createdTipoDocumento = $createdTipoDocumento->toArray();
-        $this->assertArrayHasKey('id', $createdTipoDocumento);
-        $this->assertNotNull($createdTipoDocumento['id'], 'El modelo TipoDocumento creado debe tener un id especificado');
-        $this->assertNotNull(TipoDocumento::find($createdTipoDocumento['id']), 'El modelo TipoDocumento con el id dado debe exitar en la BD');
-        $this->assertModelData($tipoDocumento, $createdTipoDocumento);
+        $objetoTipoDocumento = $this->tipoDocumentoRepo->create($tipoDocumento);
+        $objetoTipoDocumento = $objetoTipoDocumento->toArray();
+
+        $this->assertArrayHasKey('id', $objetoTipoDocumento, 'El modelo creado debe tener un id especificado.');
+        $this->assertNotNull($objetoTipoDocumento['id'], 'El id del modelo no debe ser nulo.');
+        $this->assertNotNull(TipoDocumento::find($objetoTipoDocumento['id']), 'El modelo no quedó registrado en la BD.');
+        $this->assertModelData($tipoDocumento, $objetoTipoDocumento,'El modelo guardado no coincide con el creado.');        
+        
+        //Valida después de creado con los mismos datos (repetido)
+        $validator = Validator::make($tipoDocumento, $rules);
+        $this->assertEquals(true, $validator->fails(),'El modelo no pasó la validación de las reglas.');
     }
 
     /**
@@ -57,11 +68,15 @@ class TipoDocumentoRepositoryTest extends TestCase
         $tipoDocumento = factory(TipoDocumento::class)->create();
         $fakeTipoDocumento = factory(TipoDocumento::class)->make()->toArray();
 
-        $updatedTipoDocumento = $this->tipoDocumentoRepo->update($fakeTipoDocumento, $tipoDocumento->id);
+        $rules = (new UpdateTipoDocumentoRequest())->rules();
+        $validator = Validator::make($fakeTipoDocumento, $rules);
+        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
 
-        $this->assertModelData($fakeTipoDocumento, $updatedTipoDocumento->toArray());
+        $objetoTipoDocumento = $this->tipoDocumentoRepo->update($fakeTipoDocumento, $tipoDocumento->id);
+
+        $this->assertModelData($fakeTipoDocumento, $objetoTipoDocumento->toArray(),'El modelo no quedó con los datos editados.');
         $dbTipoDocumento = $this->tipoDocumentoRepo->find($tipoDocumento->id);
-        $this->assertModelData($fakeTipoDocumento, $dbTipoDocumento->toArray());
+        $this->assertModelData($fakeTipoDocumento, $dbTipoDocumento->toArray(),'La edición no tuvo efectos en la BD.');
     }
 
     /**
@@ -73,7 +88,7 @@ class TipoDocumentoRepositoryTest extends TestCase
 
         $resp = $this->tipoDocumentoRepo->delete($tipoDocumento->id);
 
-        $this->assertTrue($resp);
-        $this->assertNull(TipoDocumento::find($tipoDocumento->id), 'El modelo TipoDocumento no debe existir en bd');
+        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
+        $this->assertNull(TipoDocumento::find($tipoDocumento->id), 'El modelo no debe existir en BD.');
     }
 }
