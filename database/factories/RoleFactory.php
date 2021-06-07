@@ -2,15 +2,16 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\Admin\Role;
+use Spatie\Permission\Models\Role;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Role::class, function (Faker $faker) {
 
     return [
-        'name' => $faker->word,
-        'guard_name' => $faker->word,
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
+        'name' => $faker->unique()->realText(255),
+        'guard_name' => 'web',
+        'created_at' => new Carbon(),
+        'updated_at' => new Carbon()
     ];
 });

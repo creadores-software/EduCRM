@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(TipoCampania::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word,
-        'descripcion' => $faker->word
+        'nombre' => $faker->unique()->realText(45),
+        'descripcion' => $faker->unique()->realText(255),
     ];
 });

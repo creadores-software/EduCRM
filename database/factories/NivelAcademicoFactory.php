@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(NivelAcademico::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word,
-        'es_ies' => $faker->word
+        'nombre' => $faker->unique()->realText(45),
+        'es_ies' => $faker->boolean
     ];
 });

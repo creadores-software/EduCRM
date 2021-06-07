@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(EquipoMercadeo::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word
+        'nombre' => $faker->unique()->realText(45)
     ];
 });

@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(BuyerPersona::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word,
-        'descripcion' => $faker->text
+        'nombre' => $faker->unique()->realText(45),
+        'descripcion' => $faker->realText(255)
     ];
 });

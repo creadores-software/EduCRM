@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(MedioComunicacion::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word,
-        'es_red_social' => $faker->word
+        'nombre' => $faker->unique()->realText(45),
+        'es_red_social' => $faker->boolean
     ];
 });

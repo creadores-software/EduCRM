@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(TipoEstadoColor::class, function (Faker $faker) {
 
     return [
-        'nombre' => $faker->word,
-        'color_hexadecimal' => $faker->word
+        'nombre' => $faker->unique()->realText(45),
+        'color_hexadecimal' => $faker->hexcolor
     ];
 });
