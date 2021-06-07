@@ -16,7 +16,8 @@ variables:
 cache:
   key: ${CI_BUILD_REF_NAME}
   paths:
-  - vendor/
+  - vendor
+  - node_modules
 
 before_script:  
   # Update Composer
@@ -46,11 +47,11 @@ before_script:
 test:
   script:
   # run tests
-  - echo "Running PHPUnit Tests (OK)"
-  #- php vendor/bin/phpunit --coverage-text --colors 
+  - echo "Running PHPUnit Tests"
+  - php artisan test --color
   
-  # - echo "Running Laravel Dusk"
-  # - php artisan dusk --colors --debug
+  - echo "Running Laravel Dusk"
+  - php artisan dusk --colors --debug
 
   artifacts:
     paths:
