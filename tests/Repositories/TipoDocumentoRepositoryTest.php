@@ -4,13 +4,13 @@ use App\Models\Parametros\TipoDocumento;
 use App\Repositories\Parametros\TipoDocumentoRepository;
 use App\Http\Requests\Parametros\CreateTipoDocumentoRequest;
 use App\Http\Requests\Parametros\UpdateTipoDocumentoRequest;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
 class TipoDocumentoRepositoryTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     /**
      * @var TipoDocumentoRepository
