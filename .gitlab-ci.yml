@@ -40,9 +40,6 @@ before_script:
 
   # Run database migrations.
   - php artisan migrate --seed
-
-  # Actualizando el driver para Dusk
-  - php artisan dusk:chrome-driver 73
   
   # Other configurations
   - start-nginx-ci-project
@@ -54,6 +51,7 @@ test:
   - php artisan test --color
   
   - echo "Running Laravel Dusk"
+  - chromedriver &
   - php artisan dusk --colors --debug
 
   artifacts:
