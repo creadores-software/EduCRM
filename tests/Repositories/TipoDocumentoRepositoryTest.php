@@ -44,7 +44,7 @@ class TipoDocumentoRepositoryTest extends TestCase
         
         //Valida después de creado con los mismos datos (repetido)
         $validator = Validator::make($tipoDocumento, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no pasó la validación de las reglas.');
+        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
     }
 
     /**

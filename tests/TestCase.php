@@ -18,7 +18,10 @@ abstract class TestCase extends BaseTestCase
             if (in_array($key, ['created_at', 'updated_at'])) {
                 continue;
             }
-            $this->assertEquals($actualData[$key], $expectedData[$key]);
+            if(!array_key_exists($key,$expectedData)){
+                continue;    
+            }
+            $this->assertEquals($actualData[$key], $expectedData[$key]);            
         }
     }
 }
