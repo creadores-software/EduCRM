@@ -1,3 +1,5 @@
+{!! Form::hidden('id', old('id', $campania->id ?? '')) !!}
+
 <!-- Tipo Campania Id Field -->
 <div class="form-group col-sm-6 required">
     {!! Form::label('tipo_campania_id', __('models/campanias.fields.tipo_campania_id')) !!}

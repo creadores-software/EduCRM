@@ -4,6 +4,7 @@ namespace App\Http\Requests\Campanias;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Campanias\Campania;
+use Illuminate\Validation\Rule;
 
 class CreateCampaniaRequest extends FormRequest
 {
@@ -30,6 +31,13 @@ class CreateCampaniaRequest extends FormRequest
         if($this->request->get('fecha_final')){
             $rules['fecha_final'][] = 'after:fecha_inicio';                
         }
+        $rules['tipo_campania_id'] = [
+            'required',
+            'integer',
+            Rule::unique('campania')
+                ->ignore($this->id)
+                ->where('periodo_academico_id', $this->periodo_academico_id)
+        ];
         return $rules;
     }
 }
