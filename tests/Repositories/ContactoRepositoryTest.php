@@ -33,7 +33,7 @@ class ContactoRepositoryTest extends TestCase
         $rules = (new CreateContactoRequest())->rules();
         $validator = Validator::make($contacto, $rules);
         $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
+       
         $objetoContacto = $this->contactoRepo->create($contacto);
         $objetoContacto = $objetoContacto->toArray();
 
@@ -44,7 +44,7 @@ class ContactoRepositoryTest extends TestCase
         
         //Valida después de creado con los mismos datos (repetido)
         $validator = Validator::make($contacto, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        $this->assertEquals(true,$validator->fails(),'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +85,8 @@ class ContactoRepositoryTest extends TestCase
     public function test_eliminar_contacto()
     {
         $contacto = factory(Contacto::class)->create();
-
-        $resp = $this->contactoRepo->delete($contacto->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
+       
+        $this->contactoRepo->delete($contacto->id);
         $this->assertNull(Contacto::find($contacto->id), 'El modelo no debe existir en BD.');
     }
 }

@@ -1,16 +1,21 @@
 <?php namespace Tests\Repositories;
 
+use App\Http\Controllers\Campanias\CampaniaController;
 use App\Models\Campanias\Campania;
 use App\Repositories\Campanias\CampaniaRepository;
 use App\Http\Requests\Campanias\CreateCampaniaRequest;
 use App\Http\Requests\Campanias\UpdateCampaniaRequest;
+use App\Models\Admin\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class CampaniaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var CampaniaRepository
@@ -43,8 +48,14 @@ class CampaniaRepositoryTest extends TestCase
         $this->assertModelData($campania, $objetoCampania,'El modelo guardado no coincide con el creado.');        
         
         //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($campania, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //Debido a que se usa Rule::unique es necesario realizar el procedimiento por post
+        $url = action([CampaniaController::class, 'store']); 
+        $response = $this->post($url, $campania); 
+        $status=200;
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
