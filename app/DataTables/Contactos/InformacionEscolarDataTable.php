@@ -157,11 +157,11 @@ class InformacionEscolarDataTable extends DataTable
         return [
             'entidad_id' => new Column(['title' => __('models/informacionesEscolares.fields.entidad_id'), 'data' => 'entidad','name' => 'entidad.nombre']),
             'nivel_formacion_id' => new Column(['title' => __('models/informacionesEscolares.fields.nivel_formacion_id'), 'data' => 'nivel_formacion', 'name' => 'nivelFormacion.nombre']),
+            'fecha_inicio' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_inicio'), 'data' => 'fecha_inicio']),
             'finalizado' => new Column(['title' => __('models/informacionesEscolares.fields.finalizado'), 'data' => 'finalizado']),
             'grado' => new Column(['title' => __('models/informacionesEscolares.fields.grado'), 'data' => 'grado']),
             'puntaje_icfes' => new Column(['title' => __('models/informacionesEscolares.fields.puntaje_icfes'), 'data' => 'puntaje_icfes']),
-            //Campos no visibles que salen en exportación                  
-            'fecha_inicio' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_inicio'), 'data' => 'fecha_inicio','visible'=>false]),
+            //Campos no visibles que salen en exportación  
             'fecha_grado' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_grado'), 'data' => 'fecha_grado','visible'=>false]),
             'fecha_icfes' => new Column(['title' => __('models/informacionesEscolares.fields.fecha_icfes'), 'data' => 'fecha_icfes','visible'=>false]),
             'contacto_id' => new Column(['title' => __('models/informacionesEscolares.fields.contacto_id'), 'data' => 'contacto_id','visible'=>false]),

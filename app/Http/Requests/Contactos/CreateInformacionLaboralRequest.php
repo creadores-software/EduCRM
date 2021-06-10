@@ -4,6 +4,7 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\InformacionLaboral;
+use Illuminate\Validation\Rule;
 
 class CreateInformacionLaboralRequest extends FormRequest
 {
@@ -30,6 +31,13 @@ class CreateInformacionLaboralRequest extends FormRequest
         if($this->request->get('fecha_fin')){
             $rules['fecha_fin'][] = 'after:fecha_inicio';                
         }
+        $rules['entidad_id'] = [
+            'required',
+            'integer',
+            Rule::unique('informacion_laboral')
+                ->where('contacto_id', $this->contacto_id)
+                ->where('fecha_inicio', $this->fecha_inicio)
+        ];
         return $rules;
     }
 }

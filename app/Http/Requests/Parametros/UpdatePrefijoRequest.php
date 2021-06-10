@@ -4,6 +4,7 @@ namespace App\Http\Requests\Parametros;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Parametros\Prefijo;
+use Illuminate\Validation\Rule;
 
 class UpdatePrefijoRequest extends FormRequest
 {
@@ -25,8 +26,15 @@ class UpdatePrefijoRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Prefijo::$rules;
-        
+        $rules= Prefijo::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:45',
+            Rule::unique('prefijo')
+                ->where('genero_id', $this->genero_id)
+                ->ignore($this->id)
+        ];
         return $rules;
     }
 }

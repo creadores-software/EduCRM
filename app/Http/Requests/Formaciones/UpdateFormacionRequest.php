@@ -4,6 +4,7 @@ namespace App\Http\Requests\Formaciones;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Formaciones\Formacion;
+use Illuminate\Validation\Rule;
 
 class UpdateFormacionRequest extends FormRequest
 {
@@ -25,8 +26,15 @@ class UpdateFormacionRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Formacion::$rules;
-        
+        $rules= Formacion::$rules;        
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:150',
+            Rule::unique('formacion')
+                ->ignore($this->id)
+                ->where('codigo_snies', $this->codigo_snies)
+        ];
         return $rules;
     }
 }

@@ -71,16 +71,6 @@ class InformacionRelacionalRepositoryTest extends TestCase
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoInformacionRelacional = InformacionRelacional::find($informacionRelacional->id);
         $this->assertModelData($fakeInformacionRelacional, $objetoInformacionRelacional->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $informacionRelacional = factory(InformacionRelacional::class)->create(); 
-        $url = route('contactos.informacionesRelacionales.update', $informacionRelacional->id);
-        $response = $this->patch($url, $fakeInformacionRelacional); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**

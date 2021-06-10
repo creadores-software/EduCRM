@@ -13,6 +13,7 @@
 <div class="form-group col-sm-6 required">
     {!! Form::label('nombre', __('models/prefijos.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $prefijo->id ?? '')) !!}
 </div>  
 
 <!-- Submit Field -->

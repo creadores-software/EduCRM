@@ -33,6 +33,7 @@ class UpdateInformacionEscolarRequest extends FormRequest
             Rule::unique('informacion_escolar')
                 ->ignore($this->id)
                 ->where('contacto_id', $this->contacto_id)
+                ->where('fecha_inicio', $this->fecha_inicio)
         ];
         $rules['fecha_grado'] = ['nullable'];
         if($this->request->get('fecha_grado')){

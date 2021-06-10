@@ -1,5 +1,6 @@
 {!! Form::hidden('contacto_id',$idContacto) !!}
 {!! Form::hidden('idContacto',$idContacto) !!}
+{!! Form::hidden('id', old('id', $informacionLaboral->id ?? '')) !!}
 
 <!-- Entidad Id Field -->
 <div class="form-group col-sm-6 required">
