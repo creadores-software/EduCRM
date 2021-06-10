@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Generacion;
 use App\Repositories\Parametros\GeneracionRepository;
-use App\Http\Requests\Parametros\CreateGeneracionRequest;
-use App\Http\Requests\Parametros\UpdateGeneracionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class GeneracionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var GeneracionRepository
@@ -30,21 +29,26 @@ class GeneracionRepositoryTest extends TestCase
     {
         $generacion = factory(Generacion::class)->make()->toArray();
 
-        $rules = (new CreateGeneracionRequest())->rules();
-        $validator = Validator::make($generacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoGeneracion = $this->generacionRepo->create($generacion);
-        $objetoGeneracion = $objetoGeneracion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoGeneracion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoGeneracion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Generacion::find($objetoGeneracion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($generacion, $objetoGeneracion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.generaciones.store');
+        $response = $this->post($url, $generacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($generacion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoGeneracion = Generacion::latest()->first()->toArray();
+        $this->assertModelData($generacion, $objetoGeneracion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $generacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class GeneracionRepositoryTest extends TestCase
     public function test_consultar_generacion()
     {
         $generacion = factory(Generacion::class)->create();
-
         $dbGeneracion = $this->generacionRepo->find($generacion->id);
-
         $dbGeneracion = $dbGeneracion->toArray();
         $this->assertModelData($generacion->toArray(), $dbGeneracion);
     }
@@ -65,18 +67,32 @@ class GeneracionRepositoryTest extends TestCase
      */
     public function test_editar_generacion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $generacion = factory(Generacion::class)->create();
-        $fakeGeneracion = factory(Generacion::class)->make()->toArray();
-
-        $rules = (new UpdateGeneracionRequest())->rules();
-        $validator = Validator::make($fakeGeneracion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoGeneracion = $this->generacionRepo->update($fakeGeneracion, $generacion->id);
-
+        $fakeGeneracion = factory(Generacion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.generaciones.update', $generacion->id);
+        $response = $this->patch($url,$fakeGeneracion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoGeneracion = Generacion::find($generacion->id);
         $this->assertModelData($fakeGeneracion, $objetoGeneracion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbGeneracion = $this->generacionRepo->find($generacion->id);
-        $this->assertModelData($fakeGeneracion, $dbGeneracion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $generacion = factory(Generacion::class)->create(); 
+        $url = route('parametros.generaciones.update', $generacion->id);
+        $response = $this->patch($url, $fakeGeneracion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class GeneracionRepositoryTest extends TestCase
     public function test_eliminar_generacion()
     {
         $generacion = factory(Generacion::class)->create();
-
         $resp = $this->generacionRepo->delete($generacion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Generacion::find($generacion->id), 'El modelo no debe existir en BD.');
     }
 }

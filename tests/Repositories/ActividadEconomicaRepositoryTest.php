@@ -2,15 +2,14 @@
 
 use App\Models\Entidades\ActividadEconomica;
 use App\Repositories\Entidades\ActividadEconomicaRepository;
-use App\Http\Requests\Entidades\CreateActividadEconomicaRequest;
-use App\Http\Requests\Entidades\UpdateActividadEconomicaRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ActividadEconomicaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var ActividadEconomicaRepository
@@ -30,21 +29,26 @@ class ActividadEconomicaRepositoryTest extends TestCase
     {
         $actividadEconomica = factory(ActividadEconomica::class)->make()->toArray();
 
-        $rules = (new CreateActividadEconomicaRequest())->rules();
-        $validator = Validator::make($actividadEconomica, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoActividadEconomica = $this->actividadEconomicaRepo->create($actividadEconomica);
-        $objetoActividadEconomica = $objetoActividadEconomica->toArray();
-
-        $this->assertArrayHasKey('id', $objetoActividadEconomica, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoActividadEconomica['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(ActividadEconomica::find($objetoActividadEconomica['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($actividadEconomica, $objetoActividadEconomica,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('entidades.actividadesEconomicas.store');
+        $response = $this->post($url, $actividadEconomica); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($actividadEconomica, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoActividadEconomica = ActividadEconomica::latest()->first()->toArray();
+        $this->assertModelData($actividadEconomica, $objetoActividadEconomica,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $actividadEconomica); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class ActividadEconomicaRepositoryTest extends TestCase
     public function test_consultar_actividad_economica()
     {
         $actividadEconomica = factory(ActividadEconomica::class)->create();
-
         $dbActividadEconomica = $this->actividadEconomicaRepo->find($actividadEconomica->id);
-
         $dbActividadEconomica = $dbActividadEconomica->toArray();
         $this->assertModelData($actividadEconomica->toArray(), $dbActividadEconomica);
     }
@@ -65,18 +67,32 @@ class ActividadEconomicaRepositoryTest extends TestCase
      */
     public function test_editar_actividad_economica()
     {
+        //Se crea un objeto y se generan datos para edición  
         $actividadEconomica = factory(ActividadEconomica::class)->create();
-        $fakeActividadEconomica = factory(ActividadEconomica::class)->make()->toArray();
-
-        $rules = (new UpdateActividadEconomicaRequest())->rules();
-        $validator = Validator::make($fakeActividadEconomica, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoActividadEconomica = $this->actividadEconomicaRepo->update($fakeActividadEconomica, $actividadEconomica->id);
-
+        $fakeActividadEconomica = factory(ActividadEconomica::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('entidades.actividadesEconomicas.update', $actividadEconomica->id);
+        $response = $this->patch($url,$fakeActividadEconomica); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoActividadEconomica = ActividadEconomica::find($actividadEconomica->id);
         $this->assertModelData($fakeActividadEconomica, $objetoActividadEconomica->toArray(),'El modelo no quedó con los datos editados.');
-        $dbActividadEconomica = $this->actividadEconomicaRepo->find($actividadEconomica->id);
-        $this->assertModelData($fakeActividadEconomica, $dbActividadEconomica->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $actividadEconomica = factory(ActividadEconomica::class)->create(); 
+        $url = route('entidades.actividadesEconomicas.update', $actividadEconomica->id);
+        $response = $this->patch($url, $fakeActividadEconomica); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class ActividadEconomicaRepositoryTest extends TestCase
     public function test_eliminar_actividad_economica()
     {
         $actividadEconomica = factory(ActividadEconomica::class)->create();
-
         $resp = $this->actividadEconomicaRepo->delete($actividadEconomica->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(ActividadEconomica::find($actividadEconomica->id), 'El modelo no debe existir en BD.');
     }
 }

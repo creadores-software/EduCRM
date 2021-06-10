@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\TipoDocumento;
 use App\Repositories\Parametros\TipoDocumentoRepository;
-use App\Http\Requests\Parametros\CreateTipoDocumentoRequest;
-use App\Http\Requests\Parametros\UpdateTipoDocumentoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class TipoDocumentoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var TipoDocumentoRepository
@@ -30,21 +29,26 @@ class TipoDocumentoRepositoryTest extends TestCase
     {
         $tipoDocumento = factory(TipoDocumento::class)->make()->toArray();
 
-        $rules = (new CreateTipoDocumentoRequest())->rules();
-        $validator = Validator::make($tipoDocumento, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoDocumento = $this->tipoDocumentoRepo->create($tipoDocumento);
-        $objetoTipoDocumento = $objetoTipoDocumento->toArray();
-
-        $this->assertArrayHasKey('id', $objetoTipoDocumento, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoTipoDocumento['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(TipoDocumento::find($objetoTipoDocumento['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($tipoDocumento, $objetoTipoDocumento,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.tiposDocumento.store');
+        $response = $this->post($url, $tipoDocumento); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($tipoDocumento, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoTipoDocumento = TipoDocumento::latest()->first()->toArray();
+        $this->assertModelData($tipoDocumento, $objetoTipoDocumento,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $tipoDocumento); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class TipoDocumentoRepositoryTest extends TestCase
     public function test_consultar_tipo_documento()
     {
         $tipoDocumento = factory(TipoDocumento::class)->create();
-
         $dbTipoDocumento = $this->tipoDocumentoRepo->find($tipoDocumento->id);
-
         $dbTipoDocumento = $dbTipoDocumento->toArray();
         $this->assertModelData($tipoDocumento->toArray(), $dbTipoDocumento);
     }
@@ -65,18 +67,32 @@ class TipoDocumentoRepositoryTest extends TestCase
      */
     public function test_editar_tipo_documento()
     {
+        //Se crea un objeto y se generan datos para edición  
         $tipoDocumento = factory(TipoDocumento::class)->create();
-        $fakeTipoDocumento = factory(TipoDocumento::class)->make()->toArray();
-
-        $rules = (new UpdateTipoDocumentoRequest())->rules();
-        $validator = Validator::make($fakeTipoDocumento, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoDocumento = $this->tipoDocumentoRepo->update($fakeTipoDocumento, $tipoDocumento->id);
-
+        $fakeTipoDocumento = factory(TipoDocumento::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.tiposDocumento.update', $tipoDocumento->id);
+        $response = $this->patch($url,$fakeTipoDocumento); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoTipoDocumento = TipoDocumento::find($tipoDocumento->id);
         $this->assertModelData($fakeTipoDocumento, $objetoTipoDocumento->toArray(),'El modelo no quedó con los datos editados.');
-        $dbTipoDocumento = $this->tipoDocumentoRepo->find($tipoDocumento->id);
-        $this->assertModelData($fakeTipoDocumento, $dbTipoDocumento->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $tipoDocumento = factory(TipoDocumento::class)->create(); 
+        $url = route('parametros.tiposDocumento.update', $tipoDocumento->id);
+        $response = $this->patch($url, $fakeTipoDocumento); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class TipoDocumentoRepositoryTest extends TestCase
     public function test_eliminar_tipo_documento()
     {
         $tipoDocumento = factory(TipoDocumento::class)->create();
-
         $resp = $this->tipoDocumentoRepo->delete($tipoDocumento->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(TipoDocumento::find($tipoDocumento->id), 'El modelo no debe existir en BD.');
     }
 }

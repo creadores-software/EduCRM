@@ -2,15 +2,14 @@
 
 use App\Models\Contactos\InformacionRelacional;
 use App\Repositories\Contactos\InformacionRelacionalRepository;
-use App\Http\Requests\Contactos\CreateInformacionRelacionalRequest;
-use App\Http\Requests\Contactos\UpdateInformacionRelacionalRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class InformacionRelacionalRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var InformacionRelacionalRepository
@@ -25,14 +24,11 @@ class InformacionRelacionalRepositoryTest extends TestCase
 
     /**
      * @test crear
+     * Es diferente a los demás pues la creación se hace desde el modelo Contacto y no por controlador.
      */
     public function test_crear_informacion_relacional()
     {
         $informacionRelacional = factory(InformacionRelacional::class)->make()->toArray();
-
-        $rules = (new CreateInformacionRelacionalRequest())->rules();
-        $validator = Validator::make($informacionRelacional, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
 
         $objetoInformacionRelacional = $this->informacionRelacionalRepo->create($informacionRelacional);
         $objetoInformacionRelacional = $objetoInformacionRelacional->toArray();
@@ -40,11 +36,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
         $this->assertArrayHasKey('id', $objetoInformacionRelacional, 'El modelo creado debe tener un id especificado.');
         $this->assertNotNull($objetoInformacionRelacional['id'], 'El id del modelo no debe ser nulo.');
         $this->assertNotNull(InformacionRelacional::find($objetoInformacionRelacional['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($informacionRelacional, $objetoInformacionRelacional,'El modelo guardado no coincide con el creado.');        
-        
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($informacionRelacional, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        $this->assertModelData($informacionRelacional, $objetoInformacionRelacional,'El modelo guardado no coincide con el creado.');                
     }
 
     /**
@@ -53,9 +45,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
     public function test_consultar_informacion_relacional()
     {
         $informacionRelacional = factory(InformacionRelacional::class)->create();
-
         $dbInformacionRelacional = $this->informacionRelacionalRepo->find($informacionRelacional->id);
-
         $dbInformacionRelacional = $dbInformacionRelacional->toArray();
         $this->assertModelData($informacionRelacional->toArray(), $dbInformacionRelacional);
     }
@@ -65,18 +55,32 @@ class InformacionRelacionalRepositoryTest extends TestCase
      */
     public function test_editar_informacion_relacional()
     {
+        //Se crea un objeto y se generan datos para edición  
         $informacionRelacional = factory(InformacionRelacional::class)->create();
-        $fakeInformacionRelacional = factory(InformacionRelacional::class)->make()->toArray();
-
-        $rules = (new UpdateInformacionRelacionalRequest())->rules();
-        $validator = Validator::make($fakeInformacionRelacional, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoInformacionRelacional = $this->informacionRelacionalRepo->update($fakeInformacionRelacional, $informacionRelacional->id);
-
+        $fakeInformacionRelacional = factory(InformacionRelacional::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('contactos.informacionesRelacionales.update', $informacionRelacional->id);
+        $response = $this->patch($url,$fakeInformacionRelacional); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoInformacionRelacional = InformacionRelacional::find($informacionRelacional->id);
         $this->assertModelData($fakeInformacionRelacional, $objetoInformacionRelacional->toArray(),'El modelo no quedó con los datos editados.');
-        $dbInformacionRelacional = $this->informacionRelacionalRepo->find($informacionRelacional->id);
-        $this->assertModelData($fakeInformacionRelacional, $dbInformacionRelacional->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $informacionRelacional = factory(InformacionRelacional::class)->create(); 
+        $url = route('contactos.informacionesRelacionales.update', $informacionRelacional->id);
+        $response = $this->patch($url, $fakeInformacionRelacional); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +89,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
     public function test_eliminar_informacion_relacional()
     {
         $informacionRelacional = factory(InformacionRelacional::class)->create();
-
         $resp = $this->informacionRelacionalRepo->delete($informacionRelacional->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(InformacionRelacional::find($informacionRelacional->id), 'El modelo no debe existir en BD.');
     }
 }

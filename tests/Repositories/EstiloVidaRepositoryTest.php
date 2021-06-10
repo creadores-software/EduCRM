@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\EstiloVida;
 use App\Repositories\Parametros\EstiloVidaRepository;
-use App\Http\Requests\Parametros\CreateEstiloVidaRequest;
-use App\Http\Requests\Parametros\UpdateEstiloVidaRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstiloVidaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstiloVidaRepository
@@ -30,21 +29,26 @@ class EstiloVidaRepositoryTest extends TestCase
     {
         $estiloVida = factory(EstiloVida::class)->make()->toArray();
 
-        $rules = (new CreateEstiloVidaRequest())->rules();
-        $validator = Validator::make($estiloVida, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstiloVida = $this->estiloVidaRepo->create($estiloVida);
-        $objetoEstiloVida = $objetoEstiloVida->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstiloVida, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstiloVida['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstiloVida::find($objetoEstiloVida['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estiloVida, $objetoEstiloVida,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.estilosVida.store');
+        $response = $this->post($url, $estiloVida); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estiloVida, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstiloVida = EstiloVida::latest()->first()->toArray();
+        $this->assertModelData($estiloVida, $objetoEstiloVida,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estiloVida); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstiloVidaRepositoryTest extends TestCase
     public function test_consultar_estilo_vida()
     {
         $estiloVida = factory(EstiloVida::class)->create();
-
         $dbEstiloVida = $this->estiloVidaRepo->find($estiloVida->id);
-
         $dbEstiloVida = $dbEstiloVida->toArray();
         $this->assertModelData($estiloVida->toArray(), $dbEstiloVida);
     }
@@ -65,18 +67,32 @@ class EstiloVidaRepositoryTest extends TestCase
      */
     public function test_editar_estilo_vida()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estiloVida = factory(EstiloVida::class)->create();
-        $fakeEstiloVida = factory(EstiloVida::class)->make()->toArray();
-
-        $rules = (new UpdateEstiloVidaRequest())->rules();
-        $validator = Validator::make($fakeEstiloVida, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstiloVida = $this->estiloVidaRepo->update($fakeEstiloVida, $estiloVida->id);
-
+        $fakeEstiloVida = factory(EstiloVida::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.estilosVida.update', $estiloVida->id);
+        $response = $this->patch($url,$fakeEstiloVida); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstiloVida = EstiloVida::find($estiloVida->id);
         $this->assertModelData($fakeEstiloVida, $objetoEstiloVida->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstiloVida = $this->estiloVidaRepo->find($estiloVida->id);
-        $this->assertModelData($fakeEstiloVida, $dbEstiloVida->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estiloVida = factory(EstiloVida::class)->create(); 
+        $url = route('parametros.estilosVida.update', $estiloVida->id);
+        $response = $this->patch($url, $fakeEstiloVida); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstiloVidaRepositoryTest extends TestCase
     public function test_eliminar_estilo_vida()
     {
         $estiloVida = factory(EstiloVida::class)->create();
-
         $resp = $this->estiloVidaRepo->delete($estiloVida->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstiloVida::find($estiloVida->id), 'El modelo no debe existir en BD.');
     }
 }

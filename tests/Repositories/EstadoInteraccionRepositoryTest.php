@@ -2,15 +2,14 @@
 
 use App\Models\Campanias\EstadoInteraccion;
 use App\Repositories\Campanias\EstadoInteraccionRepository;
-use App\Http\Requests\Campanias\CreateEstadoInteraccionRequest;
-use App\Http\Requests\Campanias\UpdateEstadoInteraccionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstadoInteraccionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstadoInteraccionRepository
@@ -30,21 +29,26 @@ class EstadoInteraccionRepositoryTest extends TestCase
     {
         $estadoInteraccion = factory(EstadoInteraccion::class)->make()->toArray();
 
-        $rules = (new CreateEstadoInteraccionRequest())->rules();
-        $validator = Validator::make($estadoInteraccion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoInteraccion = $this->estadoInteraccionRepo->create($estadoInteraccion);
-        $objetoEstadoInteraccion = $objetoEstadoInteraccion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstadoInteraccion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstadoInteraccion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstadoInteraccion::find($objetoEstadoInteraccion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estadoInteraccion, $objetoEstadoInteraccion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('campanias.estadosInteraccion.store');
+        $response = $this->post($url, $estadoInteraccion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estadoInteraccion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstadoInteraccion = EstadoInteraccion::latest()->first()->toArray();
+        $this->assertModelData($estadoInteraccion, $objetoEstadoInteraccion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estadoInteraccion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstadoInteraccionRepositoryTest extends TestCase
     public function test_consultar_estado_interaccion()
     {
         $estadoInteraccion = factory(EstadoInteraccion::class)->create();
-
         $dbEstadoInteraccion = $this->estadoInteraccionRepo->find($estadoInteraccion->id);
-
         $dbEstadoInteraccion = $dbEstadoInteraccion->toArray();
         $this->assertModelData($estadoInteraccion->toArray(), $dbEstadoInteraccion);
     }
@@ -65,18 +67,32 @@ class EstadoInteraccionRepositoryTest extends TestCase
      */
     public function test_editar_estado_interaccion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estadoInteraccion = factory(EstadoInteraccion::class)->create();
-        $fakeEstadoInteraccion = factory(EstadoInteraccion::class)->make()->toArray();
-
-        $rules = (new UpdateEstadoInteraccionRequest())->rules();
-        $validator = Validator::make($fakeEstadoInteraccion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoInteraccion = $this->estadoInteraccionRepo->update($fakeEstadoInteraccion, $estadoInteraccion->id);
-
+        $fakeEstadoInteraccion = factory(EstadoInteraccion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('campanias.estadosInteraccion.update', $estadoInteraccion->id);
+        $response = $this->patch($url,$fakeEstadoInteraccion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstadoInteraccion = EstadoInteraccion::find($estadoInteraccion->id);
         $this->assertModelData($fakeEstadoInteraccion, $objetoEstadoInteraccion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstadoInteraccion = $this->estadoInteraccionRepo->find($estadoInteraccion->id);
-        $this->assertModelData($fakeEstadoInteraccion, $dbEstadoInteraccion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estadoInteraccion = factory(EstadoInteraccion::class)->create(); 
+        $url = route('campanias.estadosInteraccion.update', $estadoInteraccion->id);
+        $response = $this->patch($url, $fakeEstadoInteraccion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstadoInteraccionRepositoryTest extends TestCase
     public function test_eliminar_estado_interaccion()
     {
         $estadoInteraccion = factory(EstadoInteraccion::class)->create();
-
         $resp = $this->estadoInteraccionRepo->delete($estadoInteraccion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstadoInteraccion::find($estadoInteraccion->id), 'El modelo no debe existir en BD.');
     }
 }

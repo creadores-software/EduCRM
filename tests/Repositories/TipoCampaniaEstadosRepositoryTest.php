@@ -2,15 +2,14 @@
 
 use App\Models\Campanias\TipoCampaniaEstados;
 use App\Repositories\Campanias\TipoCampaniaEstadosRepository;
-use App\Http\Requests\Campanias\CreateTipoCampaniaEstadosRequest;
-use App\Http\Requests\Campanias\UpdateTipoCampaniaEstadosRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class TipoCampaniaEstadosRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var TipoCampaniaEstadosRepository
@@ -30,21 +29,26 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
     {
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->make()->toArray();
 
-        $rules = (new CreateTipoCampaniaEstadosRequest())->rules();
-        $validator = Validator::make($tipoCampaniaEstados, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoCampaniaEstados = $this->tipoCampaniaEstadosRepo->create($tipoCampaniaEstados);
-        $objetoTipoCampaniaEstados = $objetoTipoCampaniaEstados->toArray();
-
-        $this->assertArrayHasKey('id', $objetoTipoCampaniaEstados, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoTipoCampaniaEstados['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(TipoCampaniaEstados::find($objetoTipoCampaniaEstados['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($tipoCampaniaEstados, $objetoTipoCampaniaEstados,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('campanias.tiposCampaniaEstados.store');
+        $response = $this->post($url, $tipoCampaniaEstados); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($tipoCampaniaEstados, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoTipoCampaniaEstados = TipoCampaniaEstados::latest()->first()->toArray();
+        $this->assertModelData($tipoCampaniaEstados, $objetoTipoCampaniaEstados,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $tipoCampaniaEstados); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
     public function test_consultar_tipo_campania_estados()
     {
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->create();
-
         $dbTipoCampaniaEstados = $this->tipoCampaniaEstadosRepo->find($tipoCampaniaEstados->id);
-
         $dbTipoCampaniaEstados = $dbTipoCampaniaEstados->toArray();
         $this->assertModelData($tipoCampaniaEstados->toArray(), $dbTipoCampaniaEstados);
     }
@@ -65,18 +67,32 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
      */
     public function test_editar_tipo_campania_estados()
     {
+        //Se crea un objeto y se generan datos para edición  
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->create();
-        $fakeTipoCampaniaEstados = factory(TipoCampaniaEstados::class)->make()->toArray();
-
-        $rules = (new UpdateTipoCampaniaEstadosRequest())->rules();
-        $validator = Validator::make($fakeTipoCampaniaEstados, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoCampaniaEstados = $this->tipoCampaniaEstadosRepo->update($fakeTipoCampaniaEstados, $tipoCampaniaEstados->id);
-
+        $fakeTipoCampaniaEstados = factory(TipoCampaniaEstados::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('campanias.tiposCampaniaEstados.update', $tipoCampaniaEstados->id);
+        $response = $this->patch($url,$fakeTipoCampaniaEstados); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoTipoCampaniaEstados = TipoCampaniaEstados::find($tipoCampaniaEstados->id);
         $this->assertModelData($fakeTipoCampaniaEstados, $objetoTipoCampaniaEstados->toArray(),'El modelo no quedó con los datos editados.');
-        $dbTipoCampaniaEstados = $this->tipoCampaniaEstadosRepo->find($tipoCampaniaEstados->id);
-        $this->assertModelData($fakeTipoCampaniaEstados, $dbTipoCampaniaEstados->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->create(); 
+        $url = route('campanias.tiposCampaniaEstados.update', $tipoCampaniaEstados->id);
+        $response = $this->patch($url, $fakeTipoCampaniaEstados); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
     public function test_eliminar_tipo_campania_estados()
     {
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->create();
-
         $resp = $this->tipoCampaniaEstadosRepo->delete($tipoCampaniaEstados->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(TipoCampaniaEstados::find($tipoCampaniaEstados->id), 'El modelo no debe existir en BD.');
     }
 }

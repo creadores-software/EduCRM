@@ -2,15 +2,14 @@
 
 use App\Models\Campanias\EstadoCampania;
 use App\Repositories\Campanias\EstadoCampaniaRepository;
-use App\Http\Requests\Campanias\CreateEstadoCampaniaRequest;
-use App\Http\Requests\Campanias\UpdateEstadoCampaniaRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstadoCampaniaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstadoCampaniaRepository
@@ -30,21 +29,26 @@ class EstadoCampaniaRepositoryTest extends TestCase
     {
         $estadoCampania = factory(EstadoCampania::class)->make()->toArray();
 
-        $rules = (new CreateEstadoCampaniaRequest())->rules();
-        $validator = Validator::make($estadoCampania, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoCampania = $this->estadoCampaniaRepo->create($estadoCampania);
-        $objetoEstadoCampania = $objetoEstadoCampania->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstadoCampania, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstadoCampania['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstadoCampania::find($objetoEstadoCampania['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estadoCampania, $objetoEstadoCampania,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('campanias.estadosCampania.store');
+        $response = $this->post($url, $estadoCampania); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estadoCampania, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstadoCampania = EstadoCampania::latest()->first()->toArray();
+        $this->assertModelData($estadoCampania, $objetoEstadoCampania,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estadoCampania); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstadoCampaniaRepositoryTest extends TestCase
     public function test_consultar_estado_campania()
     {
         $estadoCampania = factory(EstadoCampania::class)->create();
-
         $dbEstadoCampania = $this->estadoCampaniaRepo->find($estadoCampania->id);
-
         $dbEstadoCampania = $dbEstadoCampania->toArray();
         $this->assertModelData($estadoCampania->toArray(), $dbEstadoCampania);
     }
@@ -65,18 +67,32 @@ class EstadoCampaniaRepositoryTest extends TestCase
      */
     public function test_editar_estado_campania()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estadoCampania = factory(EstadoCampania::class)->create();
-        $fakeEstadoCampania = factory(EstadoCampania::class)->make()->toArray();
-
-        $rules = (new UpdateEstadoCampaniaRequest())->rules();
-        $validator = Validator::make($fakeEstadoCampania, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoCampania = $this->estadoCampaniaRepo->update($fakeEstadoCampania, $estadoCampania->id);
-
+        $fakeEstadoCampania = factory(EstadoCampania::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('campanias.estadosCampania.update', $estadoCampania->id);
+        $response = $this->patch($url,$fakeEstadoCampania); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstadoCampania = EstadoCampania::find($estadoCampania->id);
         $this->assertModelData($fakeEstadoCampania, $objetoEstadoCampania->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstadoCampania = $this->estadoCampaniaRepo->find($estadoCampania->id);
-        $this->assertModelData($fakeEstadoCampania, $dbEstadoCampania->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estadoCampania = factory(EstadoCampania::class)->create(); 
+        $url = route('campanias.estadosCampania.update', $estadoCampania->id);
+        $response = $this->patch($url, $fakeEstadoCampania); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstadoCampaniaRepositoryTest extends TestCase
     public function test_eliminar_estado_campania()
     {
         $estadoCampania = factory(EstadoCampania::class)->create();
-
         $resp = $this->estadoCampaniaRepo->delete($estadoCampania->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstadoCampania::find($estadoCampania->id), 'El modelo no debe existir en BD.');
     }
 }

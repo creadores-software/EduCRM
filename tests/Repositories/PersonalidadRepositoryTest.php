@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Personalidad;
 use App\Repositories\Parametros\PersonalidadRepository;
-use App\Http\Requests\Parametros\CreatePersonalidadRequest;
-use App\Http\Requests\Parametros\UpdatePersonalidadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PersonalidadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PersonalidadRepository
@@ -30,21 +29,26 @@ class PersonalidadRepositoryTest extends TestCase
     {
         $personalidad = factory(Personalidad::class)->make()->toArray();
 
-        $rules = (new CreatePersonalidadRequest())->rules();
-        $validator = Validator::make($personalidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPersonalidad = $this->personalidadRepo->create($personalidad);
-        $objetoPersonalidad = $objetoPersonalidad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPersonalidad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPersonalidad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Personalidad::find($objetoPersonalidad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($personalidad, $objetoPersonalidad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.personalidades.store');
+        $response = $this->post($url, $personalidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($personalidad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPersonalidad = Personalidad::latest()->first()->toArray();
+        $this->assertModelData($personalidad, $objetoPersonalidad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $personalidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PersonalidadRepositoryTest extends TestCase
     public function test_consultar_personalidad()
     {
         $personalidad = factory(Personalidad::class)->create();
-
         $dbPersonalidad = $this->personalidadRepo->find($personalidad->id);
-
         $dbPersonalidad = $dbPersonalidad->toArray();
         $this->assertModelData($personalidad->toArray(), $dbPersonalidad);
     }
@@ -65,18 +67,32 @@ class PersonalidadRepositoryTest extends TestCase
      */
     public function test_editar_personalidad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $personalidad = factory(Personalidad::class)->create();
-        $fakePersonalidad = factory(Personalidad::class)->make()->toArray();
-
-        $rules = (new UpdatePersonalidadRequest())->rules();
-        $validator = Validator::make($fakePersonalidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPersonalidad = $this->personalidadRepo->update($fakePersonalidad, $personalidad->id);
-
+        $fakePersonalidad = factory(Personalidad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.personalidades.update', $personalidad->id);
+        $response = $this->patch($url,$fakePersonalidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPersonalidad = Personalidad::find($personalidad->id);
         $this->assertModelData($fakePersonalidad, $objetoPersonalidad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPersonalidad = $this->personalidadRepo->find($personalidad->id);
-        $this->assertModelData($fakePersonalidad, $dbPersonalidad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $personalidad = factory(Personalidad::class)->create(); 
+        $url = route('parametros.personalidades.update', $personalidad->id);
+        $response = $this->patch($url, $fakePersonalidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PersonalidadRepositoryTest extends TestCase
     public function test_eliminar_personalidad()
     {
         $personalidad = factory(Personalidad::class)->create();
-
         $resp = $this->personalidadRepo->delete($personalidad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Personalidad::find($personalidad->id), 'El modelo no debe existir en BD.');
     }
 }

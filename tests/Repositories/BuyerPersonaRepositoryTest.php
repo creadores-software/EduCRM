@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\BuyerPersona;
 use App\Repositories\Parametros\BuyerPersonaRepository;
-use App\Http\Requests\Parametros\CreateBuyerPersonaRequest;
-use App\Http\Requests\Parametros\UpdateBuyerPersonaRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class BuyerPersonaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var BuyerPersonaRepository
@@ -30,21 +29,26 @@ class BuyerPersonaRepositoryTest extends TestCase
     {
         $buyerPersona = factory(BuyerPersona::class)->make()->toArray();
 
-        $rules = (new CreateBuyerPersonaRequest())->rules();
-        $validator = Validator::make($buyerPersona, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoBuyerPersona = $this->buyerPersonaRepo->create($buyerPersona);
-        $objetoBuyerPersona = $objetoBuyerPersona->toArray();
-
-        $this->assertArrayHasKey('id', $objetoBuyerPersona, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoBuyerPersona['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(BuyerPersona::find($objetoBuyerPersona['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($buyerPersona, $objetoBuyerPersona,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.buyerPersonas.store');
+        $response = $this->post($url, $buyerPersona); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($buyerPersona, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoBuyerPersona = BuyerPersona::latest()->first()->toArray();
+        $this->assertModelData($buyerPersona, $objetoBuyerPersona,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $buyerPersona); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class BuyerPersonaRepositoryTest extends TestCase
     public function test_consultar_buyer_persona()
     {
         $buyerPersona = factory(BuyerPersona::class)->create();
-
         $dbBuyerPersona = $this->buyerPersonaRepo->find($buyerPersona->id);
-
         $dbBuyerPersona = $dbBuyerPersona->toArray();
         $this->assertModelData($buyerPersona->toArray(), $dbBuyerPersona);
     }
@@ -65,18 +67,32 @@ class BuyerPersonaRepositoryTest extends TestCase
      */
     public function test_editar_buyer_persona()
     {
+        //Se crea un objeto y se generan datos para edición  
         $buyerPersona = factory(BuyerPersona::class)->create();
-        $fakeBuyerPersona = factory(BuyerPersona::class)->make()->toArray();
-
-        $rules = (new UpdateBuyerPersonaRequest())->rules();
-        $validator = Validator::make($fakeBuyerPersona, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoBuyerPersona = $this->buyerPersonaRepo->update($fakeBuyerPersona, $buyerPersona->id);
-
+        $fakeBuyerPersona = factory(BuyerPersona::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.buyerPersonas.update', $buyerPersona->id);
+        $response = $this->patch($url,$fakeBuyerPersona); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoBuyerPersona = BuyerPersona::find($buyerPersona->id);
         $this->assertModelData($fakeBuyerPersona, $objetoBuyerPersona->toArray(),'El modelo no quedó con los datos editados.');
-        $dbBuyerPersona = $this->buyerPersonaRepo->find($buyerPersona->id);
-        $this->assertModelData($fakeBuyerPersona, $dbBuyerPersona->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $buyerPersona = factory(BuyerPersona::class)->create(); 
+        $url = route('parametros.buyerPersonas.update', $buyerPersona->id);
+        $response = $this->patch($url, $fakeBuyerPersona); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class BuyerPersonaRepositoryTest extends TestCase
     public function test_eliminar_buyer_persona()
     {
         $buyerPersona = factory(BuyerPersona::class)->create();
-
         $resp = $this->buyerPersonaRepo->delete($buyerPersona->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(BuyerPersona::find($buyerPersona->id), 'El modelo no debe existir en BD.');
     }
 }

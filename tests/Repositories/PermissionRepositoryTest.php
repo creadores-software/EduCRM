@@ -2,15 +2,14 @@
 
 use Spatie\Permission\Models\Permission;
 use App\Repositories\Admin\PermissionRepository;
-use App\Http\Requests\Admin\CreatePermissionRequest;
-use App\Http\Requests\Admin\UpdatePermissionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PermissionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PermissionRepository
@@ -30,21 +29,26 @@ class PermissionRepositoryTest extends TestCase
     {
         $permission = factory(Permission::class)->make()->toArray();
 
-        $rules = (new CreatePermissionRequest())->rules();
-        $validator = Validator::make($permission, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPermission = $this->permissionRepo->create($permission);
-        $objetoPermission = $objetoPermission->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPermission, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPermission['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Permission::find($objetoPermission['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($permission, $objetoPermission,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('admin.permissions.store');
+        $response = $this->post($url, $permission); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($permission, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPermission = Permission::latest()->first()->toArray();
+        $this->assertModelData($permission, $objetoPermission,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $permission); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PermissionRepositoryTest extends TestCase
     public function test_consultar_permission()
     {
         $permission = factory(Permission::class)->create();
-
         $dbPermission = $this->permissionRepo->find($permission->id);
-
         $dbPermission = $dbPermission->toArray();
         $this->assertModelData($permission->toArray(), $dbPermission);
     }
@@ -65,18 +67,32 @@ class PermissionRepositoryTest extends TestCase
      */
     public function test_editar_permission()
     {
+        //Se crea un objeto y se generan datos para edición  
         $permission = factory(Permission::class)->create();
-        $fakePermission = factory(Permission::class)->make()->toArray();
-
-        $rules = (new UpdatePermissionRequest())->rules();
-        $validator = Validator::make($fakePermission, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPermission = $this->permissionRepo->update($fakePermission, $permission->id);
-
+        $fakePermission = factory(Permission::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('admin.permissions.update', $permission->id);
+        $response = $this->patch($url,$fakePermission); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPermission = Permission::find($permission->id);
         $this->assertModelData($fakePermission, $objetoPermission->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPermission = $this->permissionRepo->find($permission->id);
-        $this->assertModelData($fakePermission, $dbPermission->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $permission = factory(Permission::class)->create(); 
+        $url = route('admin.permissions.update', $permission->id);
+        $response = $this->patch($url, $fakePermission); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PermissionRepositoryTest extends TestCase
     public function test_eliminar_permission()
     {
         $permission = factory(Permission::class)->create();
-
         $resp = $this->permissionRepo->delete($permission->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Permission::find($permission->id), 'El modelo no debe existir en BD.');
     }
 }

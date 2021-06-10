@@ -2,15 +2,14 @@
 
 use App\Models\Admin\User;
 use App\Repositories\Admin\UserRepository;
-use App\Http\Requests\Admin\CreateUserRequest;
-use App\Http\Requests\Admin\UpdateUserRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class UserRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var UserRepository
@@ -30,21 +29,26 @@ class UserRepositoryTest extends TestCase
     {
         $user = factory(User::class)->make()->toArray();
 
-        $rules = (new CreateUserRequest())->rules();
-        $validator = Validator::make($user, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoUser = $this->userRepo->create($user);
-        $objetoUser = $objetoUser->toArray();
-
-        $this->assertArrayHasKey('id', $objetoUser, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoUser['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(User::find($objetoUser['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($user, $objetoUser,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('admin.users.store');
+        $response = $this->post($url, $user); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($user, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoUser = User::latest()->first()->toArray();
+        $this->assertModelData($user, $objetoUser,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $user); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class UserRepositoryTest extends TestCase
     public function test_consultar_user()
     {
         $user = factory(User::class)->create();
-
         $dbUser = $this->userRepo->find($user->id);
-
         $dbUser = $dbUser->toArray();
         $this->assertModelData($user->toArray(), $dbUser);
     }
@@ -65,18 +67,32 @@ class UserRepositoryTest extends TestCase
      */
     public function test_editar_user()
     {
+        //Se crea un objeto y se generan datos para edición  
         $user = factory(User::class)->create();
-        $fakeUser = factory(User::class)->make()->toArray();
-
-        $rules = (new UpdateUserRequest())->rules();
-        $validator = Validator::make($fakeUser, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoUser = $this->userRepo->update($fakeUser, $user->id);
-
+        $fakeUser = factory(User::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('admin.users.update', $user->id);
+        $response = $this->patch($url,$fakeUser); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoUser = User::find($user->id);
         $this->assertModelData($fakeUser, $objetoUser->toArray(),'El modelo no quedó con los datos editados.');
-        $dbUser = $this->userRepo->find($user->id);
-        $this->assertModelData($fakeUser, $dbUser->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $user = factory(User::class)->create(); 
+        $url = route('admin.users.update', $user->id);
+        $response = $this->patch($url, $fakeUser); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class UserRepositoryTest extends TestCase
     public function test_eliminar_user()
     {
         $user = factory(User::class)->create();
-
         $resp = $this->userRepo->delete($user->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(User::find($user->id), 'El modelo no debe existir en BD.');
     }
 }

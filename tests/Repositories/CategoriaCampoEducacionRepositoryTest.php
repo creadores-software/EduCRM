@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\CategoriaCampoEducacion;
 use App\Repositories\Formaciones\CategoriaCampoEducacionRepository;
-use App\Http\Requests\Formaciones\CreateCategoriaCampoEducacionRequest;
-use App\Http\Requests\Formaciones\UpdateCategoriaCampoEducacionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class CategoriaCampoEducacionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var CategoriaCampoEducacionRepository
@@ -30,21 +29,26 @@ class CategoriaCampoEducacionRepositoryTest extends TestCase
     {
         $categoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->make()->toArray();
 
-        $rules = (new CreateCategoriaCampoEducacionRequest())->rules();
-        $validator = Validator::make($categoriaCampoEducacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoCategoriaCampoEducacion = $this->categoriaCampoEducacionRepo->create($categoriaCampoEducacion);
-        $objetoCategoriaCampoEducacion = $objetoCategoriaCampoEducacion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoCategoriaCampoEducacion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoCategoriaCampoEducacion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(CategoriaCampoEducacion::find($objetoCategoriaCampoEducacion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($categoriaCampoEducacion, $objetoCategoriaCampoEducacion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.categoriasCampoEducacion.store');
+        $response = $this->post($url, $categoriaCampoEducacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($categoriaCampoEducacion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoCategoriaCampoEducacion = CategoriaCampoEducacion::latest()->first()->toArray();
+        $this->assertModelData($categoriaCampoEducacion, $objetoCategoriaCampoEducacion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $categoriaCampoEducacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class CategoriaCampoEducacionRepositoryTest extends TestCase
     public function test_consultar_categoria_campo_educacion()
     {
         $categoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->create();
-
         $dbCategoriaCampoEducacion = $this->categoriaCampoEducacionRepo->find($categoriaCampoEducacion->id);
-
         $dbCategoriaCampoEducacion = $dbCategoriaCampoEducacion->toArray();
         $this->assertModelData($categoriaCampoEducacion->toArray(), $dbCategoriaCampoEducacion);
     }
@@ -65,18 +67,32 @@ class CategoriaCampoEducacionRepositoryTest extends TestCase
      */
     public function test_editar_categoria_campo_educacion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $categoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->create();
-        $fakeCategoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->make()->toArray();
-
-        $rules = (new UpdateCategoriaCampoEducacionRequest())->rules();
-        $validator = Validator::make($fakeCategoriaCampoEducacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoCategoriaCampoEducacion = $this->categoriaCampoEducacionRepo->update($fakeCategoriaCampoEducacion, $categoriaCampoEducacion->id);
-
+        $fakeCategoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.categoriasCampoEducacion.update', $categoriaCampoEducacion->id);
+        $response = $this->patch($url,$fakeCategoriaCampoEducacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoCategoriaCampoEducacion = CategoriaCampoEducacion::find($categoriaCampoEducacion->id);
         $this->assertModelData($fakeCategoriaCampoEducacion, $objetoCategoriaCampoEducacion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbCategoriaCampoEducacion = $this->categoriaCampoEducacionRepo->find($categoriaCampoEducacion->id);
-        $this->assertModelData($fakeCategoriaCampoEducacion, $dbCategoriaCampoEducacion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $categoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->create(); 
+        $url = route('formaciones.categoriasCampoEducacion.update', $categoriaCampoEducacion->id);
+        $response = $this->patch($url, $fakeCategoriaCampoEducacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class CategoriaCampoEducacionRepositoryTest extends TestCase
     public function test_eliminar_categoria_campo_educacion()
     {
         $categoriaCampoEducacion = factory(CategoriaCampoEducacion::class)->create();
-
         $resp = $this->categoriaCampoEducacionRepo->delete($categoriaCampoEducacion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(CategoriaCampoEducacion::find($categoriaCampoEducacion->id), 'El modelo no debe existir en BD.');
     }
 }

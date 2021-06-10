@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Genero;
 use App\Repositories\Parametros\GeneroRepository;
-use App\Http\Requests\Parametros\CreateGeneroRequest;
-use App\Http\Requests\Parametros\UpdateGeneroRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class GeneroRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var GeneroRepository
@@ -30,21 +29,26 @@ class GeneroRepositoryTest extends TestCase
     {
         $genero = factory(Genero::class)->make()->toArray();
 
-        $rules = (new CreateGeneroRequest())->rules();
-        $validator = Validator::make($genero, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoGenero = $this->generoRepo->create($genero);
-        $objetoGenero = $objetoGenero->toArray();
-
-        $this->assertArrayHasKey('id', $objetoGenero, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoGenero['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Genero::find($objetoGenero['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($genero, $objetoGenero,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.generos.store');
+        $response = $this->post($url, $genero); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($genero, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoGenero = Genero::latest()->first()->toArray();
+        $this->assertModelData($genero, $objetoGenero,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $genero); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class GeneroRepositoryTest extends TestCase
     public function test_consultar_genero()
     {
         $genero = factory(Genero::class)->create();
-
         $dbGenero = $this->generoRepo->find($genero->id);
-
         $dbGenero = $dbGenero->toArray();
         $this->assertModelData($genero->toArray(), $dbGenero);
     }
@@ -65,18 +67,32 @@ class GeneroRepositoryTest extends TestCase
      */
     public function test_editar_genero()
     {
+        //Se crea un objeto y se generan datos para edición  
         $genero = factory(Genero::class)->create();
-        $fakeGenero = factory(Genero::class)->make()->toArray();
-
-        $rules = (new UpdateGeneroRequest())->rules();
-        $validator = Validator::make($fakeGenero, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoGenero = $this->generoRepo->update($fakeGenero, $genero->id);
-
+        $fakeGenero = factory(Genero::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.generos.update', $genero->id);
+        $response = $this->patch($url,$fakeGenero); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoGenero = Genero::find($genero->id);
         $this->assertModelData($fakeGenero, $objetoGenero->toArray(),'El modelo no quedó con los datos editados.');
-        $dbGenero = $this->generoRepo->find($genero->id);
-        $this->assertModelData($fakeGenero, $dbGenero->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $genero = factory(Genero::class)->create(); 
+        $url = route('parametros.generos.update', $genero->id);
+        $response = $this->patch($url, $fakeGenero); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class GeneroRepositoryTest extends TestCase
     public function test_eliminar_genero()
     {
         $genero = factory(Genero::class)->create();
-
         $resp = $this->generoRepo->delete($genero->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Genero::find($genero->id), 'El modelo no debe existir en BD.');
     }
 }

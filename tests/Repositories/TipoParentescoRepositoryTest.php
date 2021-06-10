@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\TipoParentesco;
 use App\Repositories\Parametros\TipoParentescoRepository;
-use App\Http\Requests\Parametros\CreateTipoParentescoRequest;
-use App\Http\Requests\Parametros\UpdateTipoParentescoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class TipoParentescoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var TipoParentescoRepository
@@ -30,21 +29,26 @@ class TipoParentescoRepositoryTest extends TestCase
     {
         $tipoParentesco = factory(TipoParentesco::class)->make()->toArray();
 
-        $rules = (new CreateTipoParentescoRequest())->rules();
-        $validator = Validator::make($tipoParentesco, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoParentesco = $this->tipoParentescoRepo->create($tipoParentesco);
-        $objetoTipoParentesco = $objetoTipoParentesco->toArray();
-
-        $this->assertArrayHasKey('id', $objetoTipoParentesco, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoTipoParentesco['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(TipoParentesco::find($objetoTipoParentesco['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($tipoParentesco, $objetoTipoParentesco,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.tiposParentesco.store');
+        $response = $this->post($url, $tipoParentesco); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($tipoParentesco, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoTipoParentesco = TipoParentesco::latest()->first()->toArray();
+        $this->assertModelData($tipoParentesco, $objetoTipoParentesco,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $tipoParentesco); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class TipoParentescoRepositoryTest extends TestCase
     public function test_consultar_tipo_parentesco()
     {
         $tipoParentesco = factory(TipoParentesco::class)->create();
-
         $dbTipoParentesco = $this->tipoParentescoRepo->find($tipoParentesco->id);
-
         $dbTipoParentesco = $dbTipoParentesco->toArray();
         $this->assertModelData($tipoParentesco->toArray(), $dbTipoParentesco);
     }
@@ -65,18 +67,32 @@ class TipoParentescoRepositoryTest extends TestCase
      */
     public function test_editar_tipo_parentesco()
     {
+        //Se crea un objeto y se generan datos para edición  
         $tipoParentesco = factory(TipoParentesco::class)->create();
-        $fakeTipoParentesco = factory(TipoParentesco::class)->make()->toArray();
-
-        $rules = (new UpdateTipoParentescoRequest())->rules();
-        $validator = Validator::make($fakeTipoParentesco, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoParentesco = $this->tipoParentescoRepo->update($fakeTipoParentesco, $tipoParentesco->id);
-
+        $fakeTipoParentesco = factory(TipoParentesco::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.tiposParentesco.update', $tipoParentesco->id);
+        $response = $this->patch($url,$fakeTipoParentesco); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoTipoParentesco = TipoParentesco::find($tipoParentesco->id);
         $this->assertModelData($fakeTipoParentesco, $objetoTipoParentesco->toArray(),'El modelo no quedó con los datos editados.');
-        $dbTipoParentesco = $this->tipoParentescoRepo->find($tipoParentesco->id);
-        $this->assertModelData($fakeTipoParentesco, $dbTipoParentesco->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $tipoParentesco = factory(TipoParentesco::class)->create(); 
+        $url = route('parametros.tiposParentesco.update', $tipoParentesco->id);
+        $response = $this->patch($url, $fakeTipoParentesco); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class TipoParentescoRepositoryTest extends TestCase
     public function test_eliminar_tipo_parentesco()
     {
         $tipoParentesco = factory(TipoParentesco::class)->create();
-
         $resp = $this->tipoParentescoRepo->delete($tipoParentesco->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(TipoParentesco::find($tipoParentesco->id), 'El modelo no debe existir en BD.');
     }
 }

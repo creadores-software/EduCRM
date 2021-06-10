@@ -2,15 +2,14 @@
 
 use App\Models\Contactos\Contacto;
 use App\Repositories\Contactos\ContactoRepository;
-use App\Http\Requests\Contactos\CreateContactoRequest;
-use App\Http\Requests\Contactos\UpdateContactoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ContactoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var ContactoRepository
@@ -30,21 +29,26 @@ class ContactoRepositoryTest extends TestCase
     {
         $contacto = factory(Contacto::class)->make()->toArray();
 
-        $rules = (new CreateContactoRequest())->rules();
-        $validator = Validator::make($contacto, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-       
-        $objetoContacto = $this->contactoRepo->create($contacto);
-        $objetoContacto = $objetoContacto->toArray();
-
-        $this->assertArrayHasKey('id', $objetoContacto, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoContacto['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Contacto::find($objetoContacto['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($contacto, $objetoContacto,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('contactos.contactos.store');
+        $response = $this->post($url, $contacto); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($contacto, $rules);
-        $this->assertEquals(true,$validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoContacto = Contacto::latest()->first()->toArray();
+        $this->assertModelData($contacto, $objetoContacto,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $contacto); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class ContactoRepositoryTest extends TestCase
     public function test_consultar_contacto()
     {
         $contacto = factory(Contacto::class)->create();
-
         $dbContacto = $this->contactoRepo->find($contacto->id);
-
         $dbContacto = $dbContacto->toArray();
         $this->assertModelData($contacto->toArray(), $dbContacto);
     }
@@ -65,18 +67,32 @@ class ContactoRepositoryTest extends TestCase
      */
     public function test_editar_contacto()
     {
+        //Se crea un objeto y se generan datos para edición  
         $contacto = factory(Contacto::class)->create();
-        $fakeContacto = factory(Contacto::class)->make()->toArray();
-
-        $rules = (new UpdateContactoRequest())->rules();
-        $validator = Validator::make($fakeContacto, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoContacto = $this->contactoRepo->update($fakeContacto, $contacto->id);
-
+        $fakeContacto = factory(Contacto::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('contactos.contactos.update', $contacto->id);
+        $response = $this->patch($url,$fakeContacto); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoContacto = Contacto::find($contacto->id);
         $this->assertModelData($fakeContacto, $objetoContacto->toArray(),'El modelo no quedó con los datos editados.');
-        $dbContacto = $this->contactoRepo->find($contacto->id);
-        $this->assertModelData($fakeContacto, $dbContacto->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $contacto = factory(Contacto::class)->create(); 
+        $url = route('contactos.contactos.update', $contacto->id);
+        $response = $this->patch($url, $fakeContacto); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,8 +101,7 @@ class ContactoRepositoryTest extends TestCase
     public function test_eliminar_contacto()
     {
         $contacto = factory(Contacto::class)->create();
-       
-        $this->contactoRepo->delete($contacto->id);
+        $resp = $this->contactoRepo->delete($contacto->id);
         $this->assertNull(Contacto::find($contacto->id), 'El modelo no debe existir en BD.');
     }
 }

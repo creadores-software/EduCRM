@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\ActitudServicio;
 use App\Repositories\Parametros\ActitudServicioRepository;
-use App\Http\Requests\Parametros\CreateActitudServicioRequest;
-use App\Http\Requests\Parametros\UpdateActitudServicioRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ActitudServicioRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var ActitudServicioRepository
@@ -30,21 +29,26 @@ class ActitudServicioRepositoryTest extends TestCase
     {
         $actitudServicio = factory(ActitudServicio::class)->make()->toArray();
 
-        $rules = (new CreateActitudServicioRequest())->rules();
-        $validator = Validator::make($actitudServicio, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoActitudServicio = $this->actitudServicioRepo->create($actitudServicio);
-        $objetoActitudServicio = $objetoActitudServicio->toArray();
-
-        $this->assertArrayHasKey('id', $objetoActitudServicio, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoActitudServicio['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(ActitudServicio::find($objetoActitudServicio['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($actitudServicio, $objetoActitudServicio,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.actitudesServicio.store');
+        $response = $this->post($url, $actitudServicio); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($actitudServicio, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoActitudServicio = ActitudServicio::latest()->first()->toArray();
+        $this->assertModelData($actitudServicio, $objetoActitudServicio,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $actitudServicio); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class ActitudServicioRepositoryTest extends TestCase
     public function test_consultar_actitud_servicio()
     {
         $actitudServicio = factory(ActitudServicio::class)->create();
-
         $dbActitudServicio = $this->actitudServicioRepo->find($actitudServicio->id);
-
         $dbActitudServicio = $dbActitudServicio->toArray();
         $this->assertModelData($actitudServicio->toArray(), $dbActitudServicio);
     }
@@ -65,18 +67,32 @@ class ActitudServicioRepositoryTest extends TestCase
      */
     public function test_editar_actitud_servicio()
     {
+        //Se crea un objeto y se generan datos para edición  
         $actitudServicio = factory(ActitudServicio::class)->create();
-        $fakeActitudServicio = factory(ActitudServicio::class)->make()->toArray();
-
-        $rules = (new UpdateActitudServicioRequest())->rules();
-        $validator = Validator::make($fakeActitudServicio, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoActitudServicio = $this->actitudServicioRepo->update($fakeActitudServicio, $actitudServicio->id);
-
+        $fakeActitudServicio = factory(ActitudServicio::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.actitudesServicio.update', $actitudServicio->id);
+        $response = $this->patch($url,$fakeActitudServicio); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoActitudServicio = ActitudServicio::find($actitudServicio->id);
         $this->assertModelData($fakeActitudServicio, $objetoActitudServicio->toArray(),'El modelo no quedó con los datos editados.');
-        $dbActitudServicio = $this->actitudServicioRepo->find($actitudServicio->id);
-        $this->assertModelData($fakeActitudServicio, $dbActitudServicio->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $actitudServicio = factory(ActitudServicio::class)->create(); 
+        $url = route('parametros.actitudesServicio.update', $actitudServicio->id);
+        $response = $this->patch($url, $fakeActitudServicio); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class ActitudServicioRepositoryTest extends TestCase
     public function test_eliminar_actitud_servicio()
     {
         $actitudServicio = factory(ActitudServicio::class)->create();
-
         $resp = $this->actitudServicioRepo->delete($actitudServicio->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(ActitudServicio::find($actitudServicio->id), 'El modelo no debe existir en BD.');
     }
 }

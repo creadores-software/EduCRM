@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\EstatusLealtad;
 use App\Repositories\Parametros\EstatusLealtadRepository;
-use App\Http\Requests\Parametros\CreateEstatusLealtadRequest;
-use App\Http\Requests\Parametros\UpdateEstatusLealtadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstatusLealtadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstatusLealtadRepository
@@ -30,21 +29,26 @@ class EstatusLealtadRepositoryTest extends TestCase
     {
         $estatusLealtad = factory(EstatusLealtad::class)->make()->toArray();
 
-        $rules = (new CreateEstatusLealtadRequest())->rules();
-        $validator = Validator::make($estatusLealtad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstatusLealtad = $this->estatusLealtadRepo->create($estatusLealtad);
-        $objetoEstatusLealtad = $objetoEstatusLealtad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstatusLealtad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstatusLealtad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstatusLealtad::find($objetoEstatusLealtad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estatusLealtad, $objetoEstatusLealtad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.estatusLealtad.store');
+        $response = $this->post($url, $estatusLealtad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estatusLealtad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstatusLealtad = EstatusLealtad::latest()->first()->toArray();
+        $this->assertModelData($estatusLealtad, $objetoEstatusLealtad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estatusLealtad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstatusLealtadRepositoryTest extends TestCase
     public function test_consultar_estatus_lealtad()
     {
         $estatusLealtad = factory(EstatusLealtad::class)->create();
-
         $dbEstatusLealtad = $this->estatusLealtadRepo->find($estatusLealtad->id);
-
         $dbEstatusLealtad = $dbEstatusLealtad->toArray();
         $this->assertModelData($estatusLealtad->toArray(), $dbEstatusLealtad);
     }
@@ -65,18 +67,32 @@ class EstatusLealtadRepositoryTest extends TestCase
      */
     public function test_editar_estatus_lealtad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estatusLealtad = factory(EstatusLealtad::class)->create();
-        $fakeEstatusLealtad = factory(EstatusLealtad::class)->make()->toArray();
-
-        $rules = (new UpdateEstatusLealtadRequest())->rules();
-        $validator = Validator::make($fakeEstatusLealtad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstatusLealtad = $this->estatusLealtadRepo->update($fakeEstatusLealtad, $estatusLealtad->id);
-
+        $fakeEstatusLealtad = factory(EstatusLealtad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.estatusLealtad.update', $estatusLealtad->id);
+        $response = $this->patch($url,$fakeEstatusLealtad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstatusLealtad = EstatusLealtad::find($estatusLealtad->id);
         $this->assertModelData($fakeEstatusLealtad, $objetoEstatusLealtad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstatusLealtad = $this->estatusLealtadRepo->find($estatusLealtad->id);
-        $this->assertModelData($fakeEstatusLealtad, $dbEstatusLealtad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estatusLealtad = factory(EstatusLealtad::class)->create(); 
+        $url = route('parametros.estatusLealtad.update', $estatusLealtad->id);
+        $response = $this->patch($url, $fakeEstatusLealtad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstatusLealtadRepositoryTest extends TestCase
     public function test_eliminar_estatus_lealtad()
     {
         $estatusLealtad = factory(EstatusLealtad::class)->create();
-
         $resp = $this->estatusLealtadRepo->delete($estatusLealtad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstatusLealtad::find($estatusLealtad->id), 'El modelo no debe existir en BD.');
     }
 }

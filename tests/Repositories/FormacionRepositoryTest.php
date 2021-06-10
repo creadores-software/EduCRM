@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\Formacion;
 use App\Repositories\Formaciones\FormacionRepository;
-use App\Http\Requests\Formaciones\CreateFormacionRequest;
-use App\Http\Requests\Formaciones\UpdateFormacionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class FormacionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var FormacionRepository
@@ -30,21 +29,26 @@ class FormacionRepositoryTest extends TestCase
     {
         $formacion = factory(Formacion::class)->make()->toArray();
 
-        $rules = (new CreateFormacionRequest())->rules();
-        $validator = Validator::make($formacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoFormacion = $this->formacionRepo->create($formacion);
-        $objetoFormacion = $objetoFormacion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoFormacion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoFormacion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Formacion::find($objetoFormacion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($formacion, $objetoFormacion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.formaciones.store');
+        $response = $this->post($url, $formacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($formacion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoFormacion = Formacion::latest()->first()->toArray();
+        $this->assertModelData($formacion, $objetoFormacion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $formacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class FormacionRepositoryTest extends TestCase
     public function test_consultar_formacion()
     {
         $formacion = factory(Formacion::class)->create();
-
         $dbFormacion = $this->formacionRepo->find($formacion->id);
-
         $dbFormacion = $dbFormacion->toArray();
         $this->assertModelData($formacion->toArray(), $dbFormacion);
     }
@@ -65,18 +67,32 @@ class FormacionRepositoryTest extends TestCase
      */
     public function test_editar_formacion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $formacion = factory(Formacion::class)->create();
-        $fakeFormacion = factory(Formacion::class)->make()->toArray();
-
-        $rules = (new UpdateFormacionRequest())->rules();
-        $validator = Validator::make($fakeFormacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoFormacion = $this->formacionRepo->update($fakeFormacion, $formacion->id);
-
+        $fakeFormacion = factory(Formacion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.formaciones.update', $formacion->id);
+        $response = $this->patch($url,$fakeFormacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoFormacion = Formacion::find($formacion->id);
         $this->assertModelData($fakeFormacion, $objetoFormacion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbFormacion = $this->formacionRepo->find($formacion->id);
-        $this->assertModelData($fakeFormacion, $dbFormacion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $formacion = factory(Formacion::class)->create(); 
+        $url = route('formaciones.formaciones.update', $formacion->id);
+        $response = $this->patch($url, $fakeFormacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class FormacionRepositoryTest extends TestCase
     public function test_eliminar_formacion()
     {
         $formacion = factory(Formacion::class)->create();
-
         $resp = $this->formacionRepo->delete($formacion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Formacion::find($formacion->id), 'El modelo no debe existir en BD.');
     }
 }

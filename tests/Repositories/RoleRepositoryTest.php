@@ -2,15 +2,14 @@
 
 use Spatie\Permission\Models\Role;
 use App\Repositories\Admin\RoleRepository;
-use App\Http\Requests\Admin\CreateRoleRequest;
-use App\Http\Requests\Admin\UpdateRoleRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class RoleRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var RoleRepository
@@ -30,21 +29,26 @@ class RoleRepositoryTest extends TestCase
     {
         $role = factory(Role::class)->make()->toArray();
 
-        $rules = (new CreateRoleRequest())->rules();
-        $validator = Validator::make($role, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoRole = $this->roleRepo->create($role);
-        $objetoRole = $objetoRole->toArray();
-
-        $this->assertArrayHasKey('id', $objetoRole, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoRole['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Role::find($objetoRole['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($role, $objetoRole,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('admin.roles.store');
+        $response = $this->post($url, $role); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($role, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoRole = Role::latest()->first()->toArray();
+        $this->assertModelData($role, $objetoRole,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $role); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class RoleRepositoryTest extends TestCase
     public function test_consultar_role()
     {
         $role = factory(Role::class)->create();
-
         $dbRole = $this->roleRepo->find($role->id);
-
         $dbRole = $dbRole->toArray();
         $this->assertModelData($role->toArray(), $dbRole);
     }
@@ -65,18 +67,32 @@ class RoleRepositoryTest extends TestCase
      */
     public function test_editar_role()
     {
+        //Se crea un objeto y se generan datos para edición  
         $role = factory(Role::class)->create();
-        $fakeRole = factory(Role::class)->make()->toArray();
-
-        $rules = (new UpdateRoleRequest())->rules();
-        $validator = Validator::make($fakeRole, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoRole = $this->roleRepo->update($fakeRole, $role->id);
-
+        $fakeRole = factory(Role::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('admin.roles.update', $role->id);
+        $response = $this->patch($url,$fakeRole); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoRole = Role::find($role->id);
         $this->assertModelData($fakeRole, $objetoRole->toArray(),'El modelo no quedó con los datos editados.');
-        $dbRole = $this->roleRepo->find($role->id);
-        $this->assertModelData($fakeRole, $dbRole->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $role = factory(Role::class)->create(); 
+        $url = route('admin.roles.update', $role->id);
+        $response = $this->patch($url, $fakeRole); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class RoleRepositoryTest extends TestCase
     public function test_eliminar_role()
     {
         $role = factory(Role::class)->create();
-
         $resp = $this->roleRepo->delete($role->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Role::find($role->id), 'El modelo no debe existir en BD.');
     }
 }

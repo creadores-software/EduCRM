@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Religion;
 use App\Repositories\Parametros\ReligionRepository;
-use App\Http\Requests\Parametros\CreateReligionRequest;
-use App\Http\Requests\Parametros\UpdateReligionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ReligionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var ReligionRepository
@@ -30,21 +29,26 @@ class ReligionRepositoryTest extends TestCase
     {
         $religion = factory(Religion::class)->make()->toArray();
 
-        $rules = (new CreateReligionRequest())->rules();
-        $validator = Validator::make($religion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoReligion = $this->religionRepo->create($religion);
-        $objetoReligion = $objetoReligion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoReligion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoReligion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Religion::find($objetoReligion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($religion, $objetoReligion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.religiones.store');
+        $response = $this->post($url, $religion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($religion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoReligion = Religion::latest()->first()->toArray();
+        $this->assertModelData($religion, $objetoReligion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $religion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class ReligionRepositoryTest extends TestCase
     public function test_consultar_religion()
     {
         $religion = factory(Religion::class)->create();
-
         $dbReligion = $this->religionRepo->find($religion->id);
-
         $dbReligion = $dbReligion->toArray();
         $this->assertModelData($religion->toArray(), $dbReligion);
     }
@@ -65,18 +67,32 @@ class ReligionRepositoryTest extends TestCase
      */
     public function test_editar_religion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $religion = factory(Religion::class)->create();
-        $fakeReligion = factory(Religion::class)->make()->toArray();
-
-        $rules = (new UpdateReligionRequest())->rules();
-        $validator = Validator::make($fakeReligion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoReligion = $this->religionRepo->update($fakeReligion, $religion->id);
-
+        $fakeReligion = factory(Religion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.religiones.update', $religion->id);
+        $response = $this->patch($url,$fakeReligion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoReligion = Religion::find($religion->id);
         $this->assertModelData($fakeReligion, $objetoReligion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbReligion = $this->religionRepo->find($religion->id);
-        $this->assertModelData($fakeReligion, $dbReligion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $religion = factory(Religion::class)->create(); 
+        $url = route('parametros.religiones.update', $religion->id);
+        $response = $this->patch($url, $fakeReligion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class ReligionRepositoryTest extends TestCase
     public function test_eliminar_religion()
     {
         $religion = factory(Religion::class)->create();
-
         $resp = $this->religionRepo->delete($religion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Religion::find($religion->id), 'El modelo no debe existir en BD.');
     }
 }

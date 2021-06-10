@@ -2,15 +2,14 @@
 
 use App\Models\Campanias\CategoriaOportunidad;
 use App\Repositories\Campanias\CategoriaOportunidadRepository;
-use App\Http\Requests\Campanias\CreateCategoriaOportunidadRequest;
-use App\Http\Requests\Campanias\UpdateCategoriaOportunidadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class CategoriaOportunidadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var CategoriaOportunidadRepository
@@ -30,21 +29,26 @@ class CategoriaOportunidadRepositoryTest extends TestCase
     {
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->make()->toArray();
 
-        $rules = (new CreateCategoriaOportunidadRequest())->rules();
-        $validator = Validator::make($categoriaOportunidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoCategoriaOportunidad = $this->categoriaOportunidadRepo->create($categoriaOportunidad);
-        $objetoCategoriaOportunidad = $objetoCategoriaOportunidad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoCategoriaOportunidad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoCategoriaOportunidad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(CategoriaOportunidad::find($objetoCategoriaOportunidad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($categoriaOportunidad, $objetoCategoriaOportunidad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('campanias.categoriasOportunidad.store');
+        $response = $this->post($url, $categoriaOportunidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($categoriaOportunidad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoCategoriaOportunidad = CategoriaOportunidad::latest()->first()->toArray();
+        $this->assertModelData($categoriaOportunidad, $objetoCategoriaOportunidad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $categoriaOportunidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
     public function test_consultar_categoria_oportunidad()
     {
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->create();
-
         $dbCategoriaOportunidad = $this->categoriaOportunidadRepo->find($categoriaOportunidad->id);
-
         $dbCategoriaOportunidad = $dbCategoriaOportunidad->toArray();
         $this->assertModelData($categoriaOportunidad->toArray(), $dbCategoriaOportunidad);
     }
@@ -65,18 +67,32 @@ class CategoriaOportunidadRepositoryTest extends TestCase
      */
     public function test_editar_categoria_oportunidad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->create();
-        $fakeCategoriaOportunidad = factory(CategoriaOportunidad::class)->make()->toArray();
-
-        $rules = (new UpdateCategoriaOportunidadRequest())->rules();
-        $validator = Validator::make($fakeCategoriaOportunidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoCategoriaOportunidad = $this->categoriaOportunidadRepo->update($fakeCategoriaOportunidad, $categoriaOportunidad->id);
-
+        $fakeCategoriaOportunidad = factory(CategoriaOportunidad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
+        $response = $this->patch($url,$fakeCategoriaOportunidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoCategoriaOportunidad = CategoriaOportunidad::find($categoriaOportunidad->id);
         $this->assertModelData($fakeCategoriaOportunidad, $objetoCategoriaOportunidad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbCategoriaOportunidad = $this->categoriaOportunidadRepo->find($categoriaOportunidad->id);
-        $this->assertModelData($fakeCategoriaOportunidad, $dbCategoriaOportunidad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $categoriaOportunidad = factory(CategoriaOportunidad::class)->create(); 
+        $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
+        $response = $this->patch($url, $fakeCategoriaOportunidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
     public function test_eliminar_categoria_oportunidad()
     {
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->create();
-
         $resp = $this->categoriaOportunidadRepo->delete($categoriaOportunidad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(CategoriaOportunidad::find($categoriaOportunidad->id), 'El modelo no debe existir en BD.');
     }
 }

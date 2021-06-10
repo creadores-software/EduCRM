@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Prefijo;
 use App\Repositories\Parametros\PrefijoRepository;
-use App\Http\Requests\Parametros\CreatePrefijoRequest;
-use App\Http\Requests\Parametros\UpdatePrefijoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PrefijoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PrefijoRepository
@@ -30,21 +29,26 @@ class PrefijoRepositoryTest extends TestCase
     {
         $prefijo = factory(Prefijo::class)->make()->toArray();
 
-        $rules = (new CreatePrefijoRequest())->rules();
-        $validator = Validator::make($prefijo, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPrefijo = $this->prefijoRepo->create($prefijo);
-        $objetoPrefijo = $objetoPrefijo->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPrefijo, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPrefijo['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Prefijo::find($objetoPrefijo['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($prefijo, $objetoPrefijo,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.prefijos.store');
+        $response = $this->post($url, $prefijo); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($prefijo, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPrefijo = Prefijo::latest()->first()->toArray();
+        $this->assertModelData($prefijo, $objetoPrefijo,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $prefijo); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PrefijoRepositoryTest extends TestCase
     public function test_consultar_prefijo()
     {
         $prefijo = factory(Prefijo::class)->create();
-
         $dbPrefijo = $this->prefijoRepo->find($prefijo->id);
-
         $dbPrefijo = $dbPrefijo->toArray();
         $this->assertModelData($prefijo->toArray(), $dbPrefijo);
     }
@@ -65,18 +67,32 @@ class PrefijoRepositoryTest extends TestCase
      */
     public function test_editar_prefijo()
     {
+        //Se crea un objeto y se generan datos para edición  
         $prefijo = factory(Prefijo::class)->create();
-        $fakePrefijo = factory(Prefijo::class)->make()->toArray();
-
-        $rules = (new UpdatePrefijoRequest())->rules();
-        $validator = Validator::make($fakePrefijo, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPrefijo = $this->prefijoRepo->update($fakePrefijo, $prefijo->id);
-
+        $fakePrefijo = factory(Prefijo::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.prefijos.update', $prefijo->id);
+        $response = $this->patch($url,$fakePrefijo); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPrefijo = Prefijo::find($prefijo->id);
         $this->assertModelData($fakePrefijo, $objetoPrefijo->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPrefijo = $this->prefijoRepo->find($prefijo->id);
-        $this->assertModelData($fakePrefijo, $dbPrefijo->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $prefijo = factory(Prefijo::class)->create(); 
+        $url = route('parametros.prefijos.update', $prefijo->id);
+        $response = $this->patch($url, $fakePrefijo); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PrefijoRepositoryTest extends TestCase
     public function test_eliminar_prefijo()
     {
         $prefijo = factory(Prefijo::class)->create();
-
         $resp = $this->prefijoRepo->delete($prefijo->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Prefijo::find($prefijo->id), 'El modelo no debe existir en BD.');
     }
 }

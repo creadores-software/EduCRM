@@ -2,15 +2,14 @@
 
 use App\Models\Contactos\Segmento;
 use App\Repositories\Contactos\SegmentoRepository;
-use App\Http\Requests\Contactos\CreateSegmentoRequest;
-use App\Http\Requests\Contactos\UpdateSegmentoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class SegmentoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var SegmentoRepository
@@ -30,21 +29,26 @@ class SegmentoRepositoryTest extends TestCase
     {
         $segmento = factory(Segmento::class)->make()->toArray();
 
-        $rules = (new CreateSegmentoRequest())->rules();
-        $validator = Validator::make($segmento, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSegmento = $this->segmentoRepo->create($segmento);
-        $objetoSegmento = $objetoSegmento->toArray();
-
-        $this->assertArrayHasKey('id', $objetoSegmento, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoSegmento['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Segmento::find($objetoSegmento['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($segmento, $objetoSegmento,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('contactos.segmentos.store');
+        $response = $this->post($url, $segmento); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($segmento, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoSegmento = Segmento::latest()->first()->toArray();
+        $this->assertModelData($segmento, $objetoSegmento,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $segmento); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class SegmentoRepositoryTest extends TestCase
     public function test_consultar_segmento()
     {
         $segmento = factory(Segmento::class)->create();
-
         $dbSegmento = $this->segmentoRepo->find($segmento->id);
-
         $dbSegmento = $dbSegmento->toArray();
         $this->assertModelData($segmento->toArray(), $dbSegmento);
     }
@@ -65,18 +67,32 @@ class SegmentoRepositoryTest extends TestCase
      */
     public function test_editar_segmento()
     {
+        //Se crea un objeto y se generan datos para edición  
         $segmento = factory(Segmento::class)->create();
-        $fakeSegmento = factory(Segmento::class)->make()->toArray();
-
-        $rules = (new UpdateSegmentoRequest())->rules();
-        $validator = Validator::make($fakeSegmento, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSegmento = $this->segmentoRepo->update($fakeSegmento, $segmento->id);
-
+        $fakeSegmento = factory(Segmento::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('contactos.segmentos.update', $segmento->id);
+        $response = $this->patch($url,$fakeSegmento); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoSegmento = Segmento::find($segmento->id);
         $this->assertModelData($fakeSegmento, $objetoSegmento->toArray(),'El modelo no quedó con los datos editados.');
-        $dbSegmento = $this->segmentoRepo->find($segmento->id);
-        $this->assertModelData($fakeSegmento, $dbSegmento->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $segmento = factory(Segmento::class)->create(); 
+        $url = route('contactos.segmentos.update', $segmento->id);
+        $response = $this->patch($url, $fakeSegmento); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class SegmentoRepositoryTest extends TestCase
     public function test_eliminar_segmento()
     {
         $segmento = factory(Segmento::class)->create();
-
         $resp = $this->segmentoRepo->delete($segmento->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Segmento::find($segmento->id), 'El modelo no debe existir en BD.');
     }
 }

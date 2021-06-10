@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Lugar;
 use App\Repositories\Parametros\LugarRepository;
-use App\Http\Requests\Parametros\CreateLugarRequest;
-use App\Http\Requests\Parametros\UpdateLugarRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class LugarRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var LugarRepository
@@ -30,21 +29,26 @@ class LugarRepositoryTest extends TestCase
     {
         $lugar = factory(Lugar::class)->make()->toArray();
 
-        $rules = (new CreateLugarRequest())->rules();
-        $validator = Validator::make($lugar, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoLugar = $this->lugarRepo->create($lugar);
-        $objetoLugar = $objetoLugar->toArray();
-
-        $this->assertArrayHasKey('id', $objetoLugar, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoLugar['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Lugar::find($objetoLugar['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($lugar, $objetoLugar,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.lugares.store');
+        $response = $this->post($url, $lugar); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($lugar, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoLugar = Lugar::latest()->first()->toArray();
+        $this->assertModelData($lugar, $objetoLugar,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $lugar); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class LugarRepositoryTest extends TestCase
     public function test_consultar_lugar()
     {
         $lugar = factory(Lugar::class)->create();
-
         $dbLugar = $this->lugarRepo->find($lugar->id);
-
         $dbLugar = $dbLugar->toArray();
         $this->assertModelData($lugar->toArray(), $dbLugar);
     }
@@ -65,18 +67,32 @@ class LugarRepositoryTest extends TestCase
      */
     public function test_editar_lugar()
     {
+        //Se crea un objeto y se generan datos para edición  
         $lugar = factory(Lugar::class)->create();
-        $fakeLugar = factory(Lugar::class)->make()->toArray();
-
-        $rules = (new UpdateLugarRequest())->rules();
-        $validator = Validator::make($fakeLugar, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoLugar = $this->lugarRepo->update($fakeLugar, $lugar->id);
-
+        $fakeLugar = factory(Lugar::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.lugares.update', $lugar->id);
+        $response = $this->patch($url,$fakeLugar); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoLugar = Lugar::find($lugar->id);
         $this->assertModelData($fakeLugar, $objetoLugar->toArray(),'El modelo no quedó con los datos editados.');
-        $dbLugar = $this->lugarRepo->find($lugar->id);
-        $this->assertModelData($fakeLugar, $dbLugar->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $lugar = factory(Lugar::class)->create(); 
+        $url = route('parametros.lugares.update', $lugar->id);
+        $response = $this->patch($url, $fakeLugar); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class LugarRepositoryTest extends TestCase
     public function test_eliminar_lugar()
     {
         $lugar = factory(Lugar::class)->create();
-
         $resp = $this->lugarRepo->delete($lugar->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Lugar::find($lugar->id), 'El modelo no debe existir en BD.');
     }
 }

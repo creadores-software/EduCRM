@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\Modalidad;
 use App\Repositories\Formaciones\ModalidadRepository;
-use App\Http\Requests\Formaciones\CreateModalidadRequest;
-use App\Http\Requests\Formaciones\UpdateModalidadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class ModalidadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var ModalidadRepository
@@ -30,21 +29,26 @@ class ModalidadRepositoryTest extends TestCase
     {
         $modalidad = factory(Modalidad::class)->make()->toArray();
 
-        $rules = (new CreateModalidadRequest())->rules();
-        $validator = Validator::make($modalidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoModalidad = $this->modalidadRepo->create($modalidad);
-        $objetoModalidad = $objetoModalidad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoModalidad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoModalidad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Modalidad::find($objetoModalidad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($modalidad, $objetoModalidad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.modalidades.store');
+        $response = $this->post($url, $modalidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($modalidad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoModalidad = Modalidad::latest()->first()->toArray();
+        $this->assertModelData($modalidad, $objetoModalidad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $modalidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class ModalidadRepositoryTest extends TestCase
     public function test_consultar_modalidad()
     {
         $modalidad = factory(Modalidad::class)->create();
-
         $dbModalidad = $this->modalidadRepo->find($modalidad->id);
-
         $dbModalidad = $dbModalidad->toArray();
         $this->assertModelData($modalidad->toArray(), $dbModalidad);
     }
@@ -65,18 +67,32 @@ class ModalidadRepositoryTest extends TestCase
      */
     public function test_editar_modalidad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $modalidad = factory(Modalidad::class)->create();
-        $fakeModalidad = factory(Modalidad::class)->make()->toArray();
-
-        $rules = (new UpdateModalidadRequest())->rules();
-        $validator = Validator::make($fakeModalidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoModalidad = $this->modalidadRepo->update($fakeModalidad, $modalidad->id);
-
+        $fakeModalidad = factory(Modalidad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.modalidades.update', $modalidad->id);
+        $response = $this->patch($url,$fakeModalidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoModalidad = Modalidad::find($modalidad->id);
         $this->assertModelData($fakeModalidad, $objetoModalidad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbModalidad = $this->modalidadRepo->find($modalidad->id);
-        $this->assertModelData($fakeModalidad, $dbModalidad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $modalidad = factory(Modalidad::class)->create(); 
+        $url = route('formaciones.modalidades.update', $modalidad->id);
+        $response = $this->patch($url, $fakeModalidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class ModalidadRepositoryTest extends TestCase
     public function test_eliminar_modalidad()
     {
         $modalidad = factory(Modalidad::class)->create();
-
         $resp = $this->modalidadRepo->delete($modalidad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Modalidad::find($modalidad->id), 'El modelo no debe existir en BD.');
     }
 }

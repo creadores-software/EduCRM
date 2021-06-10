@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\Jornada;
 use App\Repositories\Formaciones\JornadaRepository;
-use App\Http\Requests\Formaciones\CreateJornadaRequest;
-use App\Http\Requests\Formaciones\UpdateJornadaRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class JornadaRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var JornadaRepository
@@ -30,21 +29,26 @@ class JornadaRepositoryTest extends TestCase
     {
         $jornada = factory(Jornada::class)->make()->toArray();
 
-        $rules = (new CreateJornadaRequest())->rules();
-        $validator = Validator::make($jornada, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoJornada = $this->jornadaRepo->create($jornada);
-        $objetoJornada = $objetoJornada->toArray();
-
-        $this->assertArrayHasKey('id', $objetoJornada, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoJornada['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Jornada::find($objetoJornada['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($jornada, $objetoJornada,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.jornadas.store');
+        $response = $this->post($url, $jornada); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($jornada, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoJornada = Jornada::latest()->first()->toArray();
+        $this->assertModelData($jornada, $objetoJornada,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $jornada); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class JornadaRepositoryTest extends TestCase
     public function test_consultar_jornada()
     {
         $jornada = factory(Jornada::class)->create();
-
         $dbJornada = $this->jornadaRepo->find($jornada->id);
-
         $dbJornada = $dbJornada->toArray();
         $this->assertModelData($jornada->toArray(), $dbJornada);
     }
@@ -65,18 +67,32 @@ class JornadaRepositoryTest extends TestCase
      */
     public function test_editar_jornada()
     {
+        //Se crea un objeto y se generan datos para edición  
         $jornada = factory(Jornada::class)->create();
-        $fakeJornada = factory(Jornada::class)->make()->toArray();
-
-        $rules = (new UpdateJornadaRequest())->rules();
-        $validator = Validator::make($fakeJornada, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoJornada = $this->jornadaRepo->update($fakeJornada, $jornada->id);
-
+        $fakeJornada = factory(Jornada::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.jornadas.update', $jornada->id);
+        $response = $this->patch($url,$fakeJornada); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoJornada = Jornada::find($jornada->id);
         $this->assertModelData($fakeJornada, $objetoJornada->toArray(),'El modelo no quedó con los datos editados.');
-        $dbJornada = $this->jornadaRepo->find($jornada->id);
-        $this->assertModelData($fakeJornada, $dbJornada->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $jornada = factory(Jornada::class)->create(); 
+        $url = route('formaciones.jornadas.update', $jornada->id);
+        $response = $this->patch($url, $fakeJornada); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class JornadaRepositoryTest extends TestCase
     public function test_eliminar_jornada()
     {
         $jornada = factory(Jornada::class)->create();
-
         $resp = $this->jornadaRepo->delete($jornada->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Jornada::find($jornada->id), 'El modelo no debe existir en BD.');
     }
 }

@@ -2,15 +2,14 @@
 
 use App\Models\Entidades\TipoOcupacion;
 use App\Repositories\Entidades\TipoOcupacionRepository;
-use App\Http\Requests\Entidades\CreateTipoOcupacionRequest;
-use App\Http\Requests\Entidades\UpdateTipoOcupacionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class TipoOcupacionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var TipoOcupacionRepository
@@ -30,21 +29,26 @@ class TipoOcupacionRepositoryTest extends TestCase
     {
         $tipoOcupacion = factory(TipoOcupacion::class)->make()->toArray();
 
-        $rules = (new CreateTipoOcupacionRequest())->rules();
-        $validator = Validator::make($tipoOcupacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoOcupacion = $this->tipoOcupacionRepo->create($tipoOcupacion);
-        $objetoTipoOcupacion = $objetoTipoOcupacion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoTipoOcupacion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoTipoOcupacion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(TipoOcupacion::find($objetoTipoOcupacion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($tipoOcupacion, $objetoTipoOcupacion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('entidades.tiposOcupacion.store');
+        $response = $this->post($url, $tipoOcupacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($tipoOcupacion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoTipoOcupacion = TipoOcupacion::latest()->first()->toArray();
+        $this->assertModelData($tipoOcupacion, $objetoTipoOcupacion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $tipoOcupacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class TipoOcupacionRepositoryTest extends TestCase
     public function test_consultar_tipo_ocupacion()
     {
         $tipoOcupacion = factory(TipoOcupacion::class)->create();
-
         $dbTipoOcupacion = $this->tipoOcupacionRepo->find($tipoOcupacion->id);
-
         $dbTipoOcupacion = $dbTipoOcupacion->toArray();
         $this->assertModelData($tipoOcupacion->toArray(), $dbTipoOcupacion);
     }
@@ -65,18 +67,32 @@ class TipoOcupacionRepositoryTest extends TestCase
      */
     public function test_editar_tipo_ocupacion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $tipoOcupacion = factory(TipoOcupacion::class)->create();
-        $fakeTipoOcupacion = factory(TipoOcupacion::class)->make()->toArray();
-
-        $rules = (new UpdateTipoOcupacionRequest())->rules();
-        $validator = Validator::make($fakeTipoOcupacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoOcupacion = $this->tipoOcupacionRepo->update($fakeTipoOcupacion, $tipoOcupacion->id);
-
+        $fakeTipoOcupacion = factory(TipoOcupacion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('entidades.tiposOcupacion.update', $tipoOcupacion->id);
+        $response = $this->patch($url,$fakeTipoOcupacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoTipoOcupacion = TipoOcupacion::find($tipoOcupacion->id);
         $this->assertModelData($fakeTipoOcupacion, $objetoTipoOcupacion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbTipoOcupacion = $this->tipoOcupacionRepo->find($tipoOcupacion->id);
-        $this->assertModelData($fakeTipoOcupacion, $dbTipoOcupacion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $tipoOcupacion = factory(TipoOcupacion::class)->create(); 
+        $url = route('entidades.tiposOcupacion.update', $tipoOcupacion->id);
+        $response = $this->patch($url, $fakeTipoOcupacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class TipoOcupacionRepositoryTest extends TestCase
     public function test_eliminar_tipo_ocupacion()
     {
         $tipoOcupacion = factory(TipoOcupacion::class)->create();
-
         $resp = $this->tipoOcupacionRepo->delete($tipoOcupacion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(TipoOcupacion::find($tipoOcupacion->id), 'El modelo no debe existir en BD.');
     }
 }

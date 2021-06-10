@@ -2,15 +2,14 @@
 
 use App\Models\Entidades\Sector;
 use App\Repositories\Entidades\SectorRepository;
-use App\Http\Requests\Entidades\CreateSectorRequest;
-use App\Http\Requests\Entidades\UpdateSectorRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class SectorRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var SectorRepository
@@ -30,21 +29,26 @@ class SectorRepositoryTest extends TestCase
     {
         $sector = factory(Sector::class)->make()->toArray();
 
-        $rules = (new CreateSectorRequest())->rules();
-        $validator = Validator::make($sector, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSector = $this->sectorRepo->create($sector);
-        $objetoSector = $objetoSector->toArray();
-
-        $this->assertArrayHasKey('id', $objetoSector, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoSector['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Sector::find($objetoSector['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($sector, $objetoSector,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('entidades.sectores.store');
+        $response = $this->post($url, $sector); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($sector, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoSector = Sector::latest()->first()->toArray();
+        $this->assertModelData($sector, $objetoSector,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $sector); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class SectorRepositoryTest extends TestCase
     public function test_consultar_sector()
     {
         $sector = factory(Sector::class)->create();
-
         $dbSector = $this->sectorRepo->find($sector->id);
-
         $dbSector = $dbSector->toArray();
         $this->assertModelData($sector->toArray(), $dbSector);
     }
@@ -65,18 +67,32 @@ class SectorRepositoryTest extends TestCase
      */
     public function test_editar_sector()
     {
+        //Se crea un objeto y se generan datos para edición  
         $sector = factory(Sector::class)->create();
-        $fakeSector = factory(Sector::class)->make()->toArray();
-
-        $rules = (new UpdateSectorRequest())->rules();
-        $validator = Validator::make($fakeSector, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSector = $this->sectorRepo->update($fakeSector, $sector->id);
-
+        $fakeSector = factory(Sector::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('entidades.sectores.update', $sector->id);
+        $response = $this->patch($url,$fakeSector); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoSector = Sector::find($sector->id);
         $this->assertModelData($fakeSector, $objetoSector->toArray(),'El modelo no quedó con los datos editados.');
-        $dbSector = $this->sectorRepo->find($sector->id);
-        $this->assertModelData($fakeSector, $dbSector->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $sector = factory(Sector::class)->create(); 
+        $url = route('entidades.sectores.update', $sector->id);
+        $response = $this->patch($url, $fakeSector); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class SectorRepositoryTest extends TestCase
     public function test_eliminar_sector()
     {
         $sector = factory(Sector::class)->create();
-
         $resp = $this->sectorRepo->delete($sector->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Sector::find($sector->id), 'El modelo no debe existir en BD.');
     }
 }

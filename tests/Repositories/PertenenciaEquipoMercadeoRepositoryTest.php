@@ -2,15 +2,14 @@
 
 use App\Models\Admin\PertenenciaEquipoMercadeo;
 use App\Repositories\Admin\PertenenciaEquipoMercadeoRepository;
-use App\Http\Requests\Admin\CreatePertenenciaEquipoMercadeoRequest;
-use App\Http\Requests\Admin\UpdatePertenenciaEquipoMercadeoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PertenenciaEquipoMercadeoRepository
@@ -30,21 +29,26 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
     {
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->make()->toArray();
 
-        $rules = (new CreatePertenenciaEquipoMercadeoRequest())->rules();
-        $validator = Validator::make($pertenenciaEquipoMercadeo, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepo->create($pertenenciaEquipoMercadeo);
-        $objetoPertenenciaEquipoMercadeo = $objetoPertenenciaEquipoMercadeo->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPertenenciaEquipoMercadeo, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPertenenciaEquipoMercadeo['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(PertenenciaEquipoMercadeo::find($objetoPertenenciaEquipoMercadeo['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($pertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('admin.pertenenciasEquipoMercadeo.store');
+        $response = $this->post($url, $pertenenciaEquipoMercadeo); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($pertenenciaEquipoMercadeo, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::latest()->first()->toArray();
+        $this->assertModelData($pertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $pertenenciaEquipoMercadeo); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
     public function test_consultar_pertenencia_equipo_mercadeo()
     {
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create();
-
         $dbPertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepo->find($pertenenciaEquipoMercadeo->id);
-
         $dbPertenenciaEquipoMercadeo = $dbPertenenciaEquipoMercadeo->toArray();
         $this->assertModelData($pertenenciaEquipoMercadeo->toArray(), $dbPertenenciaEquipoMercadeo);
     }
@@ -65,18 +67,32 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
      */
     public function test_editar_pertenencia_equipo_mercadeo()
     {
+        //Se crea un objeto y se generan datos para edición  
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create();
-        $fakePertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->make()->toArray();
-
-        $rules = (new UpdatePertenenciaEquipoMercadeoRequest())->rules();
-        $validator = Validator::make($fakePertenenciaEquipoMercadeo, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepo->update($fakePertenenciaEquipoMercadeo, $pertenenciaEquipoMercadeo->id);
-
+        $fakePertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('admin.pertenenciasEquipoMercadeo.update', $pertenenciaEquipoMercadeo->id);
+        $response = $this->patch($url,$fakePertenenciaEquipoMercadeo); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::find($pertenenciaEquipoMercadeo->id);
         $this->assertModelData($fakePertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepo->find($pertenenciaEquipoMercadeo->id);
-        $this->assertModelData($fakePertenenciaEquipoMercadeo, $dbPertenenciaEquipoMercadeo->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create(); 
+        $url = route('admin.pertenenciasEquipoMercadeo.update', $pertenenciaEquipoMercadeo->id);
+        $response = $this->patch($url, $fakePertenenciaEquipoMercadeo); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
     public function test_eliminar_pertenencia_equipo_mercadeo()
     {
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create();
-
         $resp = $this->pertenenciaEquipoMercadeoRepo->delete($pertenenciaEquipoMercadeo->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(PertenenciaEquipoMercadeo::find($pertenenciaEquipoMercadeo->id), 'El modelo no debe existir en BD.');
     }
 }

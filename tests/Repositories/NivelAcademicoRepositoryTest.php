@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\NivelAcademico;
 use App\Repositories\Formaciones\NivelAcademicoRepository;
-use App\Http\Requests\Formaciones\CreateNivelAcademicoRequest;
-use App\Http\Requests\Formaciones\UpdateNivelAcademicoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class NivelAcademicoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var NivelAcademicoRepository
@@ -30,21 +29,26 @@ class NivelAcademicoRepositoryTest extends TestCase
     {
         $nivelAcademico = factory(NivelAcademico::class)->make()->toArray();
 
-        $rules = (new CreateNivelAcademicoRequest())->rules();
-        $validator = Validator::make($nivelAcademico, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoNivelAcademico = $this->nivelAcademicoRepo->create($nivelAcademico);
-        $objetoNivelAcademico = $objetoNivelAcademico->toArray();
-
-        $this->assertArrayHasKey('id', $objetoNivelAcademico, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoNivelAcademico['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(NivelAcademico::find($objetoNivelAcademico['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($nivelAcademico, $objetoNivelAcademico,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.nivelesAcademicos.store');
+        $response = $this->post($url, $nivelAcademico); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($nivelAcademico, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoNivelAcademico = NivelAcademico::latest()->first()->toArray();
+        $this->assertModelData($nivelAcademico, $objetoNivelAcademico,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $nivelAcademico); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class NivelAcademicoRepositoryTest extends TestCase
     public function test_consultar_nivel_academico()
     {
         $nivelAcademico = factory(NivelAcademico::class)->create();
-
         $dbNivelAcademico = $this->nivelAcademicoRepo->find($nivelAcademico->id);
-
         $dbNivelAcademico = $dbNivelAcademico->toArray();
         $this->assertModelData($nivelAcademico->toArray(), $dbNivelAcademico);
     }
@@ -65,18 +67,32 @@ class NivelAcademicoRepositoryTest extends TestCase
      */
     public function test_editar_nivel_academico()
     {
+        //Se crea un objeto y se generan datos para edición  
         $nivelAcademico = factory(NivelAcademico::class)->create();
-        $fakeNivelAcademico = factory(NivelAcademico::class)->make()->toArray();
-
-        $rules = (new UpdateNivelAcademicoRequest())->rules();
-        $validator = Validator::make($fakeNivelAcademico, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoNivelAcademico = $this->nivelAcademicoRepo->update($fakeNivelAcademico, $nivelAcademico->id);
-
+        $fakeNivelAcademico = factory(NivelAcademico::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.nivelesAcademicos.update', $nivelAcademico->id);
+        $response = $this->patch($url,$fakeNivelAcademico); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoNivelAcademico = NivelAcademico::find($nivelAcademico->id);
         $this->assertModelData($fakeNivelAcademico, $objetoNivelAcademico->toArray(),'El modelo no quedó con los datos editados.');
-        $dbNivelAcademico = $this->nivelAcademicoRepo->find($nivelAcademico->id);
-        $this->assertModelData($fakeNivelAcademico, $dbNivelAcademico->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $nivelAcademico = factory(NivelAcademico::class)->create(); 
+        $url = route('formaciones.nivelesAcademicos.update', $nivelAcademico->id);
+        $response = $this->patch($url, $fakeNivelAcademico); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class NivelAcademicoRepositoryTest extends TestCase
     public function test_eliminar_nivel_academico()
     {
         $nivelAcademico = factory(NivelAcademico::class)->create();
-
         $resp = $this->nivelAcademicoRepo->delete($nivelAcademico->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(NivelAcademico::find($nivelAcademico->id), 'El modelo no debe existir en BD.');
     }
 }

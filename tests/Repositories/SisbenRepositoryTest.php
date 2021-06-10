@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Sisben;
 use App\Repositories\Parametros\SisbenRepository;
-use App\Http\Requests\Parametros\CreateSisbenRequest;
-use App\Http\Requests\Parametros\UpdateSisbenRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class SisbenRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var SisbenRepository
@@ -30,21 +29,26 @@ class SisbenRepositoryTest extends TestCase
     {
         $sisben = factory(Sisben::class)->make()->toArray();
 
-        $rules = (new CreateSisbenRequest())->rules();
-        $validator = Validator::make($sisben, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSisben = $this->sisbenRepo->create($sisben);
-        $objetoSisben = $objetoSisben->toArray();
-
-        $this->assertArrayHasKey('id', $objetoSisben, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoSisben['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Sisben::find($objetoSisben['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($sisben, $objetoSisben,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.sisbenes.store');
+        $response = $this->post($url, $sisben); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($sisben, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoSisben = Sisben::latest()->first()->toArray();
+        $this->assertModelData($sisben, $objetoSisben,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $sisben); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class SisbenRepositoryTest extends TestCase
     public function test_consultar_sisben()
     {
         $sisben = factory(Sisben::class)->create();
-
         $dbSisben = $this->sisbenRepo->find($sisben->id);
-
         $dbSisben = $dbSisben->toArray();
         $this->assertModelData($sisben->toArray(), $dbSisben);
     }
@@ -65,18 +67,32 @@ class SisbenRepositoryTest extends TestCase
      */
     public function test_editar_sisben()
     {
+        //Se crea un objeto y se generan datos para edición  
         $sisben = factory(Sisben::class)->create();
-        $fakeSisben = factory(Sisben::class)->make()->toArray();
-
-        $rules = (new UpdateSisbenRequest())->rules();
-        $validator = Validator::make($fakeSisben, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoSisben = $this->sisbenRepo->update($fakeSisben, $sisben->id);
-
+        $fakeSisben = factory(Sisben::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.sisbenes.update', $sisben->id);
+        $response = $this->patch($url,$fakeSisben); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoSisben = Sisben::find($sisben->id);
         $this->assertModelData($fakeSisben, $objetoSisben->toArray(),'El modelo no quedó con los datos editados.');
-        $dbSisben = $this->sisbenRepo->find($sisben->id);
-        $this->assertModelData($fakeSisben, $dbSisben->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $sisben = factory(Sisben::class)->create(); 
+        $url = route('parametros.sisbenes.update', $sisben->id);
+        $response = $this->patch($url, $fakeSisben); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class SisbenRepositoryTest extends TestCase
     public function test_eliminar_sisben()
     {
         $sisben = factory(Sisben::class)->create();
-
         $resp = $this->sisbenRepo->delete($sisben->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Sisben::find($sisben->id), 'El modelo no debe existir en BD.');
     }
 }

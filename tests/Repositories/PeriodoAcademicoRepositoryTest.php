@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\PeriodoAcademico;
 use App\Repositories\Formaciones\PeriodoAcademicoRepository;
-use App\Http\Requests\Formaciones\CreatePeriodoAcademicoRequest;
-use App\Http\Requests\Formaciones\UpdatePeriodoAcademicoRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PeriodoAcademicoRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PeriodoAcademicoRepository
@@ -30,21 +29,26 @@ class PeriodoAcademicoRepositoryTest extends TestCase
     {
         $periodoAcademico = factory(PeriodoAcademico::class)->make()->toArray();
 
-        $rules = (new CreatePeriodoAcademicoRequest())->rules();
-        $validator = Validator::make($periodoAcademico, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPeriodoAcademico = $this->periodoAcademicoRepo->create($periodoAcademico);
-        $objetoPeriodoAcademico = $objetoPeriodoAcademico->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPeriodoAcademico, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPeriodoAcademico['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(PeriodoAcademico::find($objetoPeriodoAcademico['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($periodoAcademico, $objetoPeriodoAcademico,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.periodosAcademico.store');
+        $response = $this->post($url, $periodoAcademico); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($periodoAcademico, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPeriodoAcademico = PeriodoAcademico::latest()->first()->toArray();
+        $this->assertModelData($periodoAcademico, $objetoPeriodoAcademico,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $periodoAcademico); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PeriodoAcademicoRepositoryTest extends TestCase
     public function test_consultar_periodo_academico()
     {
         $periodoAcademico = factory(PeriodoAcademico::class)->create();
-
         $dbPeriodoAcademico = $this->periodoAcademicoRepo->find($periodoAcademico->id);
-
         $dbPeriodoAcademico = $dbPeriodoAcademico->toArray();
         $this->assertModelData($periodoAcademico->toArray(), $dbPeriodoAcademico);
     }
@@ -65,18 +67,32 @@ class PeriodoAcademicoRepositoryTest extends TestCase
      */
     public function test_editar_periodo_academico()
     {
+        //Se crea un objeto y se generan datos para edición  
         $periodoAcademico = factory(PeriodoAcademico::class)->create();
-        $fakePeriodoAcademico = factory(PeriodoAcademico::class)->make()->toArray();
-
-        $rules = (new UpdatePeriodoAcademicoRequest())->rules();
-        $validator = Validator::make($fakePeriodoAcademico, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPeriodoAcademico = $this->periodoAcademicoRepo->update($fakePeriodoAcademico, $periodoAcademico->id);
-
+        $fakePeriodoAcademico = factory(PeriodoAcademico::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.periodosAcademico.update', $periodoAcademico->id);
+        $response = $this->patch($url,$fakePeriodoAcademico); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPeriodoAcademico = PeriodoAcademico::find($periodoAcademico->id);
         $this->assertModelData($fakePeriodoAcademico, $objetoPeriodoAcademico->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPeriodoAcademico = $this->periodoAcademicoRepo->find($periodoAcademico->id);
-        $this->assertModelData($fakePeriodoAcademico, $dbPeriodoAcademico->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $periodoAcademico = factory(PeriodoAcademico::class)->create(); 
+        $url = route('formaciones.periodosAcademico.update', $periodoAcademico->id);
+        $response = $this->patch($url, $fakePeriodoAcademico); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PeriodoAcademicoRepositoryTest extends TestCase
     public function test_eliminar_periodo_academico()
     {
         $periodoAcademico = factory(PeriodoAcademico::class)->create();
-
         $resp = $this->periodoAcademicoRepo->delete($periodoAcademico->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(PeriodoAcademico::find($periodoAcademico->id), 'El modelo no debe existir en BD.');
     }
 }

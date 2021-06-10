@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\NivelFormacion;
 use App\Repositories\Formaciones\NivelFormacionRepository;
-use App\Http\Requests\Formaciones\CreateNivelFormacionRequest;
-use App\Http\Requests\Formaciones\UpdateNivelFormacionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class NivelFormacionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var NivelFormacionRepository
@@ -30,21 +29,26 @@ class NivelFormacionRepositoryTest extends TestCase
     {
         $nivelFormacion = factory(NivelFormacion::class)->make()->toArray();
 
-        $rules = (new CreateNivelFormacionRequest())->rules();
-        $validator = Validator::make($nivelFormacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoNivelFormacion = $this->nivelFormacionRepo->create($nivelFormacion);
-        $objetoNivelFormacion = $objetoNivelFormacion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoNivelFormacion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoNivelFormacion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(NivelFormacion::find($objetoNivelFormacion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($nivelFormacion, $objetoNivelFormacion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.nivelesFormacion.store');
+        $response = $this->post($url, $nivelFormacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($nivelFormacion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoNivelFormacion = NivelFormacion::latest()->first()->toArray();
+        $this->assertModelData($nivelFormacion, $objetoNivelFormacion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $nivelFormacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class NivelFormacionRepositoryTest extends TestCase
     public function test_consultar_nivel_formacion()
     {
         $nivelFormacion = factory(NivelFormacion::class)->create();
-
         $dbNivelFormacion = $this->nivelFormacionRepo->find($nivelFormacion->id);
-
         $dbNivelFormacion = $dbNivelFormacion->toArray();
         $this->assertModelData($nivelFormacion->toArray(), $dbNivelFormacion);
     }
@@ -65,18 +67,32 @@ class NivelFormacionRepositoryTest extends TestCase
      */
     public function test_editar_nivel_formacion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $nivelFormacion = factory(NivelFormacion::class)->create();
-        $fakeNivelFormacion = factory(NivelFormacion::class)->make()->toArray();
-
-        $rules = (new UpdateNivelFormacionRequest())->rules();
-        $validator = Validator::make($fakeNivelFormacion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoNivelFormacion = $this->nivelFormacionRepo->update($fakeNivelFormacion, $nivelFormacion->id);
-
+        $fakeNivelFormacion = factory(NivelFormacion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.nivelesFormacion.update', $nivelFormacion->id);
+        $response = $this->patch($url,$fakeNivelFormacion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoNivelFormacion = NivelFormacion::find($nivelFormacion->id);
         $this->assertModelData($fakeNivelFormacion, $objetoNivelFormacion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbNivelFormacion = $this->nivelFormacionRepo->find($nivelFormacion->id);
-        $this->assertModelData($fakeNivelFormacion, $dbNivelFormacion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $nivelFormacion = factory(NivelFormacion::class)->create(); 
+        $url = route('formaciones.nivelesFormacion.update', $nivelFormacion->id);
+        $response = $this->patch($url, $fakeNivelFormacion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class NivelFormacionRepositoryTest extends TestCase
     public function test_eliminar_nivel_formacion()
     {
         $nivelFormacion = factory(NivelFormacion::class)->create();
-
         $resp = $this->nivelFormacionRepo->delete($nivelFormacion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(NivelFormacion::find($nivelFormacion->id), 'El modelo no debe existir en BD.');
     }
 }

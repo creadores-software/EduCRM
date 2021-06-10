@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\EstatusUsuario;
 use App\Repositories\Parametros\EstatusUsuarioRepository;
-use App\Http\Requests\Parametros\CreateEstatusUsuarioRequest;
-use App\Http\Requests\Parametros\UpdateEstatusUsuarioRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstatusUsuarioRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstatusUsuarioRepository
@@ -30,21 +29,26 @@ class EstatusUsuarioRepositoryTest extends TestCase
     {
         $estatusUsuario = factory(EstatusUsuario::class)->make()->toArray();
 
-        $rules = (new CreateEstatusUsuarioRequest())->rules();
-        $validator = Validator::make($estatusUsuario, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstatusUsuario = $this->estatusUsuarioRepo->create($estatusUsuario);
-        $objetoEstatusUsuario = $objetoEstatusUsuario->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstatusUsuario, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstatusUsuario['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstatusUsuario::find($objetoEstatusUsuario['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estatusUsuario, $objetoEstatusUsuario,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.estatusUsuario.store');
+        $response = $this->post($url, $estatusUsuario); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estatusUsuario, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstatusUsuario = EstatusUsuario::latest()->first()->toArray();
+        $this->assertModelData($estatusUsuario, $objetoEstatusUsuario,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estatusUsuario); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstatusUsuarioRepositoryTest extends TestCase
     public function test_consultar_estatus_usuario()
     {
         $estatusUsuario = factory(EstatusUsuario::class)->create();
-
         $dbEstatusUsuario = $this->estatusUsuarioRepo->find($estatusUsuario->id);
-
         $dbEstatusUsuario = $dbEstatusUsuario->toArray();
         $this->assertModelData($estatusUsuario->toArray(), $dbEstatusUsuario);
     }
@@ -65,18 +67,32 @@ class EstatusUsuarioRepositoryTest extends TestCase
      */
     public function test_editar_estatus_usuario()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estatusUsuario = factory(EstatusUsuario::class)->create();
-        $fakeEstatusUsuario = factory(EstatusUsuario::class)->make()->toArray();
-
-        $rules = (new UpdateEstatusUsuarioRequest())->rules();
-        $validator = Validator::make($fakeEstatusUsuario, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstatusUsuario = $this->estatusUsuarioRepo->update($fakeEstatusUsuario, $estatusUsuario->id);
-
+        $fakeEstatusUsuario = factory(EstatusUsuario::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.estatusUsuario.update', $estatusUsuario->id);
+        $response = $this->patch($url,$fakeEstatusUsuario); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstatusUsuario = EstatusUsuario::find($estatusUsuario->id);
         $this->assertModelData($fakeEstatusUsuario, $objetoEstatusUsuario->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstatusUsuario = $this->estatusUsuarioRepo->find($estatusUsuario->id);
-        $this->assertModelData($fakeEstatusUsuario, $dbEstatusUsuario->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estatusUsuario = factory(EstatusUsuario::class)->create(); 
+        $url = route('parametros.estatusUsuario.update', $estatusUsuario->id);
+        $response = $this->patch($url, $fakeEstatusUsuario); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstatusUsuarioRepositoryTest extends TestCase
     public function test_eliminar_estatus_usuario()
     {
         $estatusUsuario = factory(EstatusUsuario::class)->create();
-
         $resp = $this->estatusUsuarioRepo->delete($estatusUsuario->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstatusUsuario::find($estatusUsuario->id), 'El modelo no debe existir en BD.');
     }
 }

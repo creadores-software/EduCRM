@@ -2,15 +2,14 @@
 
 use App\Models\Campanias\TipoInteraccion;
 use App\Repositories\Campanias\TipoInteraccionRepository;
-use App\Http\Requests\Campanias\CreateTipoInteraccionRequest;
-use App\Http\Requests\Campanias\UpdateTipoInteraccionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class TipoInteraccionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var TipoInteraccionRepository
@@ -30,21 +29,26 @@ class TipoInteraccionRepositoryTest extends TestCase
     {
         $tipoInteraccion = factory(TipoInteraccion::class)->make()->toArray();
 
-        $rules = (new CreateTipoInteraccionRequest())->rules();
-        $validator = Validator::make($tipoInteraccion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoInteraccion = $this->tipoInteraccionRepo->create($tipoInteraccion);
-        $objetoTipoInteraccion = $objetoTipoInteraccion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoTipoInteraccion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoTipoInteraccion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(TipoInteraccion::find($objetoTipoInteraccion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($tipoInteraccion, $objetoTipoInteraccion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('campanias.tiposInteraccion.store');
+        $response = $this->post($url, $tipoInteraccion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($tipoInteraccion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoTipoInteraccion = TipoInteraccion::latest()->first()->toArray();
+        $this->assertModelData($tipoInteraccion, $objetoTipoInteraccion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $tipoInteraccion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class TipoInteraccionRepositoryTest extends TestCase
     public function test_consultar_tipo_interaccion()
     {
         $tipoInteraccion = factory(TipoInteraccion::class)->create();
-
         $dbTipoInteraccion = $this->tipoInteraccionRepo->find($tipoInteraccion->id);
-
         $dbTipoInteraccion = $dbTipoInteraccion->toArray();
         $this->assertModelData($tipoInteraccion->toArray(), $dbTipoInteraccion);
     }
@@ -65,18 +67,32 @@ class TipoInteraccionRepositoryTest extends TestCase
      */
     public function test_editar_tipo_interaccion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $tipoInteraccion = factory(TipoInteraccion::class)->create();
-        $fakeTipoInteraccion = factory(TipoInteraccion::class)->make()->toArray();
-
-        $rules = (new UpdateTipoInteraccionRequest())->rules();
-        $validator = Validator::make($fakeTipoInteraccion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoTipoInteraccion = $this->tipoInteraccionRepo->update($fakeTipoInteraccion, $tipoInteraccion->id);
-
+        $fakeTipoInteraccion = factory(TipoInteraccion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('campanias.tiposInteraccion.update', $tipoInteraccion->id);
+        $response = $this->patch($url,$fakeTipoInteraccion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoTipoInteraccion = TipoInteraccion::find($tipoInteraccion->id);
         $this->assertModelData($fakeTipoInteraccion, $objetoTipoInteraccion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbTipoInteraccion = $this->tipoInteraccionRepo->find($tipoInteraccion->id);
-        $this->assertModelData($fakeTipoInteraccion, $dbTipoInteraccion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $tipoInteraccion = factory(TipoInteraccion::class)->create(); 
+        $url = route('campanias.tiposInteraccion.update', $tipoInteraccion->id);
+        $response = $this->patch($url, $fakeTipoInteraccion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class TipoInteraccionRepositoryTest extends TestCase
     public function test_eliminar_tipo_interaccion()
     {
         $tipoInteraccion = factory(TipoInteraccion::class)->create();
-
         $resp = $this->tipoInteraccionRepo->delete($tipoInteraccion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(TipoInteraccion::find($tipoInteraccion->id), 'El modelo no debe existir en BD.');
     }
 }

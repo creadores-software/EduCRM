@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\Facultad;
 use App\Repositories\Formaciones\FacultadRepository;
-use App\Http\Requests\Formaciones\CreateFacultadRequest;
-use App\Http\Requests\Formaciones\UpdateFacultadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class FacultadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var FacultadRepository
@@ -30,21 +29,26 @@ class FacultadRepositoryTest extends TestCase
     {
         $facultad = factory(Facultad::class)->make()->toArray();
 
-        $rules = (new CreateFacultadRequest())->rules();
-        $validator = Validator::make($facultad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoFacultad = $this->facultadRepo->create($facultad);
-        $objetoFacultad = $objetoFacultad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoFacultad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoFacultad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Facultad::find($objetoFacultad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($facultad, $objetoFacultad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.facultades.store');
+        $response = $this->post($url, $facultad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($facultad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoFacultad = Facultad::latest()->first()->toArray();
+        $this->assertModelData($facultad, $objetoFacultad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $facultad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class FacultadRepositoryTest extends TestCase
     public function test_consultar_facultad()
     {
         $facultad = factory(Facultad::class)->create();
-
         $dbFacultad = $this->facultadRepo->find($facultad->id);
-
         $dbFacultad = $dbFacultad->toArray();
         $this->assertModelData($facultad->toArray(), $dbFacultad);
     }
@@ -65,18 +67,32 @@ class FacultadRepositoryTest extends TestCase
      */
     public function test_editar_facultad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $facultad = factory(Facultad::class)->create();
-        $fakeFacultad = factory(Facultad::class)->make()->toArray();
-
-        $rules = (new UpdateFacultadRequest())->rules();
-        $validator = Validator::make($fakeFacultad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoFacultad = $this->facultadRepo->update($fakeFacultad, $facultad->id);
-
+        $fakeFacultad = factory(Facultad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.facultades.update', $facultad->id);
+        $response = $this->patch($url,$fakeFacultad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoFacultad = Facultad::find($facultad->id);
         $this->assertModelData($fakeFacultad, $objetoFacultad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbFacultad = $this->facultadRepo->find($facultad->id);
-        $this->assertModelData($fakeFacultad, $dbFacultad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $facultad = factory(Facultad::class)->create(); 
+        $url = route('formaciones.facultades.update', $facultad->id);
+        $response = $this->patch($url, $fakeFacultad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class FacultadRepositoryTest extends TestCase
     public function test_eliminar_facultad()
     {
         $facultad = factory(Facultad::class)->create();
-
         $resp = $this->facultadRepo->delete($facultad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Facultad::find($facultad->id), 'El modelo no debe existir en BD.');
     }
 }

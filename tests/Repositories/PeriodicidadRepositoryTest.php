@@ -2,15 +2,14 @@
 
 use App\Models\Formaciones\Periodicidad;
 use App\Repositories\Formaciones\PeriodicidadRepository;
-use App\Http\Requests\Formaciones\CreatePeriodicidadRequest;
-use App\Http\Requests\Formaciones\UpdatePeriodicidadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class PeriodicidadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var PeriodicidadRepository
@@ -30,21 +29,26 @@ class PeriodicidadRepositoryTest extends TestCase
     {
         $periodicidad = factory(Periodicidad::class)->make()->toArray();
 
-        $rules = (new CreatePeriodicidadRequest())->rules();
-        $validator = Validator::make($periodicidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPeriodicidad = $this->periodicidadRepo->create($periodicidad);
-        $objetoPeriodicidad = $objetoPeriodicidad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoPeriodicidad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoPeriodicidad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Periodicidad::find($objetoPeriodicidad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($periodicidad, $objetoPeriodicidad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('formaciones.periodicidades.store');
+        $response = $this->post($url, $periodicidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($periodicidad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoPeriodicidad = Periodicidad::latest()->first()->toArray();
+        $this->assertModelData($periodicidad, $objetoPeriodicidad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $periodicidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class PeriodicidadRepositoryTest extends TestCase
     public function test_consultar_periodicidad()
     {
         $periodicidad = factory(Periodicidad::class)->create();
-
         $dbPeriodicidad = $this->periodicidadRepo->find($periodicidad->id);
-
         $dbPeriodicidad = $dbPeriodicidad->toArray();
         $this->assertModelData($periodicidad->toArray(), $dbPeriodicidad);
     }
@@ -65,18 +67,32 @@ class PeriodicidadRepositoryTest extends TestCase
      */
     public function test_editar_periodicidad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $periodicidad = factory(Periodicidad::class)->create();
-        $fakePeriodicidad = factory(Periodicidad::class)->make()->toArray();
-
-        $rules = (new UpdatePeriodicidadRequest())->rules();
-        $validator = Validator::make($fakePeriodicidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoPeriodicidad = $this->periodicidadRepo->update($fakePeriodicidad, $periodicidad->id);
-
+        $fakePeriodicidad = factory(Periodicidad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('formaciones.periodicidades.update', $periodicidad->id);
+        $response = $this->patch($url,$fakePeriodicidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoPeriodicidad = Periodicidad::find($periodicidad->id);
         $this->assertModelData($fakePeriodicidad, $objetoPeriodicidad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbPeriodicidad = $this->periodicidadRepo->find($periodicidad->id);
-        $this->assertModelData($fakePeriodicidad, $dbPeriodicidad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $periodicidad = factory(Periodicidad::class)->create(); 
+        $url = route('formaciones.periodicidades.update', $periodicidad->id);
+        $response = $this->patch($url, $fakePeriodicidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class PeriodicidadRepositoryTest extends TestCase
     public function test_eliminar_periodicidad()
     {
         $periodicidad = factory(Periodicidad::class)->create();
-
         $resp = $this->periodicidadRepo->delete($periodicidad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Periodicidad::find($periodicidad->id), 'El modelo no debe existir en BD.');
     }
 }

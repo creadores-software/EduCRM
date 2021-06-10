@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Beneficio;
 use App\Repositories\Parametros\BeneficioRepository;
-use App\Http\Requests\Parametros\CreateBeneficioRequest;
-use App\Http\Requests\Parametros\UpdateBeneficioRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class BeneficioRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var BeneficioRepository
@@ -30,21 +29,26 @@ class BeneficioRepositoryTest extends TestCase
     {
         $beneficio = factory(Beneficio::class)->make()->toArray();
 
-        $rules = (new CreateBeneficioRequest())->rules();
-        $validator = Validator::make($beneficio, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoBeneficio = $this->beneficioRepo->create($beneficio);
-        $objetoBeneficio = $objetoBeneficio->toArray();
-
-        $this->assertArrayHasKey('id', $objetoBeneficio, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoBeneficio['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Beneficio::find($objetoBeneficio['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($beneficio, $objetoBeneficio,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.beneficios.store');
+        $response = $this->post($url, $beneficio); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($beneficio, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoBeneficio = Beneficio::latest()->first()->toArray();
+        $this->assertModelData($beneficio, $objetoBeneficio,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $beneficio); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class BeneficioRepositoryTest extends TestCase
     public function test_consultar_beneficio()
     {
         $beneficio = factory(Beneficio::class)->create();
-
         $dbBeneficio = $this->beneficioRepo->find($beneficio->id);
-
         $dbBeneficio = $dbBeneficio->toArray();
         $this->assertModelData($beneficio->toArray(), $dbBeneficio);
     }
@@ -65,18 +67,32 @@ class BeneficioRepositoryTest extends TestCase
      */
     public function test_editar_beneficio()
     {
+        //Se crea un objeto y se generan datos para edición  
         $beneficio = factory(Beneficio::class)->create();
-        $fakeBeneficio = factory(Beneficio::class)->make()->toArray();
-
-        $rules = (new UpdateBeneficioRequest())->rules();
-        $validator = Validator::make($fakeBeneficio, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoBeneficio = $this->beneficioRepo->update($fakeBeneficio, $beneficio->id);
-
+        $fakeBeneficio = factory(Beneficio::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.beneficios.update', $beneficio->id);
+        $response = $this->patch($url,$fakeBeneficio); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoBeneficio = Beneficio::find($beneficio->id);
         $this->assertModelData($fakeBeneficio, $objetoBeneficio->toArray(),'El modelo no quedó con los datos editados.');
-        $dbBeneficio = $this->beneficioRepo->find($beneficio->id);
-        $this->assertModelData($fakeBeneficio, $dbBeneficio->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $beneficio = factory(Beneficio::class)->create(); 
+        $url = route('parametros.beneficios.update', $beneficio->id);
+        $response = $this->patch($url, $fakeBeneficio); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class BeneficioRepositoryTest extends TestCase
     public function test_eliminar_beneficio()
     {
         $beneficio = factory(Beneficio::class)->create();
-
         $resp = $this->beneficioRepo->delete($beneficio->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Beneficio::find($beneficio->id), 'El modelo no debe existir en BD.');
     }
 }

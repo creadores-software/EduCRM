@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\Origen;
 use App\Repositories\Parametros\OrigenRepository;
-use App\Http\Requests\Parametros\CreateOrigenRequest;
-use App\Http\Requests\Parametros\UpdateOrigenRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class OrigenRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var OrigenRepository
@@ -30,21 +29,26 @@ class OrigenRepositoryTest extends TestCase
     {
         $origen = factory(Origen::class)->make()->toArray();
 
-        $rules = (new CreateOrigenRequest())->rules();
-        $validator = Validator::make($origen, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoOrigen = $this->origenRepo->create($origen);
-        $objetoOrigen = $objetoOrigen->toArray();
-
-        $this->assertArrayHasKey('id', $objetoOrigen, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoOrigen['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Origen::find($objetoOrigen['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($origen, $objetoOrigen,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.origenes.store');
+        $response = $this->post($url, $origen); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($origen, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoOrigen = Origen::latest()->first()->toArray();
+        $this->assertModelData($origen, $objetoOrigen,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $origen); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class OrigenRepositoryTest extends TestCase
     public function test_consultar_origen()
     {
         $origen = factory(Origen::class)->create();
-
         $dbOrigen = $this->origenRepo->find($origen->id);
-
         $dbOrigen = $dbOrigen->toArray();
         $this->assertModelData($origen->toArray(), $dbOrigen);
     }
@@ -65,18 +67,32 @@ class OrigenRepositoryTest extends TestCase
      */
     public function test_editar_origen()
     {
+        //Se crea un objeto y se generan datos para edición  
         $origen = factory(Origen::class)->create();
-        $fakeOrigen = factory(Origen::class)->make()->toArray();
-
-        $rules = (new UpdateOrigenRequest())->rules();
-        $validator = Validator::make($fakeOrigen, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoOrigen = $this->origenRepo->update($fakeOrigen, $origen->id);
-
+        $fakeOrigen = factory(Origen::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.origenes.update', $origen->id);
+        $response = $this->patch($url,$fakeOrigen); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoOrigen = Origen::find($origen->id);
         $this->assertModelData($fakeOrigen, $objetoOrigen->toArray(),'El modelo no quedó con los datos editados.');
-        $dbOrigen = $this->origenRepo->find($origen->id);
-        $this->assertModelData($fakeOrigen, $dbOrigen->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $origen = factory(Origen::class)->create(); 
+        $url = route('parametros.origenes.update', $origen->id);
+        $response = $this->patch($url, $fakeOrigen); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class OrigenRepositoryTest extends TestCase
     public function test_eliminar_origen()
     {
         $origen = factory(Origen::class)->create();
-
         $resp = $this->origenRepo->delete($origen->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Origen::find($origen->id), 'El modelo no debe existir en BD.');
     }
 }

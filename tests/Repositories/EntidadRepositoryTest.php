@@ -2,15 +2,14 @@
 
 use App\Models\Entidades\Entidad;
 use App\Repositories\Entidades\EntidadRepository;
-use App\Http\Requests\Entidades\CreateEntidadRequest;
-use App\Http\Requests\Entidades\UpdateEntidadRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EntidadRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EntidadRepository
@@ -30,21 +29,26 @@ class EntidadRepositoryTest extends TestCase
     {
         $entidad = factory(Entidad::class)->make()->toArray();
 
-        $rules = (new CreateEntidadRequest())->rules();
-        $validator = Validator::make($entidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEntidad = $this->entidadRepo->create($entidad);
-        $objetoEntidad = $objetoEntidad->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEntidad, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEntidad['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(Entidad::find($objetoEntidad['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($entidad, $objetoEntidad,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('entidades.entidades.store');
+        $response = $this->post($url, $entidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($entidad, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEntidad = Entidad::latest()->first()->toArray();
+        $this->assertModelData($entidad, $objetoEntidad,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $entidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EntidadRepositoryTest extends TestCase
     public function test_consultar_entidad()
     {
         $entidad = factory(Entidad::class)->create();
-
         $dbEntidad = $this->entidadRepo->find($entidad->id);
-
         $dbEntidad = $dbEntidad->toArray();
         $this->assertModelData($entidad->toArray(), $dbEntidad);
     }
@@ -65,18 +67,32 @@ class EntidadRepositoryTest extends TestCase
      */
     public function test_editar_entidad()
     {
+        //Se crea un objeto y se generan datos para edición  
         $entidad = factory(Entidad::class)->create();
-        $fakeEntidad = factory(Entidad::class)->make()->toArray();
-
-        $rules = (new UpdateEntidadRequest())->rules();
-        $validator = Validator::make($fakeEntidad, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEntidad = $this->entidadRepo->update($fakeEntidad, $entidad->id);
-
+        $fakeEntidad = factory(Entidad::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('entidades.entidades.update', $entidad->id);
+        $response = $this->patch($url,$fakeEntidad); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEntidad = Entidad::find($entidad->id);
         $this->assertModelData($fakeEntidad, $objetoEntidad->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEntidad = $this->entidadRepo->find($entidad->id);
-        $this->assertModelData($fakeEntidad, $dbEntidad->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $entidad = factory(Entidad::class)->create(); 
+        $url = route('entidades.entidades.update', $entidad->id);
+        $response = $this->patch($url, $fakeEntidad); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EntidadRepositoryTest extends TestCase
     public function test_eliminar_entidad()
     {
         $entidad = factory(Entidad::class)->create();
-
         $resp = $this->entidadRepo->delete($entidad->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(Entidad::find($entidad->id), 'El modelo no debe existir en BD.');
     }
 }

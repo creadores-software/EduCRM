@@ -2,15 +2,14 @@
 
 use App\Models\Parametros\EstadoDisposicion;
 use App\Repositories\Parametros\EstadoDisposicionRepository;
-use App\Http\Requests\Parametros\CreateEstadoDisposicionRequest;
-use App\Http\Requests\Parametros\UpdateEstadoDisposicionRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class EstadoDisposicionRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var EstadoDisposicionRepository
@@ -30,21 +29,26 @@ class EstadoDisposicionRepositoryTest extends TestCase
     {
         $estadoDisposicion = factory(EstadoDisposicion::class)->make()->toArray();
 
-        $rules = (new CreateEstadoDisposicionRequest())->rules();
-        $validator = Validator::make($estadoDisposicion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoDisposicion = $this->estadoDisposicionRepo->create($estadoDisposicion);
-        $objetoEstadoDisposicion = $objetoEstadoDisposicion->toArray();
-
-        $this->assertArrayHasKey('id', $objetoEstadoDisposicion, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoEstadoDisposicion['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(EstadoDisposicion::find($objetoEstadoDisposicion['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($estadoDisposicion, $objetoEstadoDisposicion,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('parametros.estadosDisposicion.store');
+        $response = $this->post($url, $estadoDisposicion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($estadoDisposicion, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoEstadoDisposicion = EstadoDisposicion::latest()->first()->toArray();
+        $this->assertModelData($estadoDisposicion, $objetoEstadoDisposicion,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $estadoDisposicion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class EstadoDisposicionRepositoryTest extends TestCase
     public function test_consultar_estado_disposicion()
     {
         $estadoDisposicion = factory(EstadoDisposicion::class)->create();
-
         $dbEstadoDisposicion = $this->estadoDisposicionRepo->find($estadoDisposicion->id);
-
         $dbEstadoDisposicion = $dbEstadoDisposicion->toArray();
         $this->assertModelData($estadoDisposicion->toArray(), $dbEstadoDisposicion);
     }
@@ -65,18 +67,32 @@ class EstadoDisposicionRepositoryTest extends TestCase
      */
     public function test_editar_estado_disposicion()
     {
+        //Se crea un objeto y se generan datos para edición  
         $estadoDisposicion = factory(EstadoDisposicion::class)->create();
-        $fakeEstadoDisposicion = factory(EstadoDisposicion::class)->make()->toArray();
-
-        $rules = (new UpdateEstadoDisposicionRequest())->rules();
-        $validator = Validator::make($fakeEstadoDisposicion, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoEstadoDisposicion = $this->estadoDisposicionRepo->update($fakeEstadoDisposicion, $estadoDisposicion->id);
-
+        $fakeEstadoDisposicion = factory(EstadoDisposicion::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('parametros.estadosDisposicion.update', $estadoDisposicion->id);
+        $response = $this->patch($url,$fakeEstadoDisposicion); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoEstadoDisposicion = EstadoDisposicion::find($estadoDisposicion->id);
         $this->assertModelData($fakeEstadoDisposicion, $objetoEstadoDisposicion->toArray(),'El modelo no quedó con los datos editados.');
-        $dbEstadoDisposicion = $this->estadoDisposicionRepo->find($estadoDisposicion->id);
-        $this->assertModelData($fakeEstadoDisposicion, $dbEstadoDisposicion->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $estadoDisposicion = factory(EstadoDisposicion::class)->create(); 
+        $url = route('parametros.estadosDisposicion.update', $estadoDisposicion->id);
+        $response = $this->patch($url, $fakeEstadoDisposicion); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class EstadoDisposicionRepositoryTest extends TestCase
     public function test_eliminar_estado_disposicion()
     {
         $estadoDisposicion = factory(EstadoDisposicion::class)->create();
-
         $resp = $this->estadoDisposicionRepo->delete($estadoDisposicion->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(EstadoDisposicion::find($estadoDisposicion->id), 'El modelo no debe existir en BD.');
     }
 }

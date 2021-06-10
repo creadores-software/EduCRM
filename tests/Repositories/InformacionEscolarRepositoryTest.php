@@ -2,15 +2,14 @@
 
 use App\Models\Contactos\InformacionEscolar;
 use App\Repositories\Contactos\InformacionEscolarRepository;
-use App\Http\Requests\Contactos\CreateInformacionEscolarRequest;
-use App\Http\Requests\Contactos\UpdateInformacionEscolarRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
 class InformacionEscolarRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+    use WithoutMiddleware;
 
     /**
      * @var InformacionEscolarRepository
@@ -30,21 +29,26 @@ class InformacionEscolarRepositoryTest extends TestCase
     {
         $informacionEscolar = factory(InformacionEscolar::class)->make()->toArray();
 
-        $rules = (new CreateInformacionEscolarRequest())->rules();
-        $validator = Validator::make($informacionEscolar, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoInformacionEscolar = $this->informacionEscolarRepo->create($informacionEscolar);
-        $objetoInformacionEscolar = $objetoInformacionEscolar->toArray();
-
-        $this->assertArrayHasKey('id', $objetoInformacionEscolar, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoInformacionEscolar['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(InformacionEscolar::find($objetoInformacionEscolar['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($informacionEscolar, $objetoInformacionEscolar,'El modelo guardado no coincide con el creado.');        
+        //Se intenta registrar y no debe generar ninguna excepción
+        $url=route('contactos.informacionesEscolares.store');
+        $response = $this->post($url, $informacionEscolar); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //Valida después de creado con los mismos datos (repetido)
-        $validator = Validator::make($informacionEscolar, $rules);
-        $this->assertEquals(true, $validator->fails(),'El modelo no valida objetos repetidos.');
+        //El último objeto corresponde con el creado
+        $objetoInformacionEscolar = InformacionEscolar::latest()->first()->toArray();
+        $this->assertModelData($informacionEscolar, $objetoInformacionEscolar,'El modelo guardado no coincide con el creado.');                
+        
+        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        $response = $this->post($url, $informacionEscolar); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -53,9 +57,7 @@ class InformacionEscolarRepositoryTest extends TestCase
     public function test_consultar_informacion_escolar()
     {
         $informacionEscolar = factory(InformacionEscolar::class)->create();
-
         $dbInformacionEscolar = $this->informacionEscolarRepo->find($informacionEscolar->id);
-
         $dbInformacionEscolar = $dbInformacionEscolar->toArray();
         $this->assertModelData($informacionEscolar->toArray(), $dbInformacionEscolar);
     }
@@ -65,18 +67,32 @@ class InformacionEscolarRepositoryTest extends TestCase
      */
     public function test_editar_informacion_escolar()
     {
+        //Se crea un objeto y se generan datos para edición  
         $informacionEscolar = factory(InformacionEscolar::class)->create();
-        $fakeInformacionEscolar = factory(InformacionEscolar::class)->make()->toArray();
-
-        $rules = (new UpdateInformacionEscolarRequest())->rules();
-        $validator = Validator::make($fakeInformacionEscolar, $rules);
-        $this->assertEquals(false, $validator->fails(),'El modelo no pasó la validación de las reglas.');
-
-        $objetoInformacionEscolar = $this->informacionEscolarRepo->update($fakeInformacionEscolar, $informacionEscolar->id);
-
+        $fakeInformacionEscolar = factory(InformacionEscolar::class)->make()->toArray();  
+        
+        //Se intenta editar y no debe generar ninguna excepción
+        $url = route('contactos.informacionesEscolares.update', $informacionEscolar->id);
+        $response = $this->patch($url,$fakeInformacionEscolar); 
+        $excepcion=null; 
+        if(is_object($response->exception)){
+            $excepcion=$response->exception->getMessage();
+        }
+        $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
+        
+        //El modelo actual debe tener los datos que se enviaron para edición
+        $objetoInformacionEscolar = InformacionEscolar::find($informacionEscolar->id);
         $this->assertModelData($fakeInformacionEscolar, $objetoInformacionEscolar->toArray(),'El modelo no quedó con los datos editados.');
-        $dbInformacionEscolar = $this->informacionEscolarRepo->find($informacionEscolar->id);
-        $this->assertModelData($fakeInformacionEscolar, $dbInformacionEscolar->toArray(),'La edición no tuvo efectos en la BD.');
+        
+        //Se crea una nueva entidad y se trata de poner la misma información
+        $informacionEscolar = factory(InformacionEscolar::class)->create(); 
+        $url = route('contactos.informacionesEscolares.update', $informacionEscolar->id);
+        $response = $this->patch($url, $fakeInformacionEscolar); 
+        $status=200; 
+        if(is_object($response->exception)){
+            $status=$response->exception->status;
+        }       
+        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
     }
 
     /**
@@ -85,10 +101,7 @@ class InformacionEscolarRepositoryTest extends TestCase
     public function test_eliminar_informacion_escolar()
     {
         $informacionEscolar = factory(InformacionEscolar::class)->create();
-
         $resp = $this->informacionEscolarRepo->delete($informacionEscolar->id);
-
-        $this->assertTrue($resp,'El proceso de eliminación no fue exitoso.');
         $this->assertNull(InformacionEscolar::find($informacionEscolar->id), 'El modelo no debe existir en BD.');
     }
 }
