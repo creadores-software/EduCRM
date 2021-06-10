@@ -37,6 +37,7 @@ class UpdateCampaniaRequest extends FormRequest
             Rule::unique('campania')
                 ->ignore($this->id)
                 ->where('periodo_academico_id', $this->periodo_academico_id)
+                ->where('nombre', $this->nombre)
         ];
         return $rules;
     }
