@@ -40,7 +40,7 @@ $factory->define(Oportunidad::class, function (Faker $faker) {
         },
         'ingreso_recibido' => $faker->randomNumber,
         'ingreso_proyectado' => $faker->randomNumber,
-        'adicion_manual' => $faker->boolean,
+        'adicion_manual' => 1,
         'ultima_actualizacion' => $faker->date('Y-m-d H:i:s'),
         'ultima_interaccion' => $faker->date('Y-m-d H:i:s')
     ];
