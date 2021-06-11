@@ -28,7 +28,9 @@ class InteraccionRepositoryTest extends TestCase
     public function test_crear_interaccion()
     {
         $interaccion = factory(Interaccion::class)->make()->toArray();
-
+        //Para datetime se debe formatear para que no presente dificultad
+        $interaccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($interaccion['fecha_inicio']));
+        $interaccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($interaccion['fecha_fin']));
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.interacciones.store');
         $response = $this->post($url, $interaccion); 
@@ -36,10 +38,13 @@ class InteraccionRepositoryTest extends TestCase
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
         }
-        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
+        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');        
         
         //El último objeto corresponde con el creado
-        $objetoInteraccion = Interaccion::latest()->first()->toArray();
+        $objetoInteraccion = Interaccion::latest()->first()->toArray();  
+        //Para datetime se debe formatear para que no presente dificultad 
+        $objetoInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_inicio']));
+        $objetoInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_fin']));     
         $this->assertModelData($interaccion, $objetoInteraccion,'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
@@ -68,8 +73,11 @@ class InteraccionRepositoryTest extends TestCase
     public function test_editar_interaccion()
     {
         //Se crea un objeto y se generan datos para edición  
-        $interaccion = factory(Interaccion::class)->create();
-        $fakeInteraccion = factory(Interaccion::class)->make()->toArray();  
+        $interaccion = factory(Interaccion::class)->create();        
+        $fakeInteraccion = factory(Interaccion::class)->make()->toArray();   
+        //Para datetime se debe formatear para que no presente dificultad  
+        $fakeInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($fakeInteraccion['fecha_inicio']));
+        $fakeInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($fakeInteraccion['fecha_fin']));  
         
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.interacciones.update', $interaccion->id);
@@ -81,18 +89,11 @@ class InteraccionRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         
         //El modelo actual debe tener los datos que se enviaron para edición
-        $objetoInteraccion = Interaccion::find($interaccion->id);
-        $this->assertModelData($fakeInteraccion, $objetoInteraccion->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $interaccion = factory(Interaccion::class)->create(); 
-        $url = route('campanias.interacciones.update', $interaccion->id);
-        $response = $this->patch($url, $fakeInteraccion); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $objetoInteraccion = Interaccion::find($interaccion->id)->toArray();
+        //Para datetime se debe formatear para que no presente dificultad
+        $objetoInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_inicio']));
+        $objetoInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_fin']));
+        $this->assertModelData($fakeInteraccion, $objetoInteraccion,'El modelo no quedó con los datos editados.');
     }
 
     /**

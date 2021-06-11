@@ -11,11 +11,11 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Interaccion::class, function (Faker $faker) {
-    $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-10 days', '-5 minutes')->getTimestamp());
+    $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-1 days', 'now')->getTimestamp());
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMinutes($faker->numberBetween(0,5));
     return [
-        'fecha_inicio' => $inicio->format('Y-m-d H:i:s'),
-        'fecha_fin' => $fin->format('Y-m-d H:i:s'),
+        'fecha_inicio' => $inicio,
+        'fecha_fin' => $fin,
         'tipo_interaccion_id' => function () {
             return factory(TipoInteraccion::class)->create()->id;
         },
