@@ -4,6 +4,7 @@ namespace App\Http\Requests\Contactos;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Contactos\Segmento;
+use Illuminate\Validation\Rule;
 
 class CreateSegmentoRequest extends FormRequest
 {
@@ -25,6 +26,15 @@ class CreateSegmentoRequest extends FormRequest
      */
     public function rules()
     {
-        return Segmento::$rules;
+        $rules= Segmento::$rules;
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:100',
+            Rule::unique('segmento')
+                ->where('usuario_id', $this->usuario_id)
+                ->ignore($this->id)
+        ];
+        return $rules;
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Tests\Repositories;
 
+use App\Models\Admin\User;
 use App\Models\Contactos\Segmento;
 use App\Repositories\Contactos\SegmentoRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +32,7 @@ class SegmentoRepositoryTest extends TestCase
 
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.segmentos.store');
-        $response = $this->post($url, $segmento); 
+        $response = $this->actingAs(User::find($segmento['usuario_id']))->post($url, $segmento); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();

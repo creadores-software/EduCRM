@@ -84,7 +84,6 @@ class SegmentoController extends AppBaseController
     public function store(CreateSegmentoRequest $request)
     {
         $input=$this->procesarRequest($request);
-        $input['usuario_id'] = Auth::user()->id;
         
         $segmento = $this->segmentoRepository->create($input);
         $mensaje=__('messages.saved', ['model' => __('models/segmentos.singular')]);

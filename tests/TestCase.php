@@ -20,8 +20,7 @@ abstract class TestCase extends BaseTestCase
             if(!array_key_exists($key,$expectedData)){
                 continue;    
             }
-            $this->assertEquals($actualData[$key], $expectedData[$key],
-            "No coincide el campo {$key}. Esperado: {$actualData[$key]}. Recibido: {$expectedData[$key]}");            
+            $this->assertEquals($actualData[$key], $expectedData[$key],"No coincide el campo {$key}");            
         }
     }
 }

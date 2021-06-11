@@ -2,6 +2,8 @@
 <div class="form-group col-sm-6 required">
     {!! Form::label('nombre', __('models/segmentos.fields.nombre')) !!}
     {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+    {!! Form::hidden('id', old('id', $segmento->id ?? '')) !!}
+    {!! Form::hidden('usuario_id', old('usuario_id', Auth::user()->id ?? '')) !!}
 </div>
 
 <!-- Descripcion Field -->
