@@ -1,7 +1,6 @@
 <?php
 
 namespace Tests;
-
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -21,7 +20,8 @@ abstract class TestCase extends BaseTestCase
             if(!array_key_exists($key,$expectedData)){
                 continue;    
             }
-            $this->assertEquals($actualData[$key], $expectedData[$key]);            
+            $this->assertEquals($actualData[$key], $expectedData[$key],
+            "No coincide el campo {$key}. Esperado: {$actualData[$key]}. Recibido: {$expectedData[$key]}");            
         }
     }
 }
