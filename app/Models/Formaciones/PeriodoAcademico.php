@@ -42,8 +42,8 @@ class PeriodoAcademico extends Model implements Recordable
     protected $casts = [
         'id' => 'integer',
         'nombre' => 'string',
-        'fecha_inicio' => 'date',
-        'fecha_fin' => 'date'
+        'fecha_inicio' => 'date:Y-m-d',
+        'fecha_fin' => 'date:Y-m-d'
     ];
 
     /**

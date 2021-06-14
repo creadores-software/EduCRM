@@ -14,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     public function assertModelData(Array $actualData, Array $expectedData)
     {
         foreach ($actualData as $key => $value) {
-            if (in_array($key, ['created_at', 'updated_at'])) {
+            if (in_array($key, ['created_at', 'updated_at','password','email_verified_at'])) {
                 continue;
             }
             if(!array_key_exists($key,$expectedData)){

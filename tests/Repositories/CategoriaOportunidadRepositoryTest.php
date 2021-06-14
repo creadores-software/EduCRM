@@ -73,6 +73,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
+        $fakeCategoriaOportunidad['testRepository']=true;
         $response = $this->patch($url,$fakeCategoriaOportunidad); 
         $excepcion=null; 
         if(is_object($response->exception)){

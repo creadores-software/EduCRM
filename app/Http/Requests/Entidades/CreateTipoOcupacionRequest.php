@@ -29,7 +29,7 @@ class CreateTipoOcupacionRequest extends FormRequest
         $rules['nombre'] = [
             'required',
             'string',
-            'max:45',
+            'max:150',
             'iunique:tipo_ocupacion,nombre,'.$this->request->get('id'),
         ];
         return $rules;

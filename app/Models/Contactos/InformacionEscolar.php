@@ -55,9 +55,9 @@ class InformacionEscolar extends Model implements Recordable
         'entidad_id' => 'integer',
         'nivel_formacion_id' => 'integer',
         'finalizado' => 'boolean',
-        'fecha_inicio' => 'date',
-        'fecha_grado' => 'date',
-        'fecha_icfes' => 'date',
+        'fecha_inicio' => 'date:Y-m-d',
+        'fecha_grado' => 'date:Y-m-d',
+        'fecha_icfes' => 'date:Y-m-d',
         'puntaje_icfes' => 'integer',
         'grado' => 'integer'
     ];

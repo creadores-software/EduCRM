@@ -31,7 +31,6 @@ class OportunidadRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad
         $oportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($oportunidad['ultima_actualizacion']));
         $oportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($oportunidad['ultima_interaccion']));
-        //dd($oportunidad);
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.oportunidades.store');
         $response = $this->post($url, $oportunidad); 

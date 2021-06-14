@@ -102,7 +102,7 @@ class Contacto extends Model implements Recordable
         'prefijo_id' => 'integer',
         'nombres' => 'string',
         'apellidos' => 'string',
-        'fecha_nacimiento' => 'date',
+        'fecha_nacimiento' => 'date:Y-m-d',
         'genero_id' => 'integer',
         'estado_civil_id' => 'integer',
         'celular' => 'string',

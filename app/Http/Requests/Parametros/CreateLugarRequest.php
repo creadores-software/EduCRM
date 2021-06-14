@@ -4,6 +4,7 @@ namespace App\Http\Requests\Parametros;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Parametros\Lugar;
+use Illuminate\Validation\Rule;
 
 class CreateLugarRequest extends FormRequest
 {
@@ -25,6 +26,21 @@ class CreateLugarRequest extends FormRequest
      */
     public function rules()
     {
-        return Lugar::$rules;
+        $rules= Lugar::$rules;
+        if($this->request->get('tipo')!='P'){
+            $rules['padre_id'] = [
+                'required',
+                'integer',
+            ];
+        }
+        $rules['nombre'] = [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('lugar')
+                ->ignore($this->id)
+                ->where('padre_id', $this->padre_id)
+        ];
+        return $rules;
     }
 }

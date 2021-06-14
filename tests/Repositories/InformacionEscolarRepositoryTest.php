@@ -28,7 +28,7 @@ class InformacionEscolarRepositoryTest extends TestCase
     public function test_crear_informacion_escolar()
     {
         $informacionEscolar = factory(InformacionEscolar::class)->make()->toArray();
-
+              
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.informacionesEscolares.store');
         $response = $this->post($url, $informacionEscolar); 
@@ -37,9 +37,9 @@ class InformacionEscolarRepositoryTest extends TestCase
             $excepcion=$response->exception->getMessage();
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
-        
+
         //El último objeto corresponde con el creado
-        $objetoInformacionEscolar = InformacionEscolar::latest()->first()->toArray();
+        $objetoInformacionEscolar = InformacionEscolar::latest()->first()->toArray();  
         $this->assertModelData($informacionEscolar, $objetoInformacionEscolar,'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
