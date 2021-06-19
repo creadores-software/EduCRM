@@ -89,6 +89,7 @@
             locale: 'es',
         }).on('dp.change', function(e) {
             $('#fecha_grado').data("DateTimePicker").minDate(e.date);
+            $('#fecha_icfes').data("DateTimePicker").minDate(e.date);
         });
         $('#fecha_grado').datetimepicker({
             format: 'YYYY-MM-DD',

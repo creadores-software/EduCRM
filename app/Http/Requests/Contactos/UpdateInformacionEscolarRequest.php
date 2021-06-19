@@ -39,6 +39,10 @@ class UpdateInformacionEscolarRequest extends FormRequest
         if($this->request->get('fecha_grado')){
             $rules['fecha_grado'][] = 'after:fecha_inicio';                
         }
+        $rules['fecha_icfes'] = ['nullable'];
+        if($this->request->get('fecha_icfes')){
+            $rules['fecha_icfes'][] = 'after:fecha_inicio';                
+        }
         return $rules;
     }
 }
