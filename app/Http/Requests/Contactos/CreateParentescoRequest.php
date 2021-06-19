@@ -37,6 +37,7 @@ class CreateParentescoRequest extends FormRequest
             'required',
             'integer',
             Rule::unique('parentesco')
+                ->ignore($this->id)
                 ->where('contacto_origen', $this->contacto_origen)
         ];
         return $rules;

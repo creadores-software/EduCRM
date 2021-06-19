@@ -31,6 +31,7 @@ class CreateInformacionUniversitariaRequest extends FormRequest
             'required',
             'integer',
             Rule::unique('informacion_universitaria')
+                ->ignore($this->id)
                 ->where('contacto_id', $this->contacto_id)
         ];
         $rules['fecha_grado'] = ['nullable'];
