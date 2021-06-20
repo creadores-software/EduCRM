@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Categoría Oportunidad',
-  'plural' => 'Categorías Oportunidad',
+  'singular' => 'Categoría de Oportunidad',
+  'plural' => 'Categorías de Oportunidad',
   'fields' => 
   array (
     'id' => 'Id',

@@ -1,12 +1,12 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Interacción Estados',
-  'plural' => 'Tipos Interacción Estados',
+  'singular' => 'Estado en Tipo de Interacción',
+  'plural' => 'Estados en Tipos de Interacción',
   'fields' => 
   array (
     'id' => 'Id',
-    'tipo_interaccion_id' => 'Tipo Interacción',
-    'estado_interaccion_id' => 'Estado Interacción',
+    'tipo_interaccion_id' => 'Tipo de Interacción',
+    'estado_interaccion_id' => 'Estado de Interacción',
   ),
 );

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estatus Lealtad',
-  'plural' => 'Estatus Lealtad',
+  'singular' => 'Estatus de Lealtad',
+  'plural' => 'Estatus de Lealtad',
   'fields' => 
   array (
     'id' => 'Id',

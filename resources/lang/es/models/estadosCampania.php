@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estado Campaña',
-  'plural' => 'Estados Campaña',
+  'singular' => 'Estado de Campaña',
+  'plural' => 'Estados de Campaña',
   'fields' => 
   array (
     'id' => 'Id',

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Equipo Mercadeo',
-  'plural' => 'Equipos Mercadeo',
+  'singular' => 'Equipo de Mercadeo',
+  'plural' => 'Equipos de Mercadeo',
   'fields' => 
   array (
     'id' => 'Id',

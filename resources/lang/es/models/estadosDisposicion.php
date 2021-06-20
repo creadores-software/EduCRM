@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estado Disposición',
-  'plural' => 'Estados Disposición',
+  'singular' => 'Estado de Disposición',
+  'plural' => 'Estados de Disposición',
   'fields' => 
   array (
     'id' => 'Id',

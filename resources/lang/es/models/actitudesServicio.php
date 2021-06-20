@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Actitud Servicio',
-  'plural' => 'Actitudes Servicio',
+  'singular' => 'Actitud al Servicio',
+  'plural' => 'Actitudes al Servicio',
   'fields' => 
   array (
     'id' => 'Id',

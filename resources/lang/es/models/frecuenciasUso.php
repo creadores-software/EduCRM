@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Frecuencia Uso',
-  'plural' => 'Frecuencias Uso',
+  'singular' => 'Frecuencia de Uso',
+  'plural' => 'Frecuencias de Uso',
   'fields' => 
   array (
     'id' => 'Id',

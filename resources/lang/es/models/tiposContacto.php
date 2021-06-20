@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Contacto',
-  'plural' => 'Tipos Contacto',
+  'singular' => 'Tipo de Contacto',
+  'plural' => 'Tipos de Contacto',
   'fields' => 
   array (
     'id' => 'Id',

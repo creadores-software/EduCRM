@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Medio Comunicación',
-  'plural' => 'Medios Comunicación',
+  'singular' => 'Medio de Comunicación',
+  'plural' => 'Medios de Comunicación',
   'fields' => 
   array (
     'id' => 'Id',

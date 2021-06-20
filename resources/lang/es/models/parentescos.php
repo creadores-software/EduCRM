@@ -8,7 +8,7 @@ return array (
     'id' => 'Id',
     'contacto_origen' => 'Contacto',
     'contacto_destino' => 'Pariente',
-    'tipo_parentesco_id' => 'Tipo Parentesco',
+    'tipo_parentesco_id' => 'Tipo de Parentesco',
     'acudiente' => 'Acudiente',
   ),
 );

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Interacción',
-  'plural' => 'Tipos Interacción',
+  'singular' => 'Tipo de Interacción',
+  'plural' => 'Tipos de Interacción',
   'fields' => 
   array (
     'id' => 'Id',

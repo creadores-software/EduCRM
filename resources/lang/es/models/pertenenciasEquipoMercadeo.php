@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Pertenencia Equipo Mercadeo',
-  'plural' => 'Pertenencia Equipo Mercadeo',
+  'singular' => 'Pertenencia Equipo de Mercadeo',
+  'plural' => 'Pertenencia Equipo de Mercadeo',
   'fields' => 
   array (
     'id' => 'Id',

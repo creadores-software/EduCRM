@@ -1,14 +1,14 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Campaña Estados',
-  'plural' => 'Tipos Campaña Estados',
+  'singular' => 'Estado en Tipo de Campaña',
+  'plural' => 'Estados en Tipo de Campaña',
   'fields' => 
   array (
     'id' => 'Id',
-    'tipo_campania_id' => 'Tipo Campaña',
-    'estado_campania_id' => 'Estado Campaña',
+    'tipo_campania_id' => 'Tipo de Campaña',
+    'estado_campania_id' => 'Estado de Campaña',
     'orden' => 'Orden',
-    'dias_cambio' => 'Dias Cambio',
+    'dias_cambio' => 'Dias de Cambio',
   ),
 );

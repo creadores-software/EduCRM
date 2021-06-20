@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Parentesco',
-  'plural' => 'Tipos Parentesco',
+  'singular' => 'Tipo de Parentesco',
+  'plural' => 'Tipos de Parentesco',
   'fields' => 
   array (
     'id' => 'Id',

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estatus Usuario',
-  'plural' => 'Estatus Usuario',
+  'singular' => 'Estatus de Usuario',
+  'plural' => 'Estatus de Usuario',
   'fields' => 
   array (
     'id' => 'Id',

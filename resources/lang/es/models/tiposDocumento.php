@@ -1,7 +1,7 @@
 <?php
 
 return array (
-    'singular' => 'Tipo Documento',
+    'singular' => 'Tipo de Documento',
     'plural' => 'Tipos de Documento',
     'fields' => 
     array (

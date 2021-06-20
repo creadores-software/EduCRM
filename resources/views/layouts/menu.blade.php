@@ -31,17 +31,12 @@
     <ul class="treeview-menu">
         <li id="campania-parametros" class="treeview opcion-menu opcion-menu-hijo">
             <a href="#"><i class="fa fa-circle-o"></i><span>Parámetros</span></a>
-            <ul class="treeview-menu">
-                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
-                <li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
-                </li> 
-                @endif
+            <ul class="treeview-menu">                
                 @if(strpos(Session::get('textoPermisos'), 'campanias.categoriasOportunidad.')!==false)
                 <li id="categoriasOportunidad" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('campanias.categoriasOportunidad.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/categoriasOportunidad.plural')</span></a>
+                    <a href="{{ route('campanias.categoriasOportunidad.index') }}"><i class="fa fa-circle-o"></i><span>Categorías de<br/>Oportunidad</span></a>
                 </li> 
-                @endif
+                @endif  
                 @if(strpos(Session::get('textoPermisos'), 'campanias.estadosCampania.')!==false)
                 <li id="estadosCampania" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.estadosCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosCampania.plural')</span></a>
@@ -51,12 +46,12 @@
                 <li id="estadosInteraccion" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.estadosInteraccion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/estadosInteraccion.plural')</span></a>
                 </li> 
-                @endif    
-                @if(strpos(Session::get('textoPermisos'), 'campanias.matricesGestion.')!==false)
-                <li id="matricesGestion" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('campanias.matricesGestion.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/matricesGestion.plural')</span></a>
+                @endif                    
+                @if(strpos(Session::get('textoPermisos'), 'campanias.tiposEstadoColor.')!==false)
+                <li id="tiposEstadoColor" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('campanias.tiposEstadoColor.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposEstadoColor.plural')</span></a>
                 </li> 
-                @endif               
+                @endif             
                 @if(strpos(Session::get('textoPermisos'), 'campanias.tiposCampania.')!==false)
                 <li id="tiposCampania" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('campanias.tiposCampania.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposCampania.plural')</span></a>
@@ -237,7 +232,7 @@
                 @endif
                 @if(strpos(Session::get('textoPermisos'), 'entidades.categoriasActividadEconomica.')!==false)
                 <li id="entidades-categorias-actividad-economica" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('entidades.categoriasActividadEconomica.index') }}"><i class="fa fa-circle-o"></i><span>Categorías Actividad<br>Económica</span></a>
+                    <a href="{{ route('entidades.categoriasActividadEconomica.index') }}"><i class="fa fa-circle-o"></i><span>Categorías de Actividad<br>Económica</span></a>
                 </li> 
                 @endif
                 @if(strpos(Session::get('textoPermisos'), 'entidades.ocupaciones.')!==false)
@@ -279,7 +274,7 @@
                 @endif
                 @if(strpos(Session::get('textoPermisos'), 'formaciones.categoriasCampoEducacion.')!==false)   
                 <li id="formaciones-categorias-campo-educacion" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('formaciones.categoriasCampoEducacion.index') }}"><i class="fa fa-circle-o"></i><span>Categorías Campo<br>Educación</span></a>
+                    <a href="{{ route('formaciones.categoriasCampoEducacion.index') }}"><i class="fa fa-circle-o"></i><span>Categorías de Campos<br>de Educación</span></a>
                 </li>
                 @endif
                 @if(strpos(Session::get('textoPermisos'), 'formaciones.facultades.')!==false)   

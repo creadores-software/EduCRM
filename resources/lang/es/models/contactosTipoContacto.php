@@ -6,7 +6,7 @@ return array (
   'fields' => 
   array (
     'id' => 'Id',
-    'tipo_contacto_id' => 'Tipo Contacto',
+    'tipo_contacto_id' => 'Tipo de Contacto',
     'contacto_id' => 'Contacto',
   ),
 );

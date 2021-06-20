@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estado Interacción',
-  'plural' => 'Estados Interacción',
+  'singular' => 'Estado de Interacción',
+  'plural' => 'Estados de Interacción',
   'fields' => 
   array (
     'id' => 'Id',

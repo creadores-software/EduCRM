@@ -7,6 +7,6 @@ return array (
   array (
     'id' => 'Id',
     'nombre' => 'Nombre',
-    'tipo_ocupacion_id' => 'Tipo Ocupación',
+    'tipo_ocupacion_id' => 'Tipo de Ocupación',
   ),
 );

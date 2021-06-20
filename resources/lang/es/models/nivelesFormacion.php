@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Nivel Formación',
-  'plural' => 'Niveles Formación',
+  'singular' => 'Nivel de Formación',
+  'plural' => 'Niveles de Formación',
   'fields' => 
   array (
     'id' => 'Id',

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Tipo Campaña',
-  'plural' => 'Tipos Campaña',
+  'singular' => 'Tipo de Campaña',
+  'plural' => 'Tipos de Campaña',
   'fields' => 
   array (
     'id' => 'Id',

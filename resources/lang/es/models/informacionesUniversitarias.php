@@ -14,7 +14,7 @@ return array (
     'fecha_grado' => 'Fecha Grado',
     'periodo_academico_inicial' => 'Periodo Académico Inicial',
     'periodo_academico_final' => 'Periodo Académico Final',
-    'tipo_acceso_id' => 'Tipo Acceso',
+    'tipo_acceso_id' => 'Tipo de Acceso',
     'finalizado' => 'Finalizado',
     'promedio' => 'Promedio',
     'periodo_alcanzado' => 'Periodo Alcanzado',

@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Estilo Vida',
-  'plural' => 'Estilos Vida',
+  'singular' => 'Estilo de Vida',
+  'plural' => 'Estilos de Vida',
   'fields' => 
   array (
     'id' => 'Id',
