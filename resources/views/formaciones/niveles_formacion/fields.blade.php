@@ -6,7 +6,7 @@
 </div>
 
 <!-- Nivel Academico Id Field -->
-<div class="form-group col-sm-6">
+<div class="form-group col-sm-6 required">
     {!! Form::label('nivel_academico_id', __('models/nivelesFormacion.fields.nivel_academico_id')) !!}
     <select name="nivel_academico_id" id="nivel_academico_id" class="form-control">
         <option></option>
