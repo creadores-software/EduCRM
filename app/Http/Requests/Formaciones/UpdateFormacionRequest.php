@@ -33,7 +33,14 @@ class UpdateFormacionRequest extends FormRequest
             'max:150',
             Rule::unique('formacion')
                 ->ignore($this->id)
+                ->where('entidad_id', $this->entidad_id)
                 ->where('codigo_snies', $this->codigo_snies)
+        ];
+        $rules['codigo_snies'] = [
+            'nullable',
+            'integer',
+            Rule::unique('formacion')
+                ->ignore($this->id)
         ];
         return $rules;
     }

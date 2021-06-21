@@ -106,9 +106,9 @@ class Formacion extends Model implements Recordable
         'modalidad_id' => 'nullable|integer',
         'jornada_id' => 'nullable|integer',
         'periodicidad_id' => 'nullable|integer',
-        'periodos_duracion' => 'nullable|integer',
+        'periodos_duracion' => 'nullable|integer|min:1',
         'reconocimiento_id' => 'nullable|integer',
-        'costo_matricula' => 'nullable|numeric',
+        'costo_matricula' => 'nullable|numeric|min:0',
         'activo' => 'nullable|boolean',
         'facultad_id' => 'nullable|integer'
     ];
