@@ -41,6 +41,13 @@ class UpdateEntidadRequest extends FormRequest
                 ->ignore($this->id)
                 ->where('lugar_id', $this->lugar_id)
         ];
+        $rules['nit'] = [
+            'nullable',
+            'string',
+            'max:45',
+            Rule::unique('entidad')
+                ->ignore($this->id)
+        ];
         return $rules;
     }
 }
