@@ -1,5 +1,6 @@
 <?php namespace Tests\Repositories;
 
+use App\Models\Contactos\Contacto;
 use App\Models\Contactos\InformacionRelacional;
 use App\Repositories\Contactos\InformacionRelacionalRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,19 +25,19 @@ class InformacionRelacionalRepositoryTest extends TestCase
 
     /**
      * @test crear
-     * Es diferente a los demás pues la creación se hace desde el modelo Contacto y no por controlador.
      */
     public function test_crear_informacion_relacional()
     {
-        $informacionRelacional = factory(InformacionRelacional::class)->make()->toArray();
+        $contacto = factory(Contacto::class)->make()->toArray();
 
-        $objetoInformacionRelacional = $this->informacionRelacionalRepo->create($informacionRelacional);
-        $objetoInformacionRelacional = $objetoInformacionRelacional->toArray();
+        //La creación del contacto debe crear un registro de información relacional con 
+        $url=route('contactos.contactos.store');
+        $this->post($url, $contacto); 
 
-        $this->assertArrayHasKey('id', $objetoInformacionRelacional, 'El modelo creado debe tener un id especificado.');
-        $this->assertNotNull($objetoInformacionRelacional['id'], 'El id del modelo no debe ser nulo.');
-        $this->assertNotNull(InformacionRelacional::find($objetoInformacionRelacional['id']), 'El modelo no quedó registrado en la BD.');
-        $this->assertModelData($informacionRelacional, $objetoInformacionRelacional,'El modelo guardado no coincide con el creado.');                
+        //El último objeto corresponde con el creado
+        $objetoInformacionRelacional = InformacionRelacional::latest()->first()->toArray();
+        $this->assertNotNull($objetoInformacionRelacional,'El modelo relacional no se creó junto al contacto.');                
+        
     }
 
     /**
@@ -47,7 +48,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
         $informacionRelacional = factory(InformacionRelacional::class)->create();
         $dbInformacionRelacional = $this->informacionRelacionalRepo->find($informacionRelacional->id);
         $dbInformacionRelacional = $dbInformacionRelacional->toArray();
-        $this->assertModelData($informacionRelacional->toArray(), $dbInformacionRelacional);
+        $this->assertTrue($this->sonDatosIguales($informacionRelacional->toArray(),$dbInformacionRelacional),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -70,7 +71,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoInformacionRelacional = InformacionRelacional::find($informacionRelacional->id);
-        $this->assertModelData($fakeInformacionRelacional, $objetoInformacionRelacional->toArray(),'El modelo no quedó con los datos editados.');
+        $this->assertTrue($this->sonDatosIguales($fakeInformacionRelacional, $objetoInformacionRelacional->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

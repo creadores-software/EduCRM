@@ -40,7 +40,7 @@ class RoleRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoRole = Role::latest()->first()->toArray();
-        $this->assertModelData($role, $objetoRole,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($role, $objetoRole),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $role); 
@@ -59,7 +59,7 @@ class RoleRepositoryTest extends TestCase
         $role = factory(Role::class)->create();
         $dbRole = $this->roleRepo->find($role->id);
         $dbRole = $dbRole->toArray();
-        $this->assertModelData($role->toArray(), $dbRole);
+        $this->assertTrue($this->sonDatosIguales($role->toArray(),$dbRole),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class RoleRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoRole = Role::find($role->id);
-        $this->assertModelData($fakeRole, $objetoRole->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $role = factory(Role::class)->create(); 
-        $url = route('admin.roles.update', $role->id);
-        $response = $this->patch($url, $fakeRole); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeRole, $objetoRole->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

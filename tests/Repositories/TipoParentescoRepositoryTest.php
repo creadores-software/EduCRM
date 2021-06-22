@@ -40,7 +40,7 @@ class TipoParentescoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoParentesco = TipoParentesco::latest()->first()->toArray();
-        $this->assertModelData($tipoParentesco, $objetoTipoParentesco,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoParentesco, $objetoTipoParentesco),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoParentesco); 
@@ -59,7 +59,7 @@ class TipoParentescoRepositoryTest extends TestCase
         $tipoParentesco = factory(TipoParentesco::class)->create();
         $dbTipoParentesco = $this->tipoParentescoRepo->find($tipoParentesco->id);
         $dbTipoParentesco = $dbTipoParentesco->toArray();
-        $this->assertModelData($tipoParentesco->toArray(), $dbTipoParentesco);
+        $this->assertTrue($this->sonDatosIguales($tipoParentesco->toArray(),$dbTipoParentesco),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoParentescoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoParentesco = TipoParentesco::find($tipoParentesco->id);
-        $this->assertModelData($fakeTipoParentesco, $objetoTipoParentesco->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoParentesco = factory(TipoParentesco::class)->create(); 
-        $url = route('parametros.tiposParentesco.update', $tipoParentesco->id);
-        $response = $this->patch($url, $fakeTipoParentesco); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoParentesco, $objetoTipoParentesco->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

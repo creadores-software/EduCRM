@@ -43,7 +43,7 @@ class UserRepositoryTest extends TestCase
         //El último objeto corresponde con el creado
         $objetoUser = User::latest()->first()->toArray();
         $objetoUser['password']=$password;
-        $this->assertModelData($user, $objetoUser,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($user, $objetoUser),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $user); 
@@ -65,7 +65,7 @@ class UserRepositoryTest extends TestCase
         $user = User::create($user);        
         $dbUser = $this->userRepo->find($user->id);
         $dbUser = $dbUser->toArray();
-        $this->assertModelData($user->toArray(), $dbUser);
+        $this->assertTrue($this->sonDatosIguales($user->toArray(), $dbUser),'El modulo consultado no coincide con el creado');
     }
 
     /**
@@ -91,7 +91,7 @@ class UserRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoUser = User::find($user->id);
-        $this->assertModelData($fakeUser, $objetoUser->toArray(),'El modelo no quedó con los datos editados.');
+        $this->assertTrue($this->sonDatosIguales($fakeUser, $objetoUser->toArray()),'El modelo no quedó con los datos editados.');
         
         //Se crea una nueva entidad y se trata de poner la misma información
         $user = factory(User::class)->make()->toArray();

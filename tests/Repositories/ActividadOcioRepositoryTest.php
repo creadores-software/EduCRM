@@ -40,7 +40,7 @@ class ActividadOcioRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoActividadOcio = ActividadOcio::latest()->first()->toArray();
-        $this->assertModelData($actividadOcio, $objetoActividadOcio,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($actividadOcio, $objetoActividadOcio),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $actividadOcio); 
@@ -59,7 +59,7 @@ class ActividadOcioRepositoryTest extends TestCase
         $actividadOcio = factory(ActividadOcio::class)->create();
         $dbActividadOcio = $this->actividadOcioRepo->find($actividadOcio->id);
         $dbActividadOcio = $dbActividadOcio->toArray();
-        $this->assertModelData($actividadOcio->toArray(), $dbActividadOcio);
+        $this->assertTrue($this->sonDatosIguales($actividadOcio->toArray(),$dbActividadOcio),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ActividadOcioRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoActividadOcio = ActividadOcio::find($actividadOcio->id);
-        $this->assertModelData($fakeActividadOcio, $objetoActividadOcio->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $actividadOcio = factory(ActividadOcio::class)->create(); 
-        $url = route('parametros.actividadesOcio.update', $actividadOcio->id);
-        $response = $this->patch($url, $fakeActividadOcio); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeActividadOcio, $objetoActividadOcio->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

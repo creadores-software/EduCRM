@@ -40,7 +40,7 @@ class PersonalidadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoPersonalidad = Personalidad::latest()->first()->toArray();
-        $this->assertModelData($personalidad, $objetoPersonalidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($personalidad, $objetoPersonalidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $personalidad); 
@@ -59,7 +59,7 @@ class PersonalidadRepositoryTest extends TestCase
         $personalidad = factory(Personalidad::class)->create();
         $dbPersonalidad = $this->personalidadRepo->find($personalidad->id);
         $dbPersonalidad = $dbPersonalidad->toArray();
-        $this->assertModelData($personalidad->toArray(), $dbPersonalidad);
+        $this->assertTrue($this->sonDatosIguales($personalidad->toArray(),$dbPersonalidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class PersonalidadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoPersonalidad = Personalidad::find($personalidad->id);
-        $this->assertModelData($fakePersonalidad, $objetoPersonalidad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $personalidad = factory(Personalidad::class)->create(); 
-        $url = route('parametros.personalidades.update', $personalidad->id);
-        $response = $this->patch($url, $fakePersonalidad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakePersonalidad, $objetoPersonalidad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

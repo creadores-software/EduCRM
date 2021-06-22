@@ -40,7 +40,7 @@ class TipoInteraccionRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoInteraccion = TipoInteraccion::latest()->first()->toArray();
-        $this->assertModelData($tipoInteraccion, $objetoTipoInteraccion,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoInteraccion, $objetoTipoInteraccion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoInteraccion); 
@@ -59,7 +59,7 @@ class TipoInteraccionRepositoryTest extends TestCase
         $tipoInteraccion = factory(TipoInteraccion::class)->create();
         $dbTipoInteraccion = $this->tipoInteraccionRepo->find($tipoInteraccion->id);
         $dbTipoInteraccion = $dbTipoInteraccion->toArray();
-        $this->assertModelData($tipoInteraccion->toArray(), $dbTipoInteraccion);
+        $this->assertTrue($this->sonDatosIguales($tipoInteraccion->toArray(),$dbTipoInteraccion),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoInteraccionRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoInteraccion = TipoInteraccion::find($tipoInteraccion->id);
-        $this->assertModelData($fakeTipoInteraccion, $objetoTipoInteraccion->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoInteraccion = factory(TipoInteraccion::class)->create(); 
-        $url = route('campanias.tiposInteraccion.update', $tipoInteraccion->id);
-        $response = $this->patch($url, $fakeTipoInteraccion); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoInteraccion, $objetoTipoInteraccion->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

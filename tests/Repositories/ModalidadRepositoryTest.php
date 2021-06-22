@@ -40,7 +40,7 @@ class ModalidadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoModalidad = Modalidad::latest()->first()->toArray();
-        $this->assertModelData($modalidad, $objetoModalidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($modalidad, $objetoModalidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $modalidad); 
@@ -59,7 +59,7 @@ class ModalidadRepositoryTest extends TestCase
         $modalidad = factory(Modalidad::class)->create();
         $dbModalidad = $this->modalidadRepo->find($modalidad->id);
         $dbModalidad = $dbModalidad->toArray();
-        $this->assertModelData($modalidad->toArray(), $dbModalidad);
+        $this->assertTrue($this->sonDatosIguales($modalidad->toArray(),$dbModalidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ModalidadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoModalidad = Modalidad::find($modalidad->id);
-        $this->assertModelData($fakeModalidad, $objetoModalidad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $modalidad = factory(Modalidad::class)->create(); 
-        $url = route('formaciones.modalidades.update', $modalidad->id);
-        $response = $this->patch($url, $fakeModalidad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeModalidad, $objetoModalidad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

@@ -40,7 +40,7 @@ class EquipoMercadeoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoEquipoMercadeo = EquipoMercadeo::latest()->first()->toArray();
-        $this->assertModelData($equipoMercadeo, $objetoEquipoMercadeo,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($equipoMercadeo, $objetoEquipoMercadeo),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $equipoMercadeo); 
@@ -59,7 +59,7 @@ class EquipoMercadeoRepositoryTest extends TestCase
         $equipoMercadeo = factory(EquipoMercadeo::class)->create();
         $dbEquipoMercadeo = $this->equipoMercadeoRepo->find($equipoMercadeo->id);
         $dbEquipoMercadeo = $dbEquipoMercadeo->toArray();
-        $this->assertModelData($equipoMercadeo->toArray(), $dbEquipoMercadeo);
+        $this->assertTrue($this->sonDatosIguales($equipoMercadeo->toArray(),$dbEquipoMercadeo),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class EquipoMercadeoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoEquipoMercadeo = EquipoMercadeo::find($equipoMercadeo->id);
-        $this->assertModelData($fakeEquipoMercadeo, $objetoEquipoMercadeo->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $equipoMercadeo = factory(EquipoMercadeo::class)->create(); 
-        $url = route('admin.equiposMercadeo.update', $equipoMercadeo->id);
-        $response = $this->patch($url, $fakeEquipoMercadeo); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeEquipoMercadeo, $objetoEquipoMercadeo->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

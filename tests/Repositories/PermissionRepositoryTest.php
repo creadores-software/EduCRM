@@ -40,7 +40,7 @@ class PermissionRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoPermission = Permission::latest()->first()->toArray();
-        $this->assertModelData($permission, $objetoPermission,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($permission, $objetoPermission),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $permission); 
@@ -59,7 +59,7 @@ class PermissionRepositoryTest extends TestCase
         $permission = factory(Permission::class)->create();
         $dbPermission = $this->permissionRepo->find($permission->id);
         $dbPermission = $dbPermission->toArray();
-        $this->assertModelData($permission->toArray(), $dbPermission);
+        $this->assertTrue($this->sonDatosIguales($permission->toArray(),$dbPermission),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class PermissionRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoPermission = Permission::find($permission->id);
-        $this->assertModelData($fakePermission, $objetoPermission->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $permission = factory(Permission::class)->create(); 
-        $url = route('admin.permissions.update', $permission->id);
-        $response = $this->patch($url, $fakePermission); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakePermission, $objetoPermission->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

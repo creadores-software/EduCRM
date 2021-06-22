@@ -45,7 +45,7 @@ class InteraccionRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad 
         $objetoInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_inicio']));
         $objetoInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_fin']));     
-        $this->assertModelData($interaccion, $objetoInteraccion,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($interaccion, $objetoInteraccion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $interaccion); 
@@ -64,7 +64,7 @@ class InteraccionRepositoryTest extends TestCase
         $interaccion = factory(Interaccion::class)->create();
         $dbInteraccion = $this->interaccionRepo->find($interaccion->id);
         $dbInteraccion = $dbInteraccion->toArray();
-        $this->assertModelData($interaccion->toArray(), $dbInteraccion);
+        $this->assertTrue($this->sonDatosIguales($interaccion->toArray(), $dbInteraccion),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -93,7 +93,7 @@ class InteraccionRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad
         $objetoInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_inicio']));
         $objetoInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_fin']));
-        $this->assertModelData($fakeInteraccion, $objetoInteraccion,'El modelo no quedó con los datos editados.');
+        $this->assertTrue($this->sonDatosIguales($fakeInteraccion, $objetoInteraccion),'El modelo no quedó con los datos editados.');
     }
 
     /**

@@ -40,7 +40,7 @@ class EstadoCivilRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoEstadoCivil = EstadoCivil::latest()->first()->toArray();
-        $this->assertModelData($estadoCivil, $objetoEstadoCivil,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($estadoCivil, $objetoEstadoCivil),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $estadoCivil); 
@@ -59,7 +59,7 @@ class EstadoCivilRepositoryTest extends TestCase
         $estadoCivil = factory(EstadoCivil::class)->create();
         $dbEstadoCivil = $this->estadoCivilRepo->find($estadoCivil->id);
         $dbEstadoCivil = $dbEstadoCivil->toArray();
-        $this->assertModelData($estadoCivil->toArray(), $dbEstadoCivil);
+        $this->assertTrue($this->sonDatosIguales($estadoCivil->toArray(),$dbEstadoCivil),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class EstadoCivilRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoEstadoCivil = EstadoCivil::find($estadoCivil->id);
-        $this->assertModelData($fakeEstadoCivil, $objetoEstadoCivil->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $estadoCivil = factory(EstadoCivil::class)->create(); 
-        $url = route('parametros.estadosCiviles.update', $estadoCivil->id);
-        $response = $this->patch($url, $fakeEstadoCivil); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeEstadoCivil, $objetoEstadoCivil->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

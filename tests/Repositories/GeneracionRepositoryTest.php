@@ -40,7 +40,7 @@ class GeneracionRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoGeneracion = Generacion::latest()->first()->toArray();
-        $this->assertModelData($generacion, $objetoGeneracion,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($generacion, $objetoGeneracion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $generacion); 
@@ -59,7 +59,7 @@ class GeneracionRepositoryTest extends TestCase
         $generacion = factory(Generacion::class)->create();
         $dbGeneracion = $this->generacionRepo->find($generacion->id);
         $dbGeneracion = $dbGeneracion->toArray();
-        $this->assertModelData($generacion->toArray(), $dbGeneracion);
+        $this->assertTrue($this->sonDatosIguales($generacion->toArray(),$dbGeneracion),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class GeneracionRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoGeneracion = Generacion::find($generacion->id);
-        $this->assertModelData($fakeGeneracion, $objetoGeneracion->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $generacion = factory(Generacion::class)->create(); 
-        $url = route('parametros.generaciones.update', $generacion->id);
-        $response = $this->patch($url, $fakeGeneracion); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeGeneracion, $objetoGeneracion->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

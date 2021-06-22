@@ -40,7 +40,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoCategoriaOportunidad = CategoriaOportunidad::latest()->first()->toArray();
-        $this->assertModelData($categoriaOportunidad, $objetoCategoriaOportunidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($categoriaOportunidad, $objetoCategoriaOportunidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $categoriaOportunidad); 
@@ -59,7 +59,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->create();
         $dbCategoriaOportunidad = $this->categoriaOportunidadRepo->find($categoriaOportunidad->id);
         $dbCategoriaOportunidad = $dbCategoriaOportunidad->toArray();
-        $this->assertModelData($categoriaOportunidad->toArray(), $dbCategoriaOportunidad);
+        $this->assertTrue($this->sonDatosIguales($categoriaOportunidad->toArray(),$dbCategoriaOportunidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -73,7 +73,6 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
-        $fakeCategoriaOportunidad['testRepository']=true;
         $response = $this->patch($url,$fakeCategoriaOportunidad); 
         $excepcion=null; 
         if(is_object($response->exception)){
@@ -83,17 +82,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoCategoriaOportunidad = CategoriaOportunidad::find($categoriaOportunidad->id);
-        $this->assertModelData($fakeCategoriaOportunidad, $objetoCategoriaOportunidad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $categoriaOportunidad = factory(CategoriaOportunidad::class)->create(); 
-        $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
-        $response = $this->patch($url, $fakeCategoriaOportunidad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeCategoriaOportunidad, $objetoCategoriaOportunidad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

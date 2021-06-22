@@ -40,7 +40,7 @@ class BeneficioRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoBeneficio = Beneficio::latest()->first()->toArray();
-        $this->assertModelData($beneficio, $objetoBeneficio,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($beneficio, $objetoBeneficio),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $beneficio); 
@@ -59,7 +59,7 @@ class BeneficioRepositoryTest extends TestCase
         $beneficio = factory(Beneficio::class)->create();
         $dbBeneficio = $this->beneficioRepo->find($beneficio->id);
         $dbBeneficio = $dbBeneficio->toArray();
-        $this->assertModelData($beneficio->toArray(), $dbBeneficio);
+        $this->assertTrue($this->sonDatosIguales($beneficio->toArray(),$dbBeneficio),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class BeneficioRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoBeneficio = Beneficio::find($beneficio->id);
-        $this->assertModelData($fakeBeneficio, $objetoBeneficio->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $beneficio = factory(Beneficio::class)->create(); 
-        $url = route('parametros.beneficios.update', $beneficio->id);
-        $response = $this->patch($url, $fakeBeneficio); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeBeneficio, $objetoBeneficio->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

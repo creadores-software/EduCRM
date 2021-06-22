@@ -40,7 +40,7 @@ class ContactoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoContacto = Contacto::latest()->first()->toArray();
-        $this->assertModelData($contacto, $objetoContacto,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($contacto, $objetoContacto),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $contacto); 
@@ -59,7 +59,7 @@ class ContactoRepositoryTest extends TestCase
         $contacto = factory(Contacto::class)->create();
         $dbContacto = $this->contactoRepo->find($contacto->id);
         $dbContacto = $dbContacto->toArray();
-        $this->assertModelData($contacto->toArray(), $dbContacto);
+        $this->assertTrue($this->sonDatosIguales($contacto->toArray(),$dbContacto),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ContactoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoContacto = Contacto::find($contacto->id);
-        $this->assertModelData($fakeContacto, $objetoContacto->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $contacto = factory(Contacto::class)->create(); 
-        $url = route('contactos.contactos.update', $contacto->id);
-        $response = $this->patch($url, $fakeContacto); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeContacto, $objetoContacto->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

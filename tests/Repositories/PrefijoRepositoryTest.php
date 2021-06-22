@@ -40,7 +40,7 @@ class PrefijoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoPrefijo = Prefijo::latest()->first()->toArray();
-        $this->assertModelData($prefijo, $objetoPrefijo,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($prefijo, $objetoPrefijo),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $prefijo); 
@@ -59,7 +59,7 @@ class PrefijoRepositoryTest extends TestCase
         $prefijo = factory(Prefijo::class)->create();
         $dbPrefijo = $this->prefijoRepo->find($prefijo->id);
         $dbPrefijo = $dbPrefijo->toArray();
-        $this->assertModelData($prefijo->toArray(), $dbPrefijo);
+        $this->assertTrue($this->sonDatosIguales($prefijo->toArray(),$dbPrefijo),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class PrefijoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoPrefijo = Prefijo::find($prefijo->id);
-        $this->assertModelData($fakePrefijo, $objetoPrefijo->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $prefijo = factory(Prefijo::class)->create(); 
-        $url = route('parametros.prefijos.update', $prefijo->id);
-        $response = $this->patch($url, $fakePrefijo); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakePrefijo, $objetoPrefijo->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

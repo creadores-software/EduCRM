@@ -40,7 +40,7 @@ class EstadoCampaniaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoEstadoCampania = EstadoCampania::latest()->first()->toArray();
-        $this->assertModelData($estadoCampania, $objetoEstadoCampania,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($estadoCampania, $objetoEstadoCampania),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $estadoCampania); 
@@ -59,7 +59,7 @@ class EstadoCampaniaRepositoryTest extends TestCase
         $estadoCampania = factory(EstadoCampania::class)->create();
         $dbEstadoCampania = $this->estadoCampaniaRepo->find($estadoCampania->id);
         $dbEstadoCampania = $dbEstadoCampania->toArray();
-        $this->assertModelData($estadoCampania->toArray(), $dbEstadoCampania);
+        $this->assertTrue($this->sonDatosIguales($estadoCampania->toArray(),$dbEstadoCampania),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class EstadoCampaniaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoEstadoCampania = EstadoCampania::find($estadoCampania->id);
-        $this->assertModelData($fakeEstadoCampania, $objetoEstadoCampania->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $estadoCampania = factory(EstadoCampania::class)->create(); 
-        $url = route('campanias.estadosCampania.update', $estadoCampania->id);
-        $response = $this->patch($url, $fakeEstadoCampania); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeEstadoCampania, $objetoEstadoCampania->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

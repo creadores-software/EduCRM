@@ -40,7 +40,7 @@ class TipoDocumentoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoDocumento = TipoDocumento::latest()->first()->toArray();
-        $this->assertModelData($tipoDocumento, $objetoTipoDocumento,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoDocumento, $objetoTipoDocumento),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoDocumento); 
@@ -59,7 +59,7 @@ class TipoDocumentoRepositoryTest extends TestCase
         $tipoDocumento = factory(TipoDocumento::class)->create();
         $dbTipoDocumento = $this->tipoDocumentoRepo->find($tipoDocumento->id);
         $dbTipoDocumento = $dbTipoDocumento->toArray();
-        $this->assertModelData($tipoDocumento->toArray(), $dbTipoDocumento);
+        $this->assertTrue($this->sonDatosIguales($tipoDocumento->toArray(),$dbTipoDocumento),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoDocumentoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoDocumento = TipoDocumento::find($tipoDocumento->id);
-        $this->assertModelData($fakeTipoDocumento, $objetoTipoDocumento->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoDocumento = factory(TipoDocumento::class)->create(); 
-        $url = route('parametros.tiposDocumento.update', $tipoDocumento->id);
-        $response = $this->patch($url, $fakeTipoDocumento); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoDocumento, $objetoTipoDocumento->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

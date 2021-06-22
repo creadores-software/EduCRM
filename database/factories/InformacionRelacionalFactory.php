@@ -60,6 +60,6 @@ $factory->define(InformacionRelacional::class, function (Faker $faker) {
         'actitud_servicio_id' =>function () {
             return factory(ActitudServicio::class)->create()->id;
         },
-        'autoriza_comunicacion' => $faker->boolean
+        'autoriza_comunicacion' => true
     ];
 });

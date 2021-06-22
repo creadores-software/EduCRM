@@ -40,7 +40,7 @@ class PeriodicidadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoPeriodicidad = Periodicidad::latest()->first()->toArray();
-        $this->assertModelData($periodicidad, $objetoPeriodicidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($periodicidad, $objetoPeriodicidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $periodicidad); 
@@ -59,7 +59,7 @@ class PeriodicidadRepositoryTest extends TestCase
         $periodicidad = factory(Periodicidad::class)->create();
         $dbPeriodicidad = $this->periodicidadRepo->find($periodicidad->id);
         $dbPeriodicidad = $dbPeriodicidad->toArray();
-        $this->assertModelData($periodicidad->toArray(), $dbPeriodicidad);
+        $this->assertTrue($this->sonDatosIguales($periodicidad->toArray(),$dbPeriodicidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class PeriodicidadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoPeriodicidad = Periodicidad::find($periodicidad->id);
-        $this->assertModelData($fakePeriodicidad, $objetoPeriodicidad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $periodicidad = factory(Periodicidad::class)->create(); 
-        $url = route('formaciones.periodicidades.update', $periodicidad->id);
-        $response = $this->patch($url, $fakePeriodicidad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakePeriodicidad, $objetoPeriodicidad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

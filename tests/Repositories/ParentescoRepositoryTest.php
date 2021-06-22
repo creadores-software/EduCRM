@@ -40,7 +40,7 @@ class ParentescoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoParentesco = Parentesco::latest()->first()->toArray();
-        $this->assertModelData($parentesco, $objetoParentesco,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($parentesco, $objetoParentesco),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $parentesco); 
@@ -59,7 +59,7 @@ class ParentescoRepositoryTest extends TestCase
         $parentesco = factory(Parentesco::class)->create();
         $dbParentesco = $this->parentescoRepo->find($parentesco->id);
         $dbParentesco = $dbParentesco->toArray();
-        $this->assertModelData($parentesco->toArray(), $dbParentesco);
+        $this->assertTrue($this->sonDatosIguales($parentesco->toArray(),$dbParentesco),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ParentescoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoParentesco = Parentesco::find($parentesco->id);
-        $this->assertModelData($fakeParentesco, $objetoParentesco->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $parentesco = factory(Parentesco::class)->create(); 
-        $url = route('contactos.parentescos.update', $parentesco->id);
-        $response = $this->patch($url, $fakeParentesco); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeParentesco, $objetoParentesco->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

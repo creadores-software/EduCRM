@@ -40,7 +40,7 @@ class MedioComunicacionRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoMedioComunicacion = MedioComunicacion::latest()->first()->toArray();
-        $this->assertModelData($medioComunicacion, $objetoMedioComunicacion,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($medioComunicacion, $objetoMedioComunicacion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $medioComunicacion); 
@@ -59,7 +59,7 @@ class MedioComunicacionRepositoryTest extends TestCase
         $medioComunicacion = factory(MedioComunicacion::class)->create();
         $dbMedioComunicacion = $this->medioComunicacionRepo->find($medioComunicacion->id);
         $dbMedioComunicacion = $dbMedioComunicacion->toArray();
-        $this->assertModelData($medioComunicacion->toArray(), $dbMedioComunicacion);
+        $this->assertTrue($this->sonDatosIguales($medioComunicacion->toArray(),$dbMedioComunicacion),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class MedioComunicacionRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoMedioComunicacion = MedioComunicacion::find($medioComunicacion->id);
-        $this->assertModelData($fakeMedioComunicacion, $objetoMedioComunicacion->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $medioComunicacion = factory(MedioComunicacion::class)->create(); 
-        $url = route('parametros.mediosComunicacion.update', $medioComunicacion->id);
-        $response = $this->patch($url, $fakeMedioComunicacion); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeMedioComunicacion, $objetoMedioComunicacion->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

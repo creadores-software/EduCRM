@@ -46,7 +46,7 @@ class OportunidadRepositoryTest extends TestCase
         $objetoOportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_actualizacion']));
         $objetoOportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_interaccion']));
         $oportunidad['ultima_actualizacion'] = $objetoOportunidad['ultima_actualizacion'];
-        $this->assertModelData($oportunidad, $objetoOportunidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($oportunidad, $objetoOportunidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $oportunidad); 
@@ -65,7 +65,7 @@ class OportunidadRepositoryTest extends TestCase
         $oportunidad = factory(Oportunidad::class)->create();
         $dbOportunidad = $this->oportunidadRepo->find($oportunidad->id);
         $dbOportunidad = $dbOportunidad->toArray();
-        $this->assertModelData($oportunidad->toArray(), $dbOportunidad);
+        $this->assertTrue($this->sonDatosIguales($oportunidad->toArray(), $dbOportunidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -96,7 +96,7 @@ class OportunidadRepositoryTest extends TestCase
         $objetoOportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_actualizacion']));
         $objetoOportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_interaccion']));
         $fakeOportunidad['ultima_actualizacion'] = $objetoOportunidad['ultima_actualizacion'];
-        $this->assertModelData($fakeOportunidad, $objetoOportunidad,'El modelo no quedó con los datos editados.');        
+        $this->assertTrue($this->sonDatosIguales($fakeOportunidad, $objetoOportunidad),'El modelo no quedó con los datos editados.');        
     }
 
     /**

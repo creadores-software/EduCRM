@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
      * Compara dos arreglos confirmando que cuenten con la misma información
      * Sirve para validar entre lo creado y lo guardado.
      */
-    public function assertModelData(Array $actualData, Array $expectedData)
+    public function sonDatosIguales(Array $actualData, Array $expectedData)
     {
         foreach ($actualData as $key => $value) {
             if (in_array($key, ['created_at', 'updated_at','password','email_verified_at'])) {
@@ -20,7 +20,10 @@ abstract class TestCase extends BaseTestCase
             if(!array_key_exists($key,$expectedData)){
                 continue;    
             }
-            $this->assertEquals($actualData[$key], $expectedData[$key],"No coincide el campo {$key}");            
+            if($actualData[$key]!=$expectedData[$key]){
+                return false;
+            }           
         }
+        return true;
     }
 }

@@ -40,7 +40,7 @@ class ReconocimientoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoReconocimiento = Reconocimiento::latest()->first()->toArray();
-        $this->assertModelData($reconocimiento, $objetoReconocimiento,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($reconocimiento, $objetoReconocimiento),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $reconocimiento); 
@@ -59,7 +59,7 @@ class ReconocimientoRepositoryTest extends TestCase
         $reconocimiento = factory(Reconocimiento::class)->create();
         $dbReconocimiento = $this->reconocimientoRepo->find($reconocimiento->id);
         $dbReconocimiento = $dbReconocimiento->toArray();
-        $this->assertModelData($reconocimiento->toArray(), $dbReconocimiento);
+        $this->assertTrue($this->sonDatosIguales($reconocimiento->toArray(),$dbReconocimiento),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ReconocimientoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoReconocimiento = Reconocimiento::find($reconocimiento->id);
-        $this->assertModelData($fakeReconocimiento, $objetoReconocimiento->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $reconocimiento = factory(Reconocimiento::class)->create(); 
-        $url = route('formaciones.reconocimientos.update', $reconocimiento->id);
-        $response = $this->patch($url, $fakeReconocimiento); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeReconocimiento, $objetoReconocimiento->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

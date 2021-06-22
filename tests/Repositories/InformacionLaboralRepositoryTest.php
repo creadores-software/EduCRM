@@ -40,7 +40,7 @@ class InformacionLaboralRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoInformacionLaboral = InformacionLaboral::latest()->first()->toArray();
-        $this->assertModelData($informacionLaboral, $objetoInformacionLaboral,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($informacionLaboral, $objetoInformacionLaboral),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $informacionLaboral); 
@@ -59,7 +59,7 @@ class InformacionLaboralRepositoryTest extends TestCase
         $informacionLaboral = factory(InformacionLaboral::class)->create();
         $dbInformacionLaboral = $this->informacionLaboralRepo->find($informacionLaboral->id);
         $dbInformacionLaboral = $dbInformacionLaboral->toArray();
-        $this->assertModelData($informacionLaboral->toArray(), $dbInformacionLaboral);
+        $this->assertTrue($this->sonDatosIguales($informacionLaboral->toArray(),$dbInformacionLaboral),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class InformacionLaboralRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoInformacionLaboral = InformacionLaboral::find($informacionLaboral->id);
-        $this->assertModelData($fakeInformacionLaboral, $objetoInformacionLaboral->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $informacionLaboral = factory(InformacionLaboral::class)->create(); 
-        $url = route('contactos.informacionesLaborales.update', $informacionLaboral->id);
-        $response = $this->patch($url, $fakeInformacionLaboral); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeInformacionLaboral, $objetoInformacionLaboral->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

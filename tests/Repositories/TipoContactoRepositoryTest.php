@@ -40,7 +40,7 @@ class TipoContactoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoContacto = TipoContacto::latest()->first()->toArray();
-        $this->assertModelData($tipoContacto, $objetoTipoContacto,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoContacto, $objetoTipoContacto),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoContacto); 
@@ -59,7 +59,7 @@ class TipoContactoRepositoryTest extends TestCase
         $tipoContacto = factory(TipoContacto::class)->create();
         $dbTipoContacto = $this->tipoContactoRepo->find($tipoContacto->id);
         $dbTipoContacto = $dbTipoContacto->toArray();
-        $this->assertModelData($tipoContacto->toArray(), $dbTipoContacto);
+        $this->assertTrue($this->sonDatosIguales($tipoContacto->toArray(),$dbTipoContacto),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoContactoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoContacto = TipoContacto::find($tipoContacto->id);
-        $this->assertModelData($fakeTipoContacto, $objetoTipoContacto->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoContacto = factory(TipoContacto::class)->create(); 
-        $url = route('parametros.tiposContacto.update', $tipoContacto->id);
-        $response = $this->patch($url, $fakeTipoContacto); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoContacto, $objetoTipoContacto->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

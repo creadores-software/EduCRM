@@ -40,7 +40,7 @@ class NivelAcademicoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoNivelAcademico = NivelAcademico::latest()->first()->toArray();
-        $this->assertModelData($nivelAcademico, $objetoNivelAcademico,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($nivelAcademico, $objetoNivelAcademico),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $nivelAcademico); 
@@ -59,7 +59,7 @@ class NivelAcademicoRepositoryTest extends TestCase
         $nivelAcademico = factory(NivelAcademico::class)->create();
         $dbNivelAcademico = $this->nivelAcademicoRepo->find($nivelAcademico->id);
         $dbNivelAcademico = $dbNivelAcademico->toArray();
-        $this->assertModelData($nivelAcademico->toArray(), $dbNivelAcademico);
+        $this->assertTrue($this->sonDatosIguales($nivelAcademico->toArray(),$dbNivelAcademico),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class NivelAcademicoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoNivelAcademico = NivelAcademico::find($nivelAcademico->id);
-        $this->assertModelData($fakeNivelAcademico, $objetoNivelAcademico->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $nivelAcademico = factory(NivelAcademico::class)->create(); 
-        $url = route('formaciones.nivelesAcademicos.update', $nivelAcademico->id);
-        $response = $this->patch($url, $fakeNivelAcademico); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeNivelAcademico, $objetoNivelAcademico->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

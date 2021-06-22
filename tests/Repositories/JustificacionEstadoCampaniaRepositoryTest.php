@@ -40,7 +40,7 @@ class JustificacionEstadoCampaniaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoJustificacionEstadoCampania = JustificacionEstadoCampania::latest()->first()->toArray();
-        $this->assertModelData($justificacionEstadoCampania, $objetoJustificacionEstadoCampania,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($justificacionEstadoCampania, $objetoJustificacionEstadoCampania),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $justificacionEstadoCampania); 
@@ -59,7 +59,7 @@ class JustificacionEstadoCampaniaRepositoryTest extends TestCase
         $justificacionEstadoCampania = factory(JustificacionEstadoCampania::class)->create();
         $dbJustificacionEstadoCampania = $this->justificacionEstadoCampaniaRepo->find($justificacionEstadoCampania->id);
         $dbJustificacionEstadoCampania = $dbJustificacionEstadoCampania->toArray();
-        $this->assertModelData($justificacionEstadoCampania->toArray(), $dbJustificacionEstadoCampania);
+        $this->assertTrue($this->sonDatosIguales($justificacionEstadoCampania->toArray(),$dbJustificacionEstadoCampania),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class JustificacionEstadoCampaniaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoJustificacionEstadoCampania = JustificacionEstadoCampania::find($justificacionEstadoCampania->id);
-        $this->assertModelData($fakeJustificacionEstadoCampania, $objetoJustificacionEstadoCampania->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $justificacionEstadoCampania = factory(JustificacionEstadoCampania::class)->create(); 
-        $url = route('campanias.justificacionesEstadoCampania.update', $justificacionEstadoCampania->id);
-        $response = $this->patch($url, $fakeJustificacionEstadoCampania); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeJustificacionEstadoCampania, $objetoJustificacionEstadoCampania->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

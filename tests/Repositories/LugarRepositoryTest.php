@@ -40,7 +40,7 @@ class LugarRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoLugar = Lugar::latest()->first()->toArray();
-        $this->assertModelData($lugar, $objetoLugar,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($lugar, $objetoLugar),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $lugar); 
@@ -59,7 +59,7 @@ class LugarRepositoryTest extends TestCase
         $lugar = factory(Lugar::class)->create();
         $dbLugar = $this->lugarRepo->find($lugar->id);
         $dbLugar = $dbLugar->toArray();
-        $this->assertModelData($lugar->toArray(), $dbLugar);
+        $this->assertTrue($this->sonDatosIguales($lugar->toArray(),$dbLugar),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class LugarRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoLugar = Lugar::find($lugar->id);
-        $this->assertModelData($fakeLugar, $objetoLugar->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $lugar = factory(Lugar::class)->create(); 
-        $url = route('parametros.lugares.update', $lugar->id);
-        $response = $this->patch($url, $fakeLugar); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeLugar, $objetoLugar->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

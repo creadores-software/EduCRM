@@ -40,7 +40,7 @@ class BuyerPersonaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoBuyerPersona = BuyerPersona::latest()->first()->toArray();
-        $this->assertModelData($buyerPersona, $objetoBuyerPersona,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($buyerPersona, $objetoBuyerPersona),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $buyerPersona); 
@@ -59,7 +59,7 @@ class BuyerPersonaRepositoryTest extends TestCase
         $buyerPersona = factory(BuyerPersona::class)->create();
         $dbBuyerPersona = $this->buyerPersonaRepo->find($buyerPersona->id);
         $dbBuyerPersona = $dbBuyerPersona->toArray();
-        $this->assertModelData($buyerPersona->toArray(), $dbBuyerPersona);
+        $this->assertTrue($this->sonDatosIguales($buyerPersona->toArray(),$dbBuyerPersona),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class BuyerPersonaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoBuyerPersona = BuyerPersona::find($buyerPersona->id);
-        $this->assertModelData($fakeBuyerPersona, $objetoBuyerPersona->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $buyerPersona = factory(BuyerPersona::class)->create(); 
-        $url = route('parametros.buyerPersonas.update', $buyerPersona->id);
-        $response = $this->patch($url, $fakeBuyerPersona); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeBuyerPersona, $objetoBuyerPersona->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

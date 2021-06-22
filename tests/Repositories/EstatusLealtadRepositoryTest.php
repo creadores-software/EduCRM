@@ -40,7 +40,7 @@ class EstatusLealtadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoEstatusLealtad = EstatusLealtad::latest()->first()->toArray();
-        $this->assertModelData($estatusLealtad, $objetoEstatusLealtad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($estatusLealtad, $objetoEstatusLealtad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $estatusLealtad); 
@@ -59,7 +59,7 @@ class EstatusLealtadRepositoryTest extends TestCase
         $estatusLealtad = factory(EstatusLealtad::class)->create();
         $dbEstatusLealtad = $this->estatusLealtadRepo->find($estatusLealtad->id);
         $dbEstatusLealtad = $dbEstatusLealtad->toArray();
-        $this->assertModelData($estatusLealtad->toArray(), $dbEstatusLealtad);
+        $this->assertTrue($this->sonDatosIguales($estatusLealtad->toArray(),$dbEstatusLealtad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class EstatusLealtadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoEstatusLealtad = EstatusLealtad::find($estatusLealtad->id);
-        $this->assertModelData($fakeEstatusLealtad, $objetoEstatusLealtad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $estatusLealtad = factory(EstatusLealtad::class)->create(); 
-        $url = route('parametros.estatusLealtad.update', $estatusLealtad->id);
-        $response = $this->patch($url, $fakeEstatusLealtad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeEstatusLealtad, $objetoEstatusLealtad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

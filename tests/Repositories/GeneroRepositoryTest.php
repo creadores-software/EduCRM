@@ -40,7 +40,7 @@ class GeneroRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoGenero = Genero::latest()->first()->toArray();
-        $this->assertModelData($genero, $objetoGenero,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($genero, $objetoGenero),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $genero); 
@@ -59,7 +59,7 @@ class GeneroRepositoryTest extends TestCase
         $genero = factory(Genero::class)->create();
         $dbGenero = $this->generoRepo->find($genero->id);
         $dbGenero = $dbGenero->toArray();
-        $this->assertModelData($genero->toArray(), $dbGenero);
+        $this->assertTrue($this->sonDatosIguales($genero->toArray(),$dbGenero),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class GeneroRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoGenero = Genero::find($genero->id);
-        $this->assertModelData($fakeGenero, $objetoGenero->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $genero = factory(Genero::class)->create(); 
-        $url = route('parametros.generos.update', $genero->id);
-        $response = $this->patch($url, $fakeGenero); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeGenero, $objetoGenero->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

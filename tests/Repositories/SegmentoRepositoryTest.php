@@ -1,6 +1,5 @@
 <?php namespace Tests\Repositories;
 
-use App\Models\Admin\User;
 use App\Models\Contactos\Segmento;
 use App\Repositories\Contactos\SegmentoRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -32,7 +31,7 @@ class SegmentoRepositoryTest extends TestCase
 
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.segmentos.store');
-        $response = $this->actingAs(User::find($segmento['usuario_id']))->post($url, $segmento); 
+        $response = $this->post($url, $segmento); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
@@ -41,7 +40,7 @@ class SegmentoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoSegmento = Segmento::latest()->first()->toArray();
-        $this->assertModelData($segmento, $objetoSegmento,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($segmento, $objetoSegmento),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $segmento); 
@@ -60,7 +59,7 @@ class SegmentoRepositoryTest extends TestCase
         $segmento = factory(Segmento::class)->create();
         $dbSegmento = $this->segmentoRepo->find($segmento->id);
         $dbSegmento = $dbSegmento->toArray();
-        $this->assertModelData($segmento->toArray(), $dbSegmento);
+        $this->assertTrue($this->sonDatosIguales($segmento->toArray(),$dbSegmento),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -83,17 +82,7 @@ class SegmentoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoSegmento = Segmento::find($segmento->id);
-        $this->assertModelData($fakeSegmento, $objetoSegmento->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $segmento = factory(Segmento::class)->create(); 
-        $url = route('contactos.segmentos.update', $segmento->id);
-        $response = $this->patch($url, $fakeSegmento); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeSegmento, $objetoSegmento->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

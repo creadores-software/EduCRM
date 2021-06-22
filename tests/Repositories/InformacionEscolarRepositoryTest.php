@@ -28,7 +28,7 @@ class InformacionEscolarRepositoryTest extends TestCase
     public function test_crear_informacion_escolar()
     {
         $informacionEscolar = factory(InformacionEscolar::class)->make()->toArray();
-              
+
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.informacionesEscolares.store');
         $response = $this->post($url, $informacionEscolar); 
@@ -37,10 +37,10 @@ class InformacionEscolarRepositoryTest extends TestCase
             $excepcion=$response->exception->getMessage();
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
-
+        
         //El último objeto corresponde con el creado
-        $objetoInformacionEscolar = InformacionEscolar::latest()->first()->toArray();  
-        $this->assertModelData($informacionEscolar, $objetoInformacionEscolar,'El modelo guardado no coincide con el creado.');                
+        $objetoInformacionEscolar = InformacionEscolar::latest()->first()->toArray();
+        $this->assertTrue($this->sonDatosIguales($informacionEscolar, $objetoInformacionEscolar),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $informacionEscolar); 
@@ -59,7 +59,7 @@ class InformacionEscolarRepositoryTest extends TestCase
         $informacionEscolar = factory(InformacionEscolar::class)->create();
         $dbInformacionEscolar = $this->informacionEscolarRepo->find($informacionEscolar->id);
         $dbInformacionEscolar = $dbInformacionEscolar->toArray();
-        $this->assertModelData($informacionEscolar->toArray(), $dbInformacionEscolar);
+        $this->assertTrue($this->sonDatosIguales($informacionEscolar->toArray(),$dbInformacionEscolar),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class InformacionEscolarRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoInformacionEscolar = InformacionEscolar::find($informacionEscolar->id);
-        $this->assertModelData($fakeInformacionEscolar, $objetoInformacionEscolar->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $informacionEscolar = factory(InformacionEscolar::class)->create(); 
-        $url = route('contactos.informacionesEscolares.update', $informacionEscolar->id);
-        $response = $this->patch($url, $fakeInformacionEscolar); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeInformacionEscolar, $objetoInformacionEscolar->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

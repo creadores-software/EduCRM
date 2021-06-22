@@ -40,7 +40,7 @@ class SisbenRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoSisben = Sisben::latest()->first()->toArray();
-        $this->assertModelData($sisben, $objetoSisben,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($sisben, $objetoSisben),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $sisben); 
@@ -59,7 +59,7 @@ class SisbenRepositoryTest extends TestCase
         $sisben = factory(Sisben::class)->create();
         $dbSisben = $this->sisbenRepo->find($sisben->id);
         $dbSisben = $dbSisben->toArray();
-        $this->assertModelData($sisben->toArray(), $dbSisben);
+        $this->assertTrue($this->sonDatosIguales($sisben->toArray(),$dbSisben),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class SisbenRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoSisben = Sisben::find($sisben->id);
-        $this->assertModelData($fakeSisben, $objetoSisben->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $sisben = factory(Sisben::class)->create(); 
-        $url = route('parametros.sisbenes.update', $sisben->id);
-        $response = $this->patch($url, $fakeSisben); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeSisben, $objetoSisben->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

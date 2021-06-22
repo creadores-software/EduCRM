@@ -40,7 +40,7 @@ class SectorRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoSector = Sector::latest()->first()->toArray();
-        $this->assertModelData($sector, $objetoSector,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($sector, $objetoSector),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $sector); 
@@ -59,7 +59,7 @@ class SectorRepositoryTest extends TestCase
         $sector = factory(Sector::class)->create();
         $dbSector = $this->sectorRepo->find($sector->id);
         $dbSector = $dbSector->toArray();
-        $this->assertModelData($sector->toArray(), $dbSector);
+        $this->assertTrue($this->sonDatosIguales($sector->toArray(),$dbSector),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class SectorRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoSector = Sector::find($sector->id);
-        $this->assertModelData($fakeSector, $objetoSector->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $sector = factory(Sector::class)->create(); 
-        $url = route('entidades.sectores.update', $sector->id);
-        $response = $this->patch($url, $fakeSector); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeSector, $objetoSector->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

@@ -40,7 +40,7 @@ class FacultadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoFacultad = Facultad::latest()->first()->toArray();
-        $this->assertModelData($facultad, $objetoFacultad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($facultad, $objetoFacultad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $facultad); 
@@ -59,7 +59,7 @@ class FacultadRepositoryTest extends TestCase
         $facultad = factory(Facultad::class)->create();
         $dbFacultad = $this->facultadRepo->find($facultad->id);
         $dbFacultad = $dbFacultad->toArray();
-        $this->assertModelData($facultad->toArray(), $dbFacultad);
+        $this->assertTrue($this->sonDatosIguales($facultad->toArray(),$dbFacultad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class FacultadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoFacultad = Facultad::find($facultad->id);
-        $this->assertModelData($fakeFacultad, $objetoFacultad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $facultad = factory(Facultad::class)->create(); 
-        $url = route('formaciones.facultades.update', $facultad->id);
-        $response = $this->patch($url, $fakeFacultad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeFacultad, $objetoFacultad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

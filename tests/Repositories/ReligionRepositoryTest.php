@@ -40,7 +40,7 @@ class ReligionRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoReligion = Religion::latest()->first()->toArray();
-        $this->assertModelData($religion, $objetoReligion,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($religion, $objetoReligion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $religion); 
@@ -59,7 +59,7 @@ class ReligionRepositoryTest extends TestCase
         $religion = factory(Religion::class)->create();
         $dbReligion = $this->religionRepo->find($religion->id);
         $dbReligion = $dbReligion->toArray();
-        $this->assertModelData($religion->toArray(), $dbReligion);
+        $this->assertTrue($this->sonDatosIguales($religion->toArray(),$dbReligion),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ReligionRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoReligion = Religion::find($religion->id);
-        $this->assertModelData($fakeReligion, $objetoReligion->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $religion = factory(Religion::class)->create(); 
-        $url = route('parametros.religiones.update', $religion->id);
-        $response = $this->patch($url, $fakeReligion); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeReligion, $objetoReligion->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

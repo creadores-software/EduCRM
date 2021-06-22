@@ -40,7 +40,7 @@ class TipoAccesoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoAcceso = TipoAcceso::latest()->first()->toArray();
-        $this->assertModelData($tipoAcceso, $objetoTipoAcceso,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoAcceso, $objetoTipoAcceso),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoAcceso); 
@@ -59,7 +59,7 @@ class TipoAccesoRepositoryTest extends TestCase
         $tipoAcceso = factory(TipoAcceso::class)->create();
         $dbTipoAcceso = $this->tipoAccesoRepo->find($tipoAcceso->id);
         $dbTipoAcceso = $dbTipoAcceso->toArray();
-        $this->assertModelData($tipoAcceso->toArray(), $dbTipoAcceso);
+        $this->assertTrue($this->sonDatosIguales($tipoAcceso->toArray(),$dbTipoAcceso),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoAccesoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoAcceso = TipoAcceso::find($tipoAcceso->id);
-        $this->assertModelData($fakeTipoAcceso, $objetoTipoAcceso->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoAcceso = factory(TipoAcceso::class)->create(); 
-        $url = route('formaciones.tiposAcceso.update', $tipoAcceso->id);
-        $response = $this->patch($url, $fakeTipoAcceso); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoAcceso, $objetoTipoAcceso->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

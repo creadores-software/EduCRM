@@ -40,7 +40,7 @@ class JornadaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoJornada = Jornada::latest()->first()->toArray();
-        $this->assertModelData($jornada, $objetoJornada,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($jornada, $objetoJornada),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $jornada); 
@@ -59,7 +59,7 @@ class JornadaRepositoryTest extends TestCase
         $jornada = factory(Jornada::class)->create();
         $dbJornada = $this->jornadaRepo->find($jornada->id);
         $dbJornada = $dbJornada->toArray();
-        $this->assertModelData($jornada->toArray(), $dbJornada);
+        $this->assertTrue($this->sonDatosIguales($jornada->toArray(),$dbJornada),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class JornadaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoJornada = Jornada::find($jornada->id);
-        $this->assertModelData($fakeJornada, $objetoJornada->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $jornada = factory(Jornada::class)->create(); 
-        $url = route('formaciones.jornadas.update', $jornada->id);
-        $response = $this->patch($url, $fakeJornada); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeJornada, $objetoJornada->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

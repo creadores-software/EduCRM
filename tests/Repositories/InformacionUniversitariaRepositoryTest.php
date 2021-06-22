@@ -40,7 +40,7 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoInformacionUniversitaria = InformacionUniversitaria::latest()->first()->toArray();
-        $this->assertModelData($informacionUniversitaria, $objetoInformacionUniversitaria,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($informacionUniversitaria, $objetoInformacionUniversitaria),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $informacionUniversitaria); 
@@ -59,7 +59,7 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         $informacionUniversitaria = factory(InformacionUniversitaria::class)->create();
         $dbInformacionUniversitaria = $this->informacionUniversitariaRepo->find($informacionUniversitaria->id);
         $dbInformacionUniversitaria = $dbInformacionUniversitaria->toArray();
-        $this->assertModelData($informacionUniversitaria->toArray(), $dbInformacionUniversitaria);
+        $this->assertTrue($this->sonDatosIguales($informacionUniversitaria->toArray(),$dbInformacionUniversitaria),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoInformacionUniversitaria = InformacionUniversitaria::find($informacionUniversitaria->id);
-        $this->assertModelData($fakeInformacionUniversitaria, $objetoInformacionUniversitaria->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $informacionUniversitaria = factory(InformacionUniversitaria::class)->create(); 
-        $url = route('contactos.informacionesUniversitarias.update', $informacionUniversitaria->id);
-        $response = $this->patch($url, $fakeInformacionUniversitaria); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeInformacionUniversitaria, $objetoInformacionUniversitaria->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

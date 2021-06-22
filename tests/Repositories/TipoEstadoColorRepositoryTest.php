@@ -40,7 +40,7 @@ class TipoEstadoColorRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoTipoEstadoColor = TipoEstadoColor::latest()->first()->toArray();
-        $this->assertModelData($tipoEstadoColor, $objetoTipoEstadoColor,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($tipoEstadoColor, $objetoTipoEstadoColor),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $tipoEstadoColor); 
@@ -59,7 +59,7 @@ class TipoEstadoColorRepositoryTest extends TestCase
         $tipoEstadoColor = factory(TipoEstadoColor::class)->create();
         $dbTipoEstadoColor = $this->tipoEstadoColorRepo->find($tipoEstadoColor->id);
         $dbTipoEstadoColor = $dbTipoEstadoColor->toArray();
-        $this->assertModelData($tipoEstadoColor->toArray(), $dbTipoEstadoColor);
+        $this->assertTrue($this->sonDatosIguales($tipoEstadoColor->toArray(),$dbTipoEstadoColor),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class TipoEstadoColorRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoTipoEstadoColor = TipoEstadoColor::find($tipoEstadoColor->id);
-        $this->assertModelData($fakeTipoEstadoColor, $objetoTipoEstadoColor->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $tipoEstadoColor = factory(TipoEstadoColor::class)->create(); 
-        $url = route('campanias.tiposEstadoColor.update', $tipoEstadoColor->id);
-        $response = $this->patch($url, $fakeTipoEstadoColor); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeTipoEstadoColor, $objetoTipoEstadoColor->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

@@ -40,7 +40,7 @@ class FrecuenciaUsoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoFrecuenciaUso = FrecuenciaUso::latest()->first()->toArray();
-        $this->assertModelData($frecuenciaUso, $objetoFrecuenciaUso,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($frecuenciaUso, $objetoFrecuenciaUso),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $frecuenciaUso); 
@@ -59,7 +59,7 @@ class FrecuenciaUsoRepositoryTest extends TestCase
         $frecuenciaUso = factory(FrecuenciaUso::class)->create();
         $dbFrecuenciaUso = $this->frecuenciaUsoRepo->find($frecuenciaUso->id);
         $dbFrecuenciaUso = $dbFrecuenciaUso->toArray();
-        $this->assertModelData($frecuenciaUso->toArray(), $dbFrecuenciaUso);
+        $this->assertTrue($this->sonDatosIguales($frecuenciaUso->toArray(),$dbFrecuenciaUso),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class FrecuenciaUsoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoFrecuenciaUso = FrecuenciaUso::find($frecuenciaUso->id);
-        $this->assertModelData($fakeFrecuenciaUso, $objetoFrecuenciaUso->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $frecuenciaUso = factory(FrecuenciaUso::class)->create(); 
-        $url = route('parametros.frecuenciasUso.update', $frecuenciaUso->id);
-        $response = $this->patch($url, $fakeFrecuenciaUso); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeFrecuenciaUso, $objetoFrecuenciaUso->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

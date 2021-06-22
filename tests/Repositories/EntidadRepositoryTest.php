@@ -40,7 +40,7 @@ class EntidadRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoEntidad = Entidad::latest()->first()->toArray();
-        $this->assertModelData($entidad, $objetoEntidad,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($entidad, $objetoEntidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $entidad); 
@@ -59,7 +59,7 @@ class EntidadRepositoryTest extends TestCase
         $entidad = factory(Entidad::class)->create();
         $dbEntidad = $this->entidadRepo->find($entidad->id);
         $dbEntidad = $dbEntidad->toArray();
-        $this->assertModelData($entidad->toArray(), $dbEntidad);
+        $this->assertTrue($this->sonDatosIguales($entidad->toArray(),$dbEntidad),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class EntidadRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoEntidad = Entidad::find($entidad->id);
-        $this->assertModelData($fakeEntidad, $objetoEntidad->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $entidad = factory(Entidad::class)->create(); 
-        $url = route('entidades.entidades.update', $entidad->id);
-        $response = $this->patch($url, $fakeEntidad); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeEntidad, $objetoEntidad->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

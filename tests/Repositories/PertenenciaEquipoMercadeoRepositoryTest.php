@@ -40,7 +40,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::latest()->first()->toArray();
-        $this->assertModelData($pertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($pertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $pertenenciaEquipoMercadeo); 
@@ -59,7 +59,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create();
         $dbPertenenciaEquipoMercadeo = $this->pertenenciaEquipoMercadeoRepo->find($pertenenciaEquipoMercadeo->id);
         $dbPertenenciaEquipoMercadeo = $dbPertenenciaEquipoMercadeo->toArray();
-        $this->assertModelData($pertenenciaEquipoMercadeo->toArray(), $dbPertenenciaEquipoMercadeo);
+        $this->assertTrue($this->sonDatosIguales($pertenenciaEquipoMercadeo->toArray(),$dbPertenenciaEquipoMercadeo),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::find($pertenenciaEquipoMercadeo->id);
-        $this->assertModelData($fakePertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create(); 
-        $url = route('admin.pertenenciasEquipoMercadeo.update', $pertenenciaEquipoMercadeo->id);
-        $response = $this->patch($url, $fakePertenenciaEquipoMercadeo); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakePertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

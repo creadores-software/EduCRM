@@ -40,7 +40,7 @@ class ActividadEconomicaRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoActividadEconomica = ActividadEconomica::latest()->first()->toArray();
-        $this->assertModelData($actividadEconomica, $objetoActividadEconomica,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($actividadEconomica, $objetoActividadEconomica),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $actividadEconomica); 
@@ -59,7 +59,7 @@ class ActividadEconomicaRepositoryTest extends TestCase
         $actividadEconomica = factory(ActividadEconomica::class)->create();
         $dbActividadEconomica = $this->actividadEconomicaRepo->find($actividadEconomica->id);
         $dbActividadEconomica = $dbActividadEconomica->toArray();
-        $this->assertModelData($actividadEconomica->toArray(), $dbActividadEconomica);
+        $this->assertTrue($this->sonDatosIguales($actividadEconomica->toArray(),$dbActividadEconomica),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class ActividadEconomicaRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoActividadEconomica = ActividadEconomica::find($actividadEconomica->id);
-        $this->assertModelData($fakeActividadEconomica, $objetoActividadEconomica->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $actividadEconomica = factory(ActividadEconomica::class)->create(); 
-        $url = route('entidades.actividadesEconomicas.update', $actividadEconomica->id);
-        $response = $this->patch($url, $fakeActividadEconomica); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeActividadEconomica, $objetoActividadEconomica->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**

@@ -40,7 +40,7 @@ class OrigenRepositoryTest extends TestCase
         
         //El último objeto corresponde con el creado
         $objetoOrigen = Origen::latest()->first()->toArray();
-        $this->assertModelData($origen, $objetoOrigen,'El modelo guardado no coincide con el creado.');                
+        $this->assertTrue($this->sonDatosIguales($origen, $objetoOrigen),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
         $response = $this->post($url, $origen); 
@@ -59,7 +59,7 @@ class OrigenRepositoryTest extends TestCase
         $origen = factory(Origen::class)->create();
         $dbOrigen = $this->origenRepo->find($origen->id);
         $dbOrigen = $dbOrigen->toArray();
-        $this->assertModelData($origen->toArray(), $dbOrigen);
+        $this->assertTrue($this->sonDatosIguales($origen->toArray(),$dbOrigen),'El modelo consultado no coincide con el creado');
     }
 
     /**
@@ -82,17 +82,7 @@ class OrigenRepositoryTest extends TestCase
         
         //El modelo actual debe tener los datos que se enviaron para edición
         $objetoOrigen = Origen::find($origen->id);
-        $this->assertModelData($fakeOrigen, $objetoOrigen->toArray(),'El modelo no quedó con los datos editados.');
-        
-        //Se crea una nueva entidad y se trata de poner la misma información
-        $origen = factory(Origen::class)->create(); 
-        $url = route('parametros.origenes.update', $origen->id);
-        $response = $this->patch($url, $fakeOrigen); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
+        $this->assertTrue($this->sonDatosIguales($fakeOrigen, $objetoOrigen->toArray()),'El modelo no quedó con los datos editados.');       
     }
 
     /**
