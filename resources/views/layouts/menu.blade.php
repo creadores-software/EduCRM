@@ -89,12 +89,7 @@
                 <li id="parametros-generos" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.generos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/generos.plural')</span></a>
                 </li>
-                @endif
-                @if(strpos(Session::get('textoPermisos'), 'parametros.lugares.')!==false) 
-                <li id="parametros-lugares" class="treeview-item opcion-menu menu-nieto">
-                    <a href="{{ route('parametros.lugares.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/lugares.plural')</span></a>
-                </li>      
-                @endif
+                @endif                
                 @if(strpos(Session::get('textoPermisos'), 'parametros.prefijos.')!==false)          
                 <li id="parametros-prefijos" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.prefijos.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/prefijos.plural')</span></a>
@@ -129,7 +124,12 @@
                 <li id="parametros-tipos-parentesco" class="treeview-item opcion-menu menu-nieto">
                     <a href="{{ route('parametros.tiposParentesco.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/tiposParentesco.plural')</span></a>
                 </li>
-                @endif                
+                @endif 
+                @if(strpos(Session::get('textoPermisos'), 'parametros.lugares.')!==false) 
+                <li id="parametros-lugares" class="treeview-item opcion-menu menu-nieto">
+                    <a href="{{ route('parametros.lugares.index') }}"><i class="fa fa-circle-o"></i><span>@lang('models/lugares.plural')</span></a>
+                </li>      
+                @endif               
             </ul> 
         </li>  
         @endif
