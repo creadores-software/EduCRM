@@ -1,3 +1,12 @@
+@push('css')
+    @include('layouts.datatables_css')
+    <style>
+    .select2-container {
+        width: 100% !important;
+        padding: 0;
+    }
+    </style>
+@endpush
 <!-- Nombre Field -->
 <div class="form-group col-sm-6 required">
     {!! Form::hidden('id', old('id', $entidad->id ?? '')) !!}
@@ -65,6 +74,7 @@
 
 <!-- Actividad Economica Id Field -->
 <div class="form-group col-sm-6">
+    <i class="fa fa-question-circle mytt" data-toggle="tooltip" title="De acuerdo con la actividad elegida, se cargarán campos adicionales para IES y colegios."></i>
     {!! Form::label('actividad_economica_id', __('models/entidades.fields.actividad_economica_id')) !!}
     <select name="actividad_economica_id" id="actividad_economica_id" class="form-control">
         <option></option>
@@ -74,47 +84,33 @@
     </select>  
 </div>
 
-<br/><br/>
+<div id="informacion_universidad">
+    <!-- Mi Universidad Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad')) !!}
+        {!! Form::select('mi_universidad',[0=>'NO',1=>'SI'], old('mi_universidad'), ['class' => 'form-control']) !!}
+    </div>
 
-<h2 class="page-header" style="padding-left: 20px">Información Especial</h2>
-<div class="form-group col-sm-12">
-    <p>La siguiente información solo debe ser diligenciada para Universidades y Colegios según corresponda</p>
+    <!-- Acreditacion Ies Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('acreditacion_ies', __('models/entidades.fields.acreditacion_ies')) !!}
+        {!! Form::select('acreditacion_ies',[0=>'NO',1=>'SI'], old('acreditacion_ies'), ['class' => 'form-control']) !!}
+    </div>
+
+    <!-- Codigo Ies Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('codigo_ies', __('models/entidades.fields.codigo_ies')) !!}
+        {!! Form::text('codigo_ies', null, ['class' => 'form-control']) !!}
+    </div>
 </div>
 
-<!-- Mi Universidad Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('mi_universidad', __('models/entidades.fields.mi_universidad')) !!}
-    {!! Form::select('mi_universidad',[0=>'NO',1=>'SI'], old('mi_universidad'), ['class' => 'form-control']) !!}
+<div id="informacion_colegio">
+    <!-- Calendario Field -->
+    <div class="form-group col-sm-6">
+        {!! Form::label('calendario', __('models/entidades.fields.calendario')) !!}
+        {!! Form::text('calendario', null, ['class' => 'form-control']) !!}
+    </div>
 </div>
-
-<!-- Acreditacion Ies Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('acreditacion_ies', __('models/entidades.fields.acreditacion_ies')) !!}
-    {!! Form::select('acreditacion_ies',[0=>'NO',1=>'SI'], old('acreditacion_ies'), ['class' => 'form-control']) !!}
-</div>
-
-
-@push('scripts')
-    <script type="text/javascript">
-         $(document).ready(function() { 
-            $('#mi_universidad').select2(); 
-            $('#acreditacion_ies').select2(); 
-        }); 
-    </script>
-@endpush
-
-<!-- Calendario Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('calendario', __('models/entidades.fields.calendario')) !!}
-    {!! Form::text('calendario', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Codigo Ies Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('codigo_ies', __('models/entidades.fields.codigo_ies')) !!}
-    {!! Form::text('codigo_ies', null, ['class' => 'form-control']) !!}
-</div>
-
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
@@ -124,7 +120,15 @@
 
 @push('scripts')
     <script type="text/javascript">
-        $(document).ready(function() {  
+        $(document).ready(function() {              
+            toggleInformacionIESColegio();
+
+            $('#actividad_economica_id').change(function(){
+                toggleInformacionIESColegio();    
+            }); 
+
+            $('#mi_universidad').select2(); 
+            $('#acreditacion_ies').select2();
             $('.mytt').tooltip();          
             $('#lugar_id').select2({
                 placeholder: "Seleccionar",
@@ -206,5 +210,29 @@
                 }
             });
         });
+
+        function toggleInformacionIESColegio(){
+            var actividadesColegio = @json($actividadesColegio);
+            var actividadesIES = @json($actividadesIES);
+            var actividadElegida = parseInt($('#actividad_economica_id').val());
+
+            console.log(actividadesColegio);
+            console.log(actividadesIES);
+            console.log(actividadElegida);
+
+            if(actividadesIES.includes(actividadElegida)){
+                console.log('Si incluye IES');
+                $('#informacion_universidad').show();    
+            }else{
+                $('#informacion_universidad').hide();    
+            }  
+            
+            if(actividadesColegio.includes(actividadElegida)){
+                console.log('Si incluye Col');
+                $('#informacion_colegio').show();    
+            }else{
+                $('#informacion_colegio').hide();    
+            } 
+        }
     </script>
 @endpush

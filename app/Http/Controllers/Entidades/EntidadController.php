@@ -8,6 +8,7 @@ use App\Http\Requests\Entidades\CreateEntidadRequest;
 use App\Http\Requests\Entidades\UpdateEntidadRequest;
 use App\Repositories\Entidades\EntidadRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Entidades\ActividadEconomica;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Response;
@@ -45,7 +46,9 @@ class EntidadController extends AppBaseController
      */
     public function create()
     {
-        return view('entidades.entidades.create');
+        $actividadesColegio = ActividadEconomica::where('es_colegio',1)->pluck('id')->toArray();
+        $actividadesIES = ActividadEconomica::where('es_ies',1)->pluck('id')->toArray();
+        return view('entidades.entidades.create')->with(['actividadesColegio'=> $actividadesColegio, 'actividadesIES'=>$actividadesIES]);
     }
 
     /**
@@ -98,6 +101,8 @@ class EntidadController extends AppBaseController
     public function edit($id)
     {
         $entidad = $this->entidadRepository->find($id);
+        $actividadesColegio = ActividadEconomica::where('es_colegio',1)->pluck('id')->toArray();
+        $actividadesIES = ActividadEconomica::where('es_ies',1)->pluck('id')->toArray();
 
         if (empty($entidad)) {
             Flash::error(__('messages.not_found', ['model' => __('models/entidades.singular')]));
@@ -105,7 +110,7 @@ class EntidadController extends AppBaseController
             return redirect(route('entidades.entidades.index'));
         }
 
-        return view('entidades.entidades.edit')->with('entidad', $entidad);
+        return view('entidades.entidades.edit')->with(['entidad'=>$entidad,'actividadesColegio'=> $actividadesColegio, 'actividadesIES'=>$actividadesIES]);
     }
 
     /**
