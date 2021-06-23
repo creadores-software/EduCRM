@@ -68,11 +68,13 @@ class Handler extends ExceptionHandler
         }else if($exception instanceof MethodNotAllowedHttpException){
             $mensaje ="Este acción no está habilitada.";
             return response()->view('layouts.error', ['message'=>$mensaje], 500);
-        }else if(Auth::guest()){
-            return redirect()->guest('login');
         }else if ($exception instanceof UnauthorizedException) {
-            $mensaje ="No estás autorizado para realizar esta operación.";
-            return response()->view('layouts.error', ['message'=>$mensaje], 500);
+            if(Auth::guest()){
+                return redirect()->guest('login');
+            }else{
+                $mensaje ="No estás autorizado para realizar esta operación.";
+                return response()->view('layouts.error', ['message'=>$mensaje], 500);
+            }
         }   
         return parent::render($request, $exception);
     }
