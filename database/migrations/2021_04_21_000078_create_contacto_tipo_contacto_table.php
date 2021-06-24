@@ -33,7 +33,7 @@ class CreateContactoTipoContactoTable extends Migration
 
             $table->foreign('contacto_id', 'fk_ctc_contacto_idx')
                 ->references('id')->on('contacto')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('tipo_contacto_id', 'fk_ctc_tipo_contacto_idx')

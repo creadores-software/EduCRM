@@ -33,7 +33,7 @@ class CreateTipoInteraccionEstadosTable extends Migration
 
             $table->foreign('tipo_interaccion_id', 'fk_tipo_interaccion_has_estado_interaccion_tipo_interaccion_idx')
                 ->references('id')->on('tipo_interaccion')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('estado_interaccion_id', 'fk_tipo_interaccion_has_estado_interaccion_estado_interacci_idx')

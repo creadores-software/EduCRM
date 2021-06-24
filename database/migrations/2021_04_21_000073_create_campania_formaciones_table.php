@@ -33,7 +33,7 @@ class CreateCampaniaFormacionesTable extends Migration
 
             $table->foreign('campania_id', 'fk_campania_formaciones_campania_idx')
                 ->references('id')->on('campania')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('formacion_id', 'fk_campania_formaciones_formacion_idx')

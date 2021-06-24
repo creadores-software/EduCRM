@@ -38,7 +38,7 @@ class CreatePersonaBuyerPersonaTable extends Migration
 
             $table->foreign('informacion_relacional_id', 'fk_pbp_informacion_relacional_idx')
                 ->references('id')->on('informacion_relacional')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

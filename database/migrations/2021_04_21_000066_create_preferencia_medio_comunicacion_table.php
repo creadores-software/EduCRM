@@ -33,7 +33,7 @@ class CreatePreferenciaMedioComunicacionTable extends Migration
 
             $table->foreign('informacion_relacional_id', 'fk_pmc_informacion_relacional_idx')
                 ->references('id')->on('informacion_relacional')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('medio_comunicacion_id', 'fk_pmc_medio_comunicacion_idx')

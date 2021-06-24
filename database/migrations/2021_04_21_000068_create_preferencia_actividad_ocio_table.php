@@ -38,7 +38,7 @@ class CreatePreferenciaActividadOcioTable extends Migration
 
             $table->foreign('informacion_relacional_id', 'fk_preferencia_relacional_idx')
                 ->references('id')->on('informacion_relacional')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

@@ -38,7 +38,7 @@ class CreatePreferenciaCampoEducacionTable extends Migration
 
             $table->foreign('informacion_relacional_id', 'fk_pce_informacion_relacional_idx')
                 ->references('id')->on('informacion_relacional')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

@@ -33,7 +33,7 @@ class CreateFormacionBuyerPersonaTable extends Migration
 
             $table->foreign('formacion_id', 'fk_fobp_formacion_idx')
                 ->references('id')->on('formacion')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('buyer_persona_id', 'fk_fobp_buyer_persona_idx')

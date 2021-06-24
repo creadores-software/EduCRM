@@ -35,7 +35,7 @@ class CreateTipoCampaniaEstadosTable extends Migration
 
             $table->foreign('tipo_campania_id', 'fk_tipo_campania_estado_campania_tipo_campania_idx')
                 ->references('id')->on('tipo_campania')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('estado_campania_id', 'fk_tipo_campania_estado_campania_estado_campania_idx')

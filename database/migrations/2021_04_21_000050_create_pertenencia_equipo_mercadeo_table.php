@@ -34,7 +34,7 @@ class CreatePertenenciaEquipoMercadeoTable extends Migration
 
             $table->foreign('users_id', 'fk_pertenencia_equipo_users_idx')
                 ->references('id')->on('users')
-                ->onDelete('restrict')
+                ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('equipo_mercadeo_id', 'fk_pertenencia_equipo_equipo_mercadeo_idx')
