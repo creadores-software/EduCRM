@@ -70,7 +70,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->create();
         $fakeCategoriaOportunidad = factory(CategoriaOportunidad::class)->make()->toArray();  
-        
+        $fakeCategoriaOportunidad['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.categoriasOportunidad.update', $categoriaOportunidad->id);
         $response = $this->patch($url,$fakeCategoriaOportunidad); 

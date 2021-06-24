@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Interaccion::class, function (Faker $faker) {
-    $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-2 hours', 'now')->getTimestamp());
+    $inicio= new Carbon();
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMinutes($faker->numberBetween(0,5));
     return [
         'fecha_inicio' => $inicio,
