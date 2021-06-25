@@ -6,15 +6,13 @@ use App\Models\Admin\User;
 use App\Models\Contactos\Contacto;
 use App\Models\Parametros\Origen;
 use App\Models\Parametros\Prefijo;
+use Exception;
+use Carbon\Carbon;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-
-use function Symfony\Component\String\b;
 
 class Contacto_InformacionGeneralTest extends DuskTestCase
 {  
-    use WithoutMiddleware;
 
     /**
      * Valida que muestre error con los campos requeridos cuando no se ingresa ninguno.
@@ -45,7 +43,8 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
                 $browser->loginAs(User::find(1));//Superadmin
                 $browser->visit('/contactos/contactos/create');
                 $browser->assertDontSee('Referido Por');
-                $browser->asignarValorSelect2('#origen_id','Referido',$referido->id);
+                $clase="App\Models\Parametros\Origen";
+                $browser->asignarValorSelect2('#origen_id',$clase,'nombre',$referido->id);
                 $browser->assertSee('Referido Por');
             });
         }
@@ -64,7 +63,7 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
             $browser->press('Guardar');             
             $browser->assertSee('No se debe repetir');
         }); 
-        $contacto->delete();
+        Contacto::where('id',$contacto->id)->delete();
     } 
 
     /**
@@ -93,9 +92,101 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
             $this->browse(function (Browser $browser) use ($prefijo,$prefijo_erroneo){            
                 $browser->loginAs(User::find(1));//Superadmin
                 $browser->visit('/contactos/contactos/create');
-                $browser->asignarValorSelect2('#genero_id',$prefijo->genero->nombre,$prefijo->genero->id);
+                $clase="App\Models\Parametros\Genero";
+                $browser->asignarValorSelect2('#genero_id',$clase,'nombre',$prefijo->genero->id);
                 $browser->assertValorEnSelect2('#prefijo_id',$prefijo->nombre,$prefijo_erroneo->nombre);
             }); 
         }        
     } 
+
+    /**
+     * Valida que el componente de ubicación solicite el pais y en caso 
+     * de ser Colombia también debe pedir departamento y ciudad
+     */
+    public function testUbicacion()
+    {        
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/contactos/create');
+            $browser->assertValidarUbicacion('#lugar_residencia');
+        });        
+    } 
+
+    /**
+     * Valida que permita la creación con todos los campos y muestre mensaje satisfactorio
+     */
+    public function testCreacionCompletaExitosa()
+    { 
+        $linea = 0;       
+        try{
+            $contacto = factory(Contacto::class)->make()->toArray();
+            $this->browse(function (Browser $browser) use ($contacto,$linea){ 
+                         
+                $browser->loginAs(User::find(1));//Superadmin
+                $browser->visit('/contactos/contactos/create');
+                $browser->waitFor('.select2'); 
+
+                $browser->type('nombres',$contacto['nombres']);
+                $linea++;
+                $browser->type('apellidos',$contacto['apellidos']);
+                $linea++;
+                $browser->type('correo_personal',$contacto['correo_personal']);
+                $linea++;
+                $browser->type('celular',$contacto['celular']);
+                $linea++;
+                
+                $clase="App\Models\Parametros\Origen";
+                $browser->asignarValorSelect2('#origen_id',$clase,'nombre',$contacto['origen_id']);
+                $linea++;
+                /**
+                $clase="App\Models\Parametros\TipoDocumento";
+                $browser->asignarValorSelect2('#tipo_documento_id',$clase,'nombre',$contacto['tipo_documento_id']);
+                
+                $browser->type('identificacion',$contacto['identificacion']);
+                $browser->type('telefono',$contacto['telefono']);
+                $browser->type('correo_institucional',$contacto['correo_institucional']);
+                
+                $clase="App\Models\Parametros\Genero";
+                $browser->asignarValorSelect2('#genero_id',$clase,'nombre',$contacto['genero_id']);
+                
+                $clase="App\Models\Parametros\Prefijo";
+                $browser->asignarValorSelect2('#prefijo_id',$clase,'nombre',$contacto['prefijo_id']);
+                
+                $browser->asignarFecha('#fecha_nacimiento',Carbon::parse($contacto['fecha_nacimiento']));
+                
+                $clase="App\Models\Parametros\EstadoCivil";
+                $browser->asignarValorSelect2('#estado_civil_id',$clase,'nombre',$contacto['estado_civil_id']);
+                
+                $browser->scrollIntoView('#direccion_residencia');
+
+                $browser->type('direccion_residencia',$contacto['direccion_residencia']);
+                $browser->type('barrio',$contacto['barrio']);
+                
+                $browser->asignarValorSelect2('#estrato',"value",$contacto['estrato'],$contacto['estrato']);
+                
+                $clase="App\Models\Parametros\Sisben";
+                $browser->asignarValorSelect2('#sisben_id',$clase,'nombre',$contacto['sisben_id']);
+                
+                $browser->asignarUbicacion('#lugar_residencia');
+
+                $clase="App\Models\Parametros\TipoContacto";
+                //Se asignan los primeros dos tipos de contacto
+                $browser->asignarValorMultipleSelect2('#tiposContacto',$clase,'nombre',[1,2]);
+                
+                $browser->asignarValorSelect2('#activo',"value","SI",1);
+                $browser->type('observacion',$contacto['observacion']);
+                 */
+               
+                $browser->press('Guardar');   
+
+                $browser->waitFor('.alert-success'); 
+                $browser->assertPathIs('/contactos/contactos'); 
+                $alerta = $browser->script("return document.querySelector('.alert-success').textContent")[0];
+                $this->assertStringContainsString('guardado(a) satisfactoriamente', $alerta);
+                Contacto::where('identificacion',$contacto['identificacion'])->delete();             
+            });     
+        }catch(Exception $e){
+            dd("Linea {$linea} Mensaje: ".$e->getMessage().print_r($contacto,true).'Errado');
+        }
+    }
 }

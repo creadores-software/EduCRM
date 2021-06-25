@@ -10,11 +10,13 @@ use App\Models\Parametros\Origen;
 use App\Models\Parametros\Prefijo;
 use App\Models\Parametros\Sisben;
 use App\Models\Parametros\TipoDocumento;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Contacto::class, function (Faker $faker) {
 
     $prefijo = factory(Prefijo::class)->create();
+    $nacimiento=Carbon::createFromTimeStamp($faker->dateTimeBetween('-60 years', '-1 days')->getTimestamp());
     return [
         'tipo_documento_id' => function () {
             return factory(TipoDocumento::class)->create()->id;
@@ -23,7 +25,7 @@ $factory->define(Contacto::class, function (Faker $faker) {
         'prefijo_id' => $prefijo->id,
         'nombres' => $faker->firstName,
         'apellidos' => $faker->lastName,
-        'fecha_nacimiento' => $faker->optional()->date('Y-m-d','now'),
+        'fecha_nacimiento' => $nacimiento->format('Y-m-d'),
         'genero_id' => $prefijo->genero->id,
         'estado_civil_id' => function () {
             return factory(EstadoCivil::class)->create()->id;
@@ -35,13 +37,13 @@ $factory->define(Contacto::class, function (Faker $faker) {
         'lugar_residencia' => function () {
             return factory(Lugar::class)->create()->id;
         },
-        'direccion_residencia' => $faker->optional()->address,
-        'barrio' => $faker->optional()->streetName,
-        'estrato' => $faker->optional()->numberBetween(1,6),
+        'direccion_residencia' => $faker->optional()->streetAddress,
+        'barrio' => $faker->realText(50),
+        'estrato' => $faker->numberBetween(1,6),
         'sisben_id' => function () {
             return factory(Sisben::class)->create()->id;
         },
-        'observacion' => $faker->text,
+        'observacion' => $faker->realText(255),
         'referido_por' => null,
         'origen_id' =>function () {
             return factory(Origen::class)->create()->id;
