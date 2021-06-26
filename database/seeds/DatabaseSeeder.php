@@ -67,7 +67,19 @@ class DatabaseSeeder extends Seeder
         $this->call(OcupacionTableSeeder::class);
         $this->call(LugarTableSeeder::class);
         $this->call(EntidadTableSeeder::class);
-        $this->call(FormacionTableSeeder::class);       
+        $this->call(FormacionTableSeeder::class);     
+        //Con información de pruebas
+        $this->call(SegmentoTableSeeder::class);
+        $this->call(TipoCampaniaTableSeeder::class);
+        $this->call(EquipoMercadeoTableSeeder::class);
+        $this->call(CampaniaTableSeeder::class);
+        $this->call(ContactoTableSeeder::class);
+        $this->call(InformacionRelacionalTableSeeder::class);
+        $this->call(TipoCampaniaEstadosTableSeeder::class);
+        $this->call(JustificacionEstadoCampaniaTableSeeder::class);
+        $this->call(EstadoCampaniaTableSeeder::class);
+        $this->call(OportunidadTableSeeder::class);
+        $this->call(PertenenciaEquipoMercadeoTableSeeder::class);  
         
         Schema::enableForeignKeyConstraints(); 
     }
