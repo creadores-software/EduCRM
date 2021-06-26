@@ -115,7 +115,7 @@ class EntidadDataTable extends DataTable
                    'url' => url('/js/Spanish.json'),
                  ],
                  'initComplete' => "function () {                                   
-                        this.api().columns(':lt(6)').every(function () {
+                        this.api().columns(':lt(7)').every(function () {
                             var column = this;
                             var input = document.createElement(\"input\");
                             $(input).appendTo($(column.footer()).empty())
