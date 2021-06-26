@@ -3,6 +3,6 @@
         "level": "SEVERE",
         "message": "http:\/\/localhost:8000\/contactos\/contactos\/2 - Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
         "source": "network",
-        "timestamp": 1624733739417
+        "timestamp": 1624744714852
     }
 ]
