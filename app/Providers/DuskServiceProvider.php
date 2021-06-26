@@ -34,7 +34,6 @@ class DuskServiceProvider extends ServiceProvider
                         .val('.$id.').text("'.$valor.'")
                     ).trigger("change");';
                 $this->script($script); 
-                Log::debug('El script es '. $script);
             }                     
             return $this;
         });
@@ -91,7 +90,6 @@ class DuskServiceProvider extends ServiceProvider
             $fecha_completa="{$anio}-{$mes}-{$dia}";
             $script="document.querySelector('{$elemento}').value = '{$fecha_completa}'";
             $this->script($script);
-            Log::debug('El script es '. $script);
             return $this;
         });
 

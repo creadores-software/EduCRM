@@ -206,6 +206,7 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
         $this->browse(function (Browser $browser){ 
             $browser->loginAs(User::find(1));//Superadmin
             $browser->visit('/contactos/contactos/');
+            $browser->pause(1000);//petición ajax
             //Columnas en Datatable
             $browser->assertSee('Identificación'); 
             $browser->assertSee('Nombres');
@@ -240,6 +241,7 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
 
             $browser->loginAs(User::find(1));//Superadmin
             $browser->visit('/contactos/contactos/');
+            $browser->pause(1000);//petición ajax
             $browser->waitFor('#dataTableBuilder td .btn-group .glyphicon-trash'); 
             
             //Opción de eliminar contacto nuevo -> satisfactorio
