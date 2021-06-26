@@ -1,3 +1,7 @@
+<div class="clearfix"></div>
+@include('flash::message')
+<div class="clearfix"></div>
+
 <ul class="nav nav-tabs">
     <li class="{{ (request()->is('contactos/contactos*')) ? 'active' : '' }}">
         <a href="{{ route('contactos.contactos.show',$idContacto) }}"><i class="fa fa-user"></i> General</a></li>
