@@ -10,8 +10,6 @@ $factory->define(NivelFormacion::class, function (Faker $faker) {
 
     return [
         'nombre' => $faker->unique()->realText(100),
-        'nivel_academico_id' => function () {
-            return factory(NivelAcademico::class)->create()->id;
-        },
+        'nivel_academico_id' => $faker->numberBetween(1,NivelAcademico::count()),
     ];
 });

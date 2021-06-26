@@ -17,34 +17,18 @@ $factory->define(Formacion::class, function (Faker $faker) {
 
     return [
         'nombre' => $faker->realText(150),
-        'entidad_id' => function () {
-            return factory(Entidad::class)->create()->id;
-        },
-        'nivel_formacion_id' => function () {
-            return factory(NivelFormacion::class)->create()->id;
-        },
-        'codigo_snies' => $faker->numerify('####'),
+        'entidad_id' => $faker->numberBetween(1,Entidad::count()),
+        'nivel_formacion_id' => $faker->numberBetween(1,NivelFormacion::count()),
+        'codigo_snies' => Formacion::count(),
         'titulo_otorgado' =>  $faker->realText(150),
-        'campo_educacion_id' => function () {
-            return factory(CampoEducacion::class)->create()->id;
-        },
-        'modalidad_id' => function () {
-            return factory(Modalidad::class)->create()->id;
-        },
-        'jornada_id' => function () {
-            return factory(Jornada::class)->create()->id;
-        },
-        'periodicidad_id' => function () {
-            return factory(Periodicidad::class)->create()->id;
-        },
+        'campo_educacion_id' => $faker->numberBetween(1,CampoEducacion::count()),
+        'modalidad_id' => $faker->numberBetween(1,Modalidad::count()),
+        'jornada_id' => $faker->numberBetween(1,Jornada::count()),
+        'periodicidad_id' => $faker->numberBetween(1,Periodicidad::count()),
         'periodos_duracion' => $faker->randomDigitNotNull,
-        'reconocimiento_id' => function () {
-            return factory(Reconocimiento::class)->create()->id;
-        },
+        'reconocimiento_id' => $faker->numberBetween(1,Reconocimiento::count()),
         'costo_matricula' => $faker->randomNumber,
         'activo' => $faker->boolean,
-        'facultad_id' => function () {
-            return factory(Facultad::class)->create()->id;
-        },
+        'facultad_id' => $faker->numberBetween(1,Facultad::count()),
     ];
 });

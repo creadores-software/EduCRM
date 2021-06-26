@@ -10,11 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(ContactoTipoContacto::class, function (Faker $faker) {
 
     return [
-        'contacto_id' => function () {
-            return factory(Contacto::class)->create()->id;
-        },
-        'tipo_contacto_id' => function () {
-            return factory(TipoContacto::class)->create()->id;
-        },
+        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'tipo_contacto_id' => $faker->numberBetween(1,TipoContacto::count()),
     ];
 });

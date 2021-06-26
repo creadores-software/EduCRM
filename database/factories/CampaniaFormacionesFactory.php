@@ -10,11 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(CampaniaFormaciones::class, function (Faker $faker) {
 
     return [
-        'campania_id' => function () {
-            return factory(Campania::class)->create()->id;
-        },
-        'formacion_id' => function () {
-            return factory(Formacion::class)->create()->id;
-        },
+        'campania_id' => $faker->numberBetween(1,Campania::count()),
+        'formacion_id' => $faker->numberBetween(1,Formacion::count()),
     ];
 });

@@ -11,8 +11,6 @@ $factory->define(EstadoCampania::class, function (Faker $faker) {
     return [
         'nombre' => $faker->unique()->realText(45),
         'descripcion' => $faker->realText(255),
-        'tipo_estado_color_id' => function () {
-            return factory(TipoEstadoColor::class)->create()->id;
-        },
+        'tipo_estado_color_id' => $faker->numberBetween(1,TipoEstadoColor::count()),
     ];
 });

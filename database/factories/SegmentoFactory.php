@@ -17,8 +17,6 @@ $factory->define(Segmento::class, function (Faker $faker) {
             ];
         },
         'global' => $faker->boolean,
-        'usuario_id' => function () {
-            return factory(User::class)->create()->id;
-        },
+        'usuario_id' => $faker->numberBetween(1,User::count()),
     ];
 });

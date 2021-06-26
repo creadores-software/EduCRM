@@ -10,8 +10,6 @@ $factory->define(Ocupacion::class, function (Faker $faker) {
 
     return [
         'nombre' => $faker->unique()->realText(150),
-        'tipo_ocupacion_id' => function () {
-            return factory(TipoOcupacion::class)->create()->id;
-        },
+        'tipo_ocupacion_id' => $faker->numberBetween(1,TipoOcupacion::count()),
     ];
 });

@@ -21,45 +21,19 @@ use Faker\Generator as Faker;
 $factory->define(InformacionRelacional::class, function (Faker $faker) {
 
     return [
-        'maximo_nivel_formacion_id' => function () {
-            return factory(NivelFormacion::class)->create()->id;
-        },
-        'ocupacion_actual_id' => function () {
-            return factory(Ocupacion::class)->create()->id;
-        },
-        'estilo_vida_id' => function () {
-            return factory(EstiloVida::class)->create()->id;
-        },
-        'religion_id' => function () {
-            return factory(Religion::class)->create()->id;
-        },
-        'raza_id' => function () {
-            return factory(Raza::class)->create()->id;
-        },
-        'generacion_id' => function () {
-            return factory(Generacion::class)->create()->id;
-        },
-        'personalidad_id' => function () {
-            return factory(Personalidad::class)->create()->id;
-        },
-        'beneficio_id' => function () {
-            return factory(Beneficio::class)->create()->id;
-        },
-        'frecuencia_uso_id' => function () {
-            return factory(FrecuenciaUso::class)->create()->id;
-        },
-        'estatus_usuario_id' => function () {
-            return factory(EstatusUsuario::class)->create()->id;
-        },
-        'estatus_lealtad_id' => function () {
-            return factory(EstatusLealtad::class)->create()->id;
-        },
-        'estado_disposicion_id' => function () {
-            return factory(EstadoDisposicion::class)->create()->id;
-        },
-        'actitud_servicio_id' =>function () {
-            return factory(ActitudServicio::class)->create()->id;
-        },
+        'maximo_nivel_formacion_id' => $faker->numberBetween(1,NivelFormacion::count()),
+        'ocupacion_actual_id' => $faker->numberBetween(1,Ocupacion::count()),
+        'estilo_vida_id' => $faker->numberBetween(1,EstiloVida::count()),
+        'religion_id' => $faker->numberBetween(1,Religion::count()),
+        'raza_id' => $faker->numberBetween(1,Raza::count()),
+        'generacion_id' => $faker->numberBetween(1,Generacion::count()),
+        'personalidad_id' => $faker->numberBetween(1,Personalidad::count()),
+        'beneficio_id' => $faker->numberBetween(1,Beneficio::count()),
+        'frecuencia_uso_id' => $faker->numberBetween(1,FrecuenciaUso::count()),
+        'estatus_usuario_id' => $faker->numberBetween(1,EstatusUsuario::count()),
+        'estatus_lealtad_id' => $faker->numberBetween(1,EstatusLealtad::count()),
+        'estado_disposicion_id' => $faker->numberBetween(1,EstadoDisposicion::count()),
+        'actitud_servicio_id' =>$faker->numberBetween(1,ActitudServicio::count()),
         'autoriza_comunicacion' => true
     ];
 });

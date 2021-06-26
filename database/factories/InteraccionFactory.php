@@ -16,19 +16,11 @@ $factory->define(Interaccion::class, function (Faker $faker) {
     return [
         'fecha_inicio' => $inicio,
         'fecha_fin' => $fin,
-        'tipo_interaccion_id' => function () {
-            return factory(TipoInteraccion::class)->create()->id;
-        },
-        'estado_interaccion_id' => function () {
-            return factory(EstadoInteraccion::class)->create()->id;
-        },
+        'tipo_interaccion_id' => $faker->numberBetween(1,TipoInteraccion::count()),
+        'estado_interaccion_id' => $faker->numberBetween(1,EstadoInteraccion::count()),
         'observacion' => $faker->realText(255),
-        'oportunidad_id' => function () {
-            return factory(Oportunidad::class)->create()->id;
-        },
+        'oportunidad_id' => $faker->numberBetween(1,Oportunidad::count()),
         'contacto_id' => null,
-        'users_id' => function () {
-            return factory(User::class)->create()->id;
-        },
+        'users_id' => $faker->numberBetween(1,User::count()),
     ];
 });

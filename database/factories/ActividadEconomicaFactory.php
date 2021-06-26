@@ -9,9 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(ActividadEconomica::class, function (Faker $faker) {
 
     return [
-        'categoria_actividad_economica_id' =>  function () {
-            return factory(CategoriaActividadEconomica::class)->create()->id;
-        },
+        'categoria_actividad_economica_id' =>  $faker->numberBetween(1,CategoriaActividadEconomica::count()),
         'nombre' => $faker->unique()->realText(150),
         'es_ies' => $faker->boolean,
         'es_colegio' => $faker->boolean

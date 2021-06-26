@@ -10,11 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(PreferenciaActividadOcio::class, function (Faker $faker) {
 
     return [
-        'informacion_relacional_id' => function () {
-            return factory(InformacionRelacional::class)->create()->id;
-        },
-        'actividad_ocio_id' => function () {
-            return factory(ActividadOcio::class)->create()->id;
-        },
+        'informacion_relacional_id' => $faker->numberBetween(1,InformacionRelacional::count()),
+        'actividad_ocio_id' => $faker->numberBetween(1,ActividadOcio::count()),
     ];
 });

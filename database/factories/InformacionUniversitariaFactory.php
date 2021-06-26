@@ -15,26 +15,14 @@ $factory->define(InformacionUniversitaria::class, function (Faker $faker) {
     $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-10 years', '-1 years')->getTimestamp());
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMonths($faker->numberBetween(1,60));
     return [
-        'contacto_id' => function () {
-            return factory(Contacto::class)->create()->id;
-        },
-        'entidad_id' => function () {
-            return factory(Entidad::class)->create()->id;
-        },
-        'formacion_id' => function () {
-            return factory(Formacion::class)->create()->id;
-        },
-        'tipo_acceso_id' => function () {
-            return factory(TipoAcceso::class)->create()->id;
-        },
+        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'entidad_id' => $faker->numberBetween(1,Entidad::count()),
+        'formacion_id' => $faker->numberBetween(1,Formacion::count()),
+        'tipo_acceso_id' => $faker->numberBetween(1,TipoAcceso::count()),
         'fecha_inicio' => $inicio->format('Y-m-d'),
         'fecha_grado' => $fin->format('Y-m-d'),
-        'periodo_academico_inicial' => function () {
-            return factory(PeriodoAcademico::class)->create()->id;
-        },
-        'periodo_academico_final' => function () {
-            return factory(PeriodoAcademico::class)->create()->id;
-        },
+        'periodo_academico_inicial' => $faker->numberBetween(1,PeriodoAcademico::count()),
+        'periodo_academico_final' => $faker->numberBetween(1,PeriodoAcademico::count()),
         'finalizado' => $faker->boolean,
         'promedio' => $faker->randomFloat(2,0,5),
         'periodo_alcanzado' => $faker->randomDigitNotNull

@@ -14,15 +14,9 @@ $factory->define(InformacionEscolar::class, function (Faker $faker) {
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMonths($faker->numberBetween(1,24));
     $icfes=Carbon::createFromFormat('Y-m-d H:i:s', $fin)->subMonths(2);
     return [
-        'contacto_id' => function () {
-            return factory(Contacto::class)->create()->id;
-        },
-        'entidad_id' => function () {
-            return factory(Entidad::class)->create()->id;
-        },
-        'nivel_formacion_id' => function () {
-            return factory(NivelFormacion::class)->create()->id;
-        },
+        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'entidad_id' => $faker->numberBetween(1,Entidad::count()),
+        'nivel_formacion_id' => $faker->numberBetween(1,NivelFormacion::count()),
         'fecha_inicio' => $inicio->format('Y-m-d'),
         'fecha_grado' => $fin->format('Y-m-d'),
         'fecha_icfes' => $icfes->format('Y-m-d'),

@@ -10,12 +10,8 @@ use Faker\Generator as Faker;
 $factory->define(TipoCampaniaEstados::class, function (Faker $faker) {
 
     return [
-        'tipo_campania_id' => function () {
-            return factory(TipoCampania::class)->create()->id;
-        },
-        'estado_campania_id' => function () {
-            return factory(EstadoCampania::class)->create()->id;
-        },
+        'tipo_campania_id' => $faker->numberBetween(1,TipoCampania::count()),
+        'estado_campania_id' => $faker->numberBetween(1,EstadoCampania::count()),
         //Teniendo en cuenta que cada relación será nueva se deja solo 1
         'orden' => 1,
         'dias_cambio' => $faker->randomDigit

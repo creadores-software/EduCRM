@@ -9,9 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(JustificacionEstadoCampania::class, function (Faker $faker) {
 
     return [
-        'estado_campania_id' => function () {
-            return factory(EstadoCampania::class)->create()->id;
-        },
+        'estado_campania_id' => $faker->numberBetween(1,EstadoCampania::count()),
         'nombre' => $faker->unique()->realText(45)
     ];
 });

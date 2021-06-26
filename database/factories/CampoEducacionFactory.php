@@ -9,9 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(CampoEducacion::class, function (Faker $faker) {
 
     return [
-        'categoria_campo_educacion_id' => function () {
-            return factory(CategoriaCampoEducacion::class)->create()->id;
-        },
+        'categoria_campo_educacion_id' => $faker->numberBetween(1,CategoriaCampoEducacion::count()),
         'nombre' => $faker->unique()->realText(150),
     ];
 });

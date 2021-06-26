@@ -10,11 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(TipoInteraccionEstados::class, function (Faker $faker) {
 
     return [
-        'tipo_interaccion_id' => function () {
-            return factory(TipoInteraccion::class)->create()->id;
-        },
-        'estado_interaccion_id' => function () {
-            return factory(EstadoInteraccion::class)->create()->id;
-        },
+        'tipo_interaccion_id' => $faker->numberBetween(1,TipoInteraccion::count()),
+        'estado_interaccion_id' => $faker->numberBetween(1,EstadoInteraccion::count()),
     ];
 });

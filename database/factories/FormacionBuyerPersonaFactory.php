@@ -12,11 +12,7 @@ use Faker\Generator as Faker;
 $factory->define(FormacionBuyerPersona::class, function (Faker $faker) {
 
     return [
-        'formacion_id' => function () {
-            return factory(Formacion::class)->create()->id;
-        },
-        'buyer_persona_id' => function () {
-            return factory(BuyerPersona::class)->create()->id;
-        },
+        'formacion_id' => $faker->numberBetween(1,Formacion::count()),
+        'buyer_persona_id' => $faker->numberBetween(1,BuyerPersona::count()),
     ];
 });

@@ -9,9 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(Prefijo::class, function (Faker $faker) {
 
     return [
-        'genero_id' => function () {
-            return factory(Genero::class)->create()->id;
-        },
+        'genero_id' => $faker->numberBetween(1,Genero::count()),
         'nombre' => $faker->unique()->realText(45),
     ];
 });

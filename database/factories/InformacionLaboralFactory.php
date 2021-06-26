@@ -13,15 +13,9 @@ $factory->define(InformacionLaboral::class, function (Faker $faker) {
     $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-10 years', '-1 years')->getTimestamp());
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMonths($faker->numberBetween(1,60));
     return [
-        'contacto_id' => function () {
-            return factory(Contacto::class)->create()->id;
-        },
-        'entidad_id' => function () {
-            return factory(Entidad::class)->create()->id;
-        },
-        'ocupacion_id' => function () {
-            return factory(Ocupacion::class)->create()->id;
-        },
+        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'entidad_id' => $faker->numberBetween(1,Entidad::count()),
+        'ocupacion_id' => $faker->numberBetween(1,Ocupacion::count()),
         'area' => $faker->realText(45),
         'funciones' => $faker->realText(255),
         'telefono' => $faker->e164PhoneNumber,
