@@ -39,7 +39,7 @@ class TipoEstadoColorRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoTipoEstadoColor = TipoEstadoColor::latest()->first()->toArray();
+        $objetoTipoEstadoColor = TipoEstadoColor::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($tipoEstadoColor, $objetoTipoEstadoColor),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

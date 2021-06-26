@@ -39,7 +39,7 @@ class RoleRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoRole = Role::latest()->first()->toArray();
+        $objetoRole = Role::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($role, $objetoRole),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

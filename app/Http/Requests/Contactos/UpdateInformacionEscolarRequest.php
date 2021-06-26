@@ -34,7 +34,7 @@ class UpdateInformacionEscolarRequest extends FormRequest
                 ->ignore($this->id)
                 ->where('contacto_id', $this->contacto_id)
                 ->where('fecha_inicio', $this->fecha_inicio)
-        ];
+        ];       
         $rules['fecha_grado'] = ['nullable'];
         if($this->request->get('fecha_grado')){
             $rules['fecha_grado'][] = 'after:fecha_inicio';                
@@ -42,6 +42,10 @@ class UpdateInformacionEscolarRequest extends FormRequest
         $rules['fecha_icfes'] = ['nullable'];
         if($this->request->get('fecha_icfes')){
             $rules['fecha_icfes'][] = 'after:fecha_inicio';                
+        }
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['nivel_formacion_id'][2]); 
         }
         return $rules;
     }

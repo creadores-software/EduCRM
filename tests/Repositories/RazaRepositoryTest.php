@@ -39,7 +39,7 @@ class RazaRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoRaza = Raza::latest()->first()->toArray();
+        $objetoRaza = Raza::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($raza, $objetoRaza),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

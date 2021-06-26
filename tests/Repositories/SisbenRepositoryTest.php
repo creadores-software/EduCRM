@@ -39,7 +39,7 @@ class SisbenRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoSisben = Sisben::latest()->first()->toArray();
+        $objetoSisben = Sisben::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($sisben, $objetoSisben),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

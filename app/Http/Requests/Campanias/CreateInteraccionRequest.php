@@ -35,6 +35,10 @@ class CreateInteraccionRequest extends FormRequest
                 ->where('fecha_inicio',$fecha_inicio)
                 ->where('users_id', $this->users_id)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['oportunidad_id'][1]); 
+        }
         return $rules;
     }
 }

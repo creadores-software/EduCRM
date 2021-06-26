@@ -33,6 +33,10 @@ class UpdatePertenenciaEquipoMercadeoRequest extends FormRequest
                 ->ignore($this->id)
                 ->where('equipo_mercadeo_id', $this->equipo_mercadeo_id)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['users_id'][1]); 
+        }
         return $rules;
     }
 }

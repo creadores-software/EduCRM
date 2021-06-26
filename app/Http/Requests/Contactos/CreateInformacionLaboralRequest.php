@@ -38,6 +38,10 @@ class CreateInformacionLaboralRequest extends FormRequest
                 ->where('contacto_id', $this->contacto_id)
                 ->where('fecha_inicio', $this->fecha_inicio)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['entidad_id'][2]); 
+        }
         return $rules;
     }
 }

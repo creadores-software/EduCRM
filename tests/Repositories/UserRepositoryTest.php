@@ -41,7 +41,7 @@ class UserRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoUser = User::latest()->first()->toArray();
+        $objetoUser = User::all()->last()->toArray();
         $objetoUser['password']=$password;
         $this->assertTrue($this->sonDatosIguales($user, $objetoUser),'El modelo guardado no coincide con el creado.');                
         

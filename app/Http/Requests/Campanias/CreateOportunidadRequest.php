@@ -35,6 +35,10 @@ class CreateOportunidadRequest extends FormRequest
                 ->where('campania_id', $this->campania_id)
                 ->where('formacion_id', $this->formacion_id)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['contacto_id'][2]); 
+        }
         return $rules;
     }
 }

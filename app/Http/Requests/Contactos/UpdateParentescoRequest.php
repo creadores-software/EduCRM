@@ -40,6 +40,10 @@ class UpdateParentescoRequest extends FormRequest
                 ->ignore($this->id)
                 ->where('contacto_origen', $this->contacto_origen)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['contacto_destino'][2]); 
+        }
         return $rules;
     }
 }

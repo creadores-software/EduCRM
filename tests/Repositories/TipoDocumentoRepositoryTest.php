@@ -39,7 +39,7 @@ class TipoDocumentoRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoTipoDocumento = TipoDocumento::latest()->first()->toArray();
+        $objetoTipoDocumento = TipoDocumento::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($tipoDocumento, $objetoTipoDocumento),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

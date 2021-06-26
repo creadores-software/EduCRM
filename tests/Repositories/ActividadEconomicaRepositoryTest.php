@@ -34,12 +34,12 @@ class ActividadEconomicaRepositoryTest extends TestCase
         $response = $this->post($url, $actividadEconomica); 
         $excepcion=null; 
         if(is_object($response->exception)){
-            $excepcion=$response->exception->getMessage();
+            $excepcion=$response->exception->getMessage();            
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoActividadEconomica = ActividadEconomica::latest()->first()->toArray();
+        $objetoActividadEconomica = ActividadEconomica::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($actividadEconomica, $objetoActividadEconomica),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

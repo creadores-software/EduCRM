@@ -28,7 +28,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
     public function test_crear_pertenencia_equipo_mercadeo()
     {
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->make()->toArray();
-
+        $pertenenciaEquipoMercadeo['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('admin.pertenenciasEquipoMercadeo.store');
         $response = $this->post($url, $pertenenciaEquipoMercadeo); 
@@ -39,10 +39,11 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::latest()->first()->toArray();
+        $objetoPertenenciaEquipoMercadeo = PertenenciaEquipoMercadeo::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($pertenenciaEquipoMercadeo, $objetoPertenenciaEquipoMercadeo),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($pertenenciaEquipoMercadeo['testRepository']);
         $response = $this->post($url, $pertenenciaEquipoMercadeo); 
         $status=200; 
         if(is_object($response->exception)){
@@ -70,7 +71,7 @@ class PertenenciaEquipoMercadeoRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $pertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->create();
         $fakePertenenciaEquipoMercadeo = factory(PertenenciaEquipoMercadeo::class)->make()->toArray();  
-        
+        $fakePertenenciaEquipoMercadeo['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('admin.pertenenciasEquipoMercadeo.update', $pertenenciaEquipoMercadeo->id);
         $response = $this->patch($url,$fakePertenenciaEquipoMercadeo); 

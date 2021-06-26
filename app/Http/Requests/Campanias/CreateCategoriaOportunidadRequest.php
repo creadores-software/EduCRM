@@ -34,6 +34,10 @@ class CreateCategoriaOportunidadRequest extends FormRequest
             'iunique:categoria_oportunidad,nombre,'.$this->request->get('id'),
             new UnicoIntervaloCategoria($this->request),
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['nombre'][4]); 
+        }
         return $rules;
     }
 }

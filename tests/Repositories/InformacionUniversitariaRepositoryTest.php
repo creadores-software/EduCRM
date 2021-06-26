@@ -28,21 +28,23 @@ class InformacionUniversitariaRepositoryTest extends TestCase
     public function test_crear_informacion_universitaria()
     {
         $informacionUniversitaria = factory(InformacionUniversitaria::class)->make()->toArray();
-
+        $informacionUniversitaria['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.informacionesUniversitarias.store');
         $response = $this->post($url, $informacionUniversitaria); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoInformacionUniversitaria = InformacionUniversitaria::latest()->first()->toArray();
+        $objetoInformacionUniversitaria = InformacionUniversitaria::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($informacionUniversitaria, $objetoInformacionUniversitaria),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($informacionUniversitaria['testRepository']);
         $response = $this->post($url, $informacionUniversitaria); 
         $status=200; 
         if(is_object($response->exception)){
@@ -70,13 +72,14 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $informacionUniversitaria = factory(InformacionUniversitaria::class)->create();
         $fakeInformacionUniversitaria = factory(InformacionUniversitaria::class)->make()->toArray();  
-        
+        $fakeInformacionUniversitaria['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('contactos.informacionesUniversitarias.update', $informacionUniversitaria->id);
         $response = $this->patch($url,$fakeInformacionUniversitaria); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

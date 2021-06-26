@@ -39,7 +39,7 @@ class CampaniaRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoCampania = Campania::latest()->first()->toArray();
+        $objetoCampania = Campania::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($campania, $objetoCampania),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

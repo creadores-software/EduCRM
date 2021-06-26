@@ -31,6 +31,7 @@ class OportunidadRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad
         $oportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($oportunidad['ultima_actualizacion']));
         $oportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($oportunidad['ultima_interaccion']));
+        $oportunidad['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.oportunidades.store');
         $response = $this->post($url, $oportunidad); 
@@ -41,7 +42,7 @@ class OportunidadRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoOportunidad = Oportunidad::latest()->first()->toArray();
+        $objetoOportunidad = Oportunidad::all()->last()->toArray();
         //Para datetime se debe formatear para que no presente dificultad
         $objetoOportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_actualizacion']));
         $objetoOportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($objetoOportunidad['ultima_interaccion']));
@@ -49,6 +50,7 @@ class OportunidadRepositoryTest extends TestCase
         $this->assertTrue($this->sonDatosIguales($oportunidad, $objetoOportunidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($oportunidad['testRepository']);
         $response = $this->post($url, $oportunidad); 
         $status=200; 
         if(is_object($response->exception)){
@@ -79,7 +81,7 @@ class OportunidadRepositoryTest extends TestCase
         $fakeOportunidad = factory(Oportunidad::class)->make()->toArray();  
         $fakeOportunidad['ultima_actualizacion'] = date('Y-m-d H:i:s',strtotime($fakeOportunidad['ultima_actualizacion']));
         $fakeOportunidad['ultima_interaccion'] = date('Y-m-d H:i:s',strtotime($fakeOportunidad['ultima_interaccion']));
-        
+        $fakeOportunidad['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.oportunidades.update', $oportunidad->id);
         $response = $this->patch($url,$fakeOportunidad); 

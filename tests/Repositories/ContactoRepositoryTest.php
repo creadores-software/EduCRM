@@ -34,12 +34,12 @@ class ContactoRepositoryTest extends TestCase
         $response = $this->post($url, $contacto); 
         $excepcion=null; 
         if(is_object($response->exception)){
-            $excepcion=$response->exception->getMessage();
+            $excepcion=$response->exception->getMessage();            
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoContacto = Contacto::latest()->first()->toArray();
+        $objetoContacto = Contacto::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($contacto, $objetoContacto),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

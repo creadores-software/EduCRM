@@ -28,7 +28,7 @@ class InformacionLaboralRepositoryTest extends TestCase
     public function test_crear_informacion_laboral()
     {
         $informacionLaboral = factory(InformacionLaboral::class)->make()->toArray();
-
+        $informacionLaboral['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.informacionesLaborales.store');
         $response = $this->post($url, $informacionLaboral); 
@@ -39,11 +39,12 @@ class InformacionLaboralRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoInformacionLaboral = InformacionLaboral::latest()->first()->toArray();
+        $objetoInformacionLaboral = InformacionLaboral::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($informacionLaboral, $objetoInformacionLaboral),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
-        $response = $this->post($url, $informacionLaboral); 
+        unset($informacionLaboral['testRepository']);
+        $response = $this->post($url, $informacionLaboral);         
         $status=200; 
         if(is_object($response->exception)){
             $status=$response->exception->status;
@@ -70,7 +71,7 @@ class InformacionLaboralRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $informacionLaboral = factory(InformacionLaboral::class)->create();
         $fakeInformacionLaboral = factory(InformacionLaboral::class)->make()->toArray();  
-        
+        $fakeInformacionLaboral['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('contactos.informacionesLaborales.update', $informacionLaboral->id);
         $response = $this->patch($url,$fakeInformacionLaboral); 

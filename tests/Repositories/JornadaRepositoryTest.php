@@ -39,7 +39,7 @@ class JornadaRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoJornada = Jornada::latest()->first()->toArray();
+        $objetoJornada = Jornada::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($jornada, $objetoJornada),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

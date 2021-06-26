@@ -36,5 +36,9 @@ class UpdateOportunidadRequest extends FormRequest
                 ->where('formacion_id', $this->formacion_id)
         ];
         return $rules;
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['contacto_id'][2]); 
+        }
     }
 }

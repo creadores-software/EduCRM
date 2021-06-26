@@ -39,7 +39,7 @@ class SectorRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoSector = Sector::latest()->first()->toArray();
+        $objetoSector = Sector::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($sector, $objetoSector),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

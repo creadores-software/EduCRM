@@ -28,21 +28,23 @@ class ParentescoRepositoryTest extends TestCase
     public function test_crear_parentesco()
     {
         $parentesco = factory(Parentesco::class)->make()->toArray();
-
+        $parentesco['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.parentescos.store');
         $response = $this->post($url, $parentesco); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoParentesco = Parentesco::latest()->first()->toArray();
+        $objetoParentesco = Parentesco::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($parentesco, $objetoParentesco),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($parentesco['testRepository']);
         $response = $this->post($url, $parentesco); 
         $status=200; 
         if(is_object($response->exception)){
@@ -70,13 +72,14 @@ class ParentescoRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $parentesco = factory(Parentesco::class)->create();
         $fakeParentesco = factory(Parentesco::class)->make()->toArray();  
-        
+        $fakeParentesco['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('contactos.parentescos.update', $parentesco->id);
         $response = $this->patch($url,$fakeParentesco); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

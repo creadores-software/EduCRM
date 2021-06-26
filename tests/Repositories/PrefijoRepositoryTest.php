@@ -39,7 +39,7 @@ class PrefijoRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoPrefijo = Prefijo::latest()->first()->toArray();
+        $objetoPrefijo = Prefijo::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($prefijo, $objetoPrefijo),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

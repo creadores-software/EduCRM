@@ -39,7 +39,7 @@ class GeneracionRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoGeneracion = Generacion::latest()->first()->toArray();
+        $objetoGeneracion = Generacion::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($generacion, $objetoGeneracion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

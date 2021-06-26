@@ -39,7 +39,7 @@ class NivelAcademicoRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoNivelAcademico = NivelAcademico::latest()->first()->toArray();
+        $objetoNivelAcademico = NivelAcademico::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($nivelAcademico, $objetoNivelAcademico),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

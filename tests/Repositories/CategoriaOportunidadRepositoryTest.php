@@ -28,7 +28,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
     public function test_crear_categoria_oportunidad()
     {
         $categoriaOportunidad = factory(CategoriaOportunidad::class)->make()->toArray();
-
+        $categoriaOportunidad['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.categoriasOportunidad.store');
         $response = $this->post($url, $categoriaOportunidad); 
@@ -39,7 +39,7 @@ class CategoriaOportunidadRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoCategoriaOportunidad = CategoriaOportunidad::latest()->first()->toArray();
+        $objetoCategoriaOportunidad = CategoriaOportunidad::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($categoriaOportunidad, $objetoCategoriaOportunidad),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

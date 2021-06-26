@@ -39,7 +39,7 @@ class BuyerPersonaRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoBuyerPersona = BuyerPersona::latest()->first()->toArray();
+        $objetoBuyerPersona = BuyerPersona::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($buyerPersona, $objetoBuyerPersona),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       

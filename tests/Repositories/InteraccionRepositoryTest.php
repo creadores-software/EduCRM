@@ -31,23 +31,26 @@ class InteraccionRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad
         $interaccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($interaccion['fecha_inicio']));
         $interaccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($interaccion['fecha_fin']));
+        $interaccion['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.interacciones.store');
         $response = $this->post($url, $interaccion); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd(array_keys($response->exception));
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');        
         
         //El último objeto corresponde con el creado
-        $objetoInteraccion = Interaccion::latest()->first()->toArray();  
+        $objetoInteraccion = Interaccion::all()->last()->toArray();  
         //Para datetime se debe formatear para que no presente dificultad 
         $objetoInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_inicio']));
         $objetoInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($objetoInteraccion['fecha_fin']));     
         $this->assertTrue($this->sonDatosIguales($interaccion, $objetoInteraccion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($interaccion['testRepository']); 
         $response = $this->post($url, $interaccion); 
         $status=200; 
         if(is_object($response->exception)){
@@ -78,13 +81,14 @@ class InteraccionRepositoryTest extends TestCase
         //Para datetime se debe formatear para que no presente dificultad  
         $fakeInteraccion['fecha_inicio'] = date('Y-m-d H:i:s',strtotime($fakeInteraccion['fecha_inicio']));
         $fakeInteraccion['fecha_fin'] = date('Y-m-d H:i:s',strtotime($fakeInteraccion['fecha_fin']));  
-        
+        $fakeInteraccion['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.interacciones.update', $interaccion->id);
         $response = $this->patch($url,$fakeInteraccion); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
+            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

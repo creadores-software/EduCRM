@@ -35,7 +35,7 @@ class InformacionRelacionalRepositoryTest extends TestCase
         $this->post($url, $contacto); 
 
         //El último objeto corresponde con el creado
-        $objetoInformacionRelacional = InformacionRelacional::latest()->first()->toArray();
+        $objetoInformacionRelacional = InformacionRelacional::all()->last()->toArray();
         $this->assertNotNull($objetoInformacionRelacional,'El modelo relacional no se creó junto al contacto.');                
         
     }

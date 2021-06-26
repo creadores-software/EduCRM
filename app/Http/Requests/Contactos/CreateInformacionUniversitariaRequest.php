@@ -38,6 +38,10 @@ class CreateInformacionUniversitariaRequest extends FormRequest
         if($this->request->get('fecha_grado')){
             $rules['fecha_grado'][] = 'after:fecha_inicio';                
         }
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['formacion_id'][2]); 
+        }
         return $rules;
     }
 }

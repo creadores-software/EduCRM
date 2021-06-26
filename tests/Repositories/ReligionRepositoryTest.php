@@ -39,7 +39,7 @@ class ReligionRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
-        $objetoReligion = Religion::latest()->first()->toArray();
+        $objetoReligion = Religion::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($religion, $objetoReligion),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
