@@ -172,9 +172,99 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
 
             $browser->waitFor('.alert-success'); 
             $browser->assertPathIs('/contactos/contactos'); 
-            $alerta = $browser->script("return document.querySelector('.alert-success').textContent")[0];
-            $this->assertStringContainsString('guardado(a) satisfactoriamente', $alerta);
+            $browser->assertSee('guardado(a) satisfactoriamente'); 
             Contacto::where('identificacion',$contacto['identificacion'])->delete();             
+        });   
+    }
+
+    /**
+     * Valida que permita editar y visualizar correctamente
+     */
+    public function testEdicionVistaExitosa()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/contactos/1/edit');
+
+            $browser->waitFor('.select2'); 
+            $browser->type('nombres','Nuevo nombre');   
+
+            $browser->press('Guardar');   
+            $browser->waitFor('.alert-success'); 
+            $browser->assertPathIs('/contactos/contactos/1'); 
+            $browser->assertSee('Nuevo nombre');   
+            $browser->assertSee('actualizado(a) satisfactoriamente');   
+            $browser->assertSee('Log de auditoria');
+        });   
+    }
+
+    /**
+     * Valida la vista de administración
+     */
+    public function testAdminCompleto()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/contactos/');
+            //Columnas en Datatable
+            $browser->assertSee('Identificación'); 
+            $browser->assertSee('Nombres');
+            $browser->assertSee('Apellidos');
+            $browser->assertSee('Celular');
+            $browser->assertSee('Correo Personal');
+            $browser->assertSee('Origen');
+            $browser->assertSee('Activo');
+            $browser->assertSee('ID');
+            //Botones de acción
+            $browser->waitFor('#dataTableBuilder'); 
+            $browser->assertPresent('#dataTableBuilder td .btn-group .glyphicon-eye-open');
+            $browser->assertPresent('#dataTableBuilder td .btn-group .glyphicon-pencil');
+            $browser->assertPresent('#dataTableBuilder td .btn-group .glyphicon-trash');
+            //Buscadores inferiores
+            $browser->assertPresent('#dataTableBuilder tfoot tr th input');
+            //Botón superior
+            $browser->assertPresent('#dataTableBuilder_wrapper .dt-buttons .buttons-export');
+            $browser->assertSee('Búsqueda avanzada');
+        });   
+    }
+
+    /**
+     * Valida la opción de eliminar
+     */
+    public function testEliminar()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $contacto = factory(Contacto::class)->make()->toArray();
+            $contacto['nombres']='Alejandra'; // Para que aparezca de primera
+            Contacto::create($contacto);
+
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/contactos/');
+            $browser->waitFor('#dataTableBuilder td .btn-group .glyphicon-trash'); 
+            
+            //Opción de eliminar contacto nuevo -> satisfactorio
+            $browser->element('#dataTableBuilder tbody tr:nth-child(1) button.btn-danger')->click();
+            $browser->acceptDialog();            
+            $browser->waitFor('.alert-success'); 
+            $browser->assertSee('eliminado(a) satisfactoriamente');
+
+             //Opción de eliminar contacto antiguo con relaciones -> con error
+             $browser->element('#dataTableBuilder tbody tr:nth-child(1) button.btn-danger')->click();
+             $browser->acceptDialog();       
+             $browser->waitFor('.alert-danger'); 
+             $browser->assertSee('No se puede eliminar el registro');
+        });   
+    }
+
+    /**
+     * Valida la opción importar
+     */
+    public function testImportar()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/contactos/subirImportacion');
+            $browser->assertSeeLink('Descargar plantilla');
         });   
     }
 }
