@@ -28,7 +28,7 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
     public function test_crear_tipo_campania_estados()
     {
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->make()->toArray();
-
+        $tipoCampaniaEstados['testRepository']=true;
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('campanias.tiposCampaniaEstados.store');
         $response = $this->post($url, $tipoCampaniaEstados); 
@@ -43,6 +43,7 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
         $this->assertTrue($this->sonDatosIguales($tipoCampaniaEstados, $objetoTipoCampaniaEstados),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
+        unset($tipoCampaniaEstados['testRepository']);
         $response = $this->post($url, $tipoCampaniaEstados); 
         $status=200; 
         if(is_object($response->exception)){
@@ -70,7 +71,7 @@ class TipoCampaniaEstadosRepositoryTest extends TestCase
         //Se crea un objeto y se generan datos para edición  
         $tipoCampaniaEstados = factory(TipoCampaniaEstados::class)->create();
         $fakeTipoCampaniaEstados = factory(TipoCampaniaEstados::class)->make()->toArray();  
-        
+        $fakeTipoCampaniaEstados['testRepository']=true;
         //Se intenta editar y no debe generar ninguna excepción
         $url = route('campanias.tiposCampaniaEstados.update', $tipoCampaniaEstados->id);
         $response = $this->patch($url,$fakeTipoCampaniaEstados); 
