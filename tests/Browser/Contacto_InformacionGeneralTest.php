@@ -251,6 +251,8 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
             $browser->assertSee('eliminado(a) satisfactoriamente');
 
              //Opción de eliminar contacto antiguo con relaciones -> con error
+             $browser->pause(1000);//petición ajax
+             $browser->waitFor('#dataTableBuilder td .btn-group .glyphicon-trash'); 
              $browser->element('#dataTableBuilder tbody tr:nth-child(1) button.btn-danger')->click();
              $browser->acceptDialog();       
              $browser->waitFor('.alert-danger'); 
