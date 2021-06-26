@@ -1,5 +1,6 @@
 <?php namespace Tests\Repositories;
 
+use App\Models\Admin\User;
 use App\Models\Contactos\Segmento;
 use App\Repositories\Contactos\SegmentoRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +32,8 @@ class SegmentoRepositoryTest extends TestCase
 
         //Se intenta registrar y no debe generar ninguna excepción
         $url=route('contactos.segmentos.store');
-        $response = $this->post($url, $segmento); 
+        $usuario = User::find(1);
+        $response = $this->actingAs($usuario)->post($url, $segmento); 
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
@@ -39,6 +41,7 @@ class SegmentoRepositoryTest extends TestCase
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
         //El último objeto corresponde con el creado
+        $segmento['usuario_id']=1;
         $objetoSegmento = Segmento::all()->last()->toArray();
         $this->assertTrue($this->sonDatosIguales($segmento, $objetoSegmento),'El modelo guardado no coincide con el creado.');                
         

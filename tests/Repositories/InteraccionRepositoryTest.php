@@ -38,7 +38,6 @@ class InteraccionRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd(array_keys($response->exception));
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');        
         
@@ -88,7 +87,6 @@ class InteraccionRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

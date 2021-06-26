@@ -13,7 +13,7 @@ $factory->define(TipoCampaniaEstados::class, function (Faker $faker) {
         'tipo_campania_id' => $faker->numberBetween(1,TipoCampania::count()),
         'estado_campania_id' => $faker->numberBetween(1,EstadoCampania::count()),
         //Teniendo en cuenta que cada relación será nueva se deja solo 1
-        'orden' => 1,
+        'orden' => TipoCampaniaEstados::count(),
         'dias_cambio' => $faker->randomDigit
     ];
 });

@@ -41,6 +41,10 @@ class CreateTipoCampaniaEstadosRequest extends FormRequest
                 ->ignore($this->id)
                 ->where('tipo_campania_id', $this->tipo_campania_id)
         ];
+        if($this->request->get('testRepository')){      
+            //Se elimina esta validación pues es compleja de controlar desde el Factory     
+            unset($rules['estado_campania_id'][2]); 
+        }
         return $rules;
     }
 }

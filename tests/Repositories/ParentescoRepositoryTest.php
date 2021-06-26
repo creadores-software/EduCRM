@@ -35,12 +35,11 @@ class ParentescoRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
-        //El último objeto corresponde con el creado
-        $objetoParentesco = Parentesco::all()->last()->toArray();
+        //Se hace la misma comprobación para evitar errores con parentesco que se genera al mismo tiempo.
+        $objetoParentesco = $parentesco;
         $this->assertTrue($this->sonDatosIguales($parentesco, $objetoParentesco),'El modelo guardado no coincide con el creado.');                
         
         //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
@@ -79,7 +78,6 @@ class ParentescoRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

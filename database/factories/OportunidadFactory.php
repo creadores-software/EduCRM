@@ -16,7 +16,7 @@ $factory->define(Oportunidad::class, function (Faker $faker) {
 
     return [
         'campania_id' => $faker->numberBetween(1,Campania::count()),
-        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'contacto_id' => $faker->numberBetween(1,2),
         'formacion_id' => $faker->numberBetween(1,Formacion::count()),
         'responsable_id' => $faker->numberBetween(1,User::count()),
         'estado_campania_id' => $faker->numberBetween(1,EstadoCampania::count()),

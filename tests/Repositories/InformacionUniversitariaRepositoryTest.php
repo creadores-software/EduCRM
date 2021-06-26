@@ -35,7 +35,6 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
         
@@ -79,7 +78,6 @@ class InformacionUniversitariaRepositoryTest extends TestCase
         $excepcion=null; 
         if(is_object($response->exception)){
             $excepcion=$response->exception->getMessage();
-            dd($response->exception);
         }
         $this->assertNull($excepcion,'El modelo no fue editado correctamente.');
         

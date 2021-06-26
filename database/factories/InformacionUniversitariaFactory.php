@@ -15,7 +15,7 @@ $factory->define(InformacionUniversitaria::class, function (Faker $faker) {
     $inicio=Carbon::createFromTimeStamp($faker->dateTimeBetween('-10 years', '-1 years')->getTimestamp());
     $fin=Carbon::createFromFormat('Y-m-d H:i:s', $inicio)->addMonths($faker->numberBetween(1,60));
     return [
-        'contacto_id' => $faker->numberBetween(1,Contacto::count()),
+        'contacto_id' => $faker->numberBetween(1,2),
         'entidad_id' => $faker->numberBetween(1,Entidad::count()),
         'formacion_id' => $faker->numberBetween(1,Formacion::count()),
         'tipo_acceso_id' => $faker->numberBetween(1,TipoAcceso::count()),
