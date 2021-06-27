@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Models\Parametros\Lugar;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Dusk\Browser;
-use Illuminate\Support\Facades\Log;
 
 class DuskServiceProvider extends ServiceProvider
 {
@@ -19,7 +17,7 @@ class DuskServiceProvider extends ServiceProvider
     public function boot()
     {
         // Modifica el valor de un campo de tipo select2
-        Browser::macro('asignarValorSelect2', function ($element,$class,$name,$id) {
+        \Laravel\Dusk\Browser::macro('asignarValorSelect2', function ($element,$class,$name,$id) {
             //$this->waitFor('[aria-labelledby="select2-'.ltrim($element, '#').'-container"]'); 
             if($class!="value"){
                 $objeto=$class::where('id',$id)->first(); 
@@ -39,7 +37,7 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         // Modifica el valor de un campo múltiple de tipo select2
-        Browser::macro('asignarValorMultipleSelect2', function ($element,$class,$name,$ids) {
+        \Laravel\Dusk\Browser::macro('asignarValorMultipleSelect2', function ($element,$class,$name,$ids) {
             //$this->waitFor('.select2-selection--multiple'); 
             if(sizeof($ids)>0){
                 $objetos=$class::whereIn('id',$ids)->get(); 
@@ -57,7 +55,7 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         // Valida si existe un campo dentro de un seleccionable de tipo select2
-        Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null) {
+        \Laravel\Dusk\Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null) {
             $highlightedClass    = '.select2-results__option--highlighted';
             $highlightedSelector = '.select2-results__options ' . $highlightedClass;
             
@@ -75,7 +73,7 @@ class DuskServiceProvider extends ServiceProvider
          * Confirma que exista un elemento de tipo 
          * datepicker al hacer clic sobre el elemento
         **/
-        Browser::macro('assertDateTimeExistente', function ($element) {
+        \Laravel\Dusk\Browser::macro('assertDateTimeExistente', function ($element) {
             $this->click($element);
             $claseDatePicker=".bootstrap-datetimepicker-widget";
             $this->assertVisible($claseDatePicker);
@@ -83,7 +81,7 @@ class DuskServiceProvider extends ServiceProvider
         });
 
         //Asigna una fecha a un campo dateTimePicker
-        Browser::macro('asignarFecha', function ($elemento,$fecha) {
+        \Laravel\Dusk\Browser::macro('asignarFecha', function ($elemento,$fecha) {
             $anio = $fecha->year;
             $mes = $fecha->month;
             $dia = $fecha->day;
@@ -97,7 +95,7 @@ class DuskServiceProvider extends ServiceProvider
          * Valida que el componente de ubicación solicite el pais y en caso 
          * de ser Colombia también debe pedir departamento y ciudad
          */
-        Browser::macro('assertValidarUbicacion', function ($elemento) {
+        \Laravel\Dusk\Browser::macro('assertValidarUbicacion', function ($elemento) {
             $ubicacionExterior = Lugar::where('nombre','<>','Colombia')->where('tipo','P')->first();
             $ubicacionColombia = Lugar::where('nombre','Colombia')->where('tipo','P')->first();
             $ciudad = Lugar::where('tipo','C')->inRandomOrder()->first();
@@ -126,7 +124,7 @@ class DuskServiceProvider extends ServiceProvider
         });
 
 
-        Browser::macro('asignarUbicacion', function ($elemento) {
+        \Laravel\Dusk\Browser::macro('asignarUbicacion', function ($elemento) {
             $ubicacionColombia = Lugar::where('nombre','Colombia')->where('tipo','P')->first();
             $ciudad = Lugar::where('tipo','C')->inRandomOrder()->first();
             $departamento = $ciudad->lugarPadre;
