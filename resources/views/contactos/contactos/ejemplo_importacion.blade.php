@@ -35,7 +35,6 @@
         <th>estatus_lealtad_id</th>
         <th>estado_disposicion_id</th>
         <th>actitud_servicio_id</th>
-        <th>autoriza_comunicacion</th>
     </tr>
     </thead>
     <tbody>  

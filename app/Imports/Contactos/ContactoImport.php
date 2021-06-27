@@ -104,11 +104,7 @@ class ContactoImport implements OnEachRow, WithHeadingRow, WithValidation,SkipsO
                 $informacionRelacional->estatus_lealtad_id=$row['estatus_lealtad_id'];
                 $informacionRelacional->estado_disposicion_id=$row['estado_disposicion_id'];
                 $informacionRelacional->actitud_servicio_id=$row['actitud_servicio_id'];
-                $autoriza=$row['autoriza_comunicacion'];
-                if(empty($autoriza)){
-                    $autoriza=1;    
-                }
-                $informacionRelacional->autoriza_comunicacion=$autoriza;
+                $informacionRelacional->autoriza_comunicacion=1;
 
                 $informacionRelacional->save();  
                 Cache::increment('cantidadImportados');            

@@ -269,6 +269,24 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
             $browser->loginAs(User::find(1));//Superadmin
             $browser->visit('/contactos/contactos/subirImportacion');
             $browser->assertSeeLink('Descargar plantilla');
+            $browser->attach('archivo', 'tests/Browser/Files/plantilla_contactos.xlsx');
+            $browser->press('Cargar importación'); 
+            /** 
+             * Teniendo en cuenta los datos ingresados en el archivo de prueba, 
+             * deben cargar solo dos registros y salir los siguientes errores
+             */
+            $browser->waitFor('.alert-danger'); 
+            $browser->assertSee('Error en la linea 2: El campo celular es requerido');
+            $browser->assertSee('Error en la linea 2: El campo correo_personal debe ser un correo válido');
+            $browser->assertSee('Error en la linea 2: El campo origen_id es requerido');
+            $browser->assertSee('Error en la linea 5: No existe tipo de documento con este id');
+            $browser->assertSee('Error en la linea 5: No existe prefijo con este id');
+            $browser->assertSee('Error en la linea 5: No existe genero con este id');
+            $browser->assertSee('Error en la linea 5: No existe estado civil con este id');
+            $browser->assertSee('Se importaron sin error 2 registro(s)');
+            //Se eliminan datos de prueba cargados
+            Contacto::whereNotIn('id',[1,2])->delete();
+
         });   
     }
 }
