@@ -167,7 +167,7 @@
 
 <!-- Tipos de Contacto -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tiposContacto', ' Tipo Contacto') !!}
+    {!! Form::label('tiposContacto', ' Tipo de Contacto') !!}
     <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
     </select> 
 </div>

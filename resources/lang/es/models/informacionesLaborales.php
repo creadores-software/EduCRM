@@ -9,7 +9,7 @@ return array (
     'contacto_id' => 'Contacto',
     'entidad_id' => 'Entidad',
     'ocupacion_id' => 'Ocupación',
-    'area' => 'Area',
+    'area' => 'Área',
     'funciones' => 'Funciones',
     'telefono' => 'Teléfono',
     'fecha_inicio' => 'Fecha Inicio',

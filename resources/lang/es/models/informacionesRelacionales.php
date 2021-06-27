@@ -18,7 +18,7 @@ return array (
     'estatus_usuario_id' => 'Estatus de Usuario',
     'estatus_lealtad_id' => 'Estatus de Lealtad',
     'estado_disposicion_id' => 'Estado de Disposición',
-    'actitud_servicio_id' => 'Actitud de Servicio',
+    'actitud_servicio_id' => 'Actitud ante el Servicio',
     'autoriza_comunicacion' => 'Autoriza Comunicación',
   ),
 );
