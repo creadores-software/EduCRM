@@ -16,7 +16,7 @@
 
 <!-- Fecha Inicio -->
 <div class="form-group col-sm-6">
-    {!! Form::label('campaniaFechaInicio', 'Fecha de Inicio:') !!}
+    {!! Form::label('campaniaFechaInicio', 'Fecha de Inicio') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="campaniaFechaInicialInicio" name="campaniaFechaInicialInicio" type="text" placeholder="Desde" value="{{ old('campaniaFechaInicialInicio') }}" class="form-control pull-right">
@@ -29,7 +29,7 @@
 
 <!-- Fecha de Fin -->
 <div class="form-group col-sm-6">
-    {!! Form::label('campaniaFechaFin', 'Fecha de Fin:') !!}
+    {!! Form::label('campaniaFechaFin', 'Fecha de Fin') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="campaniaFechaInicialFin" name="campaniaFechaInicialFin" type="text" placeholder="Desde" value="{{ old('campaniaFechaInicialFin') }}" class="form-control pull-right">

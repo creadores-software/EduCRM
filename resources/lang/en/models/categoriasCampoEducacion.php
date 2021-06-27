@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Categoría Campo Educación',
-  'plural' => 'Categorías Campo Educación',
+  'singular' => 'Categoría Campo de Educación',
+  'plural' => 'Categorías Campo de Educación',
   'fields' => 
   array (
     'id' => 'Id',

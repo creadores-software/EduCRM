@@ -5,9 +5,9 @@
     </select> 
 </div>
 
-<!-- Ubicación entidad Field -->
+<!-- Ubicación de Entidad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('universidadUbicacionesEntidad', 'Ubicación Entidad:') !!}
+    {!! Form::label('universidadUbicacionesEntidad', 'Ubicación de Entidad') !!}
     <select name="universidadUbicacionesEntidad[]" id="universidadUbicacionesEntidad" class="form-control">                
     </select> 
 </div>
@@ -19,16 +19,16 @@
     </select> 
 </div>
 
-<!-- Categoria Campo Educación Id Field -->
+<!-- Categoria Campo de Educación Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('universidadCategoriasCampoEducacion','Categoría Campo Educación:') !!}
+    {!! Form::label('universidadCategoriasCampoEducacion','Categoría Campo de Educación') !!}
     <select name="universidadCategoriasCampoEducacion[]" id="universidadCategoriasCampoEducacion" class="form-control"  multiple="multiple">
     </select> 
 </div>
 
-<!-- Campo Educación Formacion Id Field -->
+<!-- Campo de Educación Formacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('universidadCamposEducacion', 'Campo Educación:') !!}
+    {!! Form::label('universidadCamposEducacion', 'Campo de Educación') !!}
     <select name="universidadCamposEducacion[]" id="universidadCamposEducacion" class="form-control"  multiple="multiple">
     </select> 
 </div>
@@ -68,7 +68,7 @@
 
 <!-- Fecha Inicio -->
 <div class="form-group col-sm-6">
-    {!! Form::label('universidadFechaInicio', 'Fecha de Inicio:') !!}
+    {!! Form::label('universidadFechaInicio', 'Fecha de Inicio') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="universidadFechaInicialInicio" name="universidadFechaInicialInicio" type="text" placeholder="Desde" value="{{ old('universidadFechaInicialInicio') }}" class="form-control pull-right">
@@ -81,7 +81,7 @@
 
 <!-- Fecha de Grado -->
 <div class="form-group col-sm-6">
-    {!! Form::label('universidadFechaGrado', 'Fecha de Grado:') !!}
+    {!! Form::label('universidadFechaGrado', 'Fecha de Grado') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="universidadFechaInicialGrado" name="universidadFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('universidadFechaInicialGrado') }}" class="form-control pull-right">

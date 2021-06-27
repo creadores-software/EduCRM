@@ -39,7 +39,7 @@
     {!! Form::text('titulo_otorgado', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Campo Educación Id Field -->
+<!-- Campo de Educación Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('campo_educacion_id', __('models/formaciones.fields.campo_educacion_id')) !!}
     <select name="campo_educacion_id" id="campo_educacion_id" class="form-control">

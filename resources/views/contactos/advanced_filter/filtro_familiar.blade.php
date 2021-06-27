@@ -1,6 +1,6 @@
 <!-- Tipo Parentesco Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tipo_parentesco_id', 'Rol familiar:') !!}
+    {!! Form::label('tipo_parentesco_id', 'Rol familiar') !!}
     <select name="parentescoTipos[]" id="parentescoTipos" class="form-control">
     </select> 
 </div>
@@ -13,7 +13,7 @@
 
 <!-- Cantidad hijos -->
 <div class="form-group col-sm-6">
-    {!! Form::label('cantidad', 'Cantidad hijos:') !!}
+    {!! Form::label('cantidad', 'Cantidad hijos') !!}
     <div class="row">
         <div class="col-sm-6">
             {!! Form::text('cantidadHijosMinimo', null, ['class' => 'form-control','placeholder'=>'Desde','id'=>'cantidadHijosMinimo']) !!}
@@ -26,7 +26,7 @@
 
 <!-- Edad hijos -->
 <div class="form-group col-sm-6">
-    {!! Form::label('edad', 'Edad hijos:') !!}
+    {!! Form::label('edad', 'Edad hijos') !!}
     <div class="row">
         <div class="col-sm-6">
             {!! Form::text('edadMinimaHijos', null, ['class' => 'form-control','placeholder'=>'Desde','id'=>'edadMinimaHijos']) !!}

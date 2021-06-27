@@ -5,9 +5,9 @@
     </select> 
 </div>
 
-<!-- Ubicación entidad Field -->
+<!-- Ubicación de Entidad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('colegioUbicacionesEntidad', 'Ubicación Entidad:') !!}
+    {!! Form::label('colegioUbicacionesEntidad', 'Ubicación de Entidad') !!}
     <select name="colegioUbicacionesEntidad[]" id="colegioUbicacionesEntidad" class="form-control">                
     </select> 
 </div>
@@ -34,7 +34,7 @@
 
 <!-- Fecha Inicio -->
 <div class="form-group col-sm-6">
-    {!! Form::label('colegioFechaInicio', 'Fecha de Inicio:') !!}
+    {!! Form::label('colegioFechaInicio', 'Fecha de Inicio') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="colegioFechaInicialInicio" name="colegioFechaInicialInicio" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialInicio') }}" class="form-control pull-right">
@@ -47,7 +47,7 @@
 
 <!-- Fecha de Grado -->
 <div class="form-group col-sm-6">
-    {!! Form::label('colegioFechaGrado', 'Fecha de Grado:') !!}
+    {!! Form::label('colegioFechaGrado', 'Fecha de Grado') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="colegioFechaInicialGrado" name="colegioFechaInicialGrado" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialGrado') }}" class="form-control pull-right">
@@ -60,7 +60,7 @@
 
 <!-- Fecha Icfes -->
 <div class="form-group col-sm-6">
-    {!! Form::label('colegioFechaIcfes', 'Fecha Icfes:') !!}
+    {!! Form::label('colegioFechaIcfes', 'Fecha Icfes') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="colegioFechaInicialIcfes" name="colegioFechaInicialIcfes" type="text" placeholder="Desde" value="{{ old('colegioFechaInicialIcfes') }}" class="form-control pull-right">

@@ -103,7 +103,7 @@
 
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('cumple', 'Cumpleaños:') !!}
+    {!! Form::label('cumple', 'Cumpleaños') !!}
     <div class="input-group date">
         <div class="input-group-addon">
             <i class="fa fa-calendar"></i>
@@ -121,7 +121,7 @@
 
 <!-- Fecha Nacimiento Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('edad', 'Edad:') !!}
+    {!! Form::label('edad', 'Edad') !!}
     <div class="row">
         <div class="col-sm-6">
             {!! Form::text('edad_minima', null, ['class' => 'form-control','placeholder'=>'Mínimo','id'=>'edad_minima']) !!}
@@ -167,7 +167,7 @@
 
 <!-- Tipos de Contacto -->
 <div class="form-group col-sm-6">
-    {!! Form::label('tiposContacto', ' Tipo Contacto:') !!}
+    {!! Form::label('tiposContacto', ' Tipo Contacto') !!}
     <select name="tiposContacto[]" id="tiposContacto" class="form-control"  multiple="multiple">
     </select> 
 </div>

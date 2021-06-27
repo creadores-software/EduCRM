@@ -11,7 +11,7 @@ return array (
     'nivel_formacion_id' => 'Nivel Formación',
     'codigo_snies' => 'Codigo SNIES',
     'titulo_otorgado' => 'Titulo Otorgado',
-    'campo_educacion_id' => 'Campo Educación',
+    'campo_educacion_id' => 'Campo de Educación',
     'modalidad_id' => 'Modalidad',
     'periodicidad_id' => 'Periodicidad',
     'periodos_duracion' => 'Periodos Duración',

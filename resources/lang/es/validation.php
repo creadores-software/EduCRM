@@ -154,11 +154,11 @@ return [
     'attributes' => [
         'actitud_servicio_id' => 'Actitud Servicio',
         'actividad_economica_id' => 'Actividad Economica',
-        'actividad_ocio_id' => 'Actividad Ocio',
+        'actividad_ocio_id' => 'Actividad de Ocio',
         'beneficio_id' => 'Beneficio',
         'buyer_persona_id' => 'Buyer Persona',
         'campania_id' => 'Campaña',
-        'campo_educacion_id' => 'Campo Educación',
+        'campo_educacion_id' => 'Campo de Educación',
         'categoria_actividad_economica_id' => 'Categoría',
         'categoria_campo_educacion_id' => 'Categoría',
         'categoria_oportunidad_id' => 'Categoría Oportunidad',

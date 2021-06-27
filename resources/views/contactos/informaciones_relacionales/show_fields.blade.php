@@ -102,7 +102,7 @@
     </select> 
 </div>
 
-<!-- Preferencias Campos Educación -->
+<!-- Preferencias Campos de Educación -->
 <div class="form-group col-sm-12">
     {!! Form::label('preferenciasCamposEducacion', ' Preferencias Campos de Educación:') !!}
     <select name="preferenciasCamposEducacion[]" id="preferenciasCamposEducacion" class="form-control"  multiple="multiple" disabled=true>
@@ -112,9 +112,9 @@
     </select> 
 </div>
 
-<!-- Preferencias Actividades Ocio -->
+<!-- Preferencias Actividades de Ocio -->
 <div class="form-group col-sm-12">
-    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades Ocio:') !!}
+    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades de Ocio:') !!}
     <select name="preferenciasActividadesOcio[]" id="preferenciasActividadesOcio" class="form-control"  multiple="multiple" disabled=true>
         @foreach (old('preferenciasActividadesOcio[]', $informacionRelacional->preferenciasActividadesOcio,null) as $actividad)
             <option value="{{ $actividad->id }}" selected="selected">{{ $actividad->nombre }}</option>

@@ -5,30 +5,30 @@
      </select> 
 </div>
 
-<!-- Ubicación entidad Field -->
+<!-- Ubicación de Entidad Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralUbicacionesEntidad', 'Ubicación Entidad:') !!}
+    {!! Form::label('laboralUbicacionesEntidad', 'Ubicación de Entidad') !!}
     <select name="laboralUbicacionesEntidad[]" id="laboralUbicacionesEntidad" class="form-control">                
     </select> 
 </div>
 
 <!-- Categoria Actividad Económica Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralCategoriasActividadEconomica', 'Categoría Actividad Económica:') !!}
+    {!! Form::label('laboralCategoriasActividadEconomica', 'Categoría Actividad Económica') !!}
     <select name="laboralCategoriasActividadEconomica[]" id="laboralCategoriasActividadEconomica" class="form-control">
     </select> 
 </div>
 
 <!-- Actividad Económica Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralActividadesEconomicas', 'Actividad Económica:') !!}
+    {!! Form::label('laboralActividadesEconomicas', 'Actividad Económica') !!}
     <select name="laboralActividadesEconomicas[]" id="laboralActividadesEconomicas" class="form-control">
     </select> 
 </div>
 
 <!-- Categoria Ocupacion Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralTiposOcupacion', 'Categoría Ocupación:') !!}
+    {!! Form::label('laboralTiposOcupacion', 'Categoría Ocupación') !!}
     <select name="laboralTiposOcupacion[]" id="laboralTiposOcupacion" class="form-control">
     </select> 
 </div>
@@ -60,7 +60,7 @@
 
 <!-- Fecha Inicio -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralFechaInicio', 'Fecha de Inicio:') !!}
+    {!! Form::label('laboralFechaInicio', 'Fecha de Inicio') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="laboralFechaInicialInicio" name="laboralFechaInicialInicio" type="text" placeholder="Desde" value="{{ old('laboralFechaInicialInicio') }}" class="form-control pull-right">
@@ -73,7 +73,7 @@
 
 <!-- Fecha de Fin -->
 <div class="form-group col-sm-6">
-    {!! Form::label('laboralFechaFin', 'Fecha de Fin:') !!}
+    {!! Form::label('laboralFechaFin', 'Fecha de Fin') !!}
     <div class="row">
         <div class="col-sm-6">
             <input id="laboralFechaInicialFin" name="laboralFechaInicialFin" type="text" placeholder="Desde" value="{{ old('laboralFechaInicialFin') }}" class="form-control pull-right">

@@ -99,35 +99,35 @@
 
 <!-- Preferencias Medios Comunicacion -->
 <div class="form-group col-sm-12">
-    {!! Form::label('preferenciasMediosComunicacion', ' Preferencias Medios de Comunicación:') !!}
+    {!! Form::label('preferenciasMediosComunicacion', ' Preferencias Medios de Comunicación') !!}
     <select name="preferenciasMediosComunicacion[]" id="preferenciasMediosComunicacion" class="form-control"  multiple="multiple">
     </select> 
 </div>
 
 <!-- Preferencias Formaciones -->
 <div class="form-group col-sm-12">
-    {!! Form::label('preferenciasFormaciones', ' Preferencias Formaciones:') !!}
+    {!! Form::label('preferenciasFormaciones', ' Preferencias Formaciones') !!}
     <select name="preferenciasFormaciones[]" id="preferenciasFormaciones" class="form-control"  multiple="multiple">
    </select> 
 </div>
 
-<!-- Preferencias Campos Educación -->
+<!-- Preferencias Campos de Educación -->
 <div class="form-group col-sm-12">
-    {!! Form::label('preferenciasCamposEducacion', ' Preferencias Campos de Educación:') !!}
+    {!! Form::label('preferenciasCamposEducacion', ' Preferencias Campos de Educación') !!}
     <select name="preferenciasCamposEducacion[]" id="preferenciasCamposEducacion" class="form-control"  multiple="multiple">
     </select> 
 </div>
 
-<!-- Preferencias Actividades Ocio -->
+<!-- Preferencias Actividades de Ocio -->
 <div class="form-group col-sm-12">
-    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades Ocio:') !!}
+    {!! Form::label('preferenciasActividadesOcio', ' Preferencias Actividades de Ocio') !!}
     <select name="preferenciasActividadesOcio[]" id="preferenciasActividadesOcio" class="form-control"  multiple="multiple">
     </select> 
 </div>
 
-<!-- Preferencias Actividades Ocio -->
+<!-- Preferencias Actividades de Ocio -->
 <div class="form-group col-sm-12">
-    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona:') !!}
+    {!! Form::label('perfilesBuyersPersona', ' Perfiles Buyer Persona') !!}
     <select name="perfilesBuyersPersona[]" id="perfilesBuyersPersona" class="form-control"  multiple="multiple">
     </select> 
 </div>
