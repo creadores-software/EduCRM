@@ -6,14 +6,12 @@ use App\Models\Admin\User;
 use App\Models\Contactos\Contacto;
 use App\Models\Parametros\Origen;
 use App\Models\Parametros\Prefijo;
-use Exception;
 use Carbon\Carbon;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
 class Contacto_InformacionGeneralTest extends DuskTestCase
-{  
-
+{ 
     /**
      * Valida que muestre error con los campos requeridos cuando no se ingresa ninguno.
      */
