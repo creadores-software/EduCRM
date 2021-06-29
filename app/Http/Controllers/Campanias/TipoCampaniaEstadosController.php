@@ -8,6 +8,7 @@ use App\Http\Requests\Campanias\CreateTipoCampaniaEstadosRequest;
 use App\Http\Requests\Campanias\UpdateTipoCampaniaEstadosRequest;
 use App\Repositories\Campanias\TipoCampaniaEstadosRepository;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Campanias\TipoCampaniaEstados;
 use Illuminate\Http\Request;
 use Response;
 use Flash;
@@ -49,11 +50,12 @@ class TipoCampaniaEstadosController extends AppBaseController
      * @return Response
      */
     public function create(Request $request)
-    {
+    {   
         if ($request->has('idTipo')) {
             $tipo = TipoCampania::find($request->get('idTipo'));
+            $siguienteOrden = TipoCampaniaEstados::where('tipo_campania_id',$tipo->id)->count()+1;
             return view('campanias.tipos_campania_estados.create')
-            ->with(['idTipo'=>$tipo->id,'nombreTipo'=>$tipo->nombre]); 
+            ->with(['idTipo'=>$tipo->id,'nombreTipo'=>$tipo->nombre,'siguienteOrden'=>$siguienteOrden]); 
         }else{
             return response()->view('layouts.error', ['message'=>'No es posible visualizar esta información sin un estado seleccionado'], 500);     
         } 
@@ -116,7 +118,7 @@ class TipoCampaniaEstadosController extends AppBaseController
 
         return view('campanias.tipos_campania_estados.edit')
             ->with(['tipoCampaniaEstados'=>$tipoCampaniaEstados,
-            'idTipo'=>$tipoCampaniaEstados->tipoCampania->id,'nombreTipo'=>$tipoCampaniaEstados->tipoCampania->nombre]);     
+            'idTipo'=>$tipoCampaniaEstados->tipoCampania->id,'nombreTipo'=>$tipoCampaniaEstados->tipoCampania->nombre,'siguienteOrden'=>$tipoCampaniaEstados->orden]);     
     }
 
     /**

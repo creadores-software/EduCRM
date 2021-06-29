@@ -17,7 +17,7 @@
 <!-- Orden Field -->
 <div class="form-group col-sm-6 required">
     {!! Form::label('orden', __('models/tiposCampaniaEstados.fields.orden')) !!}
-    {!! Form::text('orden', null, ['class' => 'form-control']) !!}
+    {!! Form::text('orden', $siguienteOrden, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Dias Cambio Field -->
