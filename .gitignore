@@ -1,6 +1,6 @@
 /node_modules
 /public/hot
-/tests/Browser/console
+/tests/Browser/console/*
 /public/storage
 /storage/*.key
 /storage/framework/laravel-excel/
@@ -19,3 +19,4 @@ yarn-error.log
 .env.backup
 .phpunit.result.cache
 fields_sample.json
+/tests/Browser/console
