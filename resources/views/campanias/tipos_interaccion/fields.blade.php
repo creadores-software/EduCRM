@@ -13,6 +13,9 @@
             @foreach (old('tipoInteraccionEstados[]', $tipoInteraccion->tipoInteraccionEstados,null) as $estado)
                 <option value="{{ $estado->id }}" selected="selected">{{ $estado->nombre }}</option>
             @endforeach
+        @else
+        <option value="1" selected="selected">Realizada</option>
+        <option value="2" selected="selected">Planeada</option>
         @endif     
     </select> 
 </div>
