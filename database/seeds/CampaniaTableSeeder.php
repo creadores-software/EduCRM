@@ -33,7 +33,7 @@ class CampaniaTableSeeder extends Seeder
                 'nivel_formacion_id' => 3,
                 'nivel_academico_id' => 1,
                 'facultad_id' => NULL,
-                'segmento_id' => 3,
+                'segmento_id' => 1,
                 'activa' => 1,
             ),
         ));
