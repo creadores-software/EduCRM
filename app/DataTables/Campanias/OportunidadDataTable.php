@@ -203,7 +203,7 @@ class OportunidadDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax(route('campanias.oportunidades.index', ['idCampania' => $idCampania,'idContacto' => $idContacto]))
-            ->addAction(['width' => '150px', 'printable' => false, 'title' => __('crud.action')])
+            ->addAction(['width' => '250px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
                 'columnDefs' => $columnDefs,
                 'dom'       => 'Bfrtip',
