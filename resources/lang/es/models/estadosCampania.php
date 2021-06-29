@@ -8,6 +8,6 @@ return array (
     'id' => 'Id',
     'nombre' => 'Nombre',
     'descripcion' => 'Descripción',
-    'tipo_estado_color_id' => 'Tipo Estado',
+    'tipo_estado_color_id' => 'Tipo de Estado',
   ),
 );

@@ -1,4 +1,4 @@
-<!-- Tipo Estado Color Id Field -->
+<!-- Tipo de Estado Color Id Field -->
 <div class="form-group col-sm-6 required">
     {!! Form::label('tipo_estado_color_id', __('models/estadosCampania.fields.tipo_estado_color_id')) !!}
     <select name="tipo_estado_color_id" id="tipo_estado_color_id" class="form-control">

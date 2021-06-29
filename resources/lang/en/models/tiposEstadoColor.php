@@ -1,8 +1,8 @@
 <?php
 
 return array (
-  'singular' => 'Color Tipo Estado',
-  'plural' => 'Colores Tipos Estado',
+  'singular' => 'Color Tipo de Estado',
+  'plural' => 'Colores Tipos de Estado',
   'fields' => 
   array (
     'id' => 'Id',

@@ -15,7 +15,7 @@ return array (
     'descripcion' => 'Descripción (Brief)',
     'inversion' => 'Inversión',
     'nivel_formacion_id' => 'Nivel de Formación',
-    'nivel_academico_id' => 'Nivel de Académico',
+    'nivel_academico_id' => 'Nivel Académico',
     'facultad_id' => 'Facultad',
     'segmento_id' => 'Segmento',
     'activa' => 'Activa',

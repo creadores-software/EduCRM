@@ -1,4 +1,4 @@
-<!-- Tipo Estado Color Id Field -->
+<!-- Tipo de Estado Color Id Field -->
 <div class="form-group">
     {!! Form::label('tipo_estado_color_id', __('models/estadosInteraccion.fields.tipo_estado_color_id').':') !!}
     <p>{!! "<span style='color:{$estadoCampania->tipoEstadoColor->color_hexadecimal}'><i class='fa fa-circle'></i></span> {$estadoCampania->tipoEstadoColor->nombre}" !!}</p>
