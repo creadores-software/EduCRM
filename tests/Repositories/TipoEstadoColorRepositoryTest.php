@@ -23,35 +23,6 @@ class TipoEstadoColorRepositoryTest extends TestCase
     }
 
     /**
-     * @test crear
-     */
-    public function test_crear_tipo_estado_color()
-    {
-        $tipoEstadoColor = factory(TipoEstadoColor::class)->make()->toArray();
-
-        //Se intenta registrar y no debe generar ninguna excepción
-        $url=route('campanias.tiposEstadoColor.store');
-        $response = $this->post($url, $tipoEstadoColor); 
-        $excepcion=null; 
-        if(is_object($response->exception)){
-            $excepcion=$response->exception->getMessage();
-        }
-        $this->assertNull($excepcion,'El modelo no fue creado correctamente.');
-        
-        //El último objeto corresponde con el creado
-        $objetoTipoEstadoColor = TipoEstadoColor::all()->last()->toArray();
-        $this->assertTrue($this->sonDatosIguales($tipoEstadoColor, $objetoTipoEstadoColor),'El modelo guardado no coincide con el creado.');                
-        
-        //Valida después de creado con los mismos datos (repetido) y debe generar error 422       
-        $response = $this->post($url, $tipoEstadoColor); 
-        $status=200; 
-        if(is_object($response->exception)){
-            $status=$response->exception->status;
-        }       
-        $this->assertEquals(422,$status,'El modelo no valida objetos repetidos.');
-    }
-
-    /**
      * @test consultar
      */
     public function test_consultar_tipo_estado_color()

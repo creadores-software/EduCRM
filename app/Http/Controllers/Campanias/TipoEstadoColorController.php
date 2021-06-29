@@ -20,9 +20,7 @@ class TipoEstadoColorController extends AppBaseController
     {
         $this->tipoEstadoColorRepository = $tipoEstadoColorRepo;
         $this->middleware('permission:campanias.tiposEstadoColor.consultar', ['only' => ['index','show','dataAjax']]);
-        $this->middleware('permission:campanias.tiposEstadoColor.crear', ['only' => ['create','store']]);        
         $this->middleware('permission:campanias.tiposEstadoColor.editar', ['only' => ['edit','update']]);
-        $this->middleware('permission:campanias.tiposEstadoColor.eliminar', ['only' => ['destroy']]);
     }
 
     /**
@@ -34,34 +32,6 @@ class TipoEstadoColorController extends AppBaseController
     public function index(TipoEstadoColorDataTable $tipoEstadoColorDataTable)
     {
         return $tipoEstadoColorDataTable->render('campanias.tipos_estado_color.index');
-    }
-
-    /**
-     * Show the form for creating a new TipoEstadoColor.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return view('campanias.tipos_estado_color.create');
-    }
-
-    /**
-     * Store a newly created TipoEstadoColor in storage.
-     *
-     * @param CreateTipoEstadoColorRequest $request
-     *
-     * @return Response
-     */
-    public function store(CreateTipoEstadoColorRequest $request)
-    {
-        $input = $request->all();
-
-        $tipoEstadoColor = $this->tipoEstadoColorRepository->create($input);
-
-        Flash::success(__('messages.saved', ['model' => __('models/tiposEstadoColor.singular')]));
-
-        return redirect(route('campanias.tiposEstadoColor.index'));
     }
 
     /**
@@ -125,30 +95,6 @@ class TipoEstadoColorController extends AppBaseController
         $tipoEstadoColor = $this->tipoEstadoColorRepository->update($request->all(), $id);
 
         Flash::success(__('messages.updated', ['model' => __('models/tiposEstadoColor.singular')]));
-
-        return redirect(route('campanias.tiposEstadoColor.index'));
-    }
-
-    /**
-     * Remove the specified TipoEstadoColor from storage.
-     *
-     * @param  int $id
-     *
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        $tipoEstadoColor = $this->tipoEstadoColorRepository->find($id);
-
-        if (empty($tipoEstadoColor)) {
-            Flash::error(__('messages.not_found', ['model' => __('models/tiposEstadoColor.singular')]));
-
-            return redirect(route('campanias.tiposEstadoColor.index'));
-        }
-
-        $this->tipoEstadoColorRepository->delete($id);
-
-        Flash::success(__('messages.deleted', ['model' => __('models/tiposEstadoColor.singular')]));
 
         return redirect(route('campanias.tiposEstadoColor.index'));
     }
