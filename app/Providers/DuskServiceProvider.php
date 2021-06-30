@@ -19,9 +19,10 @@ class DuskServiceProvider extends ServiceProvider
         //Solo aplica en Local y Pruebas
         if (in_array(env('APP_ENV'),['local','testing'])) {        
 
-            // Modifica el valor de un campo de tipo select2
+            /**
+             * Modifica el valor de un campo de tipo select2
+            **/
             \Laravel\Dusk\Browser::macro('asignarValorSelect2', function ($element,$class,$name,$id) {
-                //$this->waitFor('[aria-labelledby="select2-'.ltrim($element, '#').'-container"]'); 
                 if($class!="value"){
                     $objeto=$class::where('id',$id)->first(); 
                     $valor=$objeto->$name;
@@ -39,9 +40,10 @@ class DuskServiceProvider extends ServiceProvider
                 return $this;
             });
 
-            // Modifica el valor de un campo múltiple de tipo select2
+            /**
+             * Modifica el valor de un campo múltiple de tipo select2
+            **/
             \Laravel\Dusk\Browser::macro('asignarValorMultipleSelect2', function ($element,$class,$name,$ids) {
-                //$this->waitFor('.select2-selection--multiple'); 
                 if(sizeof($ids)>0){
                     $objetos=$class::whereIn('id',$ids)->get(); 
                     if($objetos->count()>0){
@@ -57,7 +59,27 @@ class DuskServiceProvider extends ServiceProvider
                 return $this;
             });
 
-            // Valida si existe un campo dentro de un seleccionable de tipo select2
+            /**
+             * Limpia todos los campos de tipo select2
+            **/
+            \Laravel\Dusk\Browser::macro('limpiarTodosSelect2', function () {
+                $script='jQuery(".select2-hidden-accessible").empty().trigger("change");';
+                $this->script($script);                 
+                return $this;
+            });
+
+             /**
+             * Limpia un campo de tipo select2
+            **/
+            \Laravel\Dusk\Browser::macro('limpiarSelect2', function ($elemento) {
+                $script='jQuery("'.$elemento.'").empty().trigger("change");';
+                $this->script($script);                 
+                return $this;
+            });
+
+            /**
+             * Valida si existe un campo dentro de un seleccionable de tipo select2
+            **/
             \Laravel\Dusk\Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null) {
                 $highlightedClass    = '.select2-results__option--highlighted';
                 $highlightedSelector = '.select2-results__options ' . $highlightedClass;
@@ -83,7 +105,9 @@ class DuskServiceProvider extends ServiceProvider
                 return $this;
             });
 
-            //Asigna una fecha a un campo dateTimePicker
+            /**
+             * Asigna una fecha a un campo dateTimePicker
+             */
             \Laravel\Dusk\Browser::macro('asignarFecha', function ($elemento,$fecha) {
                 $anio = $fecha->year;
                 $mes = $fecha->month;
@@ -126,7 +150,9 @@ class DuskServiceProvider extends ServiceProvider
                 return $this;
             });
 
-
+            /**
+             * Asigna una ubicación aleatoria al componente
+             */
             \Laravel\Dusk\Browser::macro('asignarUbicacion', function ($elemento) {
                 $ubicacionColombia = Lugar::where('nombre','Colombia')->where('tipo','P')->first();
                 $ciudad = Lugar::where('tipo','C')->inRandomOrder()->first();
