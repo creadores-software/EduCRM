@@ -1,6 +1,5 @@
 /node_modules
 /public/hot
-/tests/Browser/console/*
 /public/storage
 /storage/*.key
 /storage/framework/laravel-excel/
