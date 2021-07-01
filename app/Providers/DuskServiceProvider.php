@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Parametros\Lugar;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class DuskServiceProvider extends ServiceProvider
@@ -24,8 +25,13 @@ class DuskServiceProvider extends ServiceProvider
             **/
             \Laravel\Dusk\Browser::macro('asignarValorSelect2', function ($element,$class,$name,$id) {
                 if($class!="value"){
-                    $objeto=$class::where('id',$id)->first(); 
-                    $valor=$objeto->$name;
+                    $objeto=$class::where('id',$id)->first();
+                    if(str_contains($name, '()')){
+                        $nombreMetodo=str_replace("()", "", $name);
+                        $valor=$objeto->$nombreMetodo();
+                    }else{
+                        $valor=$objeto->$name;
+                    }
                 }else{               
                     $objeto=$class; 
                     $valor=$name;   
@@ -36,6 +42,7 @@ class DuskServiceProvider extends ServiceProvider
                             .val('.$id.').text("'.$valor.'")
                         ).trigger("change");';
                     $this->script($script); 
+                    //Log::debug('El script es '. $script);
                 }                     
                 return $this;
             });
