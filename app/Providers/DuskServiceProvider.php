@@ -30,7 +30,7 @@ class DuskServiceProvider extends ServiceProvider
                     $objeto=$class; 
                     $valor=$name;   
                 }
-                if(!empty($objeto) && !empty($valor) && !empty($id)){   
+                if(!empty($objeto) && !empty($valor)){   
                     $script='jQuery("'.$element.'").append(
                             $("<option selected=\'selected\'></option>")
                             .val('.$id.').text("'.$valor.'")
@@ -91,6 +91,7 @@ class DuskServiceProvider extends ServiceProvider
                     $this->assertDontSee($textoNo);
                 }
                 $this->click($highlightedSelector);
+                $this->click('.navbar');
                 return $this;
             });
 
@@ -115,6 +116,7 @@ class DuskServiceProvider extends ServiceProvider
                 $fecha_completa="{$anio}-{$mes}-{$dia}";
                 $script="document.querySelector('{$elemento}').value = '{$fecha_completa}'";
                 $this->script($script);
+                $this->click('.navbar'); // Para cerrar la selección de fecha
                 return $this;
             });
 

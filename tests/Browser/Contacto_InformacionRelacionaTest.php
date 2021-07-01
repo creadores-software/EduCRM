@@ -50,6 +50,24 @@ class Contacto_InformacionRelacionalTest extends DuskTestCase
     }
 
     /**
+     * Valida que que liste solo las formaciones activas de la Universidad elegida 
+     * Y solo niveles relacionadas con IES
+     */
+    public function testNivelesFormacionesCorrectas()
+    { 
+        $contacto = factory(Contacto::class)->create();
+        $this->browse(function (Browser $browser) use ($contacto){ 
+            $browser->loginAs(User::find(1));//Superadmin            
+            $browser->visit("contactos/informacionesRelacionales/{$contacto->informacionRelacional->id}/edit?idContacto={$contacto->id}");
+            $browser->waitFor('.select2'); 
+            $browser->limpiarTodosSelect2(); 
+            $browser->assertValorEnSelect2('#maximo_nivel_formacion_id','Nivel','Curso');
+            $browser->assertValorEnSelect2('#preferenciasFormaciones','ADMINISTRACIÓN DE EMPRESAS / Presencia','COMUNICACIÓN SOCIAL - PERIODISMO / Presencial');
+            Contacto::where('identificacion',$contacto->id)->delete();            
+        });   
+    }
+
+    /**
      * Valida que todos los campos sean opcionales (exceptuando autoriza comunicación)
      */
     public function testEdicionCompleta()
@@ -59,23 +77,11 @@ class Contacto_InformacionRelacionalTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($contacto,$infoRelacional){ 
             $browser->loginAs(User::find(1));//Superadmin
             
-            //Validación con campos opcionales
-            $browser->visit("contactos/informacionesRelacionales/{$contacto->informacionRelacional->id}/edit?idContacto={$contacto->id}");
-            $browser->waitFor('.select2'); 
-            $browser->limpiarTodosSelect2(); 
-            $browser->asignarValorSelect2('#autoriza_comunicacion',"value","SI",1);
-            $browser->press('Guardar');   
-            $browser->waitFor('.alert-success'); 
-            $browser->assertPathIs("/contactos/informacionesRelacionales/{$contacto->informacionRelacional->id}"); 
-            $browser->assertSee('actualizado(a) satisfactoriamente'); 
-            
-            //Validación con todos los campos
             $browser->visit("contactos/informacionesRelacionales/{$contacto->informacionRelacional->id}/edit?idContacto={$contacto->id}");
             $browser->waitFor('.select2'); 
             $browser->limpiarTodosSelect2(); 
 
             $clase="App\Models\Formaciones\NivelFormacion";
-            $browser->assertValorEnSelect2('#maximo_nivel_formacion_id','Nivel','Curso');
             $browser->asignarValorSelect2('#maximo_nivel_formacion_id',$clase,'nombre',$infoRelacional['maximo_nivel_formacion_id']);
             
             $clase="App\Models\Entidades\Ocupacion";
@@ -113,13 +119,13 @@ class Contacto_InformacionRelacionalTest extends DuskTestCase
             
             $clase="App\Models\Parametros\ActitudServicio";
             $browser->asignarValorSelect2('#actitud_servicio_id',$clase,'nombre',$infoRelacional['actitud_servicio_id']);
-            //El autoriza comunicación ya está previamente
+           
+            $browser->asignarValorSelect2('#autoriza_comunicacion',"value","SI",1);
 
             $clase="App\Models\Parametros\MedioComunicacion";
             $browser->asignarValorMultipleSelect2('#preferenciasMediosComunicacion',$clase,'nombre',[1,2]);
 
             $clase="App\Models\Formaciones\Formacion";
-            $browser->assertValorEnSelect2('#preferenciasFormaciones','ADMINISTRACIÓN DE EMPRESAS / Presencia','COMUNICACIÓN SOCIAL - PERIODISMO / Presencial');
             $browser->asignarValorMultipleSelect2('#preferenciasFormaciones',$clase,'nombre',[13410,13409]);
 
             $clase="App\Models\Formaciones\CampoEducacion";
@@ -131,8 +137,8 @@ class Contacto_InformacionRelacionalTest extends DuskTestCase
             $clase="App\Models\Parametros\BuyerPersona";
             $browser->asignarValorMultipleSelect2('#preferenciasBuyersPersona',$clase,'nombre',[1]);
 
-
             $browser->press('Guardar');   
+
             $browser->waitFor('.alert-success'); 
             $browser->assertSee('actualizado(a) satisfactoriamente'); 
 

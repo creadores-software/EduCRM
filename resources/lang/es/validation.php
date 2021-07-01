@@ -191,6 +191,7 @@ return [
         'nivel_formacion_id' => 'Nivel Formación',
         'ocupacion_actual_id' => 'Ocupación Actual',
         'oportunidad_id' => 'Oportunidad',
+        'ocupacion_id' => 'Ocupación',
         'origen_id' => 'Origen',
         'padre_id' => 'Padre',
         'password'=>'Contraseña',
