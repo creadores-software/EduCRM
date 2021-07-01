@@ -31,10 +31,11 @@ class ParentescoDataTable extends DataTable
         ->editColumn('acudiente', function ($row){
             return $row->acudiente? 'Si':'No';
         }) 
-        ->addColumn('action', function($row) use ($idContacto){
+        ->addColumn('action', function(Parentesco $row) use ($idContacto){
             $id=$row->id;
+            $idPariente=$row->contacto_destino;
             return view('contactos.parentescos.datatables_actions', 
-            compact('id','idContacto'));
+            compact('id','idContacto','idPariente'));
         }) 
         ->filterColumn('contacto_destino', function($query, $keyword) {
             $query->whereRaw('CONCAT(pariente.nombres," ",pariente.apellidos) like ?', ["%{$keyword}%"]);
@@ -78,6 +79,7 @@ class ParentescoDataTable extends DataTable
             ->select([
                 'parentesco.id',
                 'parentesco.contacto_origen',
+                'parentesco.contacto_destino',
                 DB::raw('CONCAT(pariente.nombres," ",pariente.apellidos) as nombre_pariente'),
                 'pariente.celular as celular_pariente',
                 'pariente.telefono as telefono_pariente',

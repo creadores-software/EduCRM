@@ -4,6 +4,7 @@ namespace App\Models\Contactos;
 
 use Illuminate\Database\Eloquent\Model;
 use Altek\Accountant\Contracts\Recordable;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Parentesco
@@ -103,8 +104,27 @@ class Parentesco extends Model implements Recordable
                 $contrario->save(); 
             }                 
         }catch(\Exception $e){
-            \Log::debug('Error al asociar el parentesco contrario'.$e->getMessage());   
+            Log::debug('Error al asociar el parentesco contrario'.$e->getMessage());   
         }
+    }
+
+    /**
+     * Se sobreescribe el método con el fin de eliminar 
+     * el registro contrario en el pariente
+     */
+    public function delete()
+    {
+        try{
+            $contrario = Parentesco::where('contacto_origen',$this->contacto_destino)
+            ->where('contacto_destino',$this->contacto_origen)->first(); 
+            if(!empty($contrario)){
+                Parentesco::where('id',$contrario->id)->delete(); 
+            } 
+        }catch(\Exception $e){
+            Log::debug('Error al eliminar el parentesco contrario'.$e->getMessage());   
+        }
+        parent::delete();        
+        
     }
 
     /**
