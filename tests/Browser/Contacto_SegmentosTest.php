@@ -271,7 +271,7 @@ class Contacto_SegmentosTest extends DuskTestCase
             $browser->press('Vista Previa');
             $window = collect($browser->driver->getWindowHandles())->last();
             $browser->driver->switchTo()->window($window);
-            $browser->pause(500);//petición ajax
+            $browser->pause(1000);//petición ajax
             $browser->assertSee('Londoño Marin'); 
             $browser->assertDontSee('Marin Arias');            
         });   
@@ -284,7 +284,7 @@ class Contacto_SegmentosTest extends DuskTestCase
             $browser->press('Vista Previa');
             $window = collect($browser->driver->getWindowHandles())->last();
             $browser->driver->switchTo()->window($window);
-            $browser->pause(500);//petición ajax
+            $browser->pause(1000);//petición ajax
             $browser->assertSee('Marin Arias');   
             $browser->assertDontSee('Londoño Marin');          
         }); 
