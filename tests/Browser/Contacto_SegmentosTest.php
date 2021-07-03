@@ -272,6 +272,7 @@ class Contacto_SegmentosTest extends DuskTestCase
             $window = collect($browser->driver->getWindowHandles())->last();
             $browser->driver->switchTo()->window($window);
             $browser->pause(1000);//petición ajax
+            $browser->waitFor('#dataTableBuilder'); 
             $browser->assertSee('Londoño Marin'); 
             $browser->assertDontSee('Marin Arias');            
         });   
@@ -285,6 +286,7 @@ class Contacto_SegmentosTest extends DuskTestCase
             $window = collect($browser->driver->getWindowHandles())->last();
             $browser->driver->switchTo()->window($window);
             $browser->pause(1000);//petición ajax
+            $browser->waitFor('#dataTableBuilder'); 
             $browser->assertSee('Marin Arias');   
             $browser->assertDontSee('Londoño Marin');          
         }); 
