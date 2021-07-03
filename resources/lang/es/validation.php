@@ -218,6 +218,7 @@ return [
         'tipo_parentesco_id' => 'Tipo de Parentesco',
         'today'=>'Hoy',
         'users_id'=>'Usuario',
+        'descripcion'=>'Descripción',
     ],
 
     /**
