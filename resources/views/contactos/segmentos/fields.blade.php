@@ -49,7 +49,7 @@
                 }
                 if ($(this).attr("value") == "vistaPrevia") {
                     valor_filtro=$("[name='filtros_texto']").val();
-                    if(valor_filtro!="cumple:0;"){
+                    if(valor_filtro!="cumple:0=Cualquier Fecha,;"){
                         sessionStorage.setItem('filtros_texto', valor_filtro);
                         window.open("{{ route('contactos.contactos.index',['vistaPrevia'=>'1']) }}", '_blank');
                     }else{
