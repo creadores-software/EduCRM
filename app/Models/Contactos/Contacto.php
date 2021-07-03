@@ -401,7 +401,7 @@ class Contacto extends Model implements Recordable
      */
     public static function filtroSegmento($valores, $query){        
         $dt_atributos_like=[
-            //'nombres'=>'contacto.nombres',
+            'nombres'=>'contacto.nombres',
             'apellidos'=>'contacto.apellidos',
             'correo_personal'=>'contacto.correo_personal',
             'correo_institucional'=>'contacto.correo_institucional',
