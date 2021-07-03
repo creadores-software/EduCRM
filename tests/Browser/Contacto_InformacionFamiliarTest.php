@@ -170,6 +170,7 @@ class Contacto_InformacionFamiliarTest extends DuskTestCase
             $browser->visit('/contactos/parentescos?idContacto=2');
             $browser->pause(1000);//petición ajax
             $browser->assertDontSee('Londoño Marin'); 
-        });   
+        });
+        Parentesco::create(['contacto_origen'=>1,'contacto_destino'=>2,'tipo_parentesco_id'=>1,'acudiente'=>1]);
     }
 }
