@@ -37,12 +37,16 @@ class DuskServiceProvider extends ServiceProvider
                     $valor=$name;   
                 }
                 if(!empty($objeto) && !empty($valor)){   
+                    $val="val({$id})";
+                    if(is_string($id)){
+                        $val="val('{$id}')";
+                    }
                     $script='jQuery("'.$element.'").append(
                             $("<option selected=\'selected\'></option>")
-                            .val('.$id.').text("'.$valor.'")
+                            .'. $val.'.text("'.$valor.'")
                         ).trigger("change");';
                     $this->script($script); 
-                    //Log::debug('El script es '. $script);
+                    Log::debug('El script es '. $script);
                 }                     
                 return $this;
             });
@@ -87,12 +91,12 @@ class DuskServiceProvider extends ServiceProvider
             /**
              * Valida si existe un campo dentro de un seleccionable de tipo select2
             **/
-            \Laravel\Dusk\Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null) {
+            \Laravel\Dusk\Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null,$browser=null) {
                 $highlightedClass    = '.select2-results__option--highlighted';
                 $highlightedSelector = '.select2-results__options ' . $highlightedClass;
                 
                 $this->click($element.' + .select2');
-                $this->waitFor($highlightedSelector, 2);
+                $this->waitFor($highlightedSelector, 5);
                 $this->assertSee($textoSi);  
                 if(!empty($textoNo)){
                     $this->assertDontSee($textoNo);

@@ -320,7 +320,23 @@ class Contacto_SegmentosTest extends DuskTestCase
      */
     public function testAdminCompleto()
     { 
-        $this->browse(function (Browser $browser){ 
+        $segmentoLimitado = Segmento::create([
+            'nombre'=>'Segmento limitado',
+            'descripcion'=>'Segmento limitado de usuario no administrador',
+            'global'=>0,'usuario_id'=>4,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]);
+        $segmentoPublico = Segmento::create([
+            'nombre'=>'Segmento público',
+            'descripcion'=>'Segmento publico de usuario administrador',
+            'global'=>1,'usuario_id'=>1,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]);
+        $segmentoPrivado = Segmento::create([
+            'nombre'=>'Segmento privado',
+            'descripcion'=>'Segmento privado de usuario administrador',
+            'global'=>0,'usuario_id'=>1,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]); 
+
+        $this->browse(function (Browser $browser) use ($segmentoLimitado,$segmentoPublico,$segmentoPrivado){ 
             $browser->loginAs(User::find(1));//Superadmin
             $browser->visit('/contactos/segmentos/');
             $browser->pause(500);//petición ajax
@@ -337,7 +353,39 @@ class Contacto_SegmentosTest extends DuskTestCase
             $browser->assertPresent('#dataTableBuilder td .btn-group .glyphicon-trash');
             //Buscadores inferiores
             $browser->assertPresent('#dataTableBuilder tfoot tr th input');
-        });   
+            $browser->assertSee($segmentoPublico->nombre);
+            $browser->assertSee($segmentoLimitado->nombre);
+            $browser->assertSee($segmentoPrivado->nombre);
+        }); 
+        
+        $this->browse(function (Browser $browser) use ($segmentoLimitado,$segmentoPublico,$segmentoPrivado){ 
+            $browser->loginAs(User::find(4));//Usuaio auxiliar
+            $browser->visit('/contactos/segmentos/');
+            $browser->pause(500);//petición ajax
+            $browser->waitFor('#dataTableBuilder'); 
+            $browser->assertSee($segmentoPublico->nombre);
+            $browser->assertSee($segmentoLimitado->nombre);
+            $browser->assertDontSee($segmentoPrivado->nombre);
+        }); 
+        
+        Segmento::where('id',$segmentoPublico->id)->delete();
+        Segmento::where('id',$segmentoLimitado->id)->delete();
+        Segmento::where('id',$segmentoPrivado->id)->delete();
+    }
+
+    /**
+     * Valida la opción de duplicar
+     */
+    public function testDuplicar()
+    { 
+        $this->browse(function (Browser $browser) { 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/contactos/segmentos/');
+            $browser->pause(500);//petición ajax
+            $browser->waitFor('#dataTableBuilder td .btn-group .glyphicon-duplicate'); 
+            $browser->element('#dataTableBuilder tbody tr:nth-child(1) i.glyphicon-duplicate')->click();
+            $browser->assertPathIs('/contactos/segmentos/duplicar'); 
+        });  
     }
 
     /**
@@ -369,5 +417,103 @@ class Contacto_SegmentosTest extends DuskTestCase
              $browser->waitFor('.alert-danger'); 
              $browser->assertSee('No se puede eliminar el registro');
         });   
+    }
+
+     /**
+     * Valida el funcionamiento de la búsqueda avanzada
+     */
+    public function testBusquedaAvanzada()
+    { 
+       $this->browse(function (Browser $browser) { 
+            $browser->loginAs(User::find(4));//Auxiliar
+            $browser->visit('/contactos/contactos/');
+            $browser->pause(500);//petición ajax
+            $browser->waitFor('.fa-search-plus'); 
+            $browser->click('.fa-search-plus');
+            $browser->whenAvailable('#advanced_filter', function ($modal){
+                //Funcionamiento restablecer
+                $modal->waitFor('.select2'); 
+                $modal->type('nombres','Prueba de nombres');  
+                $modal->assertValue('#nombres','Prueba de nombres'); 
+                $modal->click('#botonRestablecer');
+            });
+            $browser->click('.fa-search-plus');
+            $browser->whenAvailable('#advanced_filter', function ($modal) {
+                //Funcionamiento restablecer
+                $modal->waitFor('.select2');  
+                $modal->assertValue('#nombres','');                
+                //Funcionamiento filtro
+                $modal->type('apellidos','Londoño Marin');  
+                $modal->press('#botonFiltrar');
+            });
+            $browser->pause(500);
+            $browser->assertSee('Londoño Marin');
+            $browser->assertDontSee('Marin Arias');                        
+        });   
+    }
+
+    /**
+     * Valida el funcionamiento del seleccionable en la búsqueda avanzada
+     */
+    public function testSeleccionableBusquedaAvanzada()
+    { 
+        $segmentoLimitado = Segmento::create([
+            'nombre'=>'Segmento limitado',
+            'descripcion'=>'Segmento limitado de usuario no administrador',
+            'global'=>0,'usuario_id'=>4,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]);
+        $segmentoPublico = Segmento::create([
+            'nombre'=>'Segmento público',
+            'descripcion'=>'Segmento publico de usuario administrador',
+            'global'=>1,'usuario_id'=>1,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]);
+        $segmentoPrivado = Segmento::create([
+            'nombre'=>'Segmento privado',
+            'descripcion'=>'Segmento privado de usuario administrador',
+            'global'=>0,'usuario_id'=>1,
+            'filtros'=>[['campo'=>'nombres','valor'=>'%']]]); 
+
+        $this->browse(function (Browser $browser) use ($segmentoLimitado,$segmentoPublico,$segmentoPrivado){ 
+            $browser->loginAs(User::find(4));//Auxiliar
+            $browser->visit('/contactos/contactos/');
+            $browser->pause(500);//petición ajax
+            $browser->waitFor('.fa-search-plus'); 
+            $browser->click('.fa-search-plus');           
+            $browser->whenAvailable('#advanced_filter', function ($modal) use ($segmentoPublico,$segmentoPrivado,$browser) {
+                $modal->waitFor('.select2'); 
+                $modal->click('#segmento_seleccionado + .select2');
+                $modal->waitFor('.select2-container--open', 2);
+                $browser->assertSee($segmentoPublico->nombre);
+                $browser->assertDontSee($segmentoPrivado->nombre);
+            });                    
+        });   
+
+        Segmento::where('id',$segmentoPublico->id)->delete();
+        Segmento::where('id',$segmentoLimitado->id)->delete();
+        Segmento::where('id',$segmentoPrivado->id)->delete();
+    }
+
+    /**
+     * Valida el funcionamiento de la creación en la búsqueda avanzada
+     */
+    public function testGuardarBusquedaAvanzada()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(4));//Auxiliar
+            $browser->visit('/contactos/contactos/');
+            $browser->pause(500);//petición ajax
+            $browser->waitFor('.fa-search-plus'); 
+            $browser->click('.fa-search-plus');           
+            $browser->whenAvailable('#advanced_filter', function ($modal){
+                $modal->waitFor('.select2'); 
+                $modal->asignarValorSelect2('#segmento_seleccionado',"value","[ Nuevo ]","nuevo");
+                $modal->waitFor('#nuevo_segmento');
+                $modal->assertSee('Visibilidad Pública');
+                $modal->press('Guardar');
+                $modal->waitFor('.alert-danger');
+                $modal->assertSee('El campo Nombre es requerido.');
+                $modal->assertSee('El campo Descripción es requerido.');
+            });                    
+        }); 
     }
 }
