@@ -29,7 +29,7 @@ return [
         'string' => 'El campo :Attribute debe contener entre :min y :max caracteres.',
         'array' => 'El arreglo :Attribute debe contener entre :min y :max items.',
     ],
-    'boolean' => 'El campo :Attribute debe ser true (verdadero) o false (falso).',
+    'boolean' => 'El campo :Attribute debe ser Sí o No.',
     'confirmed' => 'La confirmación del campo :Attribute no coincide.',
     'date' => 'El campo :Attribute no corresponde a una fecha válida.',
     'date_equals' => 'El campo :Attribute debe ser igual a :date.',
