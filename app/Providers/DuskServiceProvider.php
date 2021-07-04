@@ -46,7 +46,7 @@ class DuskServiceProvider extends ServiceProvider
                             .'. $val.'.text("'.$valor.'")
                         ).trigger("change");';
                     $this->script($script); 
-                    Log::debug('El script es '. $script);
+                    //Log::debug('El script es '. $script);
                 }                     
                 return $this;
             });

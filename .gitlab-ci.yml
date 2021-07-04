@@ -60,6 +60,8 @@ test:
       # for debugging
       - ./tests/Browser/screenshots
       - ./tests/Browser/console
+      - log
+      - /var/log
     expire_in: 7 days
     when: always
 
