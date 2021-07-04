@@ -6,7 +6,7 @@ use App\Models\Admin\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
-class LoginTest extends DuskTestCase
+class AutenticacionAutorizacionTest extends DuskTestCase
 {
 
     //Para cerrar sesión después de cada método
@@ -66,6 +66,23 @@ class LoginTest extends DuskTestCase
             $browser->press('Iniciar sesión');
             $browser->assertPathIs('/home');
             $browser->assertSee('Super Administrador');
+        });
+    }
+
+    /**
+     * Valida que solo se visualice y permita acceder a las opciones habilitadas
+     */
+    public function testAutorizacion()
+    {
+        $this->browse(function (Browser $browser) {
+            //Como auxiliar no puede editar usuarios
+            $browser->loginAs(User::find(4));
+            $browser->visit('/admin/users/4/edit');
+            $browser->waitFor('.alert-danger');
+            $browser->assertSee('No estás autorizado para realizar esta operación.');
+            //Como auxiliar no debe ver la opción de usuarios en el menú
+            $browser->click('.fa-cog'); //Administración
+            $browser->assertDontSee('Usuarios');
         });
     }
 }
