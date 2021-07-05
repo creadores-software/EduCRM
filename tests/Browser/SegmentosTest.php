@@ -4,11 +4,10 @@ namespace Tests\Browser;
 
 use App\Models\Admin\User;
 use App\Models\Contactos\Segmento;
-use Carbon\Carbon;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
-class Contacto_SegmentosTest extends DuskTestCase
+class SegmentosTest extends DuskTestCase
 {  
      /**
      * Valida que muestre error con los campos requeridos cuando no se ingresa ninguno.
