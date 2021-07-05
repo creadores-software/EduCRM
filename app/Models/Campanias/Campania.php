@@ -215,7 +215,7 @@ class Campania extends Model implements Recordable
                 ->orderBy('orden','DESC')
                 ->pluck('estado_campania.nombre')->toArray();                  
                 
-            $valorAnterior=0;
+            $valoresAnteriores=[];
             $data=[]; 
             $color=[];
 
@@ -235,20 +235,38 @@ class Campania extends Model implements Recordable
                 }
 
                 $cantidad=$oportunidades->count();
-                $cantidad+=$valorAnterior;
-                $valorAnterior=$cantidad;
+                //Si tiene estados que procedieron del mismo, aumenta cantidad
+                if(array_key_exists($estado->id,$valoresAnteriores)){
+                    $cantidad+=$valoresAnteriores[$estado->id];
+                } 
+
+                //Si tiene un estado del que procede se tiene en cuenta la cantidad
+                $estadoAnterior=TipoCampaniaEstados::
+                    join('estado_campania','tipo_campania_estados.estado_campania_id','=','estado_campania.id')
+                    ->where('tipo_campania_estados.tipo_campania_id',$campania->tipo_campania_id)
+                    ->where('orden','<',$estado->orden)
+                    ->where('dias_cambio','>',0)
+                    ->orderBy('orden', 'DESC')
+                    ->first();
+                if(!empty($estadoAnterior)){
+                    if(array_key_exists($estadoAnterior->id,$valoresAnteriores)){
+                        $valoresAnteriores[$estadoAnterior->id]+=$cantidad;                    
+                    }else{
+                        $valoresAnteriores[$estadoAnterior->id]=$cantidad; 
+                    }                 
+                }                 
 
                 $data[]=$cantidad;
                 $color[]=$estadoCampania->tipoEstadoColor->color_hexadecimal;
             }  
             $dataset=[
                 [
-                    'data'=> $data,
-                    'backgroundColor'=> $color,
-                    'hoverBackgroundColor'=>  $color
+                    'data'=> array_reverse($data),
+                    'backgroundColor'=> array_reverse($color),
+                    'hoverBackgroundColor'=>  array_reverse($color)
                 ]
             ]; 
         }
-        return ['labels'=>$labels,'dataset'=>$dataset];
+        return ['labels'=>array_reverse($labels),'dataset'=>$dataset];
     }
 }
