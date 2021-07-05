@@ -22,7 +22,9 @@ use Laravel\Dusk\Browser;
  * 4. Interacción hoy realizada de Superadmin - Opt3
  * 5. Interacción hoy realizada de Auxiliar - Opt4 
  */
-class ReportesTest extends DuskTestCase
+
+//Se pone este nombre para que se ejecute de primero
+class _ReportesTest extends DuskTestCase
 {  
      /**
      * Valida el comportamiento del KPI de interacciones atrasadas
