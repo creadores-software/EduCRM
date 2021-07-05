@@ -59,6 +59,7 @@
         var dataset = @json($dataset);
 
     window.onload = function() {
+        evaluarVisibilidadMensaje();
         var area = document.getElementById("chart-area").getContext("2d");
         window.chart = new Chart(area, {
             type: 'funnel',
@@ -117,12 +118,16 @@
         });
 
         $(document).on('change', '#campania_id', function(e){
+            evaluarVisibilidadMensaje();
+        });
+
+        function evaluarVisibilidadMensaje(){
             if($("#campania_id").val()!=""){
                 $("#mensaje-seleccion").hide();
             }else{
                 $("#mensaje-seleccion").show();   
-            }
-        });
+            }   
+        }
     }
     </script>
 @endpush
