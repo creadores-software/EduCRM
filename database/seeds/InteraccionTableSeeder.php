@@ -47,8 +47,8 @@ class InteraccionTableSeeder extends Seeder
             2 => //Interacción hoy pendiente de Admin
             array (
                 'id' => 3,
-                'fecha_inicio'=>Carbon::today()->setTime(23,0),
-                'fecha_fin'=> Carbon::today()->setTime(23,5),
+                'fecha_inicio'=>Carbon::today()->setTime(23,58),
+                'fecha_fin'=> Carbon::today()->setTime(23,59),
                 'tipo_interaccion_id'=>3, //Reunión
                 'estado_interaccion_id'=>2, //Planeada
                 'observacion'=>'Prueba de interacción planeada para hoy de admin',
