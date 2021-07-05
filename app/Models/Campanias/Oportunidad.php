@@ -281,12 +281,13 @@ class Oportunidad extends Model implements Recordable
         $ahora = time();
         $ultimaActualizacion = strtotime($this->ultima_actualizacion);
         $diferencia = $ahora - $ultimaActualizacion;
-        $dias=round($diferencia / (60 * 60 * 24));        
-        if($formato){
-            $diasEstado = TipoCampaniaEstados::
-                where('tipo_campania_id',$this->campania->tipo_campania_id)
-                ->where('estado_campania_id',$this->estado_campania_id)
-                ->first()->dias_cambio;
+        $dias=round($diferencia / (60 * 60 * 24)); 
+        $estadoTC = TipoCampaniaEstados::
+        where('tipo_campania_id',$this->campania->tipo_campania_id)
+        ->where('estado_campania_id',$this->estado_campania_id)
+        ->first();       
+        if($formato && !empty($estadoTC)){
+            $diasEstado = $estadoTC->dias_cambio;
             //Positivo
             $color=TipoEstadoColor::where('id',1)->first()->color_hexadecimal;
             if($diasEstado>0){

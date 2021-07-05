@@ -112,4 +112,38 @@ class Campania_InteraccionTest extends DuskTestCase
             $browser->assertPresent('#dataTableBuilder tfoot tr th input');
         });   
     }
+
+    /**
+     * Valida la opción importar
+     */
+    public function testImportar()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/interacciones/subirImportacion');
+            $browser->assertSeeLink('Descargar plantilla');
+            $browser->attach('archivo', 'tests/Browser/Files/plantilla_interacciones.xlsx');
+            $browser->press('Cargar importación'); 
+            /** 
+             * Teniendo en cuenta los datos ingresados en el archivo de prueba, 
+             * deben cargar solo dos registros y salir los siguientes errores
+             */
+            $browser->waitFor('.alert-danger'); 
+            $browser->assertSee('Error en la linea 3: No existe oportunidad con este id');
+            $browser->assertSee('Error en la linea 3: No existe usuario con este id');
+            $browser->assertSee('Error en la linea 3: No existe tipo de interacción con este id');
+            $browser->assertSee('Error en la linea 3: No existe estado de interacción con este id');
+            $browser->assertSee('Error en la linea 3: El estado de interacción no corresponde al tipo de interacción');
+            $browser->assertSee('Error en la linea 4: El campo fecha_inicio es requerido');
+            $browser->assertSee('Error en la linea 4: El campo fecha_fin es requerido');
+            $browser->assertSee('Error en la linea 4: El campo tipo_interaccion_id es requerido');
+            $browser->assertSee('Error en la linea 4: El campo estado_interaccion_id es requerido');
+            $browser->assertSee('Error en la linea 4: El campo users_id es requerido');
+            $browser->assertSee('Error en la linea 5: Ya existe una interaccion con esta oportunidad para el mismo usuario y fecha');
+            $browser->assertSee('Se importaron sin error 1 registro(s)');
+            //Se eliminan datos de prueba cargados
+            Interaccion::where('id','>',5)->delete();
+
+        });   
+    }
 }
