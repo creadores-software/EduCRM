@@ -97,7 +97,7 @@ class DuskServiceProvider extends ServiceProvider
             \Laravel\Dusk\Browser::macro('assertValorEnSelect2', function ($element,$textoSi,$textoNo=null,$browser=null) {
                 $highlightedClass    = '.select2-results__option--highlighted';
                 $highlightedSelector = '.select2-results__options ' . $highlightedClass;
-                
+                $this->limpiarSelect2($element);
                 $this->click($element.' + .select2');
                 $this->waitFor($highlightedSelector, 5);
                 $this->assertSee($textoSi);  

@@ -29,6 +29,45 @@ class Campania_CampaniaTest extends DuskTestCase
     }     
 
     /**
+     * Valida el comportamiento esperado de las fechas
+     */
+    public function testFechas()
+    {
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/campanias/create');
+            $browser->assertDateTimeExistente('#fecha_inicio');
+            $browser->assertDateTimeExistente('#fecha_final');
+            $browser->asignarFecha('#fecha_inicio', Carbon::today());
+            $browser->asignarFecha('#fecha_final', Carbon::yesterday());
+            $browser->press('Guardar');              
+            $browser->assertSee('Fecha final debe ser posterior a fecha inicio');
+        }); 
+    }
+
+    /**
+     * Los campos facultad, nivel académico, nivel de formación 
+     * determinarán sucesivamente los campos del siguiente criterio 
+     * y finalmente las formaciones que solo deben ser de la UAM activas.
+     */
+    public function testParametrosFormaciones()
+    {
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/campanias/create');
+            $browser->waitFor('.select2');
+
+            $browser->assertValorEnSelect2('#campaniaFormacionesAsociadas','ADMINISTRACIÓN DE EMPRESAS / Presencial','COMUNICACIÓN SOCIAL - PERIODISMO / Presencial');
+            $clase="App\Models\Formaciones\NivelAcademico";
+            $browser->asignarValorSelect2('#nivel_academico_id',$clase,'nombre',2);//Posgrado
+            $browser->assertValorEnSelect2('#campaniaFormacionesAsociadas','DOCTORADO EN CIENCIAS COGNITIVAS / Presencial','ADMINISTRACIÓN DE EMPRESAS / Presencial');
+            $clase="App\Models\Formaciones\NivelFormacion";
+            $browser->asignarValorSelect2('#nivel_formacion_id',$clase,'nombre',4);//Especialización universitaria
+            $browser->assertValorEnSelect2('#campaniaFormacionesAsociadas','ESPECIALIZACION EN AUDITORIA EN SALUD / Presencial','DOCTORADO EN CIENCIAS COGNITIVAS / Presencial');
+        }); 
+    }
+
+    /**
      * Valida que permita la creación con todos los campos y muestre mensaje satisfactorio
      */
     public function testCreacionCompletaExitosa()
