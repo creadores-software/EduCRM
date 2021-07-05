@@ -46,7 +46,7 @@
 
             function abrirInteraccionesFiltradas(estado){
                 url="{{ route('campanias.interacciones.index') }}?idEstado="+estado;
-                idResponsable=$("#responsable_id").val();                
+                idResponsable=$("[name=responsable_id]").val();                
                 if(idResponsable!=null && idResponsable!=""){
                     url=url+"&idResponsable="+idResponsable;    
                 }

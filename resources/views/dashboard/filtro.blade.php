@@ -29,7 +29,9 @@
                                 @endif
                             </select>
                         </div> 
-                        @endif              
+                        @else
+                            {!! Form::hidden('responsable_id', $responsable->id ??'') !!}
+                        @endif             
                     </div>                    
                 </div>
             </div>
