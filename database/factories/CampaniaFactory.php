@@ -11,8 +11,9 @@ use App\Models\Formaciones\PeriodoAcademico;
 use Faker\Generator as Faker;
 
 $factory->define(Campania::class, function (Faker $faker) {
-    $periodo=factory(PeriodoAcademico::class)->create();
-    $formacion=factory(Formacion::class)->create();
+    $periodo=PeriodoAcademico::inRandomOrder()->first();
+    //Activo de la UAM
+    $formacion=Formacion::where('activo',1)->where('entidad_id',106)->inRandomOrder()->first();
     return [
         'tipo_campania_id' => $faker->numberBetween(1,TipoCampania::count()),
         'nombre' => $faker->realText(150),
