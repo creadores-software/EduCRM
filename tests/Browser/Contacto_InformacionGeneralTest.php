@@ -193,6 +193,10 @@ class Contacto_InformacionGeneralTest extends DuskTestCase
             $browser->assertSee('Nuevo nombre');   
             $browser->assertSee('actualizado(a) satisfactoriamente');   
             $browser->assertSee('Log de auditoria');
+            //Se deja nuevamente igual
+            $contacto = Contacto::where('id',1)->first();
+            $contacto->nombres='Valentina'; 
+            $contacto->save();
         });   
     }
 
