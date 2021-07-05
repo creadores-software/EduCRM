@@ -24,7 +24,7 @@ use Laravel\Dusk\Browser;
  */
 
 //Se pone este nombre para que se ejecute de primero
-class _ReportesTest extends DuskTestCase
+class AReportesTest extends DuskTestCase
 {  
      /**
      * Valida el comportamiento del KPI de interacciones atrasadas
