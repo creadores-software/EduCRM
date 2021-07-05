@@ -158,4 +158,35 @@ class Campania_OportunidadTest extends DuskTestCase
              $browser->assertSee('No se puede eliminar el registro');
         });   
     }
+
+    /**
+     * Valida la opción importar
+     */
+    public function testImportar()
+    { 
+        $this->browse(function (Browser $browser){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/oportunidades/subirImportacion');
+            $browser->assertSeeLink('Descargar plantilla');
+            $browser->attach('archivo', 'tests/Browser/Files/plantilla_oportunidades.xlsx');
+            $browser->press('Cargar importación'); 
+            /** 
+             * Teniendo en cuenta los datos ingresados en el archivo de prueba, 
+             * deben cargar solo dos registros y salir los siguientes errores
+             */
+            $browser->waitFor('.alert-danger'); 
+            $browser->assertSee('Error en la linea 3: El campo campania_id es requerido');
+            $browser->assertSee('Error en la linea 3: El campo contacto_id es requerido');
+            $browser->assertSee('Error en la linea 3: El campo estado_campania_id es requerido');
+            $browser->assertSee('Error en la linea 3: El campo justificacion_estado_campania_id es requerido');
+            $browser->assertSee('Error en la linea 4: El campo interes no debe ser mayor que 5');
+            $browser->assertSee('Error en la linea 4: El campo capacidad no debe ser mayor que 5');
+            $browser->assertSee('Error en la linea 4: El campo ingreso_recibido debe ser un número');
+            $browser->assertSee('Error en la linea 4: El campo ingreso_proyectado debe ser un número');
+            $browser->assertSee('Se importaron sin error 1 registro(s)');
+            //Se eliminan datos de prueba cargados
+            Oportunidad::where('id','>',5)->delete();
+
+        });   
+    }
 }

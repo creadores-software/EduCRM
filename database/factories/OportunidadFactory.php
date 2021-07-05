@@ -9,6 +9,7 @@ use App\Models\Campanias\EstadoCampania;
 use App\Models\Campanias\Oportunidad;
 use App\Models\Formaciones\Formacion;
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 $factory->define(Oportunidad::class, function (Faker $faker) {
     $campania_id=$faker->numberBetween(1,Campania::count());
@@ -26,10 +27,10 @@ $factory->define(Oportunidad::class, function (Faker $faker) {
         'interes' => $faker->optional()->numberBetween(1,5),
         'capacidad' => $faker->optional()->numberBetween(1,5),
         'categoria_oportunidad_id' => $faker->numberBetween(1,CategoriaOportunidad::count()),
-        'ingreso_recibido' => $faker->randomNumber,
-        'ingreso_proyectado' => $faker->randomNumber,
+        'ingreso_recibido' => 0,
+        'ingreso_proyectado' => 0,
         'adicion_manual' => 1,
-        'ultima_actualizacion' => $faker->date('Y-m-d H:i:s'),
-        'ultima_interaccion' => $faker->date('Y-m-d H:i:s'),
+        'ultima_actualizacion' => Carbon::today(),
+        'ultima_interaccion' => Carbon::today(),
     ];
 });

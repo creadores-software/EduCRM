@@ -113,13 +113,15 @@ class OportunidadImport implements OnEachRow, WithHeadingRow, WithValidation,Ski
                 }
             }
             //El responsable debe pertenecer al equipo de la campaña
-            $responsableAsociado = PertenenciaEquipoMercadeo::
-                where('equipo_mercadeo_id',$campania->equipo_mercadeo_id)
-                ->where('users_id',$row['responsable_id'])
-                ->first();
-            if(empty($responsableAsociado)){
-                $failuresEspeciales[] = new Failure($indice,'responsable_id',["El responsable no está pertenece al equipo designado para la campaña."]);                   
-                
+            if(!empty($row['responsable_id'])){
+                $responsableAsociado = PertenenciaEquipoMercadeo::
+                    where('equipo_mercadeo_id',$campania->equipo_mercadeo_id)
+                    ->where('users_id',$row['responsable_id'])
+                    ->first();
+                if(empty($responsableAsociado)){
+                    $failuresEspeciales[] = new Failure($indice,'responsable_id',["El responsable no pertenece al equipo designado para la campaña."]);                   
+                    
+                }
             }
         }
         $this->failures = array_merge($this->failures, $failuresEspeciales); 
