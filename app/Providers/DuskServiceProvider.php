@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Parametros\Lugar;
+use Facebook\WebDriver\WebDriverBy;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,11 +27,13 @@ class DuskServiceProvider extends ServiceProvider
             \Laravel\Dusk\Browser::macro('asignarValorSelect2', function ($element,$class,$name,$id) {
                 if($class!="value"){
                     $objeto=$class::where('id',$id)->first();
-                    if(str_contains($name, '()')){
-                        $nombreMetodo=str_replace("()", "", $name);
-                        $valor=$objeto->$nombreMetodo();
-                    }else{
-                        $valor=$objeto->$name;
+                    if(!empty($objeto)){
+                        if(str_contains($name, '()')){
+                            $nombreMetodo=str_replace("()", "", $name);
+                            $valor=$objeto->$nombreMetodo();
+                        }else{
+                            $valor=$objeto->$name;
+                        }
                     }
                 }else{               
                     $objeto=$class; 
@@ -176,6 +179,18 @@ class DuskServiceProvider extends ServiceProvider
                 $this->asignarValorSelect2($elemento,$clase,'nombre',$departamento->id);
                 $this->waitForLink($departamento->nombre,5);
                 $this->asignarValorSelect2($elemento,$clase,'nombre',$ciudad->id);
+                return $this;
+            });
+
+            /**
+             * Asigna una ubicación aleatoria al componente
+             */
+            \Laravel\Dusk\Browser::macro('escribirCKEditor', function ($elemento,$texto) {
+                $ckIframe = $this->elements($elemento)[0];
+                $this->driver->switchTo()->frame($ckIframe);
+                $body = $this->driver->findElement(WebDriverBy::xpath('//body'));
+                $body->sendKeys($texto);
+                $this->driver->switchTo()->defaultContent();
                 return $this;
             });
         }
