@@ -79,6 +79,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JustificacionEstadoCampaniaTableSeeder::class);
         $this->call(EstadoCampaniaTableSeeder::class);
         $this->call(OportunidadTableSeeder::class);
+        $this->call(InteraccionTableSeeder::class);
         $this->call(PertenenciaEquipoMercadeoTableSeeder::class);  
         
         Schema::enableForeignKeyConstraints(); 

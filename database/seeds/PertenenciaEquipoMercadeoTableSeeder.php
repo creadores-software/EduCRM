@@ -22,7 +22,7 @@ class PertenenciaEquipoMercadeoTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'users_id' => 2,
+                'users_id' => 1,
                 'equipo_mercadeo_id' => 1,
                 'es_lider' => 1,
             ),
@@ -30,6 +30,13 @@ class PertenenciaEquipoMercadeoTableSeeder extends Seeder
             array (
                 'id' => 2,
                 'users_id' => 4,
+                'equipo_mercadeo_id' => 1,
+                'es_lider' => 0,
+            ),
+            2 => 
+            array (
+                'id' => 3,
+                'users_id' => 3,
                 'equipo_mercadeo_id' => 1,
                 'es_lider' => 0,
             ),

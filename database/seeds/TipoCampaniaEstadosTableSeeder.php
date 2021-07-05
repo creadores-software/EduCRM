@@ -71,39 +71,39 @@ class TipoCampaniaEstadosTableSeeder extends Seeder
             array (
                 'id' => 7,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 7,
+                'estado_campania_id' => 5,
                 'orden' => 2,
-                'dias_cambio' => 15,
+                'dias_cambio' => 0,
             ),
             7 => 
             array (
                 'id' => 8,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 8,
+                'estado_campania_id' => 4,
                 'orden' => 3,
-                'dias_cambio' => 30,
+                'dias_cambio' => 0,
             ),
             8 => 
             array (
                 'id' => 9,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 10,
+                'estado_campania_id' => 7,
                 'orden' => 4,
-                'dias_cambio' => 120,
+                'dias_cambio' => 15,
             ),
             9 => 
             array (
                 'id' => 10,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 9,
+                'estado_campania_id' => 8,
                 'orden' => 5,
-                'dias_cambio' => 60,
+                'dias_cambio' => 30,
             ),
             10 => 
             array (
                 'id' => 11,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 5,
+                'estado_campania_id' => 10,
                 'orden' => 6,
                 'dias_cambio' => 0,
             ),
@@ -111,20 +111,18 @@ class TipoCampaniaEstadosTableSeeder extends Seeder
             array (
                 'id' => 12,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 3,
+                'estado_campania_id' => 9,
                 'orden' => 7,
-                'dias_cambio' => 0,
+                'dias_cambio' => 60,
             ),
             12 => 
             array (
                 'id' => 13,
                 'tipo_campania_id' => 2,
-                'estado_campania_id' => 4,
+                'estado_campania_id' => 3,
                 'orden' => 8,
                 'dias_cambio' => 0,
             ),
         ));
-        
-        
     }
 }
