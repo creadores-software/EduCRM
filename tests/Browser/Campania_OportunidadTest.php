@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\Models\Admin\User;
+use App\Models\Campanias\Campania;
 use App\Models\Campanias\Oportunidad;
 use App\Models\Formaciones\Formacion;
 use Carbon\Carbon;
@@ -25,7 +26,40 @@ class Campania_OportunidadTest extends DuskTestCase
             $browser->assertSee('El campo Razón de Estado es requerido.');
         });
 
-    }     
+    } 
+    
+    /**
+     * Las formaciones se deben cargar de acuerdo con 
+     * los parametros dados en la creación de la campaña.
+     * 
+     * Los estados se deben de cargar según el tipo de campaña y 
+     * las razones se deben visualizar según el estado seleccionado
+     * 
+     * Los responsables se listarán de acuerdo con el equipo de mercadeo 
+     * asignado a la campaña.
+     */
+    public function testParametrosDependientes()
+    {
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            //Estudiantes antiguos
+            $browser->visit('/campanias/oportunidades/create?idCampania=1');
+            $browser->waitFor('.select2');
+            //Solo pregrados
+            $clase="App\Models\Formaciones\Formacion";
+            $browser->assertValorEnSelect2('#formacion_id','ADMINISTRACIÓN DE EMPRESAS / Presencial','DOCTORADO EN CIENCIAS COGNITIVAS / Presencial');
+            //Estado según tipo de campaña
+            $clase="App\Models\Campanias\EstadoCampania";
+            $browser->assertValorEnSelect2('#estado_campania_id','Aplazamiento','Preinscrito');
+            $browser->asignarValorSelect2('#estado_campania_id',$clase,'nombre',5);//Aplazamiento
+            //Razón según estado
+            $clase="App\Models\Campanias\JustificacionEstadoCampania";
+            $browser->assertValorEnSelect2('#justificacion_estado_campania_id','Motivos económicos','Paga de contado');
+            //Responsables según equipo
+            $clase="App\Models\Admin\User";
+            $browser->assertValorEnSelect2('#responsable_id','Coordinador CRM','Admin CRM');           
+        }); 
+    }
 
     /**
      * Valida que permita la creación con todos los campos y muestre mensaje satisfactorio
@@ -74,9 +108,10 @@ class Campania_OportunidadTest extends DuskTestCase
      */
     public function testEdicionVistaExitosa()
     { 
-        $this->browse(function (Browser $browser){ 
+        $oportunidad = factory(Oportunidad::class)->create();
+        $this->browse(function (Browser $browser) use ($oportunidad){ 
             $browser->loginAs(User::find(1));//Superadmin
-            $browser->visit('/campanias/oportunidades/1/edit?idCampania=1');
+            $browser->visit("/campanias/oportunidades/{$oportunidad->id}/edit?idCampania={$oportunidad->campania_id}");
 
             $browser->waitFor('.select2'); 
             $clase="App\Models\Admin\User";
@@ -87,14 +122,11 @@ class Campania_OportunidadTest extends DuskTestCase
             $browser->assertPathIs('/campanias/oportunidades');              
             $browser->assertSee('actualizado(a) satisfactoriamente');  
             
-            $browser->visit('/campanias/oportunidades/1');
+            $browser->visit("/campanias/oportunidades/{$oportunidad->id}");
             $browser->assertSee('Coordinador');  
             $browser->assertSee('Log de auditoria');
-            //Se deja nuevamente igual
-            $oportunidad = Oportunidad::where('id',1)->first();
-            $oportunidad->responsable_id=4;
-            $oportunidad->save();
         });   
+        Oportunidad::where('id',$oportunidad->id)->delete();
     }
 
     /**
@@ -188,5 +220,28 @@ class Campania_OportunidadTest extends DuskTestCase
             Oportunidad::where('id','>',5)->delete();
 
         });   
+    }
+
+     /**
+     * Valida la opción sincronizar
+     */
+    public function testSincronizar()
+    { 
+        $campania = factory(Campania::class)->make()->toArray();
+        $campania['segmento_id']=1; // Madres
+        $campania=Campania::create($campania);
+        $this->browse(function (Browser $browser) use ($campania){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/oportunidades?idCampania='.$campania->id);
+            $browser->waitFor('#dataTableBuilder'); 
+            $browser->assertDontSee('Miriam Marin Arias'); 
+            //Opción de sincronizar
+            $browser->click('.fa-filter');
+            $browser->waitFor('.alert-success'); 
+            $browser->assertSee('Se han sincronizado 1 contacto(s). Debe asignar un responsable y contactar para completar la información');
+            $browser->assertSee('Miriam Marin Arias');            
+        });   
+        Oportunidad::where('campania_id',$campania->id)->delete();
+        Campania::where('id',$campania->id)->delete();
     }
 }

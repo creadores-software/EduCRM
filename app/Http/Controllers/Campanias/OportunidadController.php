@@ -305,7 +305,7 @@ class OportunidadController extends AppBaseController
                         $oportunidad->save();
                         $cantidad++;
                     } 
-                    Flash::success("Se han sincronizado {$cantidad} contactos. Debe asignar un responsable y contactarlos para completar la información");
+                    Flash::success("Se han sincronizado {$cantidad} contacto(s). Debe asignar un responsable y contactar para completar la información");
                 }else{
                     Flash::error("El tipo de campaña no tiene un primer estado con una justificación");     
                 }

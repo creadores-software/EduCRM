@@ -33,7 +33,7 @@ class UsersTableSeeder extends Seeder
             1 => 
             array (
                 'id' => 2,
-                'name' => 'Administrador CRM',
+                'name' => 'Admin CRM',
                 'email' => 'admin@crm.com',
                 'email_verified_at' => NULL,
                 'password' => '$2y$10$SyoQGldDFtrrPQfciSd2Z.ll2Cp5gTaeP7CglcHoR1o9V1zRbqMRy',

@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CampaniaTableSeeder::class);
         $this->call(ContactoTableSeeder::class);
         $this->call(InformacionRelacionalTableSeeder::class);
+        $this->call(ParentescoTableSeeder::class);
         $this->call(TipoCampaniaEstadosTableSeeder::class);
         $this->call(JustificacionEstadoCampaniaTableSeeder::class);
         $this->call(EstadoCampaniaTableSeeder::class);

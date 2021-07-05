@@ -70,7 +70,7 @@ class Segmento extends Model implements Recordable
     {
         $filtros = [];        
         foreach ($this->filtros as $array_item) {
-            if (!is_null($array_item['campo'])) {
+            if (!is_null($array_item['campo']) && $array_item['campo']!='undefined') {
                 $filtros[] = $array_item;
             }
         }
@@ -94,7 +94,18 @@ class Segmento extends Model implements Recordable
     {
         $valores = [];
         foreach($this->filtros as $filtro){
-            $valores[$filtro['campo']]=$filtro['valor'];
+            $valor=$filtro['valor'];
+            $datos=explode(",", $valor);
+            if(!empty($datos) && !empty(explode('=',$datos[0]))){
+                $valor=[];
+                foreach($datos as $dato){
+                    if(!empty($dato)){
+                        $opcion=explode('=',$dato);
+                        $valor[]=$opcion[0];
+                    }
+                }
+            }
+            $valores[$filtro['campo']]=$valor;
         }
         return $valores;
 

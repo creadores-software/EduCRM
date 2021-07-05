@@ -75,15 +75,16 @@ class Contacto_InformacionFamiliarTest extends DuskTestCase
      */
     public function testCreacionCompletaExitosa()
     {
-        $this->browse(function (Browser $browser) {
+        $contacto = factory(Contacto::class)->create();
+        $this->browse(function (Browser $browser) use ($contacto) {
             $browser->loginAs(User::find(1));//Superadmin
             $browser->visit('/contactos/parentescos/create?idContacto=1');
 
             $clase="App\Models\Contactos\Contacto";
-            $browser->asignarValorSelect2('#contacto_destino',$clase,'getNombreCompleto()',2);
+            $browser->asignarValorSelect2('#contacto_destino',$clase,'getNombreCompleto()',$contacto->id);
             $clase="App\Models\Parametros\TipoParentesco";
             $browser->asignarValorSelect2('#tipo_parentesco_id',$clase,'nombre',1);
-            $browser->asignarValorSelect2('#acudiente',"value","SI",1);
+            $browser->asignarValorSelect2('#acudiente',"value","NO",0);
             $browser->press('Guardar');  
 
             $browser->waitFor('.alert-success'); 
@@ -91,12 +92,13 @@ class Contacto_InformacionFamiliarTest extends DuskTestCase
             $browser->assertSee('guardado(a) satisfactoriamente'); 
 
             //Valida que se haya asociado el parentesco contrario
-            $browser->visit('/contactos/parentescos?idContacto=2');
+            $browser->visit('/contactos/parentescos?idContacto='.$contacto->id);
             $browser->pause(1000);//petición ajax
             $browser->assertSee('Londoño Marin'); 
         });
-        Parentesco::where('contacto_origen',2)->where('contacto_destino',1)->delete();
-        Parentesco::where('contacto_origen',1)->where('contacto_destino',2)->delete();
+        Parentesco::where('contacto_origen',$contacto->id)->where('contacto_destino',1)->delete();
+        Parentesco::where('contacto_origen',1)->where('contacto_destino',$contacto->id)->delete();
+        Contacto::where('id',$contacto->id)->delete();
     }
     
     /**
@@ -104,11 +106,10 @@ class Contacto_InformacionFamiliarTest extends DuskTestCase
      */
     public function testEdicionVistaExitosa()
     { 
-        $parentesco=Parentesco::create(['contacto_origen'=>1,'contacto_destino'=>2,'tipo_parentesco_id'=>1,'acudiente'=>1]);
-        $this->browse(function (Browser $browser) use ($parentesco){ 
+        $this->browse(function (Browser $browser){ 
             $browser->loginAs(User::find(1));//Superadmin
             //Revisión de vista de edición
-            $browser->visit("/contactos/parentescos/{$parentesco->id}/edit?idContacto=1");                          
+            $browser->visit("/contactos/parentescos/1/edit?idContacto=1");                          
             $browser->waitFor('.select2'); 
             $browser->asignarValorSelect2('#acudiente',"value","NO",0); 
             $browser->press('Guardar');   
@@ -116,7 +117,7 @@ class Contacto_InformacionFamiliarTest extends DuskTestCase
             $browser->assertPathIs('/contactos/parentescos'); 
               
             //Revisión de la vista de detalle
-            $browser->visit("/contactos/parentescos/{$parentesco->id}?idContacto=1");
+            $browser->visit("/contactos/parentescos/1?idContacto=1");
             $browser->assertSee('No');
             $browser->assertSee('Log de auditoria');                          
         });   

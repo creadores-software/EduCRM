@@ -24,7 +24,7 @@ class SegmentoTableSeeder extends Seeder
                 'id' => 1,
                 'nombre' => 'Madres',
                 'descripcion' => 'Madres',
-                'filtros' => '[{"campo":"parentescoTipos","valor":"1=Padre\\/Madre,"},{"campo":"undefined","valor":"madre"}]',
+                'filtros' => '[{"campo":"parentescoTipos","valor":"1=Padre\\/Madre,"}]',
                 'global' => 0,
                 'usuario_id' => 1,
             ),

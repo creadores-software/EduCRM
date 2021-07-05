@@ -25,8 +25,61 @@ class Campania_InteraccionTest extends DuskTestCase
             $browser->assertSee('El campo Estado de Interacción es requerido.');
             $browser->assertSee('El campo Observación debe ser un texto.');
         });
-
     }     
+
+    /**
+     * Valida el comportamiento esperado de las fechas
+     */
+    public function testFechas()
+    {
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/interacciones/create?idOportunidad=1');
+            $browser->assertDateTimeExistente('#fecha_inicio');
+            $browser->assertDateTimeExistente('#fecha_fin_formato');
+        }); 
+    }
+
+    /**
+     * El estado de interacción se debe cargar de acuerdo con el tipo de interacción.
+     */
+    public function testParametrosDependientes()
+    {
+        $this->browse(function (Browser $browser){            
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/interacciones/create?idOportunidad=1');
+            $browser->waitFor('.select2');
+            $clase="App\Models\Campanias\TipoInteraccion";
+            $browser->asignarValorSelect2('#tipo_interaccion_id',$clase,'nombre',1);//Llamada
+            $browser->assertValorEnSelect2('#estado_interaccion_id','No contesta','No asistió');           
+        }); 
+    }
+
+    /**
+     * Se debe visualizar la información básica de contacto 
+     * y de caracterización de la oportunidad
+     */
+    public function testBoxInformacion()
+    { 
+        $interaccion = factory(Interaccion::class)->make()->toArray();
+        $this->browse(function (Browser $browser) use ($interaccion){ 
+            $browser->loginAs(User::find(1));//Superadmin
+            $browser->visit('/campanias/interacciones/create?idOportunidad=1');
+            $browser->waitFor('.select2'); 
+
+            $browser->assertSee('Celular');
+            $browser->assertSee('Teléfono');
+            $browser->assertSee('Correo personal');
+            $browser->assertSee('Correo institucional');
+            $browser->assertSee('Formación');
+            $browser->assertSee('Estado');
+            $browser->assertSee('Capacidad');
+            $browser->assertSee('Interés');
+            $browser->assertPresent('.glyphicon-eye-open');
+            $browser->assertPresent('.fa-users');
+            $browser->assertPresent('.glyphicon-filter');
+        }); 
+    }
 
     /**
      * Valida que permita la creación con todos los campos y muestre mensaje satisfactorio
@@ -46,7 +99,7 @@ class Campania_InteraccionTest extends DuskTestCase
             $browser->asignarValorSelect2('#estado_interaccion_id',$clase,'nombre',$interaccion['estado_interaccion_id']);
 
             $browser->asignarFecha('#fecha_inicio',Carbon::parse($interaccion['fecha_inicio']));
-            $browser->asignarFecha('#fecha_fin',Carbon::parse($interaccion['fecha_fin']));
+            $browser->asignarFecha('#fecha_fin_formato',Carbon::parse($interaccion['fecha_fin']));
 
             $browser->type('#observacion',$interaccion['observacion']);
                         
