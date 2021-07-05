@@ -64,7 +64,7 @@ class OportunidadTableSeeder extends Seeder
                 'id' => 3,
                 'campania_id' => 2,
                 'contacto_id' => 1,
-                'formacion_id' => 105728, //ESPECIALIZACIÓN EN AUDITORIA EN SALUD
+                'formacion_id' => 13423, //ESPECIALIZACIÓN EN AUDITORIA EN SALUD
                 'responsable_id' => 1,
                 'estado_campania_id' => 6,
                 'justificacion_estado_campania_id' => 6,
@@ -82,7 +82,7 @@ class OportunidadTableSeeder extends Seeder
                 'id' => 4,
                 'campania_id' => 2,
                 'contacto_id' => 2,
-                'formacion_id' => 19726, //Diseño de modas
+                'formacion_id' => 13413, //Diseño de modas
                 'responsable_id' => 4,
                 'estado_campania_id' => 6,
                 'justificacion_estado_campania_id' => 6,

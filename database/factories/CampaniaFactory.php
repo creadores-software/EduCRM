@@ -20,7 +20,7 @@ $factory->define(Campania::class, function (Faker $faker) {
         'periodo_academico_id' => $periodo,
         'equipo_mercadeo_id' => $faker->numberBetween(1,EquipoMercadeo::count()),
         'fecha_inicio' => $periodo->fecha_inicio,
-        'fecha_final' => $periodo->fin,
+        'fecha_final' => $periodo->fecha_fin,
         'descripcion' => $faker->realText(255),
         'inversion' => $faker->randomNumber,
         'nivel_formacion_id' => $formacion->nivelFormacion->id,
