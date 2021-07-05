@@ -23,7 +23,7 @@ class Campania_CampaniaTest extends DuskTestCase
             $browser->assertSee('El campo Tipo de Campaña es requerido.');
             $browser->assertSee('El campo Nombre es requerido.');
             $browser->assertSee('El campo Periodo Académico es requerido.');
-            $browser->assertSee('El campo Equipo Mercadeo es requerido.');
+            $browser->assertSee('El campo Equipo de Mercadeo es requerido.');
         });
 
     }     
@@ -139,7 +139,7 @@ class Campania_CampaniaTest extends DuskTestCase
             $browser->assertSee('Tipo de Campaña'); 
             $browser->assertSee('Nombre');
             $browser->assertSee('Periodo Académico');
-            $browser->assertSee('Equipo de Mercadeo ');
+            $browser->assertSee('Equipo de Mercadeo');
             $browser->assertSee('Activa');
             $browser->assertSee('ID');
             //Botones de acción

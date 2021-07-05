@@ -21,7 +21,7 @@ class Contacto_InformacionEscolarTest extends DuskTestCase
             $browser->visit('/contactos/informacionesEscolares/create?idContacto=1');
             $browser->press('Guardar');         
             $browser->assertSee('El campo Entidad es requerido.');
-            $browser->assertSee('El campo Nivel Formación es requerido.');
+            $browser->assertSee('El campo Nivel de Formación es requerido.');
         });
     } 
 

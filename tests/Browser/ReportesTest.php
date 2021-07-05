@@ -113,7 +113,11 @@ class ReportesTest extends DuskTestCase
             $browser->visit('/home');     
             $browser->whenAvailable('.bg-green', function ($box) use ($browser){
                 $box->assertSee('Interacciones realizadas esta semana');
-                $box->assertSourceHas('<h3>1/3</h3>');
+                if(date('D') == 'Mon') { //Si es lunes el día de ayer no es de la semana
+                    $box->assertSourceHas('<h3>1/2</h3>');
+                }else{
+                    $box->assertSourceHas('<h3>1/3</h3>');
+                }  
                 $box->assertPresent('#enlaceRealizadas');
                 $box->click('#enlaceRealizadas');
                 $window = collect($browser->driver->getWindowHandles())->last();
@@ -121,7 +125,11 @@ class ReportesTest extends DuskTestCase
             });
             $browser->pause(500);
             $browser->assertSee('Prueba de interacción realizada hoy por admin');
-            $browser->assertSee('Mostrando registros del 1 al 3 de un total de 3 registro(s)');
+            if(date('D') == 'Mon') { //Si es lunes el día de ayer no es de la semana
+                $browser->assertSee('Mostrando registros del 1 al 2 de un total de 2 registro(s)');
+            }else{
+                $browser->assertSee('Mostrando registros del 1 al 3 de un total de 3 registro(s)');
+            }
         });
 
         //Solo auxiliar
@@ -129,14 +137,22 @@ class ReportesTest extends DuskTestCase
             $browser->loginAs(User::find(4));//Auxiliar
             $browser->visit('/home');     
             $browser->whenAvailable('.bg-green', function ($box) use ($browser){
-                $box->assertSourceHas('<h3>1/2</h3>');
+                if(date('D') == 'Mon') { //Si es lunes el día de ayer no es de la semana
+                    $box->assertSourceHas('<h3>1/1</h3>');
+                }else{
+                    $box->assertSourceHas('<h3>1/2</h3>');
+                }                
                 $box->click('#enlaceRealizadas');
                 $window = collect($browser->driver->getWindowHandles())->last();
                 $browser->driver->switchTo()->window($window);
             });
             $browser->pause(500);
             $browser->assertSee('Prueba de interacción realizada hoy por auxiliar');
-            $browser->assertSee('Mostrando registros del 1 al 2 de un total de 2 registro(s)');
+            if(date('D') == 'Mon') { //Si es lunes el día de ayer no es de la semana
+                $browser->assertSee('Mostrando registros del 1 al 1 de un total de 1 registro(s)');
+            }else{
+                $browser->assertSee('Mostrando registros del 1 al 2 de un total de 2 registro(s)');
+            }
         });
     } 
 
@@ -234,7 +250,11 @@ class ReportesTest extends DuskTestCase
             $browser->pause(500);
             $browser->assertSeeIn('.bg-red','1');
             $browser->assertSeeIn('.bg-yellow','0');
-            $browser->assertSeeIn('.bg-green','1/2');
+            if(date('D') == 'Mon') { //Si es lunes el día de ayer no es de la semana
+                $browser->assertSeeIn('.bg-green','1/1');
+            }else{
+                $browser->assertSeeIn('.bg-green','1/2');
+            }
             $browser->assertSeeIn('#actividadesHoy_wrapper','Total registros: 0');
             $browser->assertSeeIn('#contactosActualizacion_wrapper','Mostrando desde 1 hasta el 2 de 2 registro(s)');
 
