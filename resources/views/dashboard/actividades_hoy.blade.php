@@ -46,7 +46,7 @@
                 "pageLength": 3,
                 "pagingType": "simple",
                 "language": {
-                    info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registros",
+                    info: "Mostrando desde _START_ hasta el _END_ de _TOTAL_ registro(s)",
                     infoEmpty:  "Total registros: 0", 
                     emptyTable: "No se encontró ningún registro",               
                     paginate: {
