@@ -95,7 +95,7 @@ class CampaniaDataTable extends DataTable
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => false,
-                'order'     => [[0, 'asc']],
+                'order'     => [[1, 'asc']],
                 'buttons'   => [                    
                     [
                        'extend' => 'export',
