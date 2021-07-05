@@ -11,7 +11,7 @@ div.dataTables_wrapper div.dataTables_filter {
 @endpush
 
 @section('content')
-    <section class="content-header">
+    <section class="content-header">        
         <h1 class="pull-left">
             @lang('models/tiposCampaniaEstados.plural'): {{ $nombreTipo}}
         </h1>
@@ -32,6 +32,10 @@ div.dataTables_wrapper div.dataTables_filter {
         <div class="clearfix"></div>
         <div class="box box-primary">
             <div class="box-body">
+                <div class="alert alert-info">
+                    <p><span class="text-weight-bold"><i class="fa fa-info-circle"></i></span> 
+                        Según el orden, cada estado debe seguir al que se encuentre antes de el con posibilidad de cambio (cantidad de días mayor a cero).</p>
+                </div>
                     @include('campanias.tipos_campania_estados.table')
             </div>
         </div>
