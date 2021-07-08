@@ -20,7 +20,7 @@ class SegmentoController extends AppBaseController
     public function __construct(SegmentoRepository $segmentoRepo)
     {
         $this->segmentoRepository = $segmentoRepo;
-        $this->middleware('permission:contactos.segmentos.consultar', ['only' => ['index','show','dataAjax']]);
+        $this->middleware('permission:contactos.segmentos.consultar', ['only' => ['index','show','dataAjax','filtros']]);
         $this->middleware('permission:contactos.segmentos.crear', ['only' => ['create','store']]);        
         $this->middleware('permission:contactos.segmentos.editar', ['only' => ['edit','update']]);
         $this->middleware('permission:contactos.segmentos.eliminar', ['only' => ['destroy']]);
