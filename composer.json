@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.4.21",
+        "php": "^7.3.28",
         "altek/accountant": "3.x",
         "altek/eventually": "2.X",
         "doctrine/dbal": "~2.3",
