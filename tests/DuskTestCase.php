@@ -6,13 +6,24 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Laravel\Dusk\TestCase as BaseTestCase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Contracts\Console\Kernel;
-use Mockery;
 
 abstract class DuskTestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    private function setEnv(){
+        $env_name = "dusk.local";
+        if (isset($env_name)) {
+             // Immutability refers to if Dotenv is allowed to overwrite existing environment variables. If you want Dotenv to overwrite existing environment variables, use createMutable instead of createImmutable(from vlucas/phpdotenv repo)
+             $dotenv = \Dotenv\Dotenv::createImmutable(base_path(), '.env.'.$env_name);
+     
+             try {
+                 $dotenv->load();
+             } catch (\Dotenv\Exception\InvalidPathException $e) {
+                 $e->getTraceAsString();
+             }
+         }
+     }
 
     /**
      * Prepare for Dusk test execution.
