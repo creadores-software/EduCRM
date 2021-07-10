@@ -23,8 +23,8 @@ use Laravel\Dusk\Browser;
  * 5. Interacción hoy realizada de Auxiliar - Opt4 
  */
 
-//Se pone este nombre para que se ejecute de primero
-class AReportesTest extends DuskTestCase
+//Se pone este nombre para que se ejecute de segundo
+class BReportesTest extends DuskTestCase
 {  
      /**
      * Valida el comportamiento del KPI de interacciones atrasadas
@@ -35,7 +35,7 @@ class AReportesTest extends DuskTestCase
         //Solo superadmin
         $this->browse(function (Browser $browser) {
             $browser->loginAs(User::find(1));//Superadmin
-            $browser->visit('/home');     
+            $browser->visit('/home'); 
             $browser->whenAvailable('.bg-red', function ($box) use ($browser){
                 $box->assertSee('Interacciones atrasadas'); 
                 $box->assertSourceHas('<h3>1</h3>');
