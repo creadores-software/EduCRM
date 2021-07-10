@@ -3,6 +3,6 @@
         "level": "SEVERE",
         "message": "http:\/\/localhost:8000\/campanias\/campanias\/1 - Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
         "source": "network",
-        "timestamp": 1625515773275
+        "timestamp": 1625887870456
     }
 ]

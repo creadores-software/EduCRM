@@ -98,8 +98,7 @@ class Campania_InteraccionTest extends DuskTestCase
             $clase="App\Models\Campanias\EstadoInteraccion";
             $browser->asignarValorSelect2('#estado_interaccion_id',$clase,'nombre',$interaccion['estado_interaccion_id']);
 
-            $browser->asignarFecha('#fecha_inicio',Carbon::parse($interaccion['fecha_inicio']));
-            $browser->asignarFecha('#fecha_fin_formato',Carbon::parse($interaccion['fecha_fin']));
+            //Se dejan las fechas por defecto
 
             $browser->type('#observacion',$interaccion['observacion']);
                         
