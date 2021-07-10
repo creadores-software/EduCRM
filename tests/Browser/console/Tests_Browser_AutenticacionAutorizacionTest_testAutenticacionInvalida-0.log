@@ -1,0 +1,20 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:8000\/fonts\/glyphicons-halflings-regular.woff2 - Failed to load resource: net::ERR_CONNECTION_REFUSED",
+        "source": "network",
+        "timestamp": 1625944700074
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:8000\/fonts\/glyphicons-halflings-regular.woff - Failed to load resource: net::ERR_CONNECTION_REFUSED",
+        "source": "network",
+        "timestamp": 1625944700075
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:8000\/fonts\/glyphicons-halflings-regular.ttf - Failed to load resource: net::ERR_CONNECTION_REFUSED",
+        "source": "network",
+        "timestamp": 1625944700075
+    }
+]
