@@ -46,12 +46,7 @@ div.dataTables_wrapper div.dataTables_filter {
                     <div class="col-md-12">                        
                         <div class="nav-tabs-custom">
                             @if(!empty($contacto))
-                                @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])    
-                            @else 
-                            <div class="alert alert-info">
-                                <p><span class="text-weight-bold"><i class="fa fa-info-circle"></i></span> 
-                                    Solo líderes del equipo pueden crear nuevas oportunidades o modificar responsables.</p>
-                            </div>
+                                @include('contactos.contactos.nav_show',['idContacto' => $contacto->id,'idRelacional' => $contacto->informacion_relacional_id])                               
                             @endif
                             <div class="tab-content">                                
                                 @include('campanias.oportunidades.table')   
