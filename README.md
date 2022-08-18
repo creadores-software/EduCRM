@@ -1,78 +1,20 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
+## EduCRM
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+El mercadeo es parte fundamental para el sostenimiento de las empresas, pues asegura la obtención de nuevos clientes y la fidelización de los ya existentes. De la misma manera, el mercadeo se debe usar en las universidades, siendo instituciones que ofertan la educación como un servicio.
 
-## About Laravel
+Existen diferentes estrategias de mercadeo. Recientemente, surgió el marketing relacional, que se diferencia del marketing masivo, porque su enfoque está en el cliente y no en el producto. Se centra más en escuchar y aprender, que en hablar. Es allí donde surge CRM por sus siglas en inglés, que traducen: Gestión de las relaciones con los clientes. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+CRM es una combinación de estrategia y herramientas. Solo con la estrategia, sin un sistema, el seguimiento de las relaciones puede verse afectado. Es por ello que en la UAM iniciamos con la construcción de un software CRM, que permita a instituciones de educación superior, gestionar de manera eficiente las relaciones con sus clientes mediante:  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- La centralización de su información, 
+- El seguimiento de interacciones y 
+- La creación de campañas con perfiles segmentados. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Aunque actualmente existen muchas herramientas CRM, la mayoría son genéricas o muy costosas. Nuestro CRM se desarrolló específicamente para universidades en Colombia, por medio de las características comunes encontradas en el sistema SNIES.
 
-## Learning Laravel
+El código fuente de EduCRM está publicado en GitHub como un software Open Source. Es decir: «software que podemos usar, escribir, modificar y redistribuir libremente». Gracias a ello, toda una comunidad de académicos y desarrolladores pueden hacer parte de la solución. Además, que las instituciones pueden usar la herramienta de manera gratuita, solo con los costos de alojamiento web.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Acceso al trabajo de grado con todos los detalles: https://repositorio.autonoma.edu.co/handle/11182/1233
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Esta investigación recibió apoyo del Fondo de Becas de Investigación Manizales+ Innovadora, creado por la Alcaldía de Manizales y Manizales Campus Universitario.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
